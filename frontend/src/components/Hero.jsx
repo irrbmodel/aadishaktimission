@@ -75,18 +75,14 @@ const Hero = ({ onLoaded }) => {
       }
     })
 
-    // Animate central banner expanding to screen fill
+    // Animate central banner expanding to screen fill via clipPath & scale (GPU accelerated, fully smooth)
     mainTimeline.fromTo(banner, 
       {
-        width: '55vw',
-        height: '50vh',
-        borderRadius: '32px',
+        clipPath: 'inset(25% 22.5% 25% 22.5% round 32px)',
         scale: 0.85
       },
       {
-        width: '100vw',
-        height: '100vh',
-        borderRadius: '0px',
+        clipPath: 'inset(0% 0% 0% 0% round 0px)',
         scale: 1,
         ease: 'none'
       },
@@ -216,7 +212,7 @@ const Hero = ({ onLoaded }) => {
         {/* Central Expanding Banner Image */}
         <div 
           ref={bannerRef}
-          className="relative z-0 overflow-hidden flex items-center justify-center cursor-pointer shadow-2xl"
+          className="absolute z-0 w-screen h-screen overflow-hidden flex items-center justify-center cursor-pointer shadow-2xl hero-banner"
           data-cursor="view"
         >
           {/* Overlay mask */}
@@ -244,7 +240,7 @@ const Hero = ({ onLoaded }) => {
             key={item.title}
             ref={(el) => (cardsRef.current[idx] = el)}
             onClick={() => setExpandedCard(expandedCard === idx ? null : idx)}
-            className={`absolute z-20 ${item.pos} flex flex-col p-3 xs:p-4 md:p-6 rounded-2xl bg-brand-white border border-brand-dark/5 shadow-xl max-w-[150px] xs:max-w-[180px] sm:max-w-[220px] md:max-w-[280px] group transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30 cursor-pointer`}
+            className={`absolute z-20 ${item.pos} flex flex-col p-3 xs:p-4 md:p-6 rounded-2xl bg-brand-white border border-brand-dark/5 shadow-xl max-w-[150px] xs:max-w-[180px] sm:max-w-[220px] md:max-w-[280px] group transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30 cursor-pointer floating-card`}
           >
             <span className="text-[8px] xs:text-[9px] md:text-[10px] font-bold text-brand-red uppercase tracking-wider">
               {item.subtitle}

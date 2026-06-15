@@ -127,7 +127,9 @@ h1, h2, h3, h4, h5, h6 {
 .concept-panel,
 .timeline-progress-bar,
 .reveal-word,
-.slider-img-item {
+.slider-img-item,
+.hero-banner,
+.floating-card {
   will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
