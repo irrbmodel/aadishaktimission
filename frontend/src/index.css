@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
 @theme {
   --font-sans: "Inter", sans-serif;
   --font-display: "Outfit", sans-serif;
@@ -152,6 +160,8 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   color: var(--color-brand-red);
 }
-.btn-underline:hover span {
-  transform: translateY(-100%);
+@media (hover: hover) and (pointer: fine) {
+  .btn-underline:hover span {
+    transform: translateY(-100%);
+  }
 }

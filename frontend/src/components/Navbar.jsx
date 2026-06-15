@@ -175,7 +175,7 @@ const Navbar = ({ isLoaded }) => {
           <div className="hidden md:block md:col-span-5 w-full">
             <div className="relative aspect-3/4 w-full rounded-[24px] overflow-hidden border border-brand-dark/5 shadow-2xl group/menu-img">
               {/* Overlay shading gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/30 to-transparent z-10 transition-opacity duration-700 pointer-events-none group-hover/menu-img:opacity-75" />
+              <div className="absolute inset-0 bg-linear-to-t from-brand-dark/30 to-transparent z-10 transition-opacity duration-700 pointer-events-none group-hover/menu-img:opacity-75" />
               
               <img 
                 src="/hero_empower.png" 

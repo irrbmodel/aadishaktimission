@@ -78,6 +78,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
     if (!hasAnimatedRef.current) return
 
     const cards = contentRef.current.querySelectorAll('.project-card')
+    const imgs = contentRef.current.querySelectorAll('.project-card img')
     const headerTitle = headerRef.current.querySelector('h2')
     const headerDesc = headerRef.current.querySelector('p')
     
@@ -93,6 +94,19 @@ const PillarsHorizontal = ({ isLoaded }) => {
         onComplete: () => {
           ScrollTrigger.refresh()
         }
+      }
+    )
+
+    // Premium image clip-path reveal + scale-down zoom
+    gsap.fromTo(imgs,
+      { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.22 },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        scale: 1,
+        duration: 0.75,
+        stagger: 0.04,
+        ease: 'power3.out',
+        clearProps: 'clipPath,scale,transform' // clear props so hover CSS scale still works
       }
     )
 
@@ -121,9 +135,11 @@ const PillarsHorizontal = ({ isLoaded }) => {
     const headerDesc = headerRef.current.querySelector('p')
     const buttons = sectionRef.current.querySelectorAll('.tab-button')
     const cards = contentRef.current.querySelectorAll('.project-card')
+    const imgs = contentRef.current.querySelectorAll('.project-card img')
 
-    // Set initial states to zero opacity to prevent layout flash
+    // Set initial states to zero opacity / cropped to prevent layout flash
     gsap.set([subtitle, headerTitle, headerDesc, buttons, cards], { opacity: 0 })
+    gsap.set(imgs, { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.22 })
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -154,6 +170,18 @@ const PillarsHorizontal = ({ isLoaded }) => {
       { y: 35, opacity: 0, scale: 0.98 },
       { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.06, ease: 'power3.out' },
       '-=0.4'
+    )
+    tl.fromTo(imgs,
+      { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.22 },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        scale: 1,
+        duration: 0.9,
+        stagger: 0.06,
+        ease: 'power3.out',
+        clearProps: 'clipPath,scale,transform'
+      },
+      '-=0.7' // start in sync with the cards entrance
     )
 
     return () => clearTimeout(t)
@@ -190,7 +218,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
           </div>
 
           {/* Right Column: Tab Trigger Buttons */}
-          <div className="lg:col-span-4 flex flex-col items-start gap-2 border-l border-brand-dark/10 pl-6 md:pl-8 w-full">
+          <div className="lg:col-span-4 flex flex-col items-start gap-2 lg:border-l border-l-0 lg:border-brand-dark/10 lg:pl-8 pl-0 w-full">
             {categories.map((cat) => (
               <button
                 key={cat.id}
