@@ -122,7 +122,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
           <div ref={headerRef} className="lg:col-span-8 flex flex-col items-start gap-4">
             <h2 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tight uppercase leading-none">
               {activeInfo.title}
-              <span className="align-super text-xs font-sans text-brand-red ml-3 font-bold font-display">
+              <span className="align-super text-xs text-brand-red ml-3 font-bold font-display">
                 {activeInfo.count}
               </span>
             </h2>
@@ -202,7 +202,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
               </div>
 
               {/* Text / Impact Area */}
-              <div className="p-6 md:p-8 flex flex-col flex-grow justify-between">
+              <div className="p-6 md:p-8 flex flex-col grow justify-between">
                 <div>
                   <span className="font-sans text-[10px] font-extrabold text-brand-red uppercase tracking-widest">
                     {proj.subtitle}
@@ -217,7 +217,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
                   <span className="font-sans text-[10px] font-bold text-brand-grey uppercase tracking-wider">
                     Impact
                   </span>
-                  <span className="font-sans text-xs font-bold text-brand-dark font-display">
+                  <span className="text-xs font-bold text-brand-dark font-display">
                     {proj.impact}
                   </span>
                 </div>

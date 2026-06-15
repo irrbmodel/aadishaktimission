@@ -187,11 +187,11 @@ const Team = ({ isLoaded }) => {
                   alt={team[activeMember].name} 
                   className="w-full h-full object-cover grayscale brightness-95 hover:grayscale-0 hover:scale-105 transition-all duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 via-transparent to-transparent pointer-events-none" />
               </div>
 
               {/* Details & Quote Content */}
-              <div className="flex flex-col gap-6 relative z-10 flex-grow justify-between">
+              <div className="flex flex-col gap-6 relative z-10 grow justify-between">
                 
                 {/* Biography & Quote */}
                 <div className="flex flex-col gap-4">
