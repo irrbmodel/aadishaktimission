@@ -158,7 +158,7 @@ const Gallery = () => {
                 />
 
                 {/* Text Details overlay */}
-                <div className="absolute bottom-6 left-6 right-6 z-20 translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out flex items-end justify-between">
+                <div className="absolute bottom-6 left-6 right-6 z-20 md:translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out flex items-end justify-between">
                   <div>
                     <span className="text-[10px] font-bold text-brand-orange tracking-widest uppercase">
                       {item.category}
@@ -167,7 +167,7 @@ const Gallery = () => {
                       {item.title}
                     </h3>
                   </div>
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white scale-0 group-hover:scale-100 group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-brand-dark transition-all duration-300">
+                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white md:scale-0 group-hover:scale-100 group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-brand-dark transition-all duration-300">
                     <span className="text-xs font-black">→</span>
                   </div>
                 </div>

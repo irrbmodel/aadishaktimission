@@ -13,6 +13,7 @@ const Hero = ({ onLoaded }) => {
 
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [expandedCard, setExpandedCard] = useState(null)
 
   // 1. Simulation of Loader Progress with Aesthetic Text Reveals
   useEffect(() => {
@@ -242,7 +243,8 @@ const Hero = ({ onLoaded }) => {
           <div 
             key={item.title}
             ref={(el) => (cardsRef.current[idx] = el)}
-            className={`absolute z-20 ${item.pos} flex flex-col p-3 xs:p-4 md:p-6 rounded-2xl bg-brand-white border border-brand-dark/5 shadow-xl max-w-[150px] xs:max-w-[180px] sm:max-w-[220px] md:max-w-[280px] group transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30`}
+            onClick={() => setExpandedCard(expandedCard === idx ? null : idx)}
+            className={`absolute z-20 ${item.pos} flex flex-col p-3 xs:p-4 md:p-6 rounded-2xl bg-brand-white border border-brand-dark/5 shadow-xl max-w-[150px] xs:max-w-[180px] sm:max-w-[220px] md:max-w-[280px] group transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30 cursor-pointer`}
           >
             <span className="text-[8px] xs:text-[9px] md:text-[10px] font-bold text-brand-red uppercase tracking-wider">
               {item.subtitle}
@@ -250,7 +252,9 @@ const Hero = ({ onLoaded }) => {
             <h3 className="font-serif text-xs xs:text-sm md:text-lg text-brand-dark font-semibold mt-1 md:mt-2 group-hover:text-brand-red transition-colors">
               {item.title}
             </h3>
-            <p className="font-sans text-[10px] xs:text-xs text-brand-grey/95 mt-1 md:mt-2 leading-relaxed font-light line-clamp-3 xs:line-clamp-none">
+            <p className={`font-sans text-[10px] xs:text-xs text-brand-grey/95 mt-1 md:mt-2 leading-relaxed font-light ${
+              expandedCard === idx ? '' : 'line-clamp-3 xs:line-clamp-none'
+            }`}>
               {item.desc}
             </p>
           </div>

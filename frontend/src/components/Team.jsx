@@ -185,7 +185,7 @@ const Team = ({ isLoaded }) => {
                 <img 
                   src={team[activeMember].image} 
                   alt={team[activeMember].name} 
-                  className="w-full h-full object-cover grayscale brightness-95 hover:grayscale-0 hover:scale-105 transition-all duration-700 ease-out"
+                  className="w-full h-full object-cover md:grayscale brightness-95 md:hover:grayscale-0 md:hover:scale-105 transition-all duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 via-transparent to-transparent pointer-events-none" />
               </div>
