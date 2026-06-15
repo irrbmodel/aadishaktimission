@@ -4,16 +4,18 @@ import { gsap } from 'gsap'
 const CustomCursor = () => {
   const cursorRingRef = useRef(null)
   const cursorDotRef = useRef(null)
-  const [cursorState, setCursorState] = useState(null) // 'pointer' | 'view' | 'donate' | 'drag' | null
+  const [isHoverDevice] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    }
+    return false
+  })
+  const [cursorState, setCursorState] = useState(null) // 'pointer' | 'view' | 'play' | 'prev' | 'next' | 'drag' | null
   const [isVisible, setIsVisible] = useState(false)
-  const [isHoverDevice, setIsHoverDevice] = useState(false)
+  const isVisibleRef = useRef(false)
 
   useEffect(() => {
-    // Check if device supports hover (desktop)
-    const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
-    setIsHoverDevice(hoverQuery.matches)
-
-    if (!hoverQuery.matches) return
+    if (!isHoverDevice) return
 
     // Apply cursor-hide class to body
     document.body.classList.add('custom-cursor-active')
@@ -23,14 +25,17 @@ const CustomCursor = () => {
     if (!cursorRing || !cursorDot) return
 
     // GSAP quickTo setters for high-performance coordinate updates
-    const xRingTo = gsap.quickTo(cursorRing, 'x', { duration: 0.35, ease: 'power3.out' })
-    const yRingTo = gsap.quickTo(cursorRing, 'y', { duration: 0.35, ease: 'power3.out' })
+    const xRingTo = gsap.quickTo(cursorRing, 'x', { duration: 0.3, ease: 'power3.out' })
+    const yRingTo = gsap.quickTo(cursorRing, 'y', { duration: 0.3, ease: 'power3.out' })
 
-    const xDotTo = gsap.quickTo(cursorDot, 'x', { duration: 0.1, ease: 'power3.out' })
-    const yDotTo = gsap.quickTo(cursorDot, 'y', { duration: 0.1, ease: 'power3.out' })
+    const xDotTo = gsap.quickTo(cursorDot, 'x', { duration: 0.08, ease: 'power3.out' })
+    const yDotTo = gsap.quickTo(cursorDot, 'y', { duration: 0.08, ease: 'power3.out' })
 
     const onMouseMove = (e) => {
-      if (!isVisible) setIsVisible(true)
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true
+        setIsVisible(true)
+      }
       
       // Target position
       xRingTo(e.clientX)
@@ -41,10 +46,12 @@ const CustomCursor = () => {
     }
 
     const onMouseLeaveWindow = () => {
+      isVisibleRef.current = false
       setIsVisible(false)
     }
 
     const onMouseEnterWindow = () => {
+      isVisibleRef.current = true
       setIsVisible(true)
     }
 
@@ -54,11 +61,17 @@ const CustomCursor = () => {
       if (target) {
         const state = target.getAttribute('data-cursor')
         setCursorState(state)
+      } else {
+        // Fallback for standard links
+        const standardLink = e.target.closest('a, button, [role="button"]')
+        if (standardLink) {
+          setCursorState('pointer')
+        }
       }
     }
 
     const onMouseOut = (e) => {
-      const target = e.target.closest('[data-cursor]')
+      const target = e.target.closest('[data-cursor], a, button, [role="button"]')
       if (target) {
         setCursorState(null)
       }
@@ -78,29 +91,37 @@ const CustomCursor = () => {
       window.removeEventListener('mouseover', onMouseOver)
       window.removeEventListener('mouseout', onMouseOut)
     }
-  }, [isVisible])
+  }, [isHoverDevice])
 
   if (!isHoverDevice) return null
 
   // Determine size & content based on custom state
   let cursorText = ''
-  let ringClasses = 'w-8 h-8 -mt-4 -ml-4 border border-brand-orange/60'
-  let dotClasses = 'w-2 h-2 -mt-1 -ml-1 bg-brand-orange'
+  let ringClasses = 'w-6 h-6 -mt-3 -ml-3 border border-brand-dark/30 bg-transparent'
+  let dotClasses = 'w-1.5 h-1.5 -mt-0.75 -ml-0.75 bg-brand-dark'
 
   if (cursorState === 'pointer') {
-    ringClasses = 'w-12 h-12 -mt-6 -ml-6 border border-brand-pink bg-brand-pink/10 scale-110'
-    dotClasses = 'w-1.5 h-1.5 -mt-0.75 -ml-0.75 bg-brand-pink scale-0'
+    ringClasses = 'w-10 h-10 -mt-5 -ml-5 border border-brand-red bg-brand-red/5 scale-110'
+    dotClasses = 'w-1 h-1 -mt-0.5 -ml-0.5 bg-brand-red'
   } else if (cursorState === 'view') {
     cursorText = 'VIEW'
-    ringClasses = 'w-16 h-16 -mt-8 -ml-8 border-none bg-brand-purple text-white text-[10px] font-bold tracking-widest scale-120'
+    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-120'
     dotClasses = 'scale-0'
-  } else if (cursorState === 'donate') {
-    cursorText = 'JOIN'
-    ringClasses = 'w-20 h-20 -mt-10 -ml-10 border-none bg-brand-orange text-brand-indigo text-xs font-black tracking-widest scale-125 shadow-lg shadow-brand-orange/30'
+  } else if (cursorState === 'play') {
+    cursorText = 'PLAY'
+    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-red text-brand-cream text-[9px] font-black tracking-widest scale-120 shadow-lg'
+    dotClasses = 'scale-0'
+  } else if (cursorState === 'prev') {
+    cursorText = 'PREV'
+    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-120'
+    dotClasses = 'scale-0'
+  } else if (cursorState === 'next') {
+    cursorText = 'NEXT'
+    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-120'
     dotClasses = 'scale-0'
   } else if (cursorState === 'drag') {
     cursorText = 'DRAG'
-    ringClasses = 'w-16 h-16 -mt-8 -ml-8 border-none bg-indigo-600 text-white text-[10px] font-bold tracking-widest scale-110'
+    ringClasses = 'w-12 h-12 -mt-6 -ml-6 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-110'
     dotClasses = 'scale-0'
   }
 
@@ -111,9 +132,9 @@ const CustomCursor = () => {
       {/* Outer Ring */}
       <div 
         ref={cursorRingRef}
-        className={`absolute rounded-full flex items-center justify-center pointer-events-none transition-all duration-300 ease-out select-none ${ringClasses}`}
+        className={`absolute rounded-full flex items-center justify-center pointer-events-none transition-all duration-300 ease-out select-none font-sans ${ringClasses}`}
       >
-        {cursorText && <span className="animate-fade-in font-display">{cursorText}</span>}
+        {cursorText && <span className="font-sans text-center">{cursorText}</span>}
       </div>
 
       {/* Center Dot */}

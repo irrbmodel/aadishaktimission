@@ -1,224 +1,218 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
 
 const DonationImpact = () => {
-  const [selectedTier, setSelectedTier] = useState(1) // index of tier
+  const [activeMember, setActiveMember] = useState(0)
+  const [donationAmount, setDonationAmount] = useState(35)
   const [customAmount, setCustomAmount] = useState('')
   const [successMsg, setSuccessMsg] = useState('')
+  const portraitRef = useRef(null)
 
-  const tiers = [
+  const team = [
     {
-      amount: 15,
-      title: 'Shiksha Sponsor',
-      impact: 'Uniforms, textbooks, notebooks, and fresh mid-day meals for one girl child for 1 month.',
-      color: 'border-brand-orange/40 hover:border-brand-orange text-brand-orange shadow-brand-orange/10',
-      activeColor: 'bg-brand-orange/10 border-brand-orange text-brand-orange shadow-brand-orange/25',
-      glow: 'shadow-[0_0_20px_rgba(255,120,45,0.15)]',
-      theme: 'orange'
+      name: 'Aarti Devi Roy',
+      role: 'Executive Director / Founder',
+      bio: 'Leading community outreach projects for over 12 years with a primary focus on girl child literacy and micro-enterprise capital.',
+      image: '/shakti_shiksha.png' // Utilizing existing assets as portrait placeholders
     },
     {
-      amount: 35,
-      title: 'Arogya Angel',
-      impact: 'Complete pre-natal checkups, pediatric diagnostics, and nutritional kits for a mother and child.',
-      color: 'border-teal-400/40 hover:border-teal-400 text-teal-400 shadow-teal-400/10',
-      activeColor: 'bg-teal-400/10 border-teal-400 text-teal-400 shadow-teal-400/25',
-      glow: 'shadow-[0_0_20px_rgba(45,212,191,0.15)]',
-      theme: 'teal'
+      name: 'Dr. Sandeep Sen',
+      role: 'Chief Medical Outreach Officer',
+      bio: 'Directing local diagnostic camps, sanitary distributions, and maternal healthcare networks in remote village coordinates.',
+      image: '/arogya_shakti.png'
     },
     {
-      amount: 75,
-      title: 'Swayam Sponsor',
-      impact: 'Vocational sewing kit materials, sewing machine access, and 12-weeks of micro-enterprise mentorship.',
-      color: 'border-brand-pink/40 hover:border-brand-pink text-brand-pink shadow-brand-pink/10',
-      activeColor: 'bg-brand-pink/10 border-brand-pink text-brand-pink shadow-brand-pink/25',
-      glow: 'shadow-[0_0_20px_rgba(255,42,122,0.15)]',
-      theme: 'pink'
+      name: 'Meera Kumari',
+      role: 'Swayam Skill Advisor',
+      bio: 'Specializing in handicraft management, local tailoring training, and structuring interest-free micro-finance capitals.',
+      image: '/swayam_shakti.png'
     },
     {
-      amount: 150,
-      title: 'Prakriti Pioneer',
-      impact: 'Setup of a bio-waste compost facility or installation of solar lighting kits in village clinics.',
-      color: 'border-emerald-400/40 hover:border-emerald-400 text-emerald-400 shadow-emerald-400/10',
-      activeColor: 'bg-emerald-400/10 border-emerald-400 text-emerald-400 shadow-emerald-400/25',
-      glow: 'shadow-[0_0_20px_rgba(52,211,153,0.15)]',
-      theme: 'emerald'
+      name: 'Rajesh Mishra',
+      role: 'Eco-Conservation Specialist',
+      bio: 'Designing afforestation layouts, community solar setups, and bio-waste treatment setups for rural habitats.',
+      image: '/prakriti_shakti.png'
     }
   ]
 
-  const active = tiers[selectedTier]
+  // GSAP animation for team portrait switch
+  useEffect(() => {
+    gsap.fromTo(portraitRef.current,
+      { opacity: 0, scale: 0.95, filter: 'grayscale(100%)' },
+      { opacity: 1, scale: 1, filter: 'grayscale(0%)', duration: 0.5, ease: 'power2.out' }
+    )
+  }, [activeMember])
 
-  const handleCustomChange = (e) => {
-    setCustomAmount(e.target.value)
-    setSelectedTier(-1) // deactivate standard tiers
-  }
-
-  const handleTierSelect = (index) => {
-    setSelectedTier(index)
-    setCustomAmount('')
-  }
-
-  const handleSubmit = (e) => {
+  const handleDonate = (e) => {
     e.preventDefault()
-    const amount = customAmount ? parseFloat(customAmount) : tiers[selectedTier].amount
-    if (isNaN(amount) || amount <= 0) return
+    const amt = customAmount ? parseFloat(customAmount) : donationAmount
+    if (isNaN(amt) || amt <= 0) return
 
-    setSuccessMsg(`Thank you! Initiating secure payment portal for $${amount}...`)
-    setTimeout(() => {
-      setSuccessMsg('')
-    }, 4000)
-  }
-
-  // Calculate custom equivalents
-  const calculatedImpact = () => {
-    const amt = parseFloat(customAmount)
-    if (isNaN(amt) || amt <= 0) return null
-    
-    const booksCount = Math.floor(amt / 5)
-    const kitsCount = Math.floor(amt / 15)
-    
-    if (amt < 15) {
-      return `Provides educational learning materials for ${booksCount} student${booksCount > 1 ? 's' : ''}.`
-    }
-    return `Provides complete school supplies kits for ${kitsCount} girl child${kitsCount > 1 ? 'ren' : ''} next semester.`
+    setSuccessMsg(`Thank you! Accessing secure gateway for $${amt}...`)
+    setTimeout(() => setSuccessMsg(''), 4000)
   }
 
   return (
     <section 
-      id="contribute"
-      className="relative w-full py-24 md:py-36 bg-brand-dark overflow-hidden border-b border-white/5"
+      id="donation-impact" 
+      className="relative w-full py-24 md:py-36 bg-brand-cream border-b border-brand-dark/5"
     >
-      {/* Decorative Blob */}
-      <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-purple top-1/2 left-[-10%] opacity-10" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
         {/* Intro */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">
-            Evoke Your Impact
+        <div className="mb-16 select-none">
+          <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey block">
+            OUR COLLECTIVE
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase mt-2">
-            FUEL THE FLAME OF CHANGE
-          </h2>
-          <p className="text-xs md:text-sm text-gray-400 max-w-md mt-4">
-            Join the mission. Select an impact tier or build your own to fund community transformation directly.
-          </p>
         </div>
 
-        {/* Donation Interactive Box */}
-        <div className="w-full max-w-4xl mx-auto bg-white/5 border border-white/5 rounded-3xl p-6 md:p-10 backdrop-blur-md glass-panel">
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Left: Tiers Selection */}
-            <div className="lg:col-span-8 flex flex-col gap-6">
-              <h3 className="text-sm font-bold text-white tracking-widest uppercase">
-                Select Impact Level
-              </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          
+          {/* Left Column: Meet the Team (Lg: col-span-8) */}
+          <div className="lg:col-span-8 flex flex-col gap-12">
+            <div className="flex flex-col gap-4">
+              <h2 className="font-serif text-5xl md:text-7xl text-brand-dark uppercase tracking-tight leading-none">
+                meet the team
+              </h2>
+              <p className="font-sans text-sm md:text-base text-brand-grey max-w-xl font-light leading-relaxed mt-4">
+                Our movement is comprised of dedicated field practitioners, educators, medical experts, and conservationists who believe that lasting empowerment is built collaboratively from the ground up.
+              </p>
+            </div>
+
+            {/* Interactive Listing Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-6">
               
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {tiers.map((tier, idx) => {
-                  const isSelected = selectedTier === idx
-                  return (
-                    <button
-                      key={tier.amount}
-                      type="button"
-                      onClick={() => handleTierSelect(idx)}
-                      className={`p-5 rounded-2xl border flex flex-col items-center text-center cursor-pointer transition-all duration-300 ${
-                        isSelected ? `${tier.activeColor} ${tier.glow} scale-105` : `${tier.color} bg-white/5`
-                      }`}
-                      data-cursor="pointer"
-                    >
-                      <span className="text-[10px] font-bold tracking-widest opacity-80 uppercase block">
-                        {tier.title.split(' ')[0]}
-                      </span>
-                      <span className="font-display font-black text-3xl mt-4 block">
-                        ${tier.amount}
-                      </span>
-                      <span className="text-[10px] opacity-70 mt-1 block">/ one-time</span>
-                    </button>
-                  )
-                })}
+              {/* Member names list */}
+              <div className="flex flex-col gap-4">
+                {team.map((member, idx) => (
+                  <div 
+                    key={member.name}
+                    onMouseEnter={() => setActiveMember(idx)}
+                    onClick={() => setActiveMember(idx)}
+                    className={`p-5 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                      activeMember === idx 
+                        ? 'bg-brand-white border-brand-red/30 shadow-md translate-x-2' 
+                        : 'bg-transparent border-transparent hover:translate-x-1'
+                    }`}
+                    data-cursor="pointer"
+                  >
+                    <span className="font-serif text-xl md:text-2xl text-brand-dark block">
+                      {member.name}
+                    </span>
+                    <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-wider block mt-1">
+                      {member.role}
+                    </span>
+                  </div>
+                ))}
               </div>
 
-              {/* Custom Input */}
-              <div className="flex flex-col gap-2 mt-2">
-                <label className="text-xs font-bold text-white/60 tracking-wider uppercase">
-                  Or Enter Custom Donation (USD)
-                </label>
-                <div className="relative w-full rounded-2xl border border-white/10 bg-white/5 overflow-hidden focus-within:border-brand-orange/50 transition-colors">
-                  <span className="absolute left-6 top-1/2 -translate-y-1/2 font-display font-bold text-lg text-white/50">
-                    $
-                  </span>
-                  <input
-                    type="number"
-                    min="1"
-                    placeholder="E.g. 50"
-                    value={customAmount}
-                    onChange={handleCustomChange}
-                    className="w-full h-14 pl-12 pr-6 bg-transparent text-white focus:outline-none font-display font-bold text-lg"
-                    data-cursor="pointer"
+              {/* Focus Portrait & Biography */}
+              <div className="flex flex-col gap-6 p-6 rounded-3xl bg-brand-white border border-brand-dark/5 shadow-xl">
+                <div 
+                  ref={portraitRef}
+                  className="relative aspect-square w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner"
+                >
+                  {/* Desaturate / Grayscale filter for editorial look */}
+                  <img 
+                    src={team[activeMember].image} 
+                    alt={team[activeMember].name} 
+                    className="w-full h-full object-cover grayscale"
                   />
                 </div>
+                <div className="flex flex-col">
+                  <h4 className="font-serif text-lg text-brand-dark font-semibold">
+                    {team[activeMember].name}
+                  </h4>
+                  <p className="font-sans text-xs md:text-sm text-brand-grey leading-relaxed mt-2 font-light">
+                    {team[activeMember].bio}
+                  </p>
+                </div>
               </div>
+
+            </div>
+          </div>
+
+          {/* Right Column: Crimson/Cream Contribution Panel (Lg: col-span-4) */}
+          <div className="lg:col-span-4 bg-brand-white border border-brand-dark/5 p-6 md:p-8 rounded-[32px] shadow-2xl flex flex-col gap-6">
+            <div>
+              <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase">
+                contribute
+              </span>
+              <h3 className="font-serif text-3xl text-brand-dark mt-2 tracking-tight">
+                support the mission
+              </h3>
+              <p className="font-sans text-xs text-brand-grey leading-relaxed mt-2 font-light">
+                Fuel our transformations directly. Choose an allocation or type a custom amount to fund our standard village operations.
+              </p>
             </div>
 
-            {/* Right: Calculated Summary & CTA */}
-            <div className="lg:col-span-4 flex flex-col justify-between h-full lg:min-h-[280px] bg-white/5 border border-white/5 rounded-2xl p-6 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-linear-to-tr from-brand-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <div>
-                <h3 className="text-xs font-black text-white/40 tracking-widest uppercase">
-                  DIRECT OUTCOME
-                </h3>
-                
-                {/* Dynamic Summary */}
-                {selectedTier >= 0 ? (
-                  <div className="mt-4 animate-fade-in">
-                    <span className="text-xs font-bold text-brand-orange uppercase tracking-wider">
-                      {active.title}
-                    </span>
-                    <p className="text-sm text-gray-300 font-light mt-3 leading-relaxed">
-                      {active.impact}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="mt-4 animate-fade-in">
-                    <span className="text-xs font-bold text-brand-orange uppercase tracking-wider">
-                      Custom contribution
-                    </span>
-                    <p className="text-sm text-gray-300 font-light mt-3 leading-relaxed">
-                      {calculatedImpact() || 'Nurturing community growth with localized support drives.'}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Action Button */}
-              <div className="mt-8">
+            {/* Quick selectors */}
+            <div className="grid grid-cols-3 gap-2">
+              {[15, 35, 75].map((val) => (
                 <button
-                  type="submit"
-                  className="w-full py-4 rounded-xl font-display font-black text-xs tracking-widest uppercase bg-brand-orange hover:bg-brand-pink text-brand-dark hover:text-white transition-all duration-300 shadow-md shadow-brand-orange/10"
-                  data-cursor="donate"
+                  key={val}
+                  type="button"
+                  onClick={() => {
+                    setDonationAmount(val)
+                    setCustomAmount('')
+                  }}
+                  className={`py-3 rounded-xl border text-xs font-bold font-display cursor-pointer transition-all duration-300 ${
+                    donationAmount === val && !customAmount
+                      ? 'border-brand-red bg-brand-red/5 text-brand-red scale-105'
+                      : 'border-brand-dark/5 hover:border-brand-red/20 text-brand-dark'
+                  }`}
+                  data-cursor="pointer"
                 >
-                  INITIATE SECURE PORTAL
+                  ${val}
                 </button>
-                
-                <span className="text-[9px] text-white/40 tracking-wider text-center block mt-3">
-                  🔒 256-bit encrypted secure donation
+              ))}
+            </div>
+
+            {/* Custom Input */}
+            <div className="flex flex-col gap-2">
+              <label className="font-sans text-[10px] font-bold text-brand-grey tracking-wider uppercase">
+                OR CUSTOM AMOUNT (USD)
+              </label>
+              <div className="relative w-full rounded-xl border border-brand-dark/10 overflow-hidden focus-within:border-brand-red/50 transition-colors bg-brand-cream/35">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 font-sans font-bold text-sm text-brand-grey">
+                  $
                 </span>
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Enter amount"
+                  value={customAmount}
+                  onChange={(e) => {
+                    setCustomAmount(e.target.value)
+                    setDonationAmount(0)
+                  }}
+                  className="w-full h-11 pl-8 pr-4 bg-transparent text-brand-dark focus:outline-none font-sans font-bold text-sm"
+                  data-cursor="pointer"
+                />
               </div>
-
             </div>
 
-          </form>
+            {/* CTA Submit */}
+            <form onSubmit={handleDonate} className="flex flex-col gap-3">
+              <button
+                type="submit"
+                className="w-full py-3.5 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-dark text-brand-cream hover:text-brand-cream transition-all duration-300 shadow-md shadow-brand-red/10 cursor-pointer"
+                data-cursor="pointer"
+              >
+                SECURE CONTRIBUTION
+              </button>
+              <span className="text-[9px] text-brand-grey tracking-wider text-center block">
+                🔒 Secure 256-Bit Encrypted Transfer
+              </span>
+            </form>
 
-          {/* Success Dialog Popup Overlay */}
-          {successMsg && (
-            <div className="mt-6 p-4 rounded-xl border border-emerald-400/20 bg-emerald-400/10 text-emerald-400 text-xs font-semibold tracking-wider text-center animate-pulse">
-              {successMsg}
-            </div>
-          )}
+            {successMsg && (
+              <div className="p-3 rounded-xl border border-brand-red/20 bg-brand-red/5 text-brand-red text-center text-xs font-semibold tracking-wider animate-pulse">
+                {successMsg}
+              </div>
+            )}
+          </div>
+
         </div>
-
       </div>
     </section>
   )

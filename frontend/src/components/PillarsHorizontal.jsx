@@ -1,201 +1,149 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { BookOpen, Activity, Cpu, TreePine, ArrowUpRight } from './Icons'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const PillarsHorizontal = () => {
-  const containerRef = useRef(null)
-  const pinWrapRef = useRef(null)
+  const [activeCategory, setActiveCategory] = useState('all')
+  const contentRef = useRef(null)
 
-  useEffect(() => {
-    const pinWrap = pinWrapRef.current
-    const container = containerRef.current
-    if (!pinWrap || !container) return
-
-    // Create a GSAP MatchMedia instance for responsive ScrollTriggers
-    const mm = gsap.matchMedia()
-
-    mm.add('(min-width: 768px)', () => {
-      // Calculate how far to translate the horizontal track
-      const totalWidth = pinWrap.scrollWidth - window.innerWidth
-      
-      const pinTrigger = gsap.to(pinWrap, {
-        x: -totalWidth,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          pin: true,
-          scrub: 1,
-          start: 'top top',
-          end: () => `+=${pinWrap.scrollWidth}`,
-          invalidateOnRefresh: true,
-        }
-      })
-
-      // Image parallax effect inside horizontal panels
-      const images = pinWrap.querySelectorAll('.panel-image')
-      images.forEach(img => {
-        gsap.fromTo(img,
-          { scale: 1.1, xPercent: -5 },
-          {
-            scale: 1,
-            xPercent: 5,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: img,
-              containerAnimation: pinTrigger,
-              start: 'left right',
-              end: 'right left',
-              scrub: true,
-            }
-          }
-        )
-      })
-    })
-
-    return () => mm.revert()
-  }, [])
-
-  const pillars = [
-    {
-      title: 'Shakti Shiksha',
-      subtitle: 'Girl Child & Primary Education',
-      description: 'We believe education is the primary channel to evoke female strength. Our school drives, learning hubs, and merit scholarships secure standard learning resources for girls in underserved villages.',
-      color: 'from-orange-500/10 to-amber-500/10 border-brand-orange/20',
-      tagColor: 'text-brand-orange bg-brand-orange/10 border-brand-orange/30',
-      icon: BookOpen,
-      image: '/shakti_shiksha.png',
-      actionText: 'Empower a Child'
-    },
-    {
-      title: 'Arogya Shakti',
-      subtitle: 'Healthcare, Clean Water & Nutrition',
-      description: 'Strengthening the physical foundation of communities. Aadi Shakti conducts local medical diagnostics, nutritional workshops, maternal care outreach, and clean water filtration installations.',
-      color: 'from-teal-500/10 to-emerald-500/10 border-teal-500/20',
-      tagColor: 'text-teal-400 bg-teal-400/10 border-teal-400/30',
-      icon: Activity,
-      image: '/arogya_shakti.png',
-      actionText: 'Support health camp'
-    },
-    {
-      title: 'Swayam Shakti',
-      subtitle: 'Skill Development & Entrepreneurship',
-      description: 'Transforming women into self-reliant change agents. We offer hands-on training in local handicrafts, tailoring, textile management, digital literacy, and provide micro-capital mentorship.',
-      color: 'from-pink-500/10 to-purple-500/10 border-brand-pink/20',
-      tagColor: 'text-brand-pink bg-brand-pink/10 border-brand-pink/30',
-      icon: Cpu,
-      image: '/swayam_shakti.png',
-      actionText: 'Fund micro-enterprise'
-    },
-    {
-      title: 'Prakriti Shakti',
-      subtitle: 'Environmental & Conservation Drives',
-      description: 'Uplifting humanity means protecting our green home. Prakriti Shakti launches local afforestation campaigns, clean energies initiatives like solar grids, and promotes bio-waste treatment.',
-      color: 'from-emerald-500/10 to-yellow-500/10 border-emerald-500/20',
-      tagColor: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30',
-      icon: TreePine,
-      image: '/prakriti_shakti.png',
-      actionText: 'Plant a forest'
-    }
+  const categories = [
+    { id: 'all', title: 'all programs', count: 30, desc: 'A holistic overview of our direct interventions addressing female literacy, diagnostic healthcare, vocational training, and environmental canopy protection across rural districts.' },
+    { id: 'education', title: 'primary education', count: 12, desc: 'Creating secure, standard learning centers, providing merit scholarships, and donating computer resources to secure primary education pathways for rural girls.' },
+    { id: 'health', title: 'healthcare wings', count: 8, desc: 'Conducting regular local medical checkups, diagnostic camps, nutritional audits, clean water filter installations, and maternal care outreach campaigns.' },
+    { id: 'livelihood', title: 'skill incubation', count: 6, desc: 'Facilitating hands-on skill training in local tailoring, organic weaving, and digital literacy, paired with interest-free micro-grants for enterprise creation.' },
+    { id: 'conservation', title: 'eco-conservation', count: 4, desc: 'Launching afforestation drives to plant native tree species, introducing bio-waste setups, and retrofitting local community centers with solar power grids.' }
   ]
 
+  const projects = [
+    { id: 1, title: 'Village Learning Hubs', category: 'education', subtitle: 'Primary Literacy', image: '/shakti_shiksha.png' },
+    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/arogya_shakti.png' },
+    { id: 3, title: 'Weaving Autonomy Labs', category: 'livelihood', subtitle: 'Vocational Training', image: '/swayam_shakti.png' },
+    { id: 4, title: 'Native Canopy Campaigns', category: 'conservation', subtitle: 'Afforestation', image: '/prakriti_shakti.png' },
+    { id: 5, title: 'Digital Shakti Hubs', category: 'education', subtitle: 'Computer Literacy', image: '/swayam_shakti.png' },
+    { id: 6, title: 'Maternal Nutrition Camps', category: 'health', subtitle: 'Maternal Diagnostics', image: '/arogya_shakti.png' }
+  ]
+
+  const activeInfo = categories.find(cat => cat.id === activeCategory)
+  const filteredProjects = activeCategory === 'all' 
+    ? projects 
+    : projects.filter(proj => proj.category === activeCategory)
+
+  // GSAP transition when category changes
+  useEffect(() => {
+    gsap.fromTo(contentRef.current,
+      { opacity: 0, y: 15 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.5, 
+        ease: 'power2.out',
+        onComplete: () => {
+          ScrollTrigger.refresh()
+        }
+      }
+    )
+  }, [activeCategory])
+
+  // Refresh on initial layout settlement
+  useEffect(() => {
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 200)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
-    <div 
+    <section 
       id="pillars" 
-      ref={containerRef} 
-      className="relative w-full bg-brand-dark overflow-hidden md:h-screen flex flex-col justify-center"
+      className="relative w-full py-24 md:py-36 bg-brand-cream border-b border-brand-dark/5"
     >
-      {/* Decorative Blob */}
-      <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-purple top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10" />
-
-      {/* Intro Header (Visible on Desktop / Mobile) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full pt-16 md:pt-0 md:absolute md:top-12 md:left-12 md:right-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-        <div>
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">
-            Pillars of Impact
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
+        {/* Category section subtitle */}
+        <div className="mb-16 select-none">
+          <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey block">
+            OUR DEPLOYMENTS
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase mt-2">
-            HOW WE SHAPE CHANGE
-          </h2>
         </div>
-        <p className="text-xs md:text-sm text-gray-400 max-w-md">
-          Through a comprehensive ecosystem approach, we address the intersectional roots of empowerment, social well-being, and ecological health.
-        </p>
-      </div>
 
-      {/* Horizontal Panels (or stacked on mobile) */}
-      <div 
-        ref={pinWrapRef} 
-        className="flex flex-col md:flex-row md:h-screen w-full md:w-[400vw] relative z-10 pt-10 pb-20 md:py-0"
-      >
-        {pillars.map((pillar, index) => {
-          const IconComponent = pillar.icon
-          return (
-            <div 
-              key={pillar.title}
-              className="w-full md:w-screen h-auto md:h-full flex items-center justify-center px-6 md:px-12 py-10 md:py-0 shrink-0"
-            >
-              <div 
-                className={`w-full max-w-6xl rounded-3xl border p-6 md:p-12 bg-linear-to-br ${pillar.color} backdrop-blur-md glass-panel flex flex-col lg:grid lg:grid-cols-12 gap-8 md:gap-12 items-center`}
+        {/* Categories Tab Selector with numbers */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+          
+          {/* Left Column: Big Category Header */}
+          <div className="lg:col-span-8 flex flex-col items-start gap-4">
+            <h2 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tight uppercase leading-none">
+              {activeInfo.title}
+              <span className="align-super text-xs font-sans text-brand-red ml-3">
+                {activeInfo.count}
+              </span>
+            </h2>
+            <p className="font-sans text-sm md:text-base text-brand-grey/90 leading-relaxed max-w-xl font-light mt-4">
+              {activeInfo.desc}
+            </p>
+          </div>
+
+          {/* Right Column: Tab Trigger Buttons */}
+          <div className="lg:col-span-4 flex flex-col items-start gap-2 border-l border-brand-dark/10 pl-6 md:pl-8">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`font-sans text-xs font-bold tracking-wider uppercase py-2 cursor-pointer transition-all duration-300 relative group flex items-center justify-between w-full ${
+                  activeCategory === cat.id ? 'text-brand-red' : 'text-brand-dark hover:text-brand-red'
+                }`}
+                data-cursor="pointer"
               >
-                {/* Text Content Column */}
-                <div className="lg:col-span-7 flex flex-col items-start order-2 lg:order-1">
-                  {/* Badge */}
-                  <div className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-wider ${pillar.tagColor}`}>
-                    <IconComponent className="w-3.5 h-3.5" />
-                    <span>PILLAR 0{index + 1}</span>
-                  </div>
+                <span>{cat.title}</span>
+                <span className="text-[10px] text-brand-grey font-normal font-display">({cat.count})</span>
+                {/* Underline anchor */}
+                <span className={`absolute bottom-0 left-0 h-px bg-brand-red transition-all duration-300 ${
+                  activeCategory === cat.id ? 'w-full' : 'w-0 group-hover:w-full'
+                }`} />
+              </button>
+            ))}
+          </div>
 
-                  {/* Title & Subtitle */}
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white uppercase tracking-tight mt-6">
-                    {pillar.title}
-                  </h3>
-                  <h4 className="text-sm font-semibold tracking-wide text-brand-orange mt-2">
-                    {pillar.subtitle}
-                  </h4>
+        </div>
 
-                  {/* Description */}
-                  <p className="text-sm sm:text-base text-gray-300/80 font-light mt-6 leading-relaxed">
-                    {pillar.description}
-                  </p>
+        {/* Dynamic Cards Grid */}
+        <div 
+          ref={contentRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {filteredProjects.map((proj) => (
+            <div 
+              key={proj.id}
+              className="group flex flex-col rounded-3xl overflow-hidden border border-brand-dark/5 bg-brand-white shadow-lg transition-all duration-500 hover:-translate-y-1 hover:border-brand-red/25"
+            >
+              {/* Cover image area */}
+              <div 
+                className="relative aspect-4/3 w-full overflow-hidden"
+                data-cursor="view"
+              >
+                <div className="absolute inset-0 bg-brand-dark/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <img 
+                  src={proj.image} 
+                  alt={proj.title} 
+                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
+                />
+              </div>
 
-                  {/* Action Link */}
-                  <a 
-                    href="#contribute"
-                    className="mt-8 flex items-center gap-2 text-xs font-black tracking-widest text-white group cursor-pointer"
-                    data-cursor="pointer"
-                  >
-                    <span>{pillar.actionText.toUpperCase()}</span>
-                    <span className="w-8 h-8 rounded-full border border-white/20 group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-brand-dark flex items-center justify-center transition-all duration-300">
-                      <ArrowUpRight className="w-4 h-4" />
-                    </span>
-                  </a>
-                </div>
-
-                {/* Cover Image Column */}
-                <div className="lg:col-span-5 w-full order-1 lg:order-2">
-                  <div 
-                    className="w-full aspect-4/3 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative"
-                    data-cursor="view"
-                  >
-                    {/* Shadow overlay */}
-                    <div className="absolute inset-0 bg-linear-to-t from-brand-indigo/60 to-transparent z-10 pointer-events-none" />
-                    <img 
-                      src={pillar.image} 
-                      alt={pillar.title} 
-                      className="panel-image w-full h-full object-cover object-center scale-110"
-                    />
-                  </div>
-                </div>
-
+              {/* Text Area */}
+              <div className="p-6 md:p-8 flex flex-col items-start justify-between">
+                <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-widest">
+                  {proj.subtitle}
+                </span>
+                <h3 className="font-serif text-xl md:text-2xl text-brand-dark mt-2 tracking-tight group-hover:text-brand-red transition-colors">
+                  {proj.title}
+                </h3>
               </div>
             </div>
-          )
-        })}
+          ))}
+        </div>
+
       </div>
-    </div>
+    </section>
   )
 }
 

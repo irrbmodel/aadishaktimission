@@ -6,201 +6,155 @@ gsap.registerPlugin(ScrollTrigger)
 
 const JourneyTimeline = () => {
   const containerRef = useRef(null)
-  const progressLineRef = useRef(null)
-  const milestonesRef = useRef([])
+  const pinWrapRef = useRef(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // 1. Animate the central vertical line scaling from top (0) to bottom (1)
-      gsap.fromTo(progressLineRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 30%',
-            end: 'bottom 70%',
-            scrub: true
-          }
+    const pinWrap = pinWrapRef.current
+    const container = containerRef.current
+    if (!pinWrap || !container) return
+
+    const mm = gsap.matchMedia()
+
+    mm.add('(min-width: 768px)', () => {
+      const totalWidth = pinWrap.scrollWidth - window.innerWidth
+      
+      const pinTrigger = gsap.to(pinWrap, {
+        x: -totalWidth,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: container,
+          pin: true,
+          scrub: 1,
+          start: 'top top',
+          end: () => `+=${pinWrap.scrollWidth}`,
+          invalidateOnRefresh: true,
         }
-      )
+      })
 
-      // 2. Animate each milestone card when it comes into view
-      milestonesRef.current.forEach((milestone) => {
-        if (!milestone) return
-
-        const isLeft = milestone.classList.contains('milestone-left')
-        const xOffset = isLeft ? -100 : 100
-
-        gsap.fromTo(milestone,
-          { opacity: 0, x: xOffset, scale: 0.9 },
+      // Parallax effect on panel images
+      const images = pinWrap.querySelectorAll('.panel-img')
+      images.forEach(img => {
+        gsap.fromTo(img,
+          { scale: 1.15, xPercent: -8 },
           {
-            opacity: 1,
-            x: 0,
             scale: 1,
-            duration: 1,
-            ease: 'power3.out',
+            xPercent: 8,
+            ease: 'none',
             scrollTrigger: {
-              trigger: milestone,
-              start: 'top 80%',
-              end: 'top 50%',
+              trigger: img,
+              containerAnimation: pinTrigger,
+              start: 'left right',
+              end: 'right left',
               scrub: true,
-              toggleActions: 'play none none none'
             }
           }
         )
       })
-    }, containerRef)
+    })
 
-    return () => ctx.revert()
+    return () => mm.revert()
   }, [])
 
-  const steps = [
+  const concepts = [
     {
-      year: '2021',
-      title: 'Seeds of Intent',
-      text: 'A volunteer group establishes emergency aid networks during critical public health crises, identifying systemic gaps in maternal care and primary education for young girls.'
+      title: 'compassion',
+      tag: 'VALUES 01',
+      desc: 'Empathy is not a passive sentiment. It is the primordial, cosmic spark of action and creation that transforms society from its very roots.',
+      image: '/arogya_shakti.png',
+      color: 'from-brand-red/10 to-transparent'
     },
     {
-      year: '2022',
-      title: 'Genesis of Aadi Shakti',
-      text: 'Formal foundation of the NGO. Inauguration of our first Shakti Shiksha Kendra in Uttar Pradesh, welcoming 35 girls into holistic education tracks.'
+      title: 'autonomy',
+      tag: 'VALUES 02',
+      desc: 'Providing skills, micro-capital, and local entrepreneurship pathways to transform women into self-reliant change agents.',
+      image: '/swayam_shakti.png',
+      color: 'from-amber-600/10 to-transparent'
     },
     {
-      year: '2023',
-      title: 'Vanguard Health & Wellness',
-      text: 'Launch of the Arogya Shakti wing. Deployment of mobile diagnostic clinics and maternal wellness camps across 15 remote rural settlements.'
+      title: 'equality',
+      tag: 'VALUES 03',
+      desc: 'Securing primary education resources and learning hubs for young girls in underserved villages to restore standard balance.',
+      image: '/shakti_shiksha.png',
+      color: 'from-blue-600/10 to-transparent'
     },
     {
-      year: '2024',
-      title: 'Swayam Skill Incubation',
-      text: 'Establishment of standard vocational training labs. Empowered the first batch of 120 women in textile design, financial basics, and micro-business skills.'
-    },
-    {
-      year: '2025',
-      title: 'Ecological Canopy Expansion',
-      text: 'Launch of Prakriti Shakti. Planted over 15,000 native trees and retrofitted 10 healthcare camps with independent, community-managed solar grids.'
-    },
-    {
-      year: '2026',
-      title: 'Digital Shakti Horizons',
-      text: 'Introduction of internet literacy modules, coding bootcamps, and digital micro-capital grants, taking our direct community impact to over 100K+ souls.'
+      title: 'ecology',
+      tag: 'VALUES 04',
+      desc: 'Uplifting humanity means protecting our green home through afforestation drives and local clean solar energy networks.',
+      image: '/prakriti_shakti.png',
+      color: 'from-emerald-600/10 to-transparent'
     }
   ]
 
   return (
-    <section 
-      id="journey"
+    <div 
+      id="journey" 
       ref={containerRef}
-      className="timeline-container relative w-full py-24 md:py-36 bg-brand-dark overflow-hidden border-b border-white/5"
+      className="relative w-full bg-[#09090b] overflow-hidden md:h-screen flex flex-col justify-center border-b border-brand-dark/5"
     >
-      {/* Dynamic BG Blob */}
-      <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-purple bottom-[10%] left-[-10%] opacity-10" />
+      {/* Dynamic light blob to accent the dark page */}
+      <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30 mix-blend-screen" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        
-        {/* Intro */}
-        <div className="flex flex-col items-center text-center mb-20">
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">
-            Our Timeline
+      {/* Header (visible above horizontal carousel) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full pt-16 md:pt-0 md:absolute md:top-16 md:left-12 md:right-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4 select-none">
+        <div>
+          <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey">
+            THINGS THAT INSPIRE
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase mt-2">
-            THE EVOLUTION OF CHANGE
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-brand-cream uppercase tracking-tight mt-2">
+            our core concepts
           </h2>
-          <p className="text-xs md:text-sm text-gray-400 max-w-md mt-4">
-            A chronological look at how our small spark of action evolved into a cosmic wave of community empowerment.
-          </p>
         </div>
-
-        {/* Timeline Core */}
-        <div className="relative mt-12">
-          
-          {/* Central Vertical Line (Background) */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-white/5 -translate-x-1/2" />
-          
-          {/* Glowing Animated Progress Line */}
-          <div 
-            ref={progressLineRef}
-            className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] bg-linear-to-b from-brand-orange via-brand-pink to-brand-purple -translate-x-1/2 origin-top transform scale-y-0 shadow-[0_0_10px_rgba(255,120,45,0.4)]"
-          />
-
-          {/* Timeline Milestones */}
-          <div className="space-y-12 md:space-y-20 relative">
-            {steps.map((step, idx) => {
-              const isEven = idx % 2 === 0
-              return (
-                <div 
-                  key={step.year}
-                  ref={(el) => (milestonesRef.current[idx] = el)}
-                  className={`milestone-block flex flex-col md:flex-row items-stretch w-full ${
-                    isEven 
-                      ? 'md:flex-row-reverse milestone-right' 
-                      : 'milestone-left'
-                  }`}
-                >
-                  {/* Left Spacer / Card Column */}
-                  <div className="w-full md:w-1/2 flex items-center justify-end px-4 md:px-12">
-                    {/* Even indexes appear on right on desktop, odd indexes appear on left */}
-                    {!isEven && (
-                      <div 
-                        className="w-full rounded-2xl border border-white/5 bg-white/5 p-6 md:p-8 backdrop-blur-md glass-panel relative group hover:border-brand-orange/30 hover:-translate-y-1 transition-all duration-300"
-                        data-cursor="pointer"
-                      >
-                        <div className="absolute top-4 right-6 text-3xl font-display font-black text-brand-orange/10 group-hover:text-brand-orange/20 transition-colors">
-                          {step.year}
-                        </div>
-                        <span className="text-xs font-bold text-brand-orange tracking-widest uppercase">
-                          {step.year}
-                        </span>
-                        <h3 className="text-xl font-bold text-white mt-2 group-hover:text-brand-orange transition-colors">
-                          {step.title}
-                        </h3>
-                        <p className="text-sm text-gray-400 font-light mt-4 leading-relaxed">
-                          {step.text}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Central Node Column */}
-                  <div className="absolute left-4 md:left-1/2 flex items-center justify-center -translate-x-1/2 z-10 py-2">
-                    <div className="w-6 h-6 rounded-full bg-brand-dark border-2 border-brand-orange flex items-center justify-center shadow-[0_0_10px_rgba(255,120,45,0.2)] hover:scale-125 transition-transform duration-300">
-                      <div className="w-2 h-2 rounded-full bg-brand-pink" />
-                    </div>
-                  </div>
-
-                  {/* Right Spacer / Card Column */}
-                  <div className="w-full md:w-1/2 flex items-center justify-start px-4 md:px-12 mt-4 md:mt-0 pl-12 md:pl-12">
-                    {isEven && (
-                      <div 
-                        className="w-full rounded-2xl border border-white/5 bg-white/5 p-6 md:p-8 backdrop-blur-md glass-panel relative group hover:border-brand-pink/30 hover:-translate-y-1 transition-all duration-300"
-                        data-cursor="pointer"
-                      >
-                        <div className="absolute top-4 right-6 text-3xl font-display font-black text-brand-pink/10 group-hover:text-brand-pink/20 transition-colors">
-                          {step.year}
-                        </div>
-                        <span className="text-xs font-bold text-brand-pink tracking-widest uppercase">
-                          {step.year}
-                        </span>
-                        <h3 className="text-xl font-bold text-white mt-2 group-hover:text-brand-pink transition-colors">
-                          {step.title}
-                        </h3>
-                        <p className="text-sm text-gray-400 font-light mt-4 leading-relaxed">
-                          {step.text}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-        </div>
-
+        <p className="font-sans text-xs md:text-sm text-brand-grey max-w-md font-light leading-relaxed">
+          Through a comprehensive ecosystem approach, we address the intersectional roots of empowerment, social well-being, and ecological health.
+        </p>
       </div>
-    </section>
+
+      {/* Horizontal Carousel (or vertical list on mobile devices) */}
+      <div 
+        ref={pinWrapRef} 
+        className="flex flex-col md:flex-row md:h-screen w-full md:w-[400vw] relative z-10 pt-16 pb-20 md:py-0"
+      >
+        {concepts.map((item, idx) => (
+          <div 
+            key={item.title}
+            className="w-full md:w-screen h-auto md:h-full flex items-center justify-center px-6 md:px-12 py-10 md:py-0 shrink-0"
+          >
+            <div 
+              className={`w-full max-w-6xl rounded-[32px] border border-white/5 p-6 md:p-12 bg-linear-to-br ${item.color} backdrop-blur-md flex flex-col lg:grid lg:grid-cols-12 gap-8 md:gap-12 items-center`}
+            >
+              {/* Text column */}
+              <div className="lg:col-span-7 flex flex-col items-start order-2 lg:order-1">
+                <span className="font-sans text-[10px] font-bold text-brand-red tracking-wider uppercase">
+                  {item.tag}
+                </span>
+                <h3 className="font-serif text-4xl sm:text-5xl md:text-6xl text-brand-cream tracking-tight mt-4 uppercase">
+                  {item.title}
+                </h3>
+                <p className="font-sans text-sm sm:text-base text-brand-grey leading-relaxed mt-6 font-light max-w-lg">
+                  {item.desc}
+                </p>
+              </div>
+
+              {/* Parallax Image column */}
+              <div className="lg:col-span-5 w-full order-1 lg:order-2">
+                <div 
+                  className="w-full aspect-4/3 rounded-2xl overflow-hidden border border-white/5 shadow-2xl relative"
+                  data-cursor="view"
+                >
+                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/50 to-transparent z-10 pointer-events-none" />
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="panel-img w-full h-full object-cover scale-110 pointer-events-none"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 

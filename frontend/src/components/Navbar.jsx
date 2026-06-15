@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { Sparkles, Heart } from './Icons'
+import React, { useState, useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const menuRef = useRef(null)
+  const linksRef = useRef([])
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 50) {
         setIsScrolled(true)
       } else {
         setIsScrolled(false)
@@ -16,84 +19,154 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+      // GSAP animate menu open
+      gsap.to(menuRef.current, {
+        y: '0%',
+        duration: 0.8,
+        ease: 'power4.out',
+      })
+      gsap.fromTo(
+        linksRef.current,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power3.out',
+          delay: 0.3,
+        }
+      )
+    } else {
+      document.body.style.overflow = ''
+      // GSAP animate menu close
+      gsap.to(menuRef.current, {
+        y: '-100%',
+        duration: 0.6,
+        ease: 'power4.in',
+      })
+    }
+  }, [isOpen])
+
   const handleNavClick = (e, targetId) => {
     e.preventDefault()
-    const targetElement = document.getElementById(targetId)
-    if (targetElement) {
-      // Lenis smooth scroll will catch window.scrollTo automatically!
-      targetElement.scrollIntoView({ behavior: 'smooth' })
-    }
+    setIsOpen(false)
+    
+    // Add a slight delay to allow menu animation to complete
+    setTimeout(() => {
+      const targetElement = document.getElementById(targetId)
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 600)
   }
 
+  const menuItems = [
+    { label: 'about us', id: 'philosophy' },
+    { label: 'our programs', id: 'pillars' },
+    { label: 'our values', id: 'journey' },
+    { label: 'meet the team', id: 'donation-impact' },
+    { label: 'contribute / contact', id: 'footer' }
+  ]
+
   return (
-    <header 
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 py-4 px-6 md:px-12 ${
-        isScrolled 
-          ? 'bg-brand-dark/80 backdrop-blur-md border-b border-white/5 py-3 shadow-lg shadow-black/10' 
-          : 'bg-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Brand Logo */}
-        <a 
-          href="#" 
-          className="flex items-center gap-2 group focus:outline-none"
-          data-cursor="pointer"
-        >
-          <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-linear-to-tr from-brand-orange to-brand-pink p-0.5 overflow-hidden">
-            <div className="absolute inset-0 bg-linear-to-tr from-brand-purple to-brand-orange animate-spin duration-[10s]" />
-            <div className="relative w-full h-full bg-brand-dark rounded-full flex items-center justify-center z-10 transition-colors group-hover:bg-transparent">
-              <Sparkles className="w-5 h-5 text-brand-orange group-hover:text-white transition-colors duration-300" />
+    <>
+      <header 
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 py-6 px-6 md:px-12 ${
+          isScrolled 
+            ? 'bg-brand-cream/95 backdrop-blur-sm border-b border-brand-dark/5 py-4 shadow-xs' 
+            : 'bg-transparent py-7'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Logo */}
+          <a 
+            href="#" 
+            onClick={(e) => handleNavClick(e, 'hero')}
+            className="flex items-baseline gap-2 group focus:outline-none"
+            data-cursor="pointer"
+          >
+            <span className="font-serif text-2xl md:text-3xl text-brand-dark tracking-tight">
+              Aadi Shakti.
+            </span>
+            <span className="font-sans text-[9px] font-bold tracking-[0.25em] text-brand-grey uppercase">
+              mission
+            </span>
+          </a>
+
+          {/* Minimal Menu Trigger (Septiembre style) */}
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className="relative w-10 h-6 flex flex-col justify-between items-end group focus:outline-none z-50 cursor-pointer"
+            aria-label="Menu"
+            data-cursor="pointer"
+          >
+            <span 
+              className={`h-[1.5px] bg-brand-dark transition-all duration-300 origin-right ${
+                isOpen ? 'w-8 -rotate-45 translate-y-[6px] translate-x-[-2px]' : 'w-10'
+              }`} 
+            />
+            <span 
+              className={`h-[1.5px] bg-brand-dark transition-all duration-200 ${
+                isOpen ? 'w-0 opacity-0' : 'w-7 group-hover:w-10'
+              }`} 
+            />
+            <span 
+              className={`h-[1.5px] bg-brand-dark transition-all duration-300 origin-right ${
+                isOpen ? 'w-8 rotate-45 translate-y-[-6px] translate-x-[-2px]' : 'w-10'
+              }`} 
+            />
+          </button>
+        </div>
+      </header>
+
+      {/* Full Screen Menu Overlay */}
+      <nav 
+        ref={menuRef}
+        className="fixed inset-0 w-full h-screen bg-brand-cream border-b border-brand-dark/5 z-40 transform -translate-y-full flex flex-col justify-center px-6 md:px-24"
+      >
+        <div className="max-w-4xl mx-auto w-full flex flex-col items-start gap-12">
+          {/* Links List */}
+          <ul className="flex flex-col gap-6 md:gap-8">
+            {menuItems.map((item, index) => (
+              <li key={item.label} className="overflow-hidden">
+                <a
+                  ref={(el) => (linksRef.current[index] = el)}
+                  href={`#${item.id}`}
+                  onClick={(e) => handleNavClick(e, item.id)}
+                  className="inline-block font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-tight hover:text-brand-red hover:translate-x-2 transition-all duration-300 cursor-pointer"
+                  data-cursor="pointer"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {/* Socials / Language info footer */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between w-full border-t border-brand-dark/10 pt-8 mt-4 gap-4">
+            <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase">
+              AADI SHAKTI MISSION NGO &copy; 2026
+            </span>
+            <div className="flex gap-6">
+              {['Instagram', 'Linkedin', 'Twitter'].map((soc) => (
+                <a 
+                  key={soc}
+                  href="#"
+                  className="font-sans text-xs font-semibold text-brand-dark hover:text-brand-red transition-colors cursor-pointer"
+                  data-cursor="pointer"
+                >
+                  {soc}
+                </a>
+              ))}
             </div>
           </div>
-          
-          <div className="flex flex-col">
-            <span className="font-display font-black text-lg tracking-wider bg-linear-to-r from-white via-orange-100 to-brand-orange bg-clip-text text-transparent group-hover:via-brand-pink transition-all duration-500">
-              AADI SHAKTI
-            </span>
-            <span className="text-[9px] font-bold tracking-[0.25em] text-white/50 -mt-1 group-hover:text-brand-orange transition-colors">
-              MISSION
-            </span>
-          </div>
-        </a>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1 bg-white/5 border border-white/5 rounded-full p-1.5 backdrop-blur-sm">
-          {[
-            { label: 'Philosophy', id: 'philosophy' },
-            { label: 'Pillars of Impact', id: 'pillars' },
-            { label: 'Journey', id: 'journey' },
-            { label: 'Gallery', id: 'gallery' },
-            { label: 'Contribute', id: 'contribute' }
-          ].map((item) => (
-            <a
-              key={item.label}
-              href={`#${item.id}`}
-              onClick={(e) => handleNavClick(e, item.id)}
-              className="px-5 py-2 rounded-full text-xs font-semibold tracking-wide text-white/80 hover:text-white hover:bg-white/5 transition-all duration-300 relative"
-              data-cursor="pointer"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* CTA Button */}
-        <div className="flex items-center gap-4">
-          <a
-            href="#contribute"
-            onClick={(e) => handleNavClick(e, 'contribute')}
-            className="relative overflow-hidden group px-6 py-2.5 rounded-full text-xs font-black tracking-widest text-brand-dark bg-linear-to-r from-brand-orange via-amber-400 to-brand-orange shadow-lg shadow-brand-orange/20 hover:shadow-brand-orange/40 hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none flex items-center gap-1.5"
-            data-cursor="donate"
-          >
-            {/* Gloss shine effect */}
-            <span className="absolute inset-0 w-full h-full bg-linear-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-            <Heart className="w-3.5 h-3.5 fill-brand-dark" />
-            DONATE
-          </a>
         </div>
-      </div>
-    </header>
+      </nav>
+    </>
   )
 }
 
