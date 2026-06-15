@@ -184,7 +184,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-25 pointer-events-none" />
 
       {/* Header (visible above horizontal carousel) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full pt-20 md:pt-0 md:absolute md:top-16 md:left-12 md:right-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4 select-none">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full pt-20 md:pt-0 md:absolute md:top-24 md:left-12 md:right-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4 select-none">
         <div>
           <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey">
             THINGS THAT INSPIRE
@@ -206,7 +206,7 @@ const JourneyTimeline = ({ isLoaded }) => {
         {concepts.map((item, idx) => (
           <div 
             key={item.title}
-            className="concept-panel w-full md:w-screen h-auto md:h-full flex items-center justify-center px-6 md:px-12 py-10 md:py-0 shrink-0"
+            className="concept-panel w-full md:w-screen h-auto md:h-full flex items-center justify-center px-6 md:px-12 py-10 md:py-0 md:pt-44 md:pb-12 shrink-0"
           >
             <div 
               className={`w-full max-w-6xl rounded-[32px] border border-brand-dark/5 p-8 md:p-14 bg-linear-to-br ${item.color} bg-brand-white/80 backdrop-blur-xl shadow-[0_15px_45px_rgba(0,0,0,0.02)] hover:shadow-[0_25px_50px_rgba(155,0,0,0.05)] hover:border-brand-red/15 transition-all duration-500 flex flex-col lg:grid lg:grid-cols-12 gap-8 md:gap-12 items-center relative overflow-hidden`}

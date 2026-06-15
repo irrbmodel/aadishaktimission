@@ -8,6 +8,8 @@ const PillarsHorizontal = ({ isLoaded }) => {
   const [activeCategory, setActiveCategory] = useState('all')
   const contentRef = useRef(null)
   const headerRef = useRef(null)
+  const sectionRef = useRef(null)
+  const hasAnimatedRef = useRef(false)
 
   const categories = [
     { id: 'all', title: 'all programs', count: 30, desc: 'A holistic overview of our direct interventions addressing female literacy, diagnostic healthcare, vocational training, and environmental canopy protection across rural districts.' },
@@ -33,50 +35,80 @@ const PillarsHorizontal = ({ isLoaded }) => {
   // Smooth Category Switcher handler
   const handleCategoryChange = (newCat) => {
     if (newCat === activeCategory) return
-    setActiveCategory(newCat)
+    hasAnimatedRef.current = true
     
     const cards = contentRef.current.querySelectorAll('.project-card')
+    const headerTitle = headerRef.current.querySelector('h2')
+    const headerDesc = headerRef.current.querySelector('p')
     
-    // Step 1: Fade out existing cards
-    gsap.to(cards, {
-      opacity: 0,
-      y: -15,
-      scale: 0.96,
-      duration: 0.25,
-      stagger: 0.03,
-      ease: 'power2.in',
+    // Step 1: Fade out existing cards & header info
+    const tl = gsap.timeline({
       onComplete: () => {
-        // Step 2: Swap the projects in state
+        // Step 2: Swap the projects & category in state
+        setActiveCategory(newCat)
         const nextProjects = newCat === 'all' 
           ? projects 
           : projects.filter(proj => proj.category === newCat)
         setDisplayedProjects(nextProjects)
       }
     })
+
+    tl.to(cards, {
+      opacity: 0,
+      y: -15,
+      scale: 0.96,
+      duration: 0.25,
+      stagger: 0.02,
+      ease: 'power2.in'
+    }, 0)
+
+    tl.to([headerTitle, headerDesc], {
+      opacity: 0,
+      y: -10,
+      duration: 0.2,
+      stagger: 0.05,
+      ease: 'power2.in'
+    }, 0)
   }
 
-  // Step 3: Fade and stagger in new cards
+  // Step 3: Fade and stagger in new cards & header text after state update
   useEffect(() => {
     if (!isLoaded) return
+    // Guard: Only run this switcher animation if the initial scroll animation has finished
+    if (!hasAnimatedRef.current) return
 
     const cards = contentRef.current.querySelectorAll('.project-card')
+    const headerTitle = headerRef.current.querySelector('h2')
+    const headerDesc = headerRef.current.querySelector('p')
+    
     gsap.fromTo(cards,
-      { opacity: 0, y: 25, scale: 0.97 },
+      { opacity: 0, y: 20, scale: 0.97 },
       {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.5,
-        stagger: 0.05,
+        duration: 0.45,
+        stagger: 0.04,
         ease: 'power3.out',
         onComplete: () => {
           ScrollTrigger.refresh()
         }
       }
     )
+
+    gsap.fromTo([headerTitle, headerDesc],
+      { opacity: 0, y: 15 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: 'power3.out'
+      }
+    )
   }, [displayedProjects, isLoaded])
 
-  // Refresh ScrollTrigger and animate header on load
+  // Initial ScrollTrigger entrance animation on scroll
   useEffect(() => {
     if (!isLoaded) return
 
@@ -84,19 +116,44 @@ const PillarsHorizontal = ({ isLoaded }) => {
       ScrollTrigger.refresh()
     }, 200)
 
-    gsap.fromTo(headerRef.current,
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
+    const subtitle = sectionRef.current.querySelector('.subtitle-anim')
+    const headerTitle = headerRef.current.querySelector('h2')
+    const headerDesc = headerRef.current.querySelector('p')
+    const buttons = sectionRef.current.querySelectorAll('.tab-button')
+    const cards = contentRef.current.querySelectorAll('.project-card')
+
+    // Set initial states to zero opacity to prevent layout flash
+    gsap.set([subtitle, headerTitle, headerDesc, buttons, cards], { opacity: 0 })
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+        onComplete: () => {
+          hasAnimatedRef.current = true
         }
       }
+    })
+
+    tl.fromTo(subtitle,
+      { y: 15, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }
+    )
+    tl.fromTo([headerTitle, headerDesc],
+      { y: 25, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, stagger: 0.08, ease: 'power3.out' },
+      '-=0.4'
+    )
+    tl.fromTo(buttons,
+      { x: 20, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' },
+      '-=0.5'
+    )
+    tl.fromTo(cards,
+      { y: 35, opacity: 0, scale: 0.98 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.06, ease: 'power3.out' },
+      '-=0.4'
     )
 
     return () => clearTimeout(t)
@@ -104,12 +161,13 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
   return (
     <section 
+      ref={sectionRef}
       id="pillars" 
       className="relative w-full py-24 md:py-36 bg-brand-cream border-b border-brand-dark/5"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
         {/* Category section subtitle */}
-        <div className="mb-12 select-none">
+        <div className="subtitle-anim mb-12 select-none">
           <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey block">
             OUR DEPLOYMENTS
           </span>
@@ -137,7 +195,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
               <button
                 key={cat.id}
                 onClick={() => handleCategoryChange(cat.id)}
-                className={`font-sans text-xs font-extrabold tracking-wider uppercase py-3 px-4 cursor-pointer transition-all duration-300 relative group flex items-center justify-between w-full rounded-xl ${
+                className={`tab-button font-sans text-xs font-extrabold tracking-wider uppercase py-3 px-4 cursor-pointer transition-all duration-300 relative group flex items-center justify-between w-full rounded-xl ${
                   activeCategory === cat.id 
                     ? 'text-brand-red bg-brand-red/5' 
                     : 'text-brand-dark hover:text-brand-red hover:bg-brand-dark/5'
