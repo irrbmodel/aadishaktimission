@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const Hero = () => {
+const Hero = ({ onLoaded }) => {
   const containerRef = useRef(null)
   const bannerRef = useRef(null)
   const titleContainerRef = useRef(null)
@@ -20,6 +20,7 @@ const Hero = () => {
     const loaderTimeline = gsap.timeline({
       onComplete: () => {
         setIsLoaded(true)
+        if (onLoaded) onLoaded()
         // Slide out loader
         gsap.to(loaderRef.current, {
           y: '-100%',

@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const PillarsHorizontal = () => {
+const PillarsHorizontal = ({ isLoaded }) => {
   const [activeCategory, setActiveCategory] = useState('all')
   const contentRef = useRef(null)
   const headerRef = useRef(null)
@@ -18,43 +18,74 @@ const PillarsHorizontal = () => {
   ]
 
   const projects = [
-    { id: 1, title: 'Village Learning Hubs', category: 'education', subtitle: 'Primary Literacy', image: '/shakti_shiksha.png' },
-    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/arogya_shakti.png' },
-    { id: 3, title: 'Weaving Autonomy Labs', category: 'livelihood', subtitle: 'Vocational Training', image: '/swayam_shakti.png' },
-    { id: 4, title: 'Native Canopy Campaigns', category: 'conservation', subtitle: 'Afforestation', image: '/prakriti_shakti.png' },
-    { id: 5, title: 'Digital Shakti Hubs', category: 'education', subtitle: 'Computer Literacy', image: '/swayam_shakti.png' },
-    { id: 6, title: 'Maternal Nutrition Camps', category: 'health', subtitle: 'Maternal Diagnostics', image: '/arogya_shakti.png' }
+    { id: 1, title: 'Village Learning Hubs', category: 'education', subtitle: 'Primary Literacy', image: '/shakti_shiksha.png', location: 'Sundarbans Delta', impact: '500+ Rural Girls', status: 'Active Hub' },
+    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/arogya_shakti.png', location: 'Purulia District', impact: '1,200+ Patients', status: 'Ongoing Camp' },
+    { id: 3, title: 'Weaving Autonomy Labs', category: 'livelihood', subtitle: 'Vocational Training', image: '/swayam_shakti.png', location: 'Maldah Border', impact: '80+ Rural Artisans', status: 'Active Lab' },
+    { id: 4, title: 'Native Canopy Campaigns', category: 'conservation', subtitle: 'Afforestation', image: '/prakriti_shakti.png', location: 'Bankura Forest', impact: '5,000+ Saplings', status: 'Annual Drive' },
+    { id: 5, title: 'Digital Shakti Hubs', category: 'education', subtitle: 'Computer Literacy', image: '/swayam_shakti.png', location: 'Kalimpong Hills', impact: '250+ Students', status: 'Active Hub' },
+    { id: 6, title: 'Maternal Nutrition Camps', category: 'health', subtitle: 'Maternal Diagnostics', image: '/arogya_shakti.png', location: 'Birbhum Villages', impact: '450+ Mothers', status: 'Ongoing Camp' }
   ]
 
-  const activeInfo = categories.find(cat => cat.id === activeCategory)
-  const filteredProjects = activeCategory === 'all' 
-    ? projects 
-    : projects.filter(proj => proj.category === activeCategory)
+  const [displayedProjects, setDisplayedProjects] = useState(projects)
 
-  // GSAP transition when category changes
+  const activeInfo = categories.find(cat => cat.id === activeCategory)
+
+  // Smooth Category Switcher handler
+  const handleCategoryChange = (newCat) => {
+    if (newCat === activeCategory) return
+    setActiveCategory(newCat)
+    
+    const cards = contentRef.current.querySelectorAll('.project-card')
+    
+    // Step 1: Fade out existing cards
+    gsap.to(cards, {
+      opacity: 0,
+      y: -15,
+      scale: 0.96,
+      duration: 0.25,
+      stagger: 0.03,
+      ease: 'power2.in',
+      onComplete: () => {
+        // Step 2: Swap the projects in state
+        const nextProjects = newCat === 'all' 
+          ? projects 
+          : projects.filter(proj => proj.category === newCat)
+        setDisplayedProjects(nextProjects)
+      }
+    })
+  }
+
+  // Step 3: Fade and stagger in new cards
   useEffect(() => {
-    gsap.fromTo(contentRef.current,
-      { opacity: 0, y: 15 },
-      { 
-        opacity: 1, 
-        y: 0, 
-        duration: 0.5, 
-        ease: 'power2.out',
+    if (!isLoaded) return
+
+    const cards = contentRef.current.querySelectorAll('.project-card')
+    gsap.fromTo(cards,
+      { opacity: 0, y: 25, scale: 0.97 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: 'power3.out',
         onComplete: () => {
           ScrollTrigger.refresh()
         }
       }
     )
-  }, [activeCategory])
+  }, [displayedProjects, isLoaded])
 
-  // Refresh on initial layout settlement & animate header reveal
+  // Refresh ScrollTrigger and animate header on load
   useEffect(() => {
+    if (!isLoaded) return
+
     const t = setTimeout(() => {
       ScrollTrigger.refresh()
     }, 200)
 
     gsap.fromTo(headerRef.current,
-      { y: 50, opacity: 0 },
+      { y: 40, opacity: 0 },
       {
         y: 0,
         opacity: 1,
@@ -69,7 +100,7 @@ const PillarsHorizontal = () => {
     )
 
     return () => clearTimeout(t)
-  }, [])
+  }, [isLoaded])
 
   return (
     <section 
@@ -78,7 +109,7 @@ const PillarsHorizontal = () => {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
         {/* Category section subtitle */}
-        <div className="mb-16 select-none">
+        <div className="mb-12 select-none">
           <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey block">
             OUR DEPLOYMENTS
           </span>
@@ -91,7 +122,7 @@ const PillarsHorizontal = () => {
           <div ref={headerRef} className="lg:col-span-8 flex flex-col items-start gap-4">
             <h2 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tight uppercase leading-none">
               {activeInfo.title}
-              <span className="align-super text-xs font-sans text-brand-red ml-3">
+              <span className="align-super text-xs font-sans text-brand-red ml-3 font-bold font-display">
                 {activeInfo.count}
               </span>
             </h2>
@@ -101,22 +132,31 @@ const PillarsHorizontal = () => {
           </div>
 
           {/* Right Column: Tab Trigger Buttons */}
-          <div className="lg:col-span-4 flex flex-col items-start gap-2 border-l border-brand-dark/10 pl-6 md:pl-8">
+          <div className="lg:col-span-4 flex flex-col items-start gap-2 border-l border-brand-dark/10 pl-6 md:pl-8 w-full">
             {categories.map((cat) => (
               <button
                 key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`font-sans text-xs font-bold tracking-wider uppercase py-2 cursor-pointer transition-all duration-300 relative group flex items-center justify-between w-full ${
-                  activeCategory === cat.id ? 'text-brand-red' : 'text-brand-dark hover:text-brand-red'
+                onClick={() => handleCategoryChange(cat.id)}
+                className={`font-sans text-xs font-extrabold tracking-wider uppercase py-3 px-4 cursor-pointer transition-all duration-300 relative group flex items-center justify-between w-full rounded-xl ${
+                  activeCategory === cat.id 
+                    ? 'text-brand-red bg-brand-red/5' 
+                    : 'text-brand-dark hover:text-brand-red hover:bg-brand-dark/5'
                 }`}
                 data-cursor="pointer"
               >
-                <span>{cat.title}</span>
-                <span className="text-[10px] text-brand-grey font-normal font-display">({cat.count})</span>
-                {/* Underline anchor */}
-                <span className={`absolute bottom-0 left-0 h-px bg-brand-red transition-all duration-300 ${
-                  activeCategory === cat.id ? 'w-full' : 'w-0 group-hover:w-full'
-                }`} />
+                <span className="relative z-10 flex items-center gap-2">
+                  {activeCategory === cat.id && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-red" />
+                  )}
+                  {cat.title}
+                </span>
+                <span className="text-[10px] text-brand-grey font-bold font-display relative z-10">
+                  {cat.count}
+                </span>
+                {/* Active marker accent bar */}
+                {activeCategory === cat.id && (
+                  <span className="absolute left-0 top-0 bottom-0 w-[3.5px] bg-brand-red rounded-r" />
+                )}
               </button>
             ))}
           </div>
@@ -126,34 +166,61 @@ const PillarsHorizontal = () => {
         {/* Dynamic Cards Grid */}
         <div 
           ref={contentRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[420px]"
         >
-          {filteredProjects.map((proj) => (
+          {displayedProjects.map((proj) => (
             <div 
               key={proj.id}
-              className="group flex flex-col rounded-3xl overflow-hidden border border-brand-dark/5 bg-brand-white shadow-lg transition-all duration-500 hover:-translate-y-1 hover:border-brand-red/25"
+              className="project-card group flex flex-col justify-between rounded-3xl overflow-hidden border border-brand-dark/5 bg-brand-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.01)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(155,0,0,0.06)] hover:border-brand-red/20"
             >
-              {/* Cover image area */}
+              {/* Image & Overlay Badges */}
               <div 
                 className="relative aspect-4/3 w-full overflow-hidden"
                 data-cursor="view"
               >
-                <div className="absolute inset-0 bg-brand-dark/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute inset-0 bg-brand-dark/15 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                
+                {/* Floating Status Badges */}
+                <div className="absolute top-4 left-4 z-20 flex gap-2">
+                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase bg-brand-white/95 text-brand-dark shadow-sm border border-brand-dark/5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
+                    {proj.status}
+                  </span>
+                </div>
+
+                <div className="absolute top-4 right-4 z-20">
+                  <span className="px-3 py-1.5 rounded-full text-[9px] font-bold tracking-wider uppercase bg-brand-dark/80 text-brand-cream backdrop-blur-sm border border-white/10">
+                    {proj.location}
+                  </span>
+                </div>
+
                 <img 
                   src={proj.image} 
                   alt={proj.title} 
-                  className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
+                  className="w-full h-full object-cover scale-100 group-hover:scale-108 transition-transform duration-700 pointer-events-none"
                 />
               </div>
 
-              {/* Text Area */}
-              <div className="p-6 md:p-8 flex flex-col items-start justify-between">
-                <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-widest">
-                  {proj.subtitle}
-                </span>
-                <h3 className="font-serif text-xl md:text-2xl text-brand-dark mt-2 tracking-tight group-hover:text-brand-red transition-colors">
-                  {proj.title}
-                </h3>
+              {/* Text / Impact Area */}
+              <div className="p-6 md:p-8 flex flex-col flex-grow justify-between">
+                <div>
+                  <span className="font-sans text-[10px] font-extrabold text-brand-red uppercase tracking-widest">
+                    {proj.subtitle}
+                  </span>
+                  <h3 className="font-serif text-xl md:text-2xl text-brand-dark mt-2 tracking-tight group-hover:text-brand-red transition-colors duration-300">
+                    {proj.title}
+                  </h3>
+                </div>
+
+                {/* Impact Row */}
+                <div className="border-t border-brand-dark/5 pt-4 mt-6 flex items-center justify-between w-full">
+                  <span className="font-sans text-[10px] font-bold text-brand-grey uppercase tracking-wider">
+                    Impact
+                  </span>
+                  <span className="font-sans text-xs font-bold text-brand-dark font-display">
+                    {proj.impact}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
@@ -165,3 +232,4 @@ const PillarsHorizontal = () => {
 }
 
 export default PillarsHorizontal
+

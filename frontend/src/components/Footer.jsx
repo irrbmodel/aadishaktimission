@@ -39,7 +39,8 @@ const Footer = () => {
               { label: 'about us', id: 'philosophy' },
               { label: 'our programs', id: 'pillars' },
               { label: 'our values', id: 'journey' },
-              { label: 'meet the team', id: 'donation-impact' }
+              { label: 'meet the team', id: 'team' },
+              { label: 'contribute', id: 'donation-impact' }
             ].map((link) => (
               <a
                 key={link.label}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -11,6 +11,7 @@ import Hero from './components/Hero'
 import Philosophy from './components/Philosophy'
 import PillarsHorizontal from './components/PillarsHorizontal'
 import JourneyTimeline from './components/JourneyTimeline'
+import Team from './components/Team'
 import DonationImpact from './components/DonationImpact'
 import Footer from './components/Footer'
 
@@ -18,6 +19,8 @@ import Footer from './components/Footer'
 gsap.registerPlugin(ScrollTrigger)
 
 const App = () => {
+  const [isLoaded, setIsLoaded] = useState(false)
+
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with premium physics settings
     const lenis = new Lenis({
@@ -42,18 +45,31 @@ const App = () => {
     gsap.ticker.lagSmoothing(0)
 
     // Refresh GSAP on Lenis updates (forces recalcs on layout reflows)
-    const handleRefresh = () => lenis.resize()
+    const handleRefresh = () => {
+      ScrollTrigger.sort()
+      lenis.resize()
+    }
     ScrollTrigger.addEventListener('refresh', handleRefresh)
 
     // 3. Clear/Refresh ScrollTrigger configurations after layout settlement
     const handleLoad = () => {
+      ScrollTrigger.sort()
       ScrollTrigger.refresh()
     }
     window.addEventListener('load', handleLoad)
 
-    const t1 = setTimeout(() => ScrollTrigger.refresh(), 200)
-    const t2 = setTimeout(() => ScrollTrigger.refresh(), 1000)
-    const t3 = setTimeout(() => ScrollTrigger.refresh(), 2500)
+    const t1 = setTimeout(() => {
+      ScrollTrigger.sort()
+      ScrollTrigger.refresh()
+    }, 200)
+    const t2 = setTimeout(() => {
+      ScrollTrigger.sort()
+      ScrollTrigger.refresh()
+    }, 1000)
+    const t3 = setTimeout(() => {
+      ScrollTrigger.sort()
+      ScrollTrigger.refresh()
+    }, 2500)
 
     // Cleanup on unmount
     return () => {
@@ -80,11 +96,12 @@ const App = () => {
 
       {/* Main Content Sections */}
       <main className="relative z-10 w-full overflow-hidden">
-        <Hero />
-        <Philosophy />
-        <PillarsHorizontal />
-        <JourneyTimeline />
-        <DonationImpact />
+        <Hero onLoaded={() => setIsLoaded(true)} />
+        <Philosophy isLoaded={isLoaded} />
+        <PillarsHorizontal isLoaded={isLoaded} />
+        <JourneyTimeline isLoaded={isLoaded} />
+        <Team isLoaded={isLoaded} />
+        <DonationImpact isLoaded={isLoaded} />
       </main>
 
       {/* Footer Section */}

@@ -4,11 +4,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const Philosophy = () => {
+const Philosophy = ({ isLoaded }) => {
   const containerRef = useRef(null)
   const paragraphRef = useRef(null)
   const sliderRef = useRef(null)
   const subHeadingRef = useRef(null)
+  const bgDivRef = useRef(null)
+  const videoContainerRef = useRef(null)
+  const descTextRef = useRef(null)
 
   const [isVideoOpen, setIsVideoOpen] = useState(false)
   const [sliderIndex, setSliderIndex] = useState(0)
@@ -25,6 +28,8 @@ const Philosophy = () => {
 
   // 1. Word Scroll Colorizer & Subheading Slide-Up Animation
   useEffect(() => {
+    if (!isLoaded) return
+
     const words = paragraphRef.current.querySelectorAll('.reveal-word')
     
     gsap.fromTo(words,
@@ -78,14 +83,66 @@ const Philosophy = () => {
       }
     )
 
+    // Background Parallax Divider Card
+    gsap.fromTo(bgDivRef.current,
+      { y: -70 },
+      {
+        y: 70,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      }
+    )
+
+    // Video Container Floating Parallax
+    gsap.fromTo(videoContainerRef.current,
+      { y: 50 },
+      {
+        y: -50,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: videoContainerRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      }
+    )
+
+    // Description text slide-up reveal
+    gsap.fromTo(descTextRef.current,
+      { y: 35, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: descTextRef.current,
+          start: 'top 88%',
+          toggleActions: 'play none none none'
+        }
+      }
+    )
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.trigger === paragraphRef.current || trigger.vars.trigger === subHeading) {
+        if (
+          trigger.vars.trigger === paragraphRef.current || 
+          trigger.vars.trigger === subHeading ||
+          trigger.vars.trigger === containerRef.current ||
+          trigger.vars.trigger === videoContainerRef.current ||
+          trigger.vars.trigger === descTextRef.current
+        ) {
           trigger.kill()
         }
       })
     }
-  }, [])
+  }, [isLoaded])
 
   // 2. Custom GSAP Slider Transition
   const handlePrev = () => {
@@ -128,6 +185,13 @@ const Philosophy = () => {
     >
       {/* Subtle background blob */}
       <div className="absolute glowing-blob w-[400px] h-[400px] bg-brand-red/5 top-[20%] left-[5%] opacity-15" />
+
+      {/* Background Parallax Card (Septiembre style) */}
+      <div 
+        ref={bgDivRef}
+        className="absolute left-0 right-0 w-full h-[50%] bg-brand-white border-y border-brand-dark/5 z-0"
+        style={{ top: '35%' }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         {/* About Section Header */}
@@ -180,13 +244,17 @@ const Philosophy = () => {
                   )
                 })}
               </h3>
-              <p className="font-sans text-sm md:text-base text-brand-grey leading-relaxed max-w-md font-light">
+              <p 
+                ref={descTextRef}
+                className="font-sans text-sm md:text-base text-brand-grey leading-relaxed max-w-md font-light"
+              >
                 We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.
               </p>
             </div>
 
             {/* Video container */}
             <div 
+              ref={videoContainerRef}
               onClick={() => setIsVideoOpen(true)}
               className="relative aspect-video w-full rounded-3xl overflow-hidden mt-8 border border-brand-dark/5 shadow-2xl cursor-pointer group"
               data-cursor="play"

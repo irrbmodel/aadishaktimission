@@ -68,8 +68,9 @@ const Navbar = () => {
     { label: 'about us', id: 'philosophy' },
     { label: 'our programs', id: 'pillars' },
     { label: 'our values', id: 'journey' },
-    { label: 'meet the team', id: 'donation-impact' },
-    { label: 'contribute / contact', id: 'footer' }
+    { label: 'meet the team', id: 'team' },
+    { label: 'contribute', id: 'donation-impact' },
+    { label: 'contact', id: 'footer' }
   ]
 
   return (
