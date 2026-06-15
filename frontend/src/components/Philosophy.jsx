@@ -8,6 +8,7 @@ const Philosophy = () => {
   const containerRef = useRef(null)
   const paragraphRef = useRef(null)
   const sliderRef = useRef(null)
+  const subHeadingRef = useRef(null)
 
   const [isVideoOpen, setIsVideoOpen] = useState(false)
   const [sliderIndex, setSliderIndex] = useState(0)
@@ -22,7 +23,7 @@ const Philosophy = () => {
     { src: '/prakriti_shakti.png', title: 'Prakriti Shakti Afforestation Drive' }
   ]
 
-  // 1. Word Scroll Colorizer Animation
+  // 1. Word Scroll Colorizer & Subheading Slide-Up Animation
   useEffect(() => {
     const words = paragraphRef.current.querySelectorAll('.reveal-word')
     
@@ -59,9 +60,27 @@ const Philosophy = () => {
       }
     })
 
+    // Subheading word slide-up reveal
+    const subHeading = subHeadingRef.current
+    const subWords = subHeading.querySelectorAll('.reveal-word-up')
+    gsap.fromTo(subWords,
+      { yPercent: 100 },
+      {
+        yPercent: 0,
+        stagger: 0.03,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: subHeading,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      }
+    )
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.trigger === paragraphRef.current) {
+        if (trigger.vars.trigger === paragraphRef.current || trigger.vars.trigger === subHeading) {
           trigger.kill()
         }
       })
@@ -141,8 +160,25 @@ const Philosophy = () => {
           {/* Column 1: Video Card */}
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div className="flex flex-col gap-6">
-              <h3 className="font-serif text-3xl sm:text-4xl text-brand-dark max-w-lg leading-tight">
-                Evoking <span className="font-sans font-black italic text-brand-red">transformative change</span> that honors contextual integrity.
+              <h3 
+                ref={subHeadingRef}
+                className="font-serif text-3xl sm:text-4xl text-brand-dark max-w-lg leading-tight"
+              >
+                {"Evoking transformative change that honors contextual integrity.".split(' ').map((word, idx) => {
+                  const cleaned = word.replace(/[^a-zA-Z]/g, '')
+                  if (cleaned === 'transformative' || cleaned === 'change') {
+                    return (
+                      <span key={idx} className="inline-block overflow-hidden pb-1 mr-2">
+                        <span className="reveal-word-up inline-block font-sans font-black italic text-brand-red">{word}</span>
+                      </span>
+                    )
+                  }
+                  return (
+                    <span key={idx} className="inline-block overflow-hidden pb-1 mr-2">
+                      <span className="reveal-word-up inline-block">{word}</span>
+                    </span>
+                  )
+                })}
               </h3>
               <p className="font-sans text-sm md:text-base text-brand-grey leading-relaxed max-w-md font-light">
                 We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.

@@ -77,7 +77,7 @@ const Navbar = () => {
       <header 
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 py-6 px-6 md:px-12 ${
           isScrolled 
-            ? 'bg-brand-cream/95 backdrop-blur-sm border-b border-brand-dark/5 py-4 shadow-xs' 
+            ? 'bg-transparent backdrop-blur-sm border-b border-brand-dark/5 py-4' 
             : 'bg-transparent py-7'
         }`}
       >
@@ -137,10 +137,10 @@ const Navbar = () => {
                   ref={(el) => (linksRef.current[index] = el)}
                   href={`#${item.id}`}
                   onClick={(e) => handleNavClick(e, item.id)}
-                  className="inline-block font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-tight hover:text-brand-red hover:translate-x-2 transition-all duration-300 cursor-pointer"
+                  className="btn-underline font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-tight cursor-pointer"
                   data-cursor="pointer"
                 >
-                  {item.label}
+                  <span data-letter={item.label}>{item.label}</span>
                 </a>
               </li>
             ))}

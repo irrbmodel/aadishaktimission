@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 const PillarsHorizontal = () => {
   const [activeCategory, setActiveCategory] = useState('all')
   const contentRef = useRef(null)
+  const headerRef = useRef(null)
 
   const categories = [
     { id: 'all', title: 'all programs', count: 30, desc: 'A holistic overview of our direct interventions addressing female literacy, diagnostic healthcare, vocational training, and environmental canopy protection across rural districts.' },
@@ -46,11 +47,27 @@ const PillarsHorizontal = () => {
     )
   }, [activeCategory])
 
-  // Refresh on initial layout settlement
+  // Refresh on initial layout settlement & animate header reveal
   useEffect(() => {
     const t = setTimeout(() => {
       ScrollTrigger.refresh()
     }, 200)
+
+    gsap.fromTo(headerRef.current,
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      }
+    )
+
     return () => clearTimeout(t)
   }, [])
 
@@ -71,7 +88,7 @@ const PillarsHorizontal = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
           
           {/* Left Column: Big Category Header */}
-          <div className="lg:col-span-8 flex flex-col items-start gap-4">
+          <div ref={headerRef} className="lg:col-span-8 flex flex-col items-start gap-4">
             <h2 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tight uppercase leading-none">
               {activeInfo.title}
               <span className="align-super text-xs font-sans text-brand-red ml-3">

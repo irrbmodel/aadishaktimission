@@ -178,10 +178,10 @@ const Hero = () => {
           ref={titleContainerRef}
           className="absolute z-10 flex flex-col items-center text-center select-none pointer-events-none"
         >
-          <span className="font-serif text-[10vw] md:text-[8vw] text-brand-dark leading-[0.9] tracking-tight">
+          <span className="font-serif text-[10vw] md:text-[8vw] text-brand-white leading-[0.9] tracking-tight">
             Aadi Shakti.
           </span>
-          <span className="font-sans text-xs md:text-sm font-bold tracking-[0.4em] text-brand-grey uppercase mt-2">
+          <span className="font-sans text-xs md:text-sm font-bold tracking-[0.4em] text-brand-white/60 uppercase mt-2">
             empowering change from the roots
           </span>
         </div>
@@ -195,7 +195,7 @@ const Hero = () => {
           {/* Overlay mask */}
           <div className="absolute inset-0 bg-brand-dark/20 z-10" />
           <img 
-            src="/hero_cosmic_energy.png" 
+            src="/hero_empower.png" 
             alt="NGO Activism" 
             className="w-full h-full object-cover"
           />

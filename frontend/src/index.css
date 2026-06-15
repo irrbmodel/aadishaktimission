@@ -115,3 +115,27 @@ h1, h2, h3, h4, h5, h6 {
 .z-9999 {
   z-index: 9999;
 }
+
+/* Premium Menu Underline / Letter Slide Hover Effect */
+.btn-underline {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.btn-underline span {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.btn-underline span::after {
+  content: attr(data-letter);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  display: block;
+  color: var(--color-brand-red);
+}
+.btn-underline:hover span {
+  transform: translateY(-100%);
+}
