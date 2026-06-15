@@ -136,25 +136,25 @@ const Hero = ({ onLoaded }) => {
       title: 'Shakti Shiksha',
       subtitle: 'Primary Education',
       desc: 'Securing quality standard learning resources and scholarships for girls in underserved villages.',
-      pos: 'top-1/4 left-8 md:left-16 lg:left-24'
+      pos: 'top-[12%] left-3 sm:left-8 md:left-16 lg:left-24'
     },
     {
       title: 'Arogya Shakti',
       subtitle: 'Healthcare Access',
       desc: 'Conducting rural diagnostic camps, sanitation workshops, and clean water filtration installs.',
-      pos: 'top-[35%] right-8 md:right-16 lg:right-24'
+      pos: 'top-[28%] right-3 sm:right-8 md:right-16 lg:right-24'
     },
     {
       title: 'Swayam Shakti',
       subtitle: 'Self-Reliance & Skills',
       desc: 'Providing vocational training in local crafts and micro-capital entrepreneurship grants.',
-      pos: 'bottom-[15%] left-8 md:left-16 lg:left-32'
+      pos: 'bottom-[18%] left-3 sm:left-8 md:left-16 lg:left-32'
     },
     {
       title: 'Prakriti Shakti',
       subtitle: 'Environmental Drives',
       desc: 'Sustaining communities with native afforestation drives and local solar energy grids.',
-      pos: 'bottom-[20%] right-8 md:right-16 lg:right-32'
+      pos: 'bottom-[8%] right-3 sm:right-8 md:right-16 lg:right-32'
     }
   ]
 
@@ -242,15 +242,15 @@ const Hero = ({ onLoaded }) => {
           <div 
             key={item.title}
             ref={(el) => (cardsRef.current[idx] = el)}
-            className={`absolute z-20 ${item.pos} hidden md:flex flex-col p-6 rounded-2xl bg-brand-white border border-brand-dark/5 shadow-xl max-w-[280px] group transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30`}
+            className={`absolute z-20 ${item.pos} flex flex-col p-3 xs:p-4 md:p-6 rounded-2xl bg-brand-white border border-brand-dark/5 shadow-xl max-w-[150px] xs:max-w-[180px] sm:max-w-[220px] md:max-w-[280px] group transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30`}
           >
-            <span className="text-[10px] font-bold text-brand-red uppercase tracking-wider">
+            <span className="text-[8px] xs:text-[9px] md:text-[10px] font-bold text-brand-red uppercase tracking-wider">
               {item.subtitle}
             </span>
-            <h3 className="font-serif text-lg text-brand-dark font-semibold mt-2 group-hover:text-brand-red transition-colors">
+            <h3 className="font-serif text-xs xs:text-sm md:text-lg text-brand-dark font-semibold mt-1 md:mt-2 group-hover:text-brand-red transition-colors">
               {item.title}
             </h3>
-            <p className="font-sans text-xs text-brand-grey/95 mt-2 leading-relaxed font-light">
+            <p className="font-sans text-[10px] xs:text-xs text-brand-grey/95 mt-1 md:mt-2 leading-relaxed font-light line-clamp-3 xs:line-clamp-none">
               {item.desc}
             </p>
           </div>
