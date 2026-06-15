@@ -88,7 +88,7 @@ const Footer = () => {
               CONTACT
             </h3>
             <div className="font-sans text-xs text-brand-dark leading-relaxed flex flex-col gap-2.5 font-light">
-              <span>📍 Sector 12, Noida, Uttar Pradesh, 201301</span>
+              <span>📍 Dehradun, Uttarakhand</span>
               <span>📧 connect@aadishaktimission.org</span>
               <span>📞 +91 98765 43210</span>
             </div>
