@@ -92,7 +92,7 @@ const App = () => {
       </div>
 
       {/* Navigation Header */}
-      <Navbar />
+      <Navbar isLoaded={isLoaded} />
 
       {/* Main Content Sections */}
       <main className="relative z-10 w-full overflow-hidden">

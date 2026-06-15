@@ -32,10 +32,28 @@ const Philosophy = ({ isLoaded }) => {
 
     const words = paragraphRef.current.querySelectorAll('.reveal-word')
     
+    const keywords = ['Aadi Shakti Mission', 'social, economic, and ecological', 'rural transformation', 'human empowerment']
+
     gsap.fromTo(words,
-      { color: 'rgba(0, 0, 0, 0.08)' },
+      { 
+        color: 'rgba(0, 0, 0, 0.08)',
+        fontWeight: '400'
+      },
       {
-        color: '#000000',
+        color: (index, target) => {
+          const text = target.textContent.trim()
+          if (keywords.some(k => k.includes(text) && text.length > 3)) {
+            return '#9B0000'
+          }
+          return '#000000'
+        },
+        fontWeight: (index, target) => {
+          const text = target.textContent.trim()
+          if (keywords.some(k => k.includes(text) && text.length > 3)) {
+            return '700'
+          }
+          return '400'
+        },
         stagger: 0.05,
         ease: 'none',
         scrollTrigger: {
@@ -46,24 +64,6 @@ const Philosophy = ({ isLoaded }) => {
         }
       }
     )
-
-    // Highlight specific key terms in brand red
-    const keywords = ['Aadi Shakti Mission', 'social, economic, and ecological', 'rural transformation', 'human empowerment']
-    words.forEach(span => {
-      const text = span.textContent.trim()
-      if (keywords.some(k => k.includes(text) && text.length > 3)) {
-        gsap.to(span, {
-          scrollTrigger: {
-            trigger: span,
-            start: 'top 70%',
-            end: 'bottom 40%',
-            scrub: true,
-          },
-          color: '#9B0000',
-          fontWeight: '700'
-        })
-      }
-    })
 
     // Subheading word slide-up reveal
     const subHeading = subHeadingRef.current

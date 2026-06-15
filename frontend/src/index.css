@@ -100,16 +100,32 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0.12;
-  mix-blend-mode: multiply;
   pointer-events: none;
   animation: float-blob 25s infinite alternate ease-in-out;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 @keyframes float-blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  50% { transform: translate(40px, -60px) scale(1.1); }
-  100% { transform: translate(-30px, 30px) scale(0.95); }
+  0% { transform: translate3d(0px, 0px, 0px) scale(1); }
+  50% { transform: translate3d(40px, -60px, 0px) scale(1.1); }
+  100% { transform: translate3d(-30px, 30px, 0px) scale(0.95); }
 }
+
+/* GPU Hardware Acceleration for Smooth Scroll Animations */
+.panel-img,
+.project-card,
+.concept-panel,
+.timeline-progress-bar,
+.reveal-word,
+.slider-img-item {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 
 /* Z-Index helpers */
 .z-9999 {

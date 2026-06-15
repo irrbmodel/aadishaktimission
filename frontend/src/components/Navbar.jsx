@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
-const Navbar = () => {
+const Navbar = ({ isLoaded }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const menuRef = useRef(null)
@@ -76,7 +76,9 @@ const Navbar = () => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 py-6 px-6 md:px-12 ${
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 py-6 px-6 md:px-12 ${
+          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+        } ${
           isScrolled 
             ? 'bg-transparent backdrop-blur-sm border-b border-brand-dark/5 py-4' 
             : 'bg-transparent py-7'

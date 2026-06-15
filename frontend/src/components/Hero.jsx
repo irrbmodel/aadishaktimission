@@ -14,17 +14,24 @@ const Hero = ({ onLoaded }) => {
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
 
-  // 1. Simulation of Loader Progress
+  // 1. Simulation of Loader Progress with Aesthetic Text Reveals
   useEffect(() => {
     const progressVal = { val: 0 }
+
+    // Slide up text elements on load
+    gsap.fromTo('.loader-reveal-text', 
+      { yPercent: 105, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 1.2, ease: 'power4.out', stagger: 0.15 }
+    )
+
     const loaderTimeline = gsap.timeline({
       onComplete: () => {
         setIsLoaded(true)
         if (onLoaded) onLoaded()
-        // Slide out loader
+        // Slide out loader overlay
         gsap.to(loaderRef.current, {
           y: '-100%',
-          duration: 1,
+          duration: 1.2,
           ease: 'power4.inOut',
           onComplete: () => {
             if (loaderRef.current) {
@@ -37,7 +44,7 @@ const Hero = ({ onLoaded }) => {
 
     loaderTimeline.to(progressVal, {
       val: 100,
-      duration: 2.2,
+      duration: 2.4,
       ease: 'power2.out',
       onUpdate: () => {
         setLoadingProgress(Math.floor(progressVal.val))
@@ -156,15 +163,33 @@ const Hero = ({ onLoaded }) => {
       {/* 1. Preloader Overlay */}
       <div 
         ref={loaderRef}
-        className="fixed inset-0 w-full h-full bg-brand-cream flex flex-col justify-center items-center z-9999"
+        className="fixed inset-0 w-full h-full bg-brand-cream flex flex-col justify-center items-center z-9999 select-none pointer-events-none"
       >
-        <div className="flex flex-col items-center gap-4">
-          <span className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tight animate-pulse">
-            Aadi Shakti.
-          </span>
-          <div className="font-sans text-xs font-bold tracking-[0.2em] text-brand-grey uppercase">
-            <span>LOADING PROGRESS</span>
-            <span className="ml-2 font-display text-brand-red">{loadingProgress} %</span>
+        <div className="flex flex-col items-center">
+          {/* Logo / Title with Mask Overflow Reveal */}
+          <div className="overflow-hidden mb-2 py-2">
+            <span className="loader-reveal-text block font-serif text-5xl md:text-7xl text-brand-dark tracking-tight leading-none">
+              Aadi Shakti.
+            </span>
+          </div>
+
+          <div className="overflow-hidden mb-6 py-1">
+            <span className="loader-reveal-text block font-sans text-[9px] font-bold tracking-[0.35em] text-brand-grey uppercase">
+              rural transformation mission
+            </span>
+          </div>
+
+          {/* Sleek Centered Progress Bar */}
+          <div className="w-48 h-[1.5px] bg-brand-dark/5 relative rounded-full overflow-hidden mt-2">
+            <div 
+              className="absolute left-0 top-0 h-full bg-brand-red transition-all duration-100 ease-out"
+              style={{ width: `${loadingProgress}%` }}
+            />
+          </div>
+
+          {/* Percentage Counter */}
+          <div className="font-display text-[10px] font-bold tracking-[0.2em] text-brand-red mt-4">
+            {loadingProgress} %
           </div>
         </div>
       </div>
