@@ -13,6 +13,7 @@ import PillarsHorizontal from './components/PillarsHorizontal'
 import JourneyTimeline from './components/JourneyTimeline'
 import Team from './components/Team'
 import DonationImpact from './components/DonationImpact'
+import BecomeMember from './components/BecomeMember'
 import Footer from './components/Footer'
 
 // Register GSAP ScrollTrigger
@@ -101,6 +102,7 @@ const App = () => {
         <PillarsHorizontal isLoaded={isLoaded} />
         <JourneyTimeline isLoaded={isLoaded} />
         <Team isLoaded={isLoaded} />
+        <BecomeMember isLoaded={isLoaded} />
         <DonationImpact isLoaded={isLoaded} />
       </main>
 

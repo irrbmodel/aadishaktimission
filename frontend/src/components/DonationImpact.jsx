@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const DonationImpact = ({ isLoaded }) => {
-  const [donationAmount, setDonationAmount] = useState(35)
+  const [donationAmount, setDonationAmount] = useState(100)
   const [customAmount, setCustomAmount] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('general')
   const [paymentStep, setPaymentStep] = useState('input') // 'input', 'processing', 'success'
@@ -17,7 +17,7 @@ const DonationImpact = ({ isLoaded }) => {
   const terminalRef = useRef(null)
   const headerRef = useRef(null)
 
-  const presets = [15, 35, 75, 150]
+  const presets = [100, 5000, 10000, 100000]
 
   const categories = [
     { id: 'general', title: 'General Operations', desc: 'Directs resources dynamically to where field teams indicate the highest immediate urgency.' },
@@ -30,16 +30,16 @@ const DonationImpact = ({ isLoaded }) => {
   // Impact description mapping based on selected amounts
   const getImpactDescription = (amount) => {
     if (amount <= 0) return 'Please select or enter an amount to see the impact of your contribution.'
-    if (amount < 25) {
-      return `A donation of $${amount} supplies learning kits, primary school notebooks, and writing materials to a rural girl child for an entire month.`
-    } else if (amount < 50) {
-      return `A donation of $${amount} funds a comprehensive medical diagnostic screening and sanitary health distribution pack for a rural mother.`
-    } else if (amount < 100) {
-      return `A donation of $${amount} provides full vocational tailoring training modules and a starter tool kit for a female entrepreneur.`
-    } else if (amount < 200) {
-      return `A donation of $${amount} installs a dual-stage clean water filter unit or buys 25 native tree saplings with protective cages for community conservation.`
+    if (amount < 500) {
+      return `A donation of ₹${amount} supplies learning kits, primary school notebooks, and writing materials to a rural girl child for an entire month.`
+    } else if (amount < 1000) {
+      return `A donation of ₹${amount} funds a comprehensive medical diagnostic screening and sanitary health distribution pack for a rural mother.`
+    } else if (amount < 2500) {
+      return `A donation of ₹${amount} provides full vocational tailoring training modules and a starter tool kit for a female entrepreneur.`
+    } else if (amount < 5000) {
+      return `A donation of ₹${amount} installs a dual-stage clean water filter unit or buys 25 native tree saplings with protective cages for community conservation.`
     } else {
-      return `A donation of $${amount} contributes significantly to rural infrastructure, establishing solar panel blocks or supporting long-term community outreach cycles.`
+      return `A donation of ₹${amount} contributes significantly to rural infrastructure, establishing solar panel blocks or supporting long-term community outreach cycles.`
     }
   }
 
@@ -88,13 +88,13 @@ const DonationImpact = ({ isLoaded }) => {
     if (val) {
       setDonationAmount(0)
     } else {
-      setDonationAmount(35)
+      setDonationAmount(100)
     }
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (isNaN(currentAmount) || currentAmount <= 0) return
+    if (isNaN(currentAmount) || currentAmount < 100) return
     if (!donorName || !donorEmail) return
 
     // Animate to processing
@@ -111,7 +111,7 @@ const DonationImpact = ({ isLoaded }) => {
   const resetForm = () => {
     setPaymentStep('input')
     setCustomAmount('')
-    setDonationAmount(35)
+    setDonationAmount(100)
     setDonorName('')
     setDonorEmail('')
   }
@@ -179,7 +179,7 @@ const DonationImpact = ({ isLoaded }) => {
               {/* Presets */}
               <div className="flex flex-col gap-3">
                 <span className="font-sans text-[10px] font-bold tracking-wider text-brand-grey uppercase">
-                  2. CONTRIBUTE AMOUNT (USD)
+                  2. CONTRIBUTE AMOUNT (INR)
                 </span>
                 <div className="grid grid-cols-4 gap-2">
                   {presets.map((val) => (
@@ -194,7 +194,7 @@ const DonationImpact = ({ isLoaded }) => {
                       }`}
                       data-cursor="pointer"
                     >
-                      ${val}
+                      ₹{val}
                     </button>
                   ))}
                 </div>
@@ -207,17 +207,22 @@ const DonationImpact = ({ isLoaded }) => {
                 </label>
                 <div className="relative w-full rounded-xl border border-brand-dark/10 overflow-hidden focus-within:border-brand-red/40 focus-within:shadow-md transition-all bg-brand-white">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 font-sans font-bold text-sm text-brand-grey">
-                    $
+                    ₹
                   </span>
                   <input
                     type="number"
-                    min="1"
+                    min="100"
                     placeholder="Other Amount"
                     value={customAmount}
                     onChange={handleCustomChange}
                     className="w-full h-11 pl-8 pr-4 bg-transparent text-brand-dark focus:outline-none font-sans font-bold text-sm"
                     data-cursor="pointer"
                   />
+                  {(currentAmount !== '' && currentAmount < 100) && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                      <span className="text-[10px] text-brand-red font-bold animate-pulse">Min ₹100</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -235,7 +240,7 @@ const DonationImpact = ({ isLoaded }) => {
                   REAL-TIME IMPACT BREAKDOWN
                 </span>
                 <h3 className="font-serif text-2xl md:text-3xl text-brand-dark uppercase tracking-tight">
-                  your ${currentAmount || '0'} contribution
+                  your ₹{currentAmount || '0'} contribution
                 </h3>
               </div>
 
@@ -299,7 +304,7 @@ const DonationImpact = ({ isLoaded }) => {
                         SECURE TERMINAL
                       </span>
                       <h3 className="font-serif text-3xl text-brand-dark mt-1 tracking-tight uppercase">
-                        make contribution
+                        Donations
                       </h3>
                     </div>
 
@@ -343,7 +348,7 @@ const DonationImpact = ({ isLoaded }) => {
                       className="w-full py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-dark text-brand-cream hover:text-brand-cream transition-all duration-300 shadow-md shadow-brand-red/10 cursor-pointer"
                       data-cursor="pointer"
                     >
-                      SECURE CONTRIBUTION OF ${currentAmount}
+                      SECURE DONATION OF ₹{currentAmount}
                     </button>
                     <span className="text-[9px] text-brand-grey tracking-wider text-center block">
                       🔒 Secure 256-Bit Encrypted SSL Gateway
@@ -378,10 +383,10 @@ const DonationImpact = ({ isLoaded }) => {
                   
                   <div className="flex flex-col gap-2">
                     <h4 className="font-serif text-2xl text-brand-dark uppercase tracking-tight">
-                      contribution received
+                      donation received
                     </h4>
                     <p className="font-sans text-xs text-brand-grey font-light max-w-xs">
-                      Thank you, <span className="font-semibold text-brand-dark">{donorName}</span>! Your transfer of <span className="font-semibold text-brand-red">${currentAmount}</span> was successful.
+                      Thank you, <span className="font-semibold text-brand-dark">{donorName}</span>! Your transfer of <span className="font-semibold text-brand-red">₹{currentAmount}</span> was successful.
                     </p>
                   </div>
 
@@ -407,7 +412,7 @@ const DonationImpact = ({ isLoaded }) => {
                     className="mt-4 text-xs font-bold font-sans text-brand-red hover:text-brand-dark transition-colors cursor-pointer"
                     data-cursor="pointer"
                   >
-                    Make Another Contribution
+                    Make Another Donation
                   </button>
                 </div>
               )}

@@ -30,6 +30,8 @@ const JourneyTimeline = ({ isLoaded }) => {
           start: 'top top',
           end: () => `+=${getScrollDistance()}`,
           invalidateOnRefresh: true,
+          anticipatePin: 1,
+          fastScrollEnd: true,
         }
       })
 
@@ -158,7 +160,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       {/* Horizontal Carousel */}
       <div 
         ref={pinWrapRef} 
-        className="flex flex-row h-screen w-[400vw] relative z-10"
+        className="flex flex-row h-screen w-[400vw] relative z-10 will-change-transform transform-gpu"
       >
         {concepts.map((item, idx) => (
           <div 

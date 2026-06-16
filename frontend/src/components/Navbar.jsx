@@ -69,6 +69,7 @@ const Navbar = ({ isLoaded }) => {
     { label: 'our programs', id: 'pillars' },
     { label: 'our values', id: 'journey' },
     { label: 'meet the team', id: 'team' },
+    { label: 'become a member', id: 'become-member' },
     { label: 'contribute', id: 'donation-impact' },
     { label: 'contact', id: 'footer' }
   ]
@@ -100,7 +101,18 @@ const Navbar = ({ isLoaded }) => {
             </span>
           </a>
 
-          {/* Minimal Menu Trigger (Septiembre style) */}
+          <div className="flex items-center gap-6">
+            {/* CTA Button */}
+            <a
+              href="#become-member"
+              onClick={(e) => handleNavClick(e, 'become-member')}
+              className="hidden md:inline-flex px-5 py-2.5 rounded-full bg-brand-red text-brand-cream font-sans text-[10px] font-bold uppercase tracking-widest hover:bg-brand-dark transition-colors shadow-sm"
+              data-cursor="pointer"
+            >
+              Become a Member
+            </a>
+
+            {/* Minimal Menu Trigger (Septiembre style) */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="relative w-10 h-6 flex flex-col justify-between items-end group focus:outline-none z-50 cursor-pointer"
@@ -123,6 +135,7 @@ const Navbar = ({ isLoaded }) => {
               }`} 
             />
           </button>
+          </div>
         </div>
       </header>
 
