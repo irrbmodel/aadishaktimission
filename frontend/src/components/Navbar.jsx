@@ -129,9 +129,9 @@ const Navbar = ({ isLoaded }) => {
       {/* Full Screen Menu Overlay */}
       <nav 
         ref={menuRef}
-        className="fixed inset-0 w-full h-screen bg-brand-cream border-b border-brand-dark/5 z-40 transform -translate-y-full flex flex-col justify-center px-6 md:px-24"
+        className="fixed inset-0 w-full h-screen bg-brand-cream border-b border-brand-dark/5 z-40 transform -translate-y-full flex flex-col px-6 md:px-24 pt-20 md:pt-28 pb-12 overflow-y-auto"
       >
-        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center">
+        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center my-auto">
           {/* Left Column: Navigation links and info */}
           <div className="md:col-span-7 flex flex-col items-start gap-10 w-full">
             {/* Links List */}
