@@ -100,15 +100,23 @@ const Footer = () => {
               FOLLOW
             </h3>
             <div className="font-sans text-xs flex flex-col gap-2 font-light">
-              {['Instagram', 'Linkedin', 'Twitter', 'Medium'].map((soc) => (
+              {[
+                { name: 'Facebook', url: 'https://www.facebook.com/aadishaktimission/' },
+                { name: 'Instagram', url: '#' },
+                { name: 'Linkedin', url: '#' },
+                { name: 'Twitter', url: '#' },
+                { name: 'Medium', url: '#' }
+              ].map((soc) => (
                 <a
-                  key={soc}
-                  href="#"
+                  key={soc.name}
+                  href={soc.url}
+                  target={soc.url.startsWith('http') ? '_blank' : undefined}
+                  rel={soc.url.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="text-brand-dark hover:text-brand-red transition-all duration-300 hover:translate-x-1 flex items-center gap-1.5 self-start group"
                   data-cursor="pointer"
                 >
                   <span className="w-1 h-1 rounded-full bg-brand-red opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300" />
-                  {soc}
+                  {soc.name}
                 </a>
               ))}
             </div>
