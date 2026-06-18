@@ -266,20 +266,6 @@ const PillarsHorizontal = ({ isLoaded }) => {
               >
                 <div className="absolute inset-0 bg-brand-dark/15 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 
-                {/* Floating Status Badges */}
-                <div className="absolute top-4 left-4 z-20 flex gap-2">
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold tracking-wider uppercase bg-brand-white/95 text-brand-dark shadow-sm border border-brand-dark/5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
-                    {proj.status}
-                  </span>
-                </div>
-
-                <div className="absolute top-4 right-4 z-20">
-                  <span className="px-3 py-1.5 rounded-full text-[9px] font-bold tracking-wider uppercase bg-brand-dark/80 text-brand-cream backdrop-blur-sm border border-white/10">
-                    {proj.location}
-                  </span>
-                </div>
-
                 <img 
                   src={proj.image} 
                   alt={proj.title} 
