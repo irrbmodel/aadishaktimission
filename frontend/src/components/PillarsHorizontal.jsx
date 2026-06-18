@@ -20,12 +20,12 @@ const PillarsHorizontal = ({ isLoaded }) => {
   ]
 
   const projects = [
-    { id: 1, title: 'Village Learning Hubs', category: 'education', subtitle: 'Primary Literacy', image: '/shakti_shiksha.png', location: 'Sundarbans Delta', impact: '500+ Rural Girls', status: 'Active Hub' },
-    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/arogya_shakti.png', location: 'Purulia District', impact: '1,200+ Patients', status: 'Ongoing Camp' },
-    { id: 3, title: 'Weaving Autonomy Labs', category: 'livelihood', subtitle: 'Vocational Training', image: '/swayam_shakti.png', location: 'Maldah Border', impact: '80+ Rural Artisans', status: 'Active Lab' },
-    { id: 4, title: 'Native Canopy Campaigns', category: 'conservation', subtitle: 'Afforestation', image: '/prakriti_shakti.png', location: 'Bankura Forest', impact: '5,000+ Saplings', status: 'Annual Drive' },
-    { id: 5, title: 'Digital Shakti Hubs', category: 'education', subtitle: 'Computer Literacy', image: '/swayam_shakti.png', location: 'Kalimpong Hills', impact: '250+ Students', status: 'Active Hub' },
-    { id: 6, title: 'Maternal Nutrition Camps', category: 'health', subtitle: 'Maternal Diagnostics', image: '/arogya_shakti.png', location: 'Birbhum Villages', impact: '450+ Mothers', status: 'Ongoing Camp' }
+    { id: 1, title: 'Village Learning Hubs', category: 'education', subtitle: 'Primary Literacy', image: '/images/schoolgirls_books.jpeg', location: 'Sundarbans Delta', impact: '500+ Rural Girls', status: 'Active Hub' },
+    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/images/relief_distribution.jpeg', location: 'Purulia District', impact: '1,200+ Patients', status: 'Ongoing Camp' },
+    { id: 3, title: 'Weaving Autonomy Labs', category: 'livelihood', subtitle: 'Vocational Training', image: '/images/book_bank.jpeg', location: 'Maldah Border', impact: '80+ Rural Artisans', status: 'Active Lab' },
+    { id: 4, title: 'Native Canopy Campaigns', category: 'conservation', subtitle: 'Afforestation', image: '/images/outreach_walk.jpeg', location: 'Bankura Forest', impact: '5,000+ Saplings', status: 'Annual Drive' },
+    { id: 5, title: 'Digital Shakti Hubs', category: 'education', subtitle: 'Computer Literacy', image: '/images/girls_studying.jpeg', location: 'Kalimpong Hills', impact: '250+ Students', status: 'Active Hub' },
+    { id: 6, title: 'Maternal Nutrition Camps', category: 'health', subtitle: 'Maternal Diagnostics', image: '/images/food_relief_prep.jpeg', location: 'Birbhum Villages', impact: '450+ Mothers', status: 'Ongoing Camp' }
   ]
 
   const [displayedProjects, setDisplayedProjects] = useState(projects)

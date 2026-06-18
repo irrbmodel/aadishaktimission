@@ -104,7 +104,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 01',
       number: '01 / 04',
       desc: 'Empathy is not a passive sentiment. It is the primordial, cosmic spark of action and creation that transforms society from its very roots.',
-      image: '/arogya_shakti.png',
+      image: '/images/relief_distribution.jpeg',
       color: 'from-brand-red/5 via-brand-red/1 to-transparent'
     },
     {
@@ -112,7 +112,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 02',
       number: '02 / 04',
       desc: 'Providing skills, micro-capital, and local entrepreneurship pathways to transform women into self-reliant change agents.',
-      image: '/swayam_shakti.png',
+      image: '/images/women_empowerment_class.jpeg',
       color: 'from-amber-600/5 via-amber-600/1 to-transparent'
     },
     {
@@ -120,7 +120,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 03',
       number: '03 / 04',
       desc: 'Securing primary education resources and learning hubs for young girls in underserved villages to restore standard balance.',
-      image: '/shakti_shiksha.png',
+      image: '/images/schoolgirls_books.jpeg',
       color: 'from-blue-600/5 via-blue-600/1 to-transparent'
     },
     {
@@ -128,7 +128,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 04',
       number: '04 / 04',
       desc: 'Uplifting humanity means protecting our green home through afforestation drives and local clean solar energy networks.',
-      image: '/prakriti_shakti.png',
+      image: '/images/outreach_walk.jpeg',
       color: 'from-emerald-600/5 via-emerald-600/1 to-transparent'
     }
   ]

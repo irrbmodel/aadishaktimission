@@ -20,10 +20,10 @@ const Philosophy = ({ isLoaded }) => {
     "Aadi Shakti Mission is a committed movement established to enhance and secure the social, economic, and ecological fabric of underserved communities. Combining grassroots activism with professional methodologies, we have spent years executing creative, high-impact initiatives for rural transformation and building honest pathways for human empowerment."
 
   const images = [
-    { src: '/shakti_shiksha.png', title: 'Shakti Shiksha Learning Center' },
-    { src: '/arogya_shakti.png', title: 'Arogya Shakti Healthcare Camp' },
-    { src: '/swayam_shakti.png', title: 'Swayam Shakti Craft Incubation' },
-    { src: '/prakriti_shakti.png', title: 'Prakriti Shakti Afforestation Drive' }
+    { src: '/images/schoolgirls_books.jpeg', title: 'Shakti Shiksha Learning Center' },
+    { src: '/images/relief_distribution.jpeg', title: 'Arogya Shakti Healthcare Camp' },
+    { src: '/images/book_bank.jpeg', title: 'Swayam Shakti Craft Incubation' },
+    { src: '/images/outreach_walk.jpeg', title: 'Prakriti Shakti Afforestation Drive' }
   ]
 
   // 1. Word Scroll Colorizer & Subheading Slide-Up Animation

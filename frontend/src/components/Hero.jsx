@@ -218,7 +218,7 @@ const Hero = ({ onLoaded }) => {
           {/* Overlay mask */}
           <div className="absolute inset-0 bg-brand-dark/20 z-10" />
           <img 
-            src="/hero_empower.png" 
+            src="/images/outreach_walk.jpeg" 
             alt="NGO Activism" 
             className="w-full h-full object-cover"
           />

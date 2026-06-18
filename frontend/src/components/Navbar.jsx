@@ -191,7 +191,7 @@ const Navbar = ({ isLoaded }) => {
               <div className="absolute inset-0 bg-linear-to-t from-brand-dark/30 to-transparent z-10 transition-opacity duration-700 pointer-events-none group-hover/menu-img:opacity-75" />
               
               <img 
-                src="/hero_empower.png" 
+                src="/images/youth_group.jpeg" 
                 alt="Empowering Communities" 
                 className="w-full h-full object-cover scale-105 group-hover/menu-img:scale-100 transition-transform duration-1000 ease-out pointer-events-none"
               />

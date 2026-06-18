@@ -13,42 +13,42 @@ const Gallery = () => {
       id: 1,
       title: 'Shakti Shiksha Camp',
       category: 'education',
-      image: '/shakti_shiksha.png',
+      image: '/images/schoolgirls_books.jpeg',
       span: 'md:col-span-8 md:row-span-1'
     },
     {
       id: 2,
       title: 'Arogya Diagnostics',
       category: 'health',
-      image: '/arogya_shakti.png',
+      image: '/images/relief_distribution.jpeg',
       span: 'md:col-span-4 md:row-span-1'
     },
     {
       id: 3,
       title: 'Weaving Self-Reliance',
       category: 'livelihood',
-      image: '/swayam_shakti.png',
+      image: '/images/book_bank.jpeg',
       span: 'md:col-span-4 md:row-span-1'
     },
     {
       id: 4,
       title: 'Native Afforestation Drive',
       category: 'eco',
-      image: '/prakriti_shakti.png',
+      image: '/images/outreach_walk.jpeg',
       span: 'md:col-span-8 md:row-span-1'
     },
     {
       id: 5,
       title: 'Village Learning Initiative',
       category: 'education',
-      image: '/shakti_shiksha.png',
+      image: '/images/girls_studying.jpeg',
       span: 'md:col-span-5 md:row-span-1'
     },
     {
       id: 6,
       title: 'Solarization of Clinics',
       category: 'eco',
-      image: '/prakriti_shakti.png',
+      image: '/images/outreach_walk.jpeg',
       span: 'md:col-span-7 md:row-span-1'
     }
   ]
