@@ -13,7 +13,6 @@ const Philosophy = ({ isLoaded }) => {
   const videoContainerRef = useRef(null)
   const descTextRef = useRef(null)
 
-  const [isVideoOpen, setIsVideoOpen] = useState(false)
   const [sliderIndex, setSliderIndex] = useState(0)
 
   const philosophyText = 
@@ -21,9 +20,9 @@ const Philosophy = ({ isLoaded }) => {
 
   const images = [
     { src: '/images/schoolgirls_books.jpeg', title: 'Shakti Shiksha Learning Center' },
-    { src: '/images/relief_distribution.jpeg', title: 'Arogya Shakti Healthcare Camp' },
-    { src: '/images/book_bank.jpeg', title: 'Swayam Shakti Craft Incubation' },
-    { src: '/images/outreach_walk.jpeg', title: 'Prakriti Shakti Afforestation Drive' }
+    { src: '/arogya_shakti.png', title: 'Arogya Shakti Healthcare Camp' },
+    { src: '/images/women_empowerment_class.jpeg', title: 'Swayam Shakti Craft Incubation' },
+    { src: '/prakriti_shakti.png', title: 'Prakriti Shakti Afforestation Drive' }
   ]
 
   // 1. Word Scroll Colorizer & Subheading Slide-Up Animation
@@ -252,21 +251,16 @@ const Philosophy = ({ isLoaded }) => {
               </p>
             </div>
 
-            {/* Video container */}
+            {/* Photo container */}
             <div 
               ref={videoContainerRef}
-              onClick={() => setIsVideoOpen(true)}
-              className="relative aspect-video w-full rounded-3xl overflow-hidden mt-8 border border-brand-dark/5 shadow-2xl cursor-pointer group"
-              data-cursor="play"
+              className="relative aspect-video w-full rounded-3xl overflow-hidden mt-8 border border-brand-dark/5 shadow-2xl group"
             >
-              <div className="absolute inset-0 bg-brand-dark/30 z-10 group-hover:bg-brand-dark/15 transition-all duration-500" />
-              <video 
-                src="https://www.septiembrearquitectura.com/images/lib/COCOLIA_Video_Web_6.mov#t=0.01"
-                className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-all duration-700"
-                muted
-                playsInline
-                loop
-                autoPlay
+              <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/5 transition-all duration-500" />
+              <img 
+                src="/images/food_relief_prep.jpeg" 
+                alt="Food Relief Preparation" 
+                className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-700"
               />
             </div>
           </div>
@@ -342,34 +336,6 @@ const Philosophy = ({ isLoaded }) => {
         </div>
       </div>
 
-      {/* Video Lightbox Modal */}
-      {isVideoOpen && (
-        <div 
-          className="fixed inset-0 w-full h-full bg-brand-dark/95 z-99999 flex items-center justify-center p-6 md:p-12 animate-fade-in"
-          onClick={() => setIsVideoOpen(false)}
-        >
-          {/* Close button */}
-          <button 
-            onClick={() => setIsVideoOpen(false)}
-            className="absolute top-6 right-6 text-brand-cream hover:text-brand-red text-sm tracking-widest font-sans font-bold cursor-pointer"
-          >
-            CLOSE [X]
-          </button>
-          
-          <div 
-            className="w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <video 
-              src="https://www.septiembrearquitectura.com/images/lib/COCOLIA_Video_Web_6.mov"
-              className="w-full h-full object-cover"
-              controls
-              autoPlay
-              playsInline
-            />
-          </div>
-        </div>
-      )}
     </section>
   )
 }
