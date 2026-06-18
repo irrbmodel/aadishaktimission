@@ -15,14 +15,14 @@ const Team = ({ isLoaded }) => {
       role: 'Executive Director / Founder',
       quote: 'Education is not a privilege; it is the fundamental frequency of a community\'s evolution.',
       bio: 'Leading community outreach projects for over 12 years with a primary focus on girl child literacy, rural development, and micro-enterprise capital for underserved women.',
-      image: '/images/founder_podium.jpeg'
+      image: '/images/maa2.jpeg'
     },
     {
       name: 'Dr. Sandeep Sen',
       role: 'Chief Medical Outreach Officer',
       quote: 'Healthcare is the canvas on which all human progress is drawn. We cannot build tomorrow if we are sick today.',
       bio: 'Directing local diagnostic camps, sanitary distributions, and maternal healthcare networks in remote village coordinates to ensure medical equity.',
-      image: '/images/relief_distribution.jpeg'
+      image: '/images/WhatsApp Image 2026-06-18 at 13.34.23.jpeg'
     },
     {
       name: 'Meera Kumari',
@@ -36,7 +36,7 @@ const Team = ({ isLoaded }) => {
       role: 'Eco-Conservation Specialist',
       quote: 'Sustaining the soil is sustaining the soul. We do not inherit the earth; we borrow it from our children.',
       bio: 'Designing afforestation layouts, community solar setups, and eco-friendly bio-waste treatment setups for rural habitats and sustainable farming practices.',
-      image: '/images/outreach_walk.jpeg'
+      image: '/images/sus2.jpeg'
     }
   ]
 

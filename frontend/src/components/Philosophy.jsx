@@ -19,10 +19,10 @@ const Philosophy = ({ isLoaded }) => {
     "Aadi Shakti Mission is a committed movement established to enhance and secure the social, economic, and ecological fabric of underserved communities. Combining grassroots activism with professional methodologies, we have spent years executing creative, high-impact initiatives for rural transformation and building honest pathways for human empowerment."
 
   const images = [
-    { src: '/images/schoolgirls_books.jpeg', title: 'Shakti Shiksha Learning Center' },
+    { src: '/images/villagelearning.jpeg', title: 'Shakti Shiksha Learning Center' },
     { src: '/arogya_shakti.png', title: 'Arogya Shakti Healthcare Camp' },
     { src: '/images/women_empowerment_class.jpeg', title: 'Swayam Shakti Craft Incubation' },
-    { src: '/prakriti_shakti.png', title: 'Prakriti Shakti Afforestation Drive' }
+    { src: '/images/nativecanopy.jpeg', title: 'Prakriti Shakti Afforestation Drive' }
   ]
 
   // 1. Word Scroll Colorizer & Subheading Slide-Up Animation
@@ -231,8 +231,8 @@ const Philosophy = ({ isLoaded }) => {
                   const cleaned = word.replace(/[^a-zA-Z]/g, '')
                   if (cleaned === 'transformative' || cleaned === 'change') {
                     return (
-                      <span key={idx} className="inline-block overflow-hidden pb-1 mr-2">
-                        <span className="reveal-word-up inline-block font-sans font-black italic text-brand-red">{word}</span>
+                      <span key={idx} className="inline-block overflow-hidden pb-1 pr-2 mr-1">
+                        <span className="reveal-word-up inline-block font-sans font-black italic text-brand-red pr-2">{word}</span>
                       </span>
                     )
                   }

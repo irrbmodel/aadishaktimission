@@ -120,7 +120,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 03',
       number: '03 / 04',
       desc: 'Securing primary education resources and learning hubs for young girls in underserved villages to restore standard balance.',
-      image: '/images/schoolgirls_books.jpeg',
+      image: '/images/villagelearning.jpeg',
       color: 'from-blue-600/5 via-blue-600/1 to-transparent'
     },
     {
@@ -128,7 +128,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 04',
       number: '04 / 04',
       desc: 'Uplifting humanity means protecting our green home through afforestation drives and local clean solar energy networks.',
-      image: '/prakriti_shakti.png',
+      image: '/images/nativecanopy.jpeg',
       color: 'from-emerald-600/5 via-emerald-600/1 to-transparent'
     }
   ]

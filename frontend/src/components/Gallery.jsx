@@ -13,14 +13,14 @@ const Gallery = () => {
       id: 1,
       title: 'Shakti Shiksha Camp',
       category: 'education',
-      image: '/images/schoolgirls_books.jpeg',
+      image: '/images/villagelearning.jpeg',
       span: 'md:col-span-8 md:row-span-1'
     },
     {
       id: 2,
       title: 'Arogya Diagnostics',
       category: 'health',
-      image: '/images/relief_distribution.jpeg',
+      image: '/images/maternalnutrition.jpeg',
       span: 'md:col-span-4 md:row-span-1'
     },
     {
@@ -34,7 +34,7 @@ const Gallery = () => {
       id: 4,
       title: 'Native Afforestation Drive',
       category: 'eco',
-      image: '/images/outreach_walk.jpeg',
+      image: '/images/nativecanopy.jpeg',
       span: 'md:col-span-8 md:row-span-1'
     },
     {
@@ -48,7 +48,7 @@ const Gallery = () => {
       id: 6,
       title: 'Solarization of Clinics',
       category: 'eco',
-      image: '/images/outreach_walk.jpeg',
+      image: '/images/sus2.jpeg',
       span: 'md:col-span-7 md:row-span-1'
     }
   ]
