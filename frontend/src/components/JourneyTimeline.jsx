@@ -120,7 +120,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 03',
       number: '03 / 04',
       desc: 'Securing primary education resources and learning hubs for young girls in underserved villages to restore standard balance.',
-      image: '/images/villagelearning.jpeg',
+      image: '/images/schoolgirls_books.jpeg',
       color: 'from-blue-600/5 via-blue-600/1 to-transparent'
     },
     {

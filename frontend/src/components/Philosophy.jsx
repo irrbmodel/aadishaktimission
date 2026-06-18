@@ -20,9 +20,11 @@ const Philosophy = ({ isLoaded }) => {
 
   const images = [
     { src: '/images/villagelearning.jpeg', title: 'Shakti Shiksha Learning Center' },
-    { src: '/arogya_shakti.png', title: 'Arogya Shakti Healthcare Camp' },
+    { src: '/images/maternalnutrition.jpeg', title: 'Arogya Shakti Healthcare Camp' },
     { src: '/images/women_empowerment_class.jpeg', title: 'Swayam Shakti Craft Incubation' },
-    { src: '/images/nativecanopy.jpeg', title: 'Prakriti Shakti Afforestation Drive' }
+    { src: '/images/nativecanopy.jpeg', title: 'Prakriti Shakti Afforestation Drive' },
+    { src: '/images/founder_award.jpeg', title: 'Recognition for Rural Empowerment' },
+    { src: '/images/founder_podium.jpeg', title: 'Grassroots Community Summit' }
   ]
 
   // 1. Word Scroll Colorizer & Subheading Slide-Up Animation

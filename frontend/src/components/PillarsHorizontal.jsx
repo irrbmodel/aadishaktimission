@@ -21,7 +21,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
   const projects = [
     { id: 1, title: 'Village Learning Hubs', category: 'education', subtitle: 'Primary Literacy', image: '/images/villagelearning.jpeg', impact: '500+ Rural Girls' },
-    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/arogya_shakti.png', impact: '1,200+ Patients' },
+    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/images/relief_distribution.jpeg', impact: '1,200+ Patients' },
     { id: 3, title: 'Weaving Autonomy Labs', category: 'livelihood', subtitle: 'Vocational Training', image: '/images/women_empowerment_class.jpeg', impact: '80+ Rural Artisans' },
     { id: 4, title: 'Native Canopy Campaigns', category: 'conservation', subtitle: 'Afforestation', image: '/images/nativecanopy.jpeg', impact: '5,000+ Saplings' },
     { id: 5, title: 'Digital Shakti Hubs', category: 'education', subtitle: 'Computer Literacy', image: '/images/girls_studying.jpeg', impact: '250+ Students' },
