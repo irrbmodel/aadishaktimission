@@ -176,6 +176,15 @@ const Hero = ({ onLoaded }) => {
             </span>
           </div>
 
+          {/* NGO Logo Wrapper for Mask Reveal */}
+          <div className="overflow-hidden mb-6 rounded-full w-20 h-20 md:w-24 md:h-24 shadow-md border border-brand-dark/10 bg-brand-white flex items-center justify-center">
+            <img 
+              src="/logo.jpg" 
+              alt="Aadi Shakti Logo" 
+              className="loader-reveal-text block w-full h-full object-cover" 
+            />
+          </div>
+
           {/* Sleek Centered Progress Bar */}
           <div className="w-48 h-[1.5px] bg-brand-dark/5 relative rounded-full overflow-hidden mt-2">
             <div 
