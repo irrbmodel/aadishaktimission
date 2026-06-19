@@ -23,7 +23,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
     { id: 1, title: 'Village Learning Hub', category: 'learning-hub', subtitle: 'Primary & Digital Literacy', image: '/images/villagelearning2.jpeg', impact: '500+ Rural Girls' },
     { id: 2, title: 'Nurturing Our Neighborhoods', category: 'neighborhoods', subtitle: 'Community Health & Well-being', image: '/images/relief_distribution.jpeg', impact: '1,200+ Beneficiaries' },
     { id: 3, title: 'Empowering Youth', category: 'youth', subtitle: 'Skills & Autonomy', image: '/images/youth_group.jpeg', impact: '250+ Youth' },
-    { id: 4, title: 'Nurturing Mother Earth', category: 'mother-earth', subtitle: 'Eco-Conservation & Forestry', image: '/images/ecology.jpeg', impact: '5,000+ Saplings Planted' }
+    { id: 4, title: 'For Mother Earth', category: 'mother-earth', subtitle: 'Eco-Conservation & Forestry', image: '/images/ecology.jpeg', impact: '5,000+ Saplings Planted' }
   ]
 
   const [displayedProjects, setDisplayedProjects] = useState(projects)
