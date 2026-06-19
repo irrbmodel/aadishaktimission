@@ -16,27 +16,7 @@ const Footer = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
         
-        {/* Top Row: Newsletter Dispatch / Big editorial statement */}
-        <div className="border-b border-brand-dark/10 pb-16 mb-16 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-brand-dark max-w-xl leading-tight uppercase">
-            Join us in planting <span className="text-brand-red font-sans font-black italic">seeds of change</span>.
-          </h2>
-          <div className="flex flex-col gap-3 w-full sm:w-auto">
-            <span className="font-sans text-[9px] font-bold tracking-[0.2em] text-brand-grey uppercase">
-              STAY UPDATED WITH OUR DISPATCHES
-            </span>
-            <div className="flex w-full sm:w-80 rounded-xl border border-brand-dark/10 bg-brand-white focus-within:border-brand-red/20 transition-all overflow-hidden p-1">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="bg-transparent px-4 py-2 text-xs font-sans font-medium w-full focus:outline-none"
-              />
-              <button className="bg-brand-red hover:bg-brand-dark text-brand-cream px-6 py-2 rounded-lg text-xs font-sans font-bold tracking-wider uppercase transition-colors cursor-pointer">
-                JOIN
-              </button>
-            </div>
-          </div>
-        </div>
+
 
         {/* Middle Row: Navigation links & Details */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 items-start">

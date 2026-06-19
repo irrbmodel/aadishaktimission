@@ -131,26 +131,26 @@ const Hero = ({ onLoaded }) => {
   const pillars = [
     {
       title: 'Village Learning Hub',
-      subtitle: 'Education & Literacy',
-      desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary literacy for rural children.',
+      subtitle: 'Primary & Digital Literacy',
+      desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.',
       pos: 'top-[10%] left-3 sm:left-8 md:left-16 lg:left-24'
     },
     {
       title: 'Nurturing Our Neighborhoods',
-      subtitle: 'Community Health & Care',
-      desc: 'Uplifting local communities with healthcare checkup clinics, hygiene camps, and clean water infrastructure.',
+      subtitle: 'Community Health & Well-being',
+      desc: 'Uplifting local communities through regular health checkups, wellness camps, and clean water projects.',
       pos: 'top-[30%] right-3 sm:right-8 md:right-16 lg:right-24'
     },
     {
       title: 'Empowering Youth',
       subtitle: 'Skills & Autonomy',
-      desc: 'Fostering leadership, micro-capital support, and vocational craftsmanship training to empower local youth towards self-reliance.',
+      desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.',
       pos: 'bottom-[10%] left-3 sm:left-8 md:left-16 lg:left-32'
     },
     {
-      title: 'Nurturing Mother Earth',
+      title: 'For Mother Earth',
       subtitle: 'Eco-Conservation & Forestry',
-      desc: 'Protecting and restoring our local ecosystems through native afforestation drives, solar panels, and environmental awareness.',
+      desc: 'Preserving our ecosystem through native afforestation drives, solar clinic power setups, and green space development.',
       pos: 'bottom-[30%] right-3 sm:right-8 md:right-16 lg:right-28'
     }
   ]
