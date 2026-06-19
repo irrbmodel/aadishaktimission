@@ -219,69 +219,60 @@ const Philosophy = ({ isLoaded }) => {
           </p>
         </div>
 
-        {/* Video & Slider Interactive Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch mt-12">
-          
-          {/* Column 1: Video Card */}
-          <div className="lg:col-span-7 flex flex-col justify-between">
-            <div className="flex flex-col gap-6">
-              <h3 
-                ref={subHeadingRef}
-                className="font-serif text-3xl sm:text-4xl text-brand-dark max-w-lg leading-tight"
-              >
-                {"Evoking transformative change that honors contextual integrity.".split(' ').map((word, idx) => {
-                  const cleaned = word.replace(/[^a-zA-Z]/g, '')
-                  if (cleaned === 'transformative' || cleaned === 'change') {
-                    return (
-                      <span key={idx} className="inline-block overflow-hidden pb-1 pr-2 mr-1">
-                        <span className="reveal-word-up inline-block font-sans font-black italic text-brand-red pr-2">{word}</span>
-                      </span>
-                    )
-                  }
+        {/* Top Section: About Content (Text + Big Photo) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Text */}
+          <div className="lg:col-span-6 flex flex-col gap-6">
+            <h3 
+              ref={subHeadingRef}
+              className="font-serif text-3xl sm:text-4xl text-brand-dark max-w-lg leading-tight"
+            >
+              {"Evoking transformative change that honors contextual integrity.".split(' ').map((word, idx) => {
+                const cleaned = word.replace(/[^a-zA-Z]/g, '')
+                if (cleaned === 'transformative' || cleaned === 'change') {
                   return (
-                    <span key={idx} className="inline-block overflow-hidden pb-1 mr-2">
-                      <span className="reveal-word-up inline-block">{word}</span>
+                    <span key={idx} className="inline-block overflow-hidden pb-1 pr-2 mr-1">
+                      <span className="reveal-word-up inline-block font-sans font-black italic text-brand-red pr-2">{word}</span>
                     </span>
                   )
-                })}
-              </h3>
-              <p 
-                ref={descTextRef}
-                className="font-sans text-sm md:text-base text-brand-grey leading-relaxed max-w-md font-light"
-              >
-                We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.
-              </p>
-            </div>
-
-            {/* Photo container */}
-            <div 
-              ref={videoContainerRef}
-              className="relative aspect-video w-full rounded-3xl overflow-hidden mt-8 border border-brand-dark/5 shadow-2xl group"
+                }
+                return (
+                  <span key={idx} className="inline-block overflow-hidden pb-1 mr-2">
+                    <span className="reveal-word-up inline-block">{word}</span>
+                  </span>
+                )
+              })}
+            </h3>
+            <p 
+              ref={descTextRef}
+              className="font-sans text-sm md:text-base text-brand-grey leading-relaxed max-w-md font-light"
             >
-              <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/5 transition-all duration-500" />
-              <img 
-                src="/images/food_relief_prep.jpeg" 
-                alt="Food Relief Preparation" 
-                className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-700"
-              />
-            </div>
+              We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.
+            </p>
           </div>
 
-          {/* Column 2: Swiper/GSAP Image Slider */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-brand-white border border-brand-dark/5 p-6 md:p-8 rounded-3xl shadow-xl">
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase">
-                FIELD WORK SNAPSHOTS
-              </span>
-              <span className="font-sans text-[10px] font-bold text-brand-red tracking-wider">
-                0{sliderIndex + 1} / 0{images.length}
-              </span>
-            </div>
+          {/* Right Column: Big Photo */}
+          <div 
+            ref={videoContainerRef}
+            className="lg:col-span-6 relative aspect-video w-full rounded-3xl overflow-hidden border border-brand-dark/5 shadow-2xl group"
+          >
+            <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/5 transition-all duration-500" />
+            <img 
+              src="/images/banner.jpeg" 
+              alt="Aadi Shakti Mission" 
+              className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-700"
+            />
+          </div>
+        </div>
 
+        {/* Bottom Section: Horizontal Swiper/GSAP Image Slider */}
+        <div className="mt-16 bg-brand-white border border-brand-dark/5 p-6 md:p-8 rounded-3xl shadow-xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
             {/* Custom Interactive Image Slider viewport */}
             <div 
               ref={sliderRef}
-              className="relative w-full aspect-4/5 rounded-2xl overflow-hidden border border-brand-dark/5 flex items-center justify-center select-none"
+              className="lg:col-span-8 relative w-full aspect-video sm:aspect-16/10 rounded-2xl overflow-hidden border border-brand-dark/5 flex items-center justify-center select-none"
             >
               {/* Invisible clickable zones for prev/next navigation */}
               <div 
@@ -318,23 +309,52 @@ const Philosophy = ({ isLoaded }) => {
               ))}
             </div>
 
-            {/* Navigation Buttons for convenience (mobile support) */}
-            <div className="flex items-center justify-between mt-6 select-none">
-              <button 
-                onClick={handlePrev}
-                className="px-4 py-2 text-xs font-bold text-brand-dark hover:text-brand-red transition-colors cursor-pointer"
-              >
-                PREVIOUS
-              </button>
-              <button 
-                onClick={handleNext}
-                className="px-4 py-2 text-xs font-bold text-brand-dark hover:text-brand-red transition-colors cursor-pointer"
-              >
-                NEXT
-              </button>
-            </div>
-          </div>
+            {/* Sidebar Control Panel */}
+            <div className="lg:col-span-4 flex flex-col justify-between h-full py-4">
+              <div className="flex flex-col gap-6">
+                <div>
+                  <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase block mb-1">
+                    FIELD WORK SNAPSHOTS
+                  </span>
+                  <span className="font-sans text-xs font-bold text-brand-red tracking-wider">
+                    0{sliderIndex + 1} / 0{images.length}
+                  </span>
+                </div>
 
+                <div className="border-t border-brand-dark/5 pt-6">
+                  <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase block mb-2">
+                    ACTIVE PROJECT
+                  </span>
+                  <h4 className="font-serif text-2xl md:text-3xl text-brand-dark tracking-tight leading-tight">
+                    {images[sliderIndex].title}
+                  </h4>
+                </div>
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="flex items-center gap-6 mt-8 select-none">
+                <button 
+                  onClick={handlePrev}
+                  className="px-4 py-2 border border-brand-dark/10 rounded-full text-xs font-bold text-brand-dark hover:border-brand-red hover:text-brand-red transition-all cursor-pointer flex items-center gap-2"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  PREVIOUS
+                </button>
+                <button 
+                  onClick={handleNext}
+                  className="px-4 py-2 border border-brand-dark/10 rounded-full text-xs font-bold text-brand-dark hover:border-brand-red hover:text-brand-red transition-all cursor-pointer flex items-center gap-2"
+                >
+                  NEXT
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
 
