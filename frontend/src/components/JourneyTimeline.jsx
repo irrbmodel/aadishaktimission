@@ -128,7 +128,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 04',
       number: '04 / 04',
       desc: 'Uplifting humanity means protecting our green home through afforestation drives and local clean solar energy networks.',
-      image: '/images/nativecanopy.jpeg',
+      image: '/images/ecology.jpeg',
       color: 'from-emerald-600/5 via-emerald-600/1 to-transparent'
     }
   ]
