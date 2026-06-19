@@ -187,10 +187,10 @@ const Philosophy = ({ isLoaded }) => {
       {/* Subtle background blob */}
       <div className="absolute glowing-blob w-[400px] h-[400px] bg-brand-red/5 top-[20%] left-[5%] opacity-15" />
 
-      {/* Background Parallax Card (Septiembre style) */}
+      {/* Background Parallax Divider Card (Septiembre style) */}
       <div 
         ref={bgDivRef}
-        className="absolute left-0 right-0 w-full h-[50%] bg-brand-white border-y border-brand-dark/5 z-0"
+        className="absolute left-0 right-0 w-full h-[50%] bg-brand-cream z-0"
         style={{ top: '35%' }}
       />
 
