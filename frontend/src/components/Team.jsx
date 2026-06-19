@@ -11,32 +11,18 @@ const Team = ({ isLoaded }) => {
 
   const team = [
     {
-      name: 'Aarti Devi Roy',
-      role: 'Executive Director / Founder',
-      quote: 'Education is not a privilege; it is the fundamental frequency of a community\'s evolution.',
-      bio: 'Leading community outreach projects for over 12 years with a primary focus on girl child literacy, rural development, and micro-enterprise capital for underserved women.',
-      image: '/images/maa2.jpeg'
+      name: 'Dr. Sushma Anthwal',
+      role: 'Founder & Trustee',
+      quote: 'Empowering rural communities is not about charity, but about unlocking their inherent potential for self-reliance and resilience.',
+      bio: 'A visionary educator and social activist leading grassroots initiatives in rural literacy, women empowerment, and community development for over two decades.',
+      image: '/images/founder_podium.jpeg'
     },
     {
-      name: 'Dr. Sandeep Sen',
-      role: 'Chief Medical Outreach Officer',
-      quote: 'Healthcare is the canvas on which all human progress is drawn. We cannot build tomorrow if we are sick today.',
-      bio: 'Directing local diagnostic camps, sanitary distributions, and maternal healthcare networks in remote village coordinates to ensure medical equity.',
-      image: '/images/WhatsApp Image 2026-06-18 at 13.34.23.jpeg'
-    },
-    {
-      name: 'Meera Kumari',
-      role: 'Swayam Skill Advisor',
-      quote: 'True independence is economic. Empower a woman, and she will uplift her entire family and village.',
-      bio: 'Specializing in handicraft management, local tailoring training, and structuring interest-free micro-finance capitals for women-led cooperatives.',
-      image: '/images/women_empowerment_class.jpeg'
-    },
-    {
-      name: 'Rajesh Mishra',
-      role: 'Eco-Conservation Specialist',
-      quote: 'Sustaining the soil is sustaining the soul. We do not inherit the earth; we borrow it from our children.',
-      bio: 'Designing afforestation layouts, community solar setups, and eco-friendly bio-waste treatment setups for rural habitats and sustainable farming practices.',
-      image: '/images/sus2.jpeg'
+      name: 'Dr. Shalini Bahuguna',
+      role: 'Founder & Trustee',
+      quote: 'Sustainable change begins at the grassroots. When we harmonize education, health, and conservation, we secure the future of our societies.',
+      bio: 'An expert in public health and environmental stewardship, dedicated to implementing holistic wellness, nutrition, and resource conservation frameworks in underserved regions.',
+      image: '/images/shalini.jpeg'
     }
   ]
 
@@ -105,11 +91,11 @@ const Team = ({ isLoaded }) => {
           <div className="lg:col-span-6 flex flex-col gap-12">
             <div ref={headingRef} className="flex flex-col gap-4">
               <h2 className="font-serif text-5xl md:text-7xl text-brand-dark uppercase tracking-tight leading-none">
-                meet the <br />
-                <span className="text-brand-red">team</span>
+                our <br />
+                <span className="text-brand-red">founders</span>
               </h2>
               <p className="font-sans text-sm md:text-base text-brand-grey max-w-lg font-light leading-relaxed mt-4">
-                Our movement is driven by dedicated educators, practitioners, conservationists, and medical advisors who combine local wisdom with structured execution to bring lasting empowerment.
+                Our movement is established and guided by our founders, who bring decades of academic expertise and grassroots leadership to direct local empowerment, education, healthcare, and ecological conservation initiatives.
               </p>
             </div>
 
@@ -181,11 +167,11 @@ const Team = ({ isLoaded }) => {
               </div>
 
               {/* Portrait Display */}
-              <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40 animate-on-change">
+              <div className="relative aspect-4/3 w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40 animate-on-change">
                 <img 
                   src={team[activeMember].image} 
                   alt={team[activeMember].name} 
-                  className="w-full h-full object-cover md:grayscale brightness-95 md:hover:grayscale-0 md:hover:scale-105 transition-all duration-700 ease-out"
+                  className="w-full h-full object-cover brightness-95 md:hover:scale-105 transition-all duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 via-transparent to-transparent pointer-events-none" />
               </div>
