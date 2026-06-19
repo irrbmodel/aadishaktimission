@@ -19,12 +19,12 @@ const Philosophy = ({ isLoaded }) => {
     "Aadi Shakti Mission is a committed movement established to enhance and secure the social, economic, and ecological fabric of underserved communities. Combining grassroots activism with professional methodologies, we have spent years executing creative, high-impact initiatives for rural transformation and building honest pathways for human empowerment."
 
   const images = [
-    { src: '/images/book_bank.jpeg', title: 'Shakti Shiksha Book Bank' },
-    { src: '/images/sus2.jpeg', title: 'Grassroots Sustainability Initiative' },
+    { src: '/images/book_bank.jpeg', title: "National association for parents and Student's Rights: A Book Bank by Aadhi Shaki Mission" },
+    { src: '/images/sus2.jpeg', title: "Nation Equality: Realizing Women's Rights" },
     { src: '/images/outreach_walk.jpeg', title: 'Community Outreach Walk' },
-    { src: '/images/women_empowerment_class.jpeg', title: 'Swayam Shakti Craft Incubation' },
-    { src: '/images/youth_group.jpeg', title: 'Youth Group Empowerment' },
-    { src: '/images/carousel6.jpeg', title: 'Grassroots Community Summit' }
+    { src: '/images/women_empowerment_class.jpeg', title: 'Nanhe Kadam, Badi Udaan' },
+    { src: '/images/youth_group.jpeg', title: 'Youth against Corruption' },
+    { src: '/images/carousel6.jpeg', title: "A news letter on :National association for parents and Student's Rights: A Book Bank by Aadhi Shaki Mission" }
   ]
 
   // 1. Word Scroll Colorizer & Subheading Slide-Up Animation
