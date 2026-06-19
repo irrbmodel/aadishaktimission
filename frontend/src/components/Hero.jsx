@@ -163,6 +163,15 @@ const Hero = ({ onLoaded }) => {
         className="fixed inset-0 w-full h-full bg-brand-cream flex flex-col justify-center items-center z-9999 select-none pointer-events-none"
       >
         <div className="flex flex-col items-center">
+          {/* NGO Logo Wrapper for Mask Reveal */}
+          <div className="overflow-hidden mb-6 rounded-full w-32 h-32 md:w-40 md:h-40 shadow-md border border-brand-dark/10 bg-brand-white flex items-center justify-center">
+            <img 
+              src="/logo.jpg" 
+              alt="Aadi Shakti Logo" 
+              className="loader-reveal-text block w-full h-full object-cover" 
+            />
+          </div>
+
           {/* Logo / Title with Mask Overflow Reveal */}
           <div className="overflow-hidden mb-2 py-2">
             <span className="loader-reveal-text block font-serif text-5xl md:text-7xl text-brand-dark tracking-tight leading-none">
@@ -174,15 +183,6 @@ const Hero = ({ onLoaded }) => {
             <span className="loader-reveal-text block font-sans text-[9px] font-bold tracking-[0.35em] text-brand-grey uppercase">
               rural transformation mission
             </span>
-          </div>
-
-          {/* NGO Logo Wrapper for Mask Reveal */}
-          <div className="overflow-hidden mb-6 rounded-full w-20 h-20 md:w-24 md:h-24 shadow-md border border-brand-dark/10 bg-brand-white flex items-center justify-center">
-            <img 
-              src="/logo.jpg" 
-              alt="Aadi Shakti Logo" 
-              className="loader-reveal-text block w-full h-full object-cover" 
-            />
           </div>
 
           {/* Sleek Centered Progress Bar */}
