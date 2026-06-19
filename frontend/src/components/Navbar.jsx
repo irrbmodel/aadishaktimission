@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
-const Navbar = ({ isLoaded }) => {
+const Navbar = ({ isLoaded, view, setView }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const menuRef = useRef(null)
@@ -55,13 +55,24 @@ const Navbar = ({ isLoaded }) => {
     e.preventDefault()
     setIsOpen(false)
     
-    // Add a slight delay to allow menu animation to complete
-    setTimeout(() => {
-      const targetElement = document.getElementById(targetId)
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' })
-      }
-    }, 600)
+    if (view !== 'home' && setView) {
+      setView('home')
+      // Wait for home page to render and mount sections before scrolling
+      setTimeout(() => {
+        const targetElement = document.getElementById(targetId)
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 150)
+    } else {
+      // Add a slight delay to allow menu animation to complete
+      setTimeout(() => {
+        const targetElement = document.getElementById(targetId)
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 600)
+    }
   }
 
   const menuItems = [

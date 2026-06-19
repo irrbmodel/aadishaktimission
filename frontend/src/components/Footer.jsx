@@ -1,7 +1,7 @@
 import React from 'react'
 import { ArrowUp } from './Icons'
 
-const Footer = () => {
+const Footer = ({ view, setView }) => {
   const handleScrollTop = (e) => {
     e.preventDefault()
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -51,7 +51,14 @@ const Footer = () => {
                 href={`#${link.id}`}
                 onClick={(e) => {
                   e.preventDefault()
-                  document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth' })
+                  if (view !== 'home' && setView) {
+                    setView('home')
+                    setTimeout(() => {
+                      document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth' })
+                    }, 150)
+                  } else {
+                    document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth' })
+                  }
                 }}
                 className="font-sans text-xs text-brand-dark hover:text-brand-red transition-all duration-300 hover:translate-x-1 flex items-center gap-1.5 self-start group"
                 data-cursor="pointer"

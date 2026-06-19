@@ -14,6 +14,7 @@ import JourneyTimeline from './components/JourneyTimeline'
 import Team from './components/Team'
 import DonationImpact from './components/DonationImpact'
 import BecomeMember from './components/BecomeMember'
+import MembershipPayment from './components/MembershipPayment'
 import Footer from './components/Footer'
 
 // Register GSAP ScrollTrigger
@@ -21,6 +22,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [view, setView] = useState('home') // 'home' or 'membership-payment'
+  const [membershipData, setMembershipData] = useState({ name: '', email: '', phone: '' })
 
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with premium physics settings
@@ -93,21 +96,40 @@ const App = () => {
       </div>
 
       {/* Navigation Header */}
-      <Navbar isLoaded={isLoaded} />
+      <Navbar isLoaded={isLoaded} view={view} setView={setView} />
 
       {/* Main Content Sections */}
-      <main className="relative z-10 w-full overflow-hidden">
-        <Hero onLoaded={() => setIsLoaded(true)} />
-        <Philosophy isLoaded={isLoaded} />
-        <PillarsHorizontal isLoaded={isLoaded} />
-        <JourneyTimeline isLoaded={isLoaded} />
-        <Team isLoaded={isLoaded} />
-        <BecomeMember isLoaded={isLoaded} />
-        <DonationImpact isLoaded={isLoaded} />
-      </main>
+      {view === 'home' ? (
+        <main className="relative z-10 w-full overflow-hidden">
+          <Hero onLoaded={() => setIsLoaded(true)} />
+          <Philosophy isLoaded={isLoaded} />
+          <PillarsHorizontal isLoaded={isLoaded} />
+          <JourneyTimeline isLoaded={isLoaded} />
+          <Team isLoaded={isLoaded} />
+          <BecomeMember 
+            isLoaded={isLoaded} 
+            onProceed={(data) => {
+              // Kill all active ScrollTriggers before unmounting home sections.
+              // Without this, GSAP tries to clean up DOM nodes that React has
+              // already removed, triggering a "removeChild" NotFoundError.
+              ScrollTrigger.getAll().forEach(t => t.kill())
+              setMembershipData(data)
+              setView('membership-payment')
+            }}
+          />
+          <DonationImpact isLoaded={isLoaded} />
+        </main>
+      ) : (
+        <main className="relative z-10 w-full overflow-hidden">
+          <MembershipPayment 
+            membershipData={membershipData} 
+            onBack={() => setView('home')} 
+          />
+        </main>
+      )}
 
       {/* Footer Section */}
-      <Footer />
+      <Footer view={view} setView={setView} />
     </div>
   )
 }
