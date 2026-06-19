@@ -255,34 +255,6 @@ const DonationImpact = ({ isLoaded }) => {
                 </p>
               </div>
 
-              {/* Progress and indicators */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-4 border-t border-brand-dark/5">
-                <div className="flex flex-col">
-                  <span className="font-sans text-[10px] text-brand-grey font-semibold uppercase tracking-wider">
-                    TAX EXEMPT STATUS
-                  </span>
-                  <span className="font-serif text-sm text-brand-dark font-semibold mt-1">
-                    80G Eligible / Section 8
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-sans text-[10px] text-brand-grey font-semibold uppercase tracking-wider">
-                    OPERATIONAL TRANSPARENCY
-                  </span>
-                  <span className="font-serif text-sm text-brand-dark font-semibold mt-1">
-                    100% Direct to Villages
-                  </span>
-                </div>
-                <div className="flex flex-col col-span-2 sm:col-span-1">
-                  <span className="font-sans text-[10px] text-brand-grey font-semibold uppercase tracking-wider">
-                    REPORTING FREQUENCY
-                  </span>
-                  <span className="font-serif text-sm text-brand-dark font-semibold mt-1">
-                    Quarterly Audit PDFs
-                  </span>
-                </div>
-              </div>
-
             </div>
 
           </div>
