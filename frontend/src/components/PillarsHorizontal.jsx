@@ -12,16 +12,18 @@ const PillarsHorizontal = ({ isLoaded }) => {
   const hasAnimatedRef = useRef(false)
 
   const categories = [
-    { id: 'all', title: 'all programs', count: 3, desc: 'A holistic overview of our focused programs addressing education hubs, community health and green spaces, and youth vocational empowerment.' },
+    { id: 'all', title: 'all programs', count: 4, desc: 'A holistic overview of our focused programs addressing education hubs, community health and wellness, youth vocational empowerment, and eco-conservation.' },
     { id: 'learning-hub', title: 'village learning hub', count: 1, desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.' },
-    { id: 'neighborhoods', title: 'nurturing neighborhoods', count: 1, desc: 'Uplifting local communities through regular health checkups, clean water projects, and neighborhood greening initiatives.' },
-    { id: 'youth', title: 'empowering youth', count: 1, desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.' }
+    { id: 'neighborhoods', title: 'nurturing neighborhoods', count: 1, desc: 'Uplifting local communities through regular health checkups, wellness camps, and clean water projects.' },
+    { id: 'youth', title: 'empowering youth', count: 1, desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.' },
+    { id: 'mother-earth', title: 'nurturing mother earth', count: 1, desc: 'Preserving our ecosystem through native afforestation drives, solar clinic power setups, and green space development.' }
   ]
 
   const projects = [
     { id: 1, title: 'Village Learning Hub', category: 'learning-hub', subtitle: 'Primary & Digital Literacy', image: '/images/villagelearning2.jpeg', impact: '500+ Rural Girls' },
-    { id: 2, title: 'Nurturing Our Neighborhoods', category: 'neighborhoods', subtitle: 'Community Health & Eco', image: '/images/relief_distribution.jpeg', impact: '1,200+ Beneficiaries' },
-    { id: 3, title: 'Empowering Youth', category: 'youth', subtitle: 'Skills & Autonomy', image: '/images/youth_group.jpeg', impact: '250+ Youth' }
+    { id: 2, title: 'Nurturing Our Neighborhoods', category: 'neighborhoods', subtitle: 'Community Health & Well-being', image: '/images/relief_distribution.jpeg', impact: '1,200+ Beneficiaries' },
+    { id: 3, title: 'Empowering Youth', category: 'youth', subtitle: 'Skills & Autonomy', image: '/images/youth_group.jpeg', impact: '250+ Youth' },
+    { id: 4, title: 'Nurturing Mother Earth', category: 'mother-earth', subtitle: 'Eco-Conservation & Forestry', image: '/images/ecology.jpeg', impact: '5,000+ Saplings Planted' }
   ]
 
   const [displayedProjects, setDisplayedProjects] = useState(projects)

@@ -133,19 +133,25 @@ const Hero = ({ onLoaded }) => {
       title: 'Village Learning Hub',
       subtitle: 'Education & Literacy',
       desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary literacy for rural children.',
-      pos: 'top-[12%] left-3 sm:left-8 md:left-16 lg:left-24'
+      pos: 'top-[10%] left-3 sm:left-8 md:left-16 lg:left-24'
     },
     {
       title: 'Nurturing Our Neighborhoods',
-      subtitle: 'Community & Eco',
-      desc: 'Uplifting local communities with healthcare checkup clinics, clean water infrastructure, and ecological afforestation drives.',
-      pos: 'top-[32%] right-3 sm:right-8 md:right-16 lg:right-24'
+      subtitle: 'Community Health & Care',
+      desc: 'Uplifting local communities with healthcare checkup clinics, hygiene camps, and clean water infrastructure.',
+      pos: 'top-[30%] right-3 sm:right-8 md:right-16 lg:right-24'
     },
     {
       title: 'Empowering Youth',
       subtitle: 'Skills & Autonomy',
       desc: 'Fostering leadership, micro-capital support, and vocational craftsmanship training to empower local youth towards self-reliance.',
-      pos: 'bottom-[12%] left-3 sm:left-8 md:left-16 lg:left-32'
+      pos: 'bottom-[10%] left-3 sm:left-8 md:left-16 lg:left-32'
+    },
+    {
+      title: 'Nurturing Mother Earth',
+      subtitle: 'Eco-Conservation & Forestry',
+      desc: 'Protecting and restoring our local ecosystems through native afforestation drives, solar panels, and environmental awareness.',
+      pos: 'bottom-[30%] right-3 sm:right-8 md:right-16 lg:right-28'
     }
   ]
 

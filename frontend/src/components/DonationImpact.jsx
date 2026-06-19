@@ -22,8 +22,9 @@ const DonationImpact = ({ isLoaded }) => {
   const categories = [
     { id: 'general', title: 'General Operations', desc: 'Directs resources dynamically to where field teams indicate the highest immediate urgency.' },
     { id: 'learning-hub', title: 'Village Learning Hub', desc: 'Directly finances textbooks, digital devices, and operational costs for village learning hubs.' },
-    { id: 'neighborhoods', title: 'Nurturing Our Neighborhoods', desc: 'Funds mobile clinic runs, medicine procurement, clean water filter systems, and afforestation drives.' },
-    { id: 'youth', title: 'Empowering Youth', desc: 'Finances tailoring equipment, micro-enterprise starter kits, and vocational skill workshops.' }
+    { id: 'neighborhoods', title: 'Nurturing Our Neighborhoods', desc: 'Funds mobile clinic runs, medicine procurement, and clean water filter systems.' },
+    { id: 'youth', title: 'Empowering Youth', desc: 'Finances tailoring equipment, micro-enterprise starter kits, and vocational skill workshops.' },
+    { id: 'mother-earth', title: 'Nurturing Mother Earth', desc: 'Finances native tree saplings, protective mesh cages, and clean solar panel energy installations.' }
   ]
 
   // Impact description mapping based on selected amounts
