@@ -4,14 +4,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const DonationImpact = ({ isLoaded }) => {
+const DonationImpact = ({ isLoaded, onProceedToDonation }) => {
   const [donationAmount, setDonationAmount] = useState(100)
   const [customAmount, setCustomAmount] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('general')
-  const [paymentStep, setPaymentStep] = useState('input') // 'input', 'processing', 'success'
   const [donorName, setDonorName] = useState('')
   const [donorEmail, setDonorEmail] = useState('')
-  const [transactionId, setTransactionId] = useState('')
 
   const detailsRef = useRef(null)
   const terminalRef = useRef(null)
@@ -97,23 +95,15 @@ const DonationImpact = ({ isLoaded }) => {
     if (isNaN(currentAmount) || currentAmount < 100) return
     if (!donorName || !donorEmail) return
 
-    // Animate to processing
-    setPaymentStep('processing')
-    
-    // Simulate gateway response
-    setTimeout(() => {
-      const txId = `ASM-${Math.floor(100000 + Math.random() * 900000)}-TX`
-      setTransactionId(txId)
-      setPaymentStep('success')
-    }, 2500)
-  }
-
-  const resetForm = () => {
-    setPaymentStep('input')
-    setCustomAmount('')
-    setDonationAmount(100)
-    setDonorName('')
-    setDonorEmail('')
+    // Navigate to donation payment page
+    if (onProceedToDonation) {
+      onProceedToDonation({
+        donorName,
+        donorEmail,
+        amount: currentAmount,
+        category: selectedCategory
+      })
+    }
   }
 
   return (
@@ -259,7 +249,7 @@ const DonationImpact = ({ isLoaded }) => {
 
           </div>
 
-          {/* Right Column: Secure Payment Terminal (col-span-5) */}
+          {/* Right Column: Donor Info & Proceed Terminal (col-span-5) */}
           <div className="lg:col-span-5">
             <div 
               ref={terminalRef}
@@ -268,126 +258,89 @@ const DonationImpact = ({ isLoaded }) => {
               {/* Payment terminal top banner */}
               <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-dark" />
 
-              {paymentStep === 'input' && (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6 h-full justify-between">
-                  <div className="flex flex-col gap-4">
-                    <div>
-                      <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase">
-                        SECURE TERMINAL
-                      </span>
-                      <h3 className="font-serif text-3xl text-brand-dark mt-1 tracking-tight uppercase">
-                        Donations
-                      </h3>
-                    </div>
-
-                    {/* Inputs */}
-                    <div className="flex flex-col gap-4">
-                      <div className="flex flex-col gap-1.5">
-                        <label className="font-sans text-[9px] font-bold text-brand-grey tracking-wider uppercase">
-                          YOUR FULL NAME
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={donorName}
-                          onChange={(e) => setDonorName(e.target.value)}
-                          placeholder="e.g. Aarti Sharma"
-                          className="w-full h-11 px-4 rounded-xl border border-brand-dark/10 font-sans text-xs bg-brand-cream/10 focus:outline-none focus:border-brand-red/40"
-                          data-cursor="pointer"
-                        />
-                      </div>
-
-                      <div className="flex flex-col gap-1.5">
-                        <label className="font-sans text-[9px] font-bold text-brand-grey tracking-wider uppercase">
-                          YOUR EMAIL ADDRESS
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={donorEmail}
-                          onChange={(e) => setDonorEmail(e.target.value)}
-                          placeholder="e.g. aarti@example.com"
-                          className="w-full h-11 px-4 rounded-xl border border-brand-dark/10 font-sans text-xs bg-brand-cream/10 focus:outline-none focus:border-brand-red/40"
-                          data-cursor="pointer"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-3 mt-4">
-                    <button
-                      type="submit"
-                      className="w-full py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-dark text-brand-cream hover:text-brand-cream transition-all duration-300 shadow-md shadow-brand-red/10 cursor-pointer"
-                      data-cursor="pointer"
-                    >
-                      SECURE DONATION OF ₹{currentAmount}
-                    </button>
-                    <span className="text-[9px] text-brand-grey tracking-wider text-center block">
-                      🔒 Secure 256-Bit Encrypted SSL Gateway
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6 h-full justify-between">
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase">
+                      STEP 1 OF 2
                     </span>
-                  </div>
-                </form>
-              )}
-
-              {paymentStep === 'processing' && (
-                <div className="flex flex-col items-center justify-center py-16 gap-6 my-auto text-center animate-pulse">
-                  {/* Glowing spinner */}
-                  <div className="w-16 h-16 rounded-full border-4 border-brand-dark/10 border-t-brand-red animate-spin" />
-                  <div className="flex flex-col gap-2">
-                    <h4 className="font-serif text-xl text-brand-dark uppercase tracking-wide">
-                      Connecting Gateway
-                    </h4>
-                    <p className="font-sans text-xs text-brand-grey font-light max-w-xs">
-                      Authorizing secure transfer tokens. Please do not close or refresh this pane.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {paymentStep === 'success' && (
-                <div className="flex flex-col items-center justify-center py-10 gap-6 my-auto text-center">
-                  {/* Success Mark */}
-                  <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-500/20 text-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/5">
-                    <svg className="w-8 h-8 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
-                    </svg>
-                  </div>
-                  
-                  <div className="flex flex-col gap-2">
-                    <h4 className="font-serif text-2xl text-brand-dark uppercase tracking-tight">
-                      donation received
-                    </h4>
-                    <p className="font-sans text-xs text-brand-grey font-light max-w-xs">
-                      Thank you, <span className="font-semibold text-brand-dark">{donorName}</span>! Your transfer of <span className="font-semibold text-brand-red">₹{currentAmount}</span> was successful.
-                    </p>
+                    <h3 className="font-serif text-3xl text-brand-dark mt-1 tracking-tight uppercase">
+                      Donor Details
+                    </h3>
                   </div>
 
-                  {/* Receipt block */}
-                  <div className="w-full bg-brand-cream/40 rounded-2xl p-4 border border-brand-dark/5 flex flex-col gap-1.5 text-left font-sans text-[10px] text-brand-grey mt-2">
+                  {/* Donation summary preview */}
+                  <div className="bg-brand-cream/40 rounded-2xl p-4 border border-brand-dark/5 flex flex-col gap-1.5 font-sans text-[10px] text-brand-grey">
                     <div className="flex justify-between">
-                      <span>TRANSACTION ID:</span>
-                      <span className="font-mono font-bold text-brand-dark">{transactionId}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>RECEIPT STATUS:</span>
-                      <span className="font-bold text-emerald-600">SENT TO {donorEmail.toUpperCase()}</span>
-                    </div>
-                    <div className="flex justify-between border-t border-brand-dark/5 pt-1.5 mt-1">
-                      <span>ALLOCATION FOCUS:</span>
+                      <span>ALLOCATION:</span>
                       <span className="font-bold text-brand-dark">{categories.find(c => c.id === selectedCategory)?.title.toUpperCase()}</span>
                     </div>
+                    <div className="flex justify-between border-t border-brand-dark/5 pt-1.5 mt-1 font-bold text-brand-red text-xs">
+                      <span>DONATION AMOUNT:</span>
+                      <span>₹{currentAmount || 0}</span>
+                    </div>
                   </div>
 
+                  {/* Inputs */}
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="font-sans text-[9px] font-bold text-brand-grey tracking-wider uppercase">
+                        YOUR FULL NAME
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={donorName}
+                        onChange={(e) => setDonorName(e.target.value)}
+                        placeholder="e.g. Aarti Sharma"
+                        className="w-full h-11 px-4 rounded-xl border border-brand-dark/10 font-sans text-xs bg-brand-cream/10 focus:outline-none focus:border-brand-red/40"
+                        data-cursor="pointer"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="font-sans text-[9px] font-bold text-brand-grey tracking-wider uppercase">
+                        YOUR EMAIL ADDRESS
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={donorEmail}
+                        onChange={(e) => setDonorEmail(e.target.value)}
+                        placeholder="e.g. aarti@example.com"
+                        className="w-full h-11 px-4 rounded-xl border border-brand-dark/10 font-sans text-xs bg-brand-cream/10 focus:outline-none focus:border-brand-red/40"
+                        data-cursor="pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 80G Info */}
+                  <div className="bg-emerald-50/50 border border-emerald-500/10 rounded-xl p-3 flex items-start gap-2.5">
+                    <svg className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    <p className="font-sans text-[10px] text-emerald-700/80 font-light leading-relaxed">
+                      All donations are <span className="font-bold">80G tax-exempt</span>. An official receipt will be emailed after payment.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 mt-4">
                   <button
-                    type="button"
-                    onClick={resetForm}
-                    className="mt-4 text-xs font-bold font-sans text-brand-red hover:text-brand-dark transition-colors cursor-pointer"
+                    type="submit"
+                    className="w-full py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-dark text-brand-cream hover:text-brand-cream transition-all duration-300 shadow-md shadow-brand-red/10 cursor-pointer flex items-center justify-center gap-2"
                     data-cursor="pointer"
                   >
-                    Make Another Donation
+                    PROCEED TO PAYMENT — ₹{currentAmount}
+                    <svg className="w-4 h-4 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+                    </svg>
                   </button>
+                  <span className="text-[9px] text-brand-grey tracking-wider text-center block">
+                    🔒 Secure 256-Bit Encrypted SSL Gateway
+                  </span>
                 </div>
-              )}
+              </form>
 
             </div>
           </div>

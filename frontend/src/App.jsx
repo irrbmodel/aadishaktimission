@@ -15,6 +15,7 @@ import Team from './components/Team'
 import DonationImpact from './components/DonationImpact'
 import BecomeMember from './components/BecomeMember'
 import MembershipPayment from './components/MembershipPayment'
+import DonationPayment from './components/DonationPayment'
 import Footer from './components/Footer'
 
 // Register GSAP ScrollTrigger
@@ -22,8 +23,15 @@ gsap.registerPlugin(ScrollTrigger)
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [view, setView] = useState('home') // 'home' or 'membership-payment'
+  const [view, setView] = useState('home') // 'home', 'membership-payment', or 'donation-payment'
   const [membershipData, setMembershipData] = useState({ name: '', email: '', phone: '' })
+  const [donationData, setDonationData] = useState({ donorName: '', donorEmail: '', amount: 0, category: 'general' })
+
+  const navigateTo = (targetView, label, callback) => {
+    setView(targetView)
+    if (callback) callback()
+    window.scrollTo(0, 0)
+  }
 
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with premium physics settings
@@ -96,7 +104,11 @@ const App = () => {
       </div>
 
       {/* Navigation Header */}
-      <Navbar isLoaded={isLoaded} view={view} setView={setView} />
+      <Navbar 
+        isLoaded={isLoaded} 
+        view={view} 
+        setView={(v) => navigateTo(v, v === 'home' ? 'Home' : v === 'donation-payment' ? 'Donation' : 'Membership')} 
+      />
 
       {/* Main Content Sections */}
       {view === 'home' ? (
@@ -109,27 +121,43 @@ const App = () => {
           <BecomeMember 
             isLoaded={isLoaded} 
             onProceed={(data) => {
-              // Kill all active ScrollTriggers before unmounting home sections.
-              // Without this, GSAP tries to clean up DOM nodes that React has
-              // already removed, triggering a "removeChild" NotFoundError.
-              ScrollTrigger.getAll().forEach(t => t.kill())
-              setMembershipData(data)
-              setView('membership-payment')
+              navigateTo('membership-payment', 'Membership', () => {
+                ScrollTrigger.getAll().forEach(t => t.kill())
+                setMembershipData(data)
+              })
             }}
           />
-          <DonationImpact isLoaded={isLoaded} />
+          <DonationImpact 
+            isLoaded={isLoaded} 
+            onProceedToDonation={(data) => {
+              navigateTo('donation-payment', 'Donation', () => {
+                ScrollTrigger.getAll().forEach(t => t.kill())
+                setDonationData(data)
+              })
+            }} 
+          />
         </main>
-      ) : (
+      ) : view === 'membership-payment' ? (
         <main className="relative z-10 w-full overflow-hidden">
           <MembershipPayment 
             membershipData={membershipData} 
-            onBack={() => setView('home')} 
+            onBack={() => navigateTo('home', 'Home')} 
+          />
+        </main>
+      ) : (
+        <main className="relative z-10 w-full overflow-hidden">
+          <DonationPayment 
+            donationData={donationData} 
+            onBack={() => navigateTo('home', 'Home')} 
           />
         </main>
       )}
 
       {/* Footer Section */}
-      <Footer view={view} setView={setView} />
+      <Footer 
+        view={view} 
+        setView={(v) => navigateTo(v, v === 'home' ? 'Home' : v === 'donation-payment' ? 'Donation' : 'Membership')} 
+      />
     </div>
   )
 }
