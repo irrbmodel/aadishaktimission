@@ -104,7 +104,7 @@ const JourneyTimeline = ({ isLoaded }) => {
       tag: 'VALUES 01',
       number: '01 / 04',
       desc: 'Empathy is not a passive sentiment. It is the primordial, cosmic spark of action and creation that transforms society from its very roots.',
-      image: '/images/relief_distribution.jpeg',
+      image: '/images/compassion.jpeg',
       color: 'from-brand-red/5 via-brand-red/1 to-transparent'
     },
     {
