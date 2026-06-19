@@ -21,10 +21,9 @@ const DonationImpact = ({ isLoaded }) => {
 
   const categories = [
     { id: 'general', title: 'General Operations', desc: 'Directs resources dynamically to where field teams indicate the highest immediate urgency.' },
-    { id: 'education', title: 'Shakti Shiksha', desc: 'Directly finances textbooks, digital devices, and operational costs for village learning hubs.' },
-    { id: 'health', title: 'Arogya Shakti', desc: 'Funds mobile clinic diagnostic runs, medicine procurement, and sanitary distribution drives.' },
-    { id: 'skills', title: 'Swayam Skill', desc: 'Finances tailoring machines, loom materials, and micro-enterprise capital starter kits.' },
-    { id: 'eco', title: 'Prakriti Shakti', desc: 'Funds afforestation drives, sapling procurement, and community solar installations.' }
+    { id: 'learning-hub', title: 'Village Learning Hub', desc: 'Directly finances textbooks, digital devices, and operational costs for village learning hubs.' },
+    { id: 'neighborhoods', title: 'Nurturing Our Neighborhoods', desc: 'Funds mobile clinic runs, medicine procurement, clean water filter systems, and afforestation drives.' },
+    { id: 'youth', title: 'Empowering Youth', desc: 'Finances tailoring equipment, micro-enterprise starter kits, and vocational skill workshops.' }
   ]
 
   // Impact description mapping based on selected amounts

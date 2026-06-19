@@ -130,28 +130,22 @@ const Hero = ({ onLoaded }) => {
 
   const pillars = [
     {
-      title: 'Shakti Shiksha',
-      subtitle: 'Primary Education',
-      desc: 'Securing quality standard learning resources and scholarships for girls in underserved villages.',
+      title: 'Village Learning Hub',
+      subtitle: 'Education & Literacy',
+      desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary literacy for rural children.',
       pos: 'top-[12%] left-3 sm:left-8 md:left-16 lg:left-24'
     },
     {
-      title: 'Arogya Shakti',
-      subtitle: 'Healthcare Access',
-      desc: 'Conducting rural diagnostic camps, sanitation workshops, and clean water filtration installs.',
-      pos: 'top-[28%] right-3 sm:right-8 md:right-16 lg:right-24'
+      title: 'Nurturing Our Neighborhoods',
+      subtitle: 'Community & Eco',
+      desc: 'Uplifting local communities with healthcare checkup clinics, clean water infrastructure, and ecological afforestation drives.',
+      pos: 'top-[32%] right-3 sm:right-8 md:right-16 lg:right-24'
     },
     {
-      title: 'Swayam Shakti',
-      subtitle: 'Self-Reliance & Skills',
-      desc: 'Providing vocational training in local crafts and micro-capital entrepreneurship grants.',
-      pos: 'bottom-[18%] left-3 sm:left-8 md:left-16 lg:left-32'
-    },
-    {
-      title: 'Prakriti Shakti',
-      subtitle: 'Environmental Drives',
-      desc: 'Sustaining communities with native afforestation drives and local solar energy grids.',
-      pos: 'bottom-[8%] right-3 sm:right-8 md:right-16 lg:right-32'
+      title: 'Empowering Youth',
+      subtitle: 'Skills & Autonomy',
+      desc: 'Fostering leadership, micro-capital support, and vocational craftsmanship training to empower local youth towards self-reliance.',
+      pos: 'bottom-[12%] left-3 sm:left-8 md:left-16 lg:left-32'
     }
   ]
 

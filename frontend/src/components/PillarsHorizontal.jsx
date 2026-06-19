@@ -12,20 +12,16 @@ const PillarsHorizontal = ({ isLoaded }) => {
   const hasAnimatedRef = useRef(false)
 
   const categories = [
-    { id: 'all', title: 'all programs', count: 30, desc: 'A holistic overview of our direct interventions addressing female literacy, diagnostic healthcare, vocational training, and environmental canopy protection across rural districts.' },
-    { id: 'education', title: 'primary education', count: 12, desc: 'Creating secure, standard learning centers, providing merit scholarships, and donating computer resources to secure primary education pathways for rural girls.' },
-    { id: 'health', title: 'healthcare wings', count: 8, desc: 'Conducting regular local medical checkups, diagnostic camps, nutritional audits, clean water filter installations, and maternal care outreach campaigns.' },
-    { id: 'livelihood', title: 'skill incubation', count: 6, desc: 'Facilitating hands-on skill training in local tailoring, organic weaving, and digital literacy, paired with interest-free micro-grants for enterprise creation.' },
-    { id: 'conservation', title: 'eco-conservation', count: 4, desc: 'Launching afforestation drives to plant native tree species, introducing bio-waste setups, and retrofitting local community centers with solar power grids.' }
+    { id: 'all', title: 'all programs', count: 3, desc: 'A holistic overview of our focused programs addressing education hubs, community health and green spaces, and youth vocational empowerment.' },
+    { id: 'learning-hub', title: 'village learning hub', count: 1, desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.' },
+    { id: 'neighborhoods', title: 'nurturing neighborhoods', count: 1, desc: 'Uplifting local communities through regular health checkups, clean water projects, and neighborhood greening initiatives.' },
+    { id: 'youth', title: 'empowering youth', count: 1, desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.' }
   ]
 
   const projects = [
-    { id: 1, title: 'Village Learning Hubs', category: 'education', subtitle: 'Primary Literacy', image: '/images/villagelearning2.jpeg', impact: '500+ Rural Girls' },
-    { id: 2, title: 'Mobile Clinic Vans', category: 'health', subtitle: 'Diagnostic Camps', image: '/images/relief_distribution.jpeg', impact: '1,200+ Patients' },
-    { id: 3, title: 'Weaving Autonomy Labs', category: 'livelihood', subtitle: 'Vocational Training', image: '/images/women_empowerment_class.jpeg', impact: '80+ Rural Artisans' },
-    { id: 4, title: 'Native Canopy Campaigns', category: 'conservation', subtitle: 'Afforestation', image: '/images/nativecanopy.jpeg', impact: '5,000+ Saplings' },
-    { id: 5, title: 'Digital Shakti Hubs', category: 'education', subtitle: 'Computer Literacy', image: '/images/girls_studying.jpeg', impact: '250+ Students' },
-    { id: 6, title: 'Maternal Nutrition Camps', category: 'health', subtitle: 'Maternal Diagnostics', image: '/images/maternalnutrition.jpeg', impact: '450+ Mothers' }
+    { id: 1, title: 'Village Learning Hub', category: 'learning-hub', subtitle: 'Primary & Digital Literacy', image: '/images/villagelearning2.jpeg', impact: '500+ Rural Girls' },
+    { id: 2, title: 'Nurturing Our Neighborhoods', category: 'neighborhoods', subtitle: 'Community Health & Eco', image: '/images/relief_distribution.jpeg', impact: '1,200+ Beneficiaries' },
+    { id: 3, title: 'Empowering Youth', category: 'youth', subtitle: 'Skills & Autonomy', image: '/images/youth_group.jpeg', impact: '250+ Youth' }
   ]
 
   const [displayedProjects, setDisplayedProjects] = useState(projects)
