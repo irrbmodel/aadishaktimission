@@ -160,7 +160,7 @@ const Hero = ({ onLoaded }) => {
       {/* 1. Preloader Overlay */}
       <div 
         ref={loaderRef}
-        className="fixed inset-0 w-full h-full bg-brand-cream flex flex-col justify-center items-center z-9999 select-none pointer-events-none"
+        className="fixed inset-0 w-full h-full bg-brand-skyblue flex flex-col justify-center items-center z-9999 select-none pointer-events-none"
       >
         <div className="flex flex-col items-center">
           {/* NGO Logo Wrapper for Mask Reveal */}
@@ -181,7 +181,7 @@ const Hero = ({ onLoaded }) => {
 
           <div className="overflow-hidden mb-6 py-1">
             <span className="loader-reveal-text block font-sans text-[9px] font-bold tracking-[0.35em] text-brand-grey uppercase">
-              rural transformation mission
+              let me be your helping hand
             </span>
           </div>
 
