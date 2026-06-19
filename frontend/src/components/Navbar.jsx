@@ -93,10 +93,10 @@ const Navbar = ({ isLoaded }) => {
             className="flex items-baseline gap-2 group focus:outline-none"
             data-cursor="pointer"
           >
-            <span className="font-serif text-2xl md:text-3xl text-brand-dark tracking-tight">
+            <span className="font-serif font-bold text-2xl md:text-3xl text-brand-dark tracking-tight">
               Aadi Shakti.
             </span>
-            <span className="font-sans text-[9px] font-bold tracking-[0.25em] text-brand-grey uppercase">
+            <span className="font-display text-[9px] font-black tracking-[0.25em] text-brand-dark uppercase">
               mission
             </span>
           </a>

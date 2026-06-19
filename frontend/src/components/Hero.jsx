@@ -226,10 +226,10 @@ const Hero = ({ onLoaded }) => {
           ref={titleContainerRef}
           className="absolute z-10 flex flex-col items-center text-center select-none pointer-events-none"
         >
-          <span className="font-serif text-[10vw] md:text-[8vw] text-brand-white leading-[0.9] tracking-tight">
+          <span className="font-serif font-bold text-[10vw] md:text-[8vw] text-brand-white leading-[0.9] tracking-tight">
             Aadi Shakti.
           </span>
-          <span className="font-sans text-xs md:text-sm font-bold tracking-[0.4em] text-brand-white/60 uppercase mt-2">
+          <span className="font-display text-xs md:text-sm font-black tracking-[0.4em] text-brand-white/90 uppercase mt-2">
             empowering change from the roots
           </span>
         </div>
