@@ -10,6 +10,7 @@ const Hero = ({ onLoaded }) => {
   const titleContainerRef = useRef(null)
   const cardsRef = useRef([])
   const loaderRef = useRef(null)
+  const scrollCueRef = useRef(null)
 
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -119,6 +120,14 @@ const Hero = ({ onLoaded }) => {
       )
     })
 
+    // Fade out scroll cue towards the end of pinning
+    mainTimeline.to(scrollCueRef.current, {
+      opacity: 0,
+      y: 20,
+      pointerEvents: 'none',
+      ease: 'power1.inOut'
+    }, 0.5)
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => {
         if (trigger.vars.trigger === container) {
@@ -155,6 +164,13 @@ const Hero = ({ onLoaded }) => {
     }
   ]
 
+  const handleScrollToAbout = () => {
+    const aboutSection = document.getElementById('philosophy')
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <div id="hero" className="relative w-full overflow-x-hidden">
       {/* 1. Preloader Overlay */}
@@ -174,13 +190,13 @@ const Hero = ({ onLoaded }) => {
 
           {/* Logo / Title with Mask Overflow Reveal */}
           <div className="overflow-hidden mb-2 py-2">
-            <span className="loader-reveal-text block font-serif text-5xl md:text-7xl text-brand-dark tracking-tight leading-none">
+            <span className="loader-reveal-text block font-serif font-bold text-5xl md:text-7xl text-brand-dark tracking-tight leading-none">
               Aadi Shakti.
             </span>
           </div>
 
           <div className="overflow-hidden mb-6 py-1">
-            <span className="loader-reveal-text block font-sans text-[9px] font-bold tracking-[0.35em] text-brand-grey uppercase">
+            <span className="loader-reveal-text block font-sans text-[9px] font-black tracking-[0.35em] text-brand-dark uppercase">
               let me be your helping hand
             </span>
           </div>
@@ -194,7 +210,7 @@ const Hero = ({ onLoaded }) => {
           </div>
 
           {/* Percentage Counter */}
-          <div className="font-display text-[10px] font-bold tracking-[0.2em] text-brand-red mt-4">
+          <div className="font-display text-[10px] font-black tracking-[0.2em] text-brand-red mt-4">
             {loadingProgress} %
           </div>
         </div>
@@ -233,13 +249,21 @@ const Hero = ({ onLoaded }) => {
           />
         </div>
 
-        {/* Scroll text indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 select-none pointer-events-none opacity-60">
-          <span className="font-sans text-[10px] font-bold tracking-[0.3em] text-brand-grey uppercase">
-            SCROLL TO EXPLORE
-          </span>
-          <div className="w-px h-12 bg-brand-dark/30 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full bg-brand-red animate-bounce" />
+        {/* Premium Clickable Scroll Cue Container (Centrally aligned using flex layout to avoid GSAP transform conflicts) */}
+        <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center pointer-events-none">
+          <div 
+            ref={scrollCueRef}
+            onClick={handleScrollToAbout}
+            className="flex flex-col items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105 group pointer-events-auto active:scale-95"
+            data-cursor="pointer"
+          >
+            <span className="font-sans text-[9px] font-bold tracking-[0.3em] text-brand-grey group-hover:text-brand-red transition-colors uppercase select-none">
+              Keep Scrolling
+            </span>
+            {/* Animated Mouse Icon */}
+            <div className="w-6 h-10 border border-brand-dark/30 rounded-full flex justify-center pt-2 group-hover:border-brand-red/50 transition-colors bg-brand-cream/40 backdrop-blur-xs">
+              <div className="w-1 h-2.5 bg-brand-red rounded-full animate-scroll-dot" />
+            </div>
           </div>
         </div>
 
