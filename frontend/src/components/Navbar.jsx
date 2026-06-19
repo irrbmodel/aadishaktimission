@@ -86,19 +86,28 @@ const Navbar = ({ isLoaded }) => {
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo & Brand Name */}
           <a 
             href="#" 
             onClick={(e) => handleNavClick(e, 'hero')}
-            className="flex items-baseline gap-2 group focus:outline-none"
+            className="flex items-center gap-3 group focus:outline-none"
             data-cursor="pointer"
           >
-            <span className="font-serif font-bold text-2xl md:text-3xl text-brand-dark tracking-tight">
-              Aadi Shakti.
-            </span>
-            <span className="font-display text-[9px] font-black tracking-[0.25em] text-brand-dark uppercase">
-              mission
-            </span>
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full overflow-hidden border border-brand-dark/10 shadow-xs shrink-0">
+              <img 
+                src="/logo.jpg" 
+                alt="Aadi Shakti Logo" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="font-serif font-bold text-2xl md:text-3xl text-brand-dark tracking-tight">
+                Aadi Shakti.
+              </span>
+              <span className="font-display text-[9px] font-black tracking-[0.25em] text-brand-dark uppercase">
+                mission
+              </span>
+            </div>
           </a>
 
           <div className="flex items-center gap-6">
