@@ -51,11 +51,12 @@ const Footer = ({ view, setView }) => {
                 href={`#${link.id}`}
                 onClick={(e) => {
                   e.preventDefault()
+                  if (link.id === 'donation-impact') {
+                    if (setView) setView('donation')
+                    return
+                  }
                   if (view !== 'home' && setView) {
-                    setView('home')
-                    setTimeout(() => {
-                      document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth' })
-                    }, 150)
+                    setView('home', link.id)
                   } else {
                     document.getElementById(link.id)?.scrollIntoView({ behavior: 'smooth' })
                   }

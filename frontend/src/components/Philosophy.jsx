@@ -31,118 +31,107 @@ const Philosophy = ({ isLoaded }) => {
   useEffect(() => {
     if (!isLoaded) return
 
-    const words = paragraphRef.current.querySelectorAll('.reveal-word')
-    
-    const keywords = ['Aadi Shakti Mission', 'social, economic, and ecological', 'rural transformation', 'human empowerment']
+    const ctx = gsap.context(() => {
+      const words = paragraphRef.current.querySelectorAll('.reveal-word')
+      const keywords = ['Aadi Shakti Mission', 'social, economic, and ecological', 'rural transformation', 'human empowerment']
 
-    gsap.fromTo(words,
-      { 
-        color: 'rgba(0, 0, 0, 0.08)',
-        fontWeight: '400'
-      },
-      {
-        color: (index, target) => {
-          const text = target.textContent.trim()
-          if (keywords.some(k => k.includes(text) && text.length > 3)) {
-            return '#9B0000'
-          }
-          return '#000000'
+      gsap.fromTo(words,
+        { 
+          color: 'rgba(0, 0, 0, 0.08)',
+          fontWeight: '400'
         },
-        fontWeight: (index, target) => {
-          const text = target.textContent.trim()
-          if (keywords.some(k => k.includes(text) && text.length > 3)) {
-            return '700'
+        {
+          color: (index, target) => {
+            const text = target.textContent.trim()
+            if (keywords.some(k => k.includes(text) && text.length > 3)) {
+              return '#9B0000'
+            }
+            return '#000000'
+          },
+          fontWeight: (index, target) => {
+            const text = target.textContent.trim()
+            if (keywords.some(k => k.includes(text) && text.length > 3)) {
+              return '700'
+            }
+            return '400'
+          },
+          stagger: 0.05,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: paragraphRef.current,
+            start: 'top 75%',
+            end: 'bottom 45%',
+            scrub: true,
           }
-          return '400'
-        },
-        stagger: 0.05,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: paragraphRef.current,
-          start: 'top 75%',
-          end: 'bottom 45%',
-          scrub: true,
         }
-      }
-    )
+      )
 
-    // Subheading word slide-up reveal
-    const subHeading = subHeadingRef.current
-    const subWords = subHeading.querySelectorAll('.reveal-word-up')
-    gsap.fromTo(subWords,
-      { yPercent: 100 },
-      {
-        yPercent: 0,
-        stagger: 0.03,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: subHeading,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
+      // Subheading word slide-up reveal
+      const subHeading = subHeadingRef.current
+      const subWords = subHeading.querySelectorAll('.reveal-word-up')
+      gsap.fromTo(subWords,
+        { yPercent: 100 },
+        {
+          yPercent: 0,
+          stagger: 0.03,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: subHeading,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      }
-    )
+      )
 
-    // Background Parallax Divider Card
-    gsap.fromTo(bgDivRef.current,
-      { y: -70 },
-      {
-        y: 70,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
+      // Background Parallax Divider Card
+      gsap.fromTo(bgDivRef.current,
+        { y: -70 },
+        {
+          y: 70,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
         }
-      }
-    )
+      )
 
-    // Video Container Floating Parallax
-    gsap.fromTo(videoContainerRef.current,
-      { y: 50 },
-      {
-        y: -50,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: videoContainerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
+      // Video Container Floating Parallax
+      gsap.fromTo(videoContainerRef.current,
+        { y: 50 },
+        {
+          y: -50,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: videoContainerRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
         }
-      }
-    )
+      )
 
-    // Description text slide-up reveal
-    gsap.fromTo(descTextRef.current,
-      { y: 35, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: descTextRef.current,
-          start: 'top 88%',
-          toggleActions: 'play none none none'
+      // Description text slide-up reveal
+      gsap.fromTo(descTextRef.current,
+        { y: 35, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: descTextRef.current,
+            start: 'top 88%',
+            toggleActions: 'play none none none'
+          }
         }
-      }
-    )
+      )
+    }, containerRef)
 
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (
-          trigger.vars.trigger === paragraphRef.current || 
-          trigger.vars.trigger === subHeading ||
-          trigger.vars.trigger === containerRef.current ||
-          trigger.vars.trigger === videoContainerRef.current ||
-          trigger.vars.trigger === descTextRef.current
-        ) {
-          trigger.kill()
-        }
-      })
-    }
+    return () => ctx.revert()
   }, [isLoaded])
 
   // 2. Custom GSAP Slider Transition
@@ -190,7 +179,7 @@ const Philosophy = ({ isLoaded }) => {
       {/* Background Parallax Divider Card (Septiembre style) */}
       <div 
         ref={bgDivRef}
-        className="absolute left-0 right-0 w-full h-[50%] bg-brand-cream z-0"
+        className="absolute left-0 right-0 w-full h-[50%] bg-brand-white/55 border-y border-brand-dark/5 shadow-inner z-0"
         style={{ top: '35%' }}
       />
 
@@ -266,13 +255,13 @@ const Philosophy = ({ isLoaded }) => {
         </div>
 
         {/* Bottom Section: Horizontal Swiper/GSAP Image Slider */}
-        <div className="mt-16 bg-brand-white border border-brand-dark/5 p-6 md:p-8 rounded-3xl shadow-xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="mt-16 bg-brand-white border border-brand-dark/5 p-8 md:p-12 rounded-[32px] shadow-2xl border-fine transform-gpu">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
             
             {/* Custom Interactive Image Slider viewport */}
             <div 
               ref={sliderRef}
-              className="lg:col-span-8 relative w-full aspect-video sm:aspect-16/10 rounded-2xl overflow-hidden border border-brand-dark/5 flex items-center justify-center select-none"
+              className="lg:col-span-8 relative w-full aspect-video sm:aspect-16/10 rounded-[20px] overflow-hidden border border-brand-dark/5 flex items-center justify-center select-none"
             >
               {/* Invisible clickable zones for prev/next navigation */}
               <div 
@@ -294,61 +283,70 @@ const Philosophy = ({ isLoaded }) => {
                     idx === sliderIndex ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'
                   }`}
                 >
-                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 to-transparent z-10 pointer-events-none" />
+                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/30 to-transparent z-10 pointer-events-none" />
                   <img 
                     src={img.src} 
                     alt={img.title} 
                     className="w-full h-full object-cover pointer-events-none"
                   />
-                  <div className="absolute bottom-4 left-4 right-4 z-20 select-none pointer-events-none">
-                    <span className="font-serif text-sm text-brand-cream tracking-tight block">
-                      {img.title}
-                    </span>
-                  </div>
                 </div>
               ))}
             </div>
 
             {/* Sidebar Control Panel */}
-            <div className="lg:col-span-4 flex flex-col justify-between h-full py-4">
+            <div className="lg:col-span-4 flex flex-col justify-between py-2">
               <div className="flex flex-col gap-6">
                 <div>
-                  <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase block mb-1">
+                  <span className="font-sans text-[10px] font-black tracking-[0.25em] text-brand-grey uppercase block mb-1">
                     FIELD WORK SNAPSHOTS
                   </span>
-                  <span className="font-sans text-xs font-bold text-brand-red tracking-wider">
-                    0{sliderIndex + 1} / 0{images.length}
-                  </span>
+                  <div className="flex items-center justify-between border-b border-brand-dark/5 pb-4 mt-2">
+                    <span className="font-display text-xs font-black text-brand-red tracking-wider">
+                      0{sliderIndex + 1} &mdash; 0{images.length}
+                    </span>
+                    
+                    {/* Minimal Dots Progress Indicators */}
+                    <div className="flex gap-1.5 select-none">
+                      {images.map((_, idx) => (
+                        <div
+                          key={idx}
+                          className={`h-1.5 rounded-full transition-all duration-300 ${
+                            idx === sliderIndex ? 'w-6 bg-brand-red' : 'w-1.5 bg-brand-dark/10'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="border-t border-brand-dark/5 pt-6">
-                  <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase block mb-2">
+                <div className="pt-2">
+                  <span className="font-sans text-[9px] font-black tracking-[0.25em] text-brand-grey/65 uppercase block mb-3">
                     ACTIVE PROJECT
                   </span>
-                  <h4 className="font-serif text-2xl md:text-3xl text-brand-dark tracking-tight leading-tight">
+                  <h4 className="font-serif text-xl sm:text-2xl text-brand-dark tracking-tight leading-relaxed max-w-sm">
                     {images[sliderIndex].title}
                   </h4>
                 </div>
               </div>
 
               {/* Navigation Buttons */}
-              <div className="flex items-center gap-6 mt-8 select-none">
+              <div className="flex items-center gap-4 mt-8 select-none">
                 <button 
                   onClick={handlePrev}
-                  className="px-4 py-2 border border-brand-dark/10 rounded-full text-xs font-bold text-brand-dark hover:border-brand-red hover:text-brand-red transition-all cursor-pointer flex items-center gap-2"
+                  className="px-5 py-3 border border-brand-dark/10 rounded-full font-sans text-[10px] font-bold tracking-widest uppercase text-brand-dark hover:bg-brand-dark hover:text-brand-white transition-all duration-300 cursor-pointer flex items-center gap-2"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
                   </svg>
-                  PREVIOUS
+                  Prev
                 </button>
                 <button 
                   onClick={handleNext}
-                  className="px-4 py-2 border border-brand-dark/10 rounded-full text-xs font-bold text-brand-dark hover:border-brand-red hover:text-brand-red transition-all cursor-pointer flex items-center gap-2"
+                  className="px-5 py-3 border border-brand-dark/10 rounded-full font-sans text-[10px] font-bold tracking-widest uppercase text-brand-dark hover:bg-brand-dark hover:text-brand-white transition-all duration-300 cursor-pointer flex items-center gap-2"
                 >
-                  NEXT
+                  Next
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </div>

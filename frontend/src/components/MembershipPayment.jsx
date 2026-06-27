@@ -736,6 +736,72 @@ const MembershipPayment = ({ membershipData, onBack }) => {
               </div>
             </div>
 
+            {/* WhatsApp Group Join Bridge */}
+            <div className="w-full max-w-md bg-emerald-500/5 border border-emerald-500/10 p-6 rounded-[24px] shadow-lg flex flex-col items-center gap-4 text-center">
+              <span className="font-sans text-[9px] font-black tracking-widest text-emerald-600 uppercase block select-none">
+                WHATSAPP CIRCLE GATEWAY
+              </span>
+              
+              {/* Beautifully Framed QR Code Graphic */}
+              <div className="relative p-3 bg-brand-white rounded-2xl border border-emerald-500/10 shadow-xs select-none">
+                <svg width="120" height="120" viewBox="0 0 100 100" fill="none" className="text-brand-dark">
+                  {/* Outer border & frame */}
+                  <rect width="100" height="100" rx="12" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
+                  {/* Mock QR code squares */}
+                  {/* Corners */}
+                  <rect x="10" y="10" width="20" height="20" rx="2" fill="currentColor" />
+                  <rect x="14" y="14" width="12" height="12" rx="1" fill="#ffffff" />
+                  <rect x="17" y="17" width="6" height="6" fill="currentColor" />
+
+                  <rect x="70" y="10" width="20" height="20" rx="2" fill="currentColor" />
+                  <rect x="74" y="14" width="12" height="12" rx="1" fill="#ffffff" />
+                  <rect x="77" y="17" width="6" height="6" fill="currentColor" />
+
+                  <rect x="10" y="70" width="20" height="20" rx="2" fill="currentColor" />
+                  <rect x="14" y="74" width="12" height="12" rx="1" fill="#ffffff" />
+                  <rect x="17" y="77" width="6" height="6" fill="currentColor" />
+
+                  {/* QR details & dots pattern representing mock payload */}
+                  <rect x="40" y="10" width="4" height="8" rx="1" fill="currentColor" />
+                  <rect x="50" y="15" width="8" height="4" rx="1" fill="currentColor" />
+                  <rect x="45" y="25" width="15" height="4" rx="1" fill="currentColor" />
+
+                  <rect x="10" y="40" width="8" height="4" rx="1" fill="currentColor" />
+                  <rect x="15" y="50" width="4" height="8" rx="1" fill="currentColor" />
+                  <rect x="25" y="45" width="4" height="15" rx="1" fill="currentColor" />
+
+                  <rect x="40" y="40" width="20" height="20" rx="2" fill="#10b981" />
+                  {/* Center WhatsApp icon mock shape */}
+                  <path d="M 50,44 C 46.7,44 44,46.7 44,50 C 44,51.3 44.4,52.5 45.1,53.5 L 44.2,56.8 L 47.5,55.9 C 48.5,56.6 49.7,57 51,57 C 54.3,57 57,54.3 57,51 C 57,47.7 54.3,44 51,44 Z" fill="#ffffff" />
+                  
+                  <rect x="70" y="40" width="8" height="8" rx="1" fill="currentColor" />
+                  <rect x="80" y="50" width="10" height="4" rx="1" fill="currentColor" />
+
+                  <rect x="40" y="70" width="12" height="4" rx="1" fill="currentColor" />
+                  <rect x="45" y="80" width="8" height="8" rx="1" fill="currentColor" />
+                  <rect x="70" y="70" width="8" height="4" rx="1" fill="currentColor" />
+                  <rect x="80" y="80" width="10" height="10" rx="1" fill="currentColor" />
+                </svg>
+              </div>
+
+              <div className="flex flex-col gap-1 px-4">
+                <p className="font-sans text-xs text-brand-grey font-light">
+                  Scan the QR code or click the button below to join the official **Aadi Shakti community circle** on WhatsApp.
+                </p>
+              </div>
+
+              {/* Pulsing Green WhatsApp Button */}
+              <a
+                href="https://chat.whatsapp.com/mock-aadi-shakti"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-3.5 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-[#10b981] hover:bg-[#059669] text-white transition-all cursor-pointer text-center shadow-lg shadow-emerald-500/10 animate-pulse relative block mb-2"
+                data-cursor="pointer"
+              >
+                💬 Enter the Aadi Shakti Circle
+              </a>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
               <button
                 type="button"

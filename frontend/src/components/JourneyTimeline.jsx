@@ -11,91 +11,95 @@ const JourneyTimeline = ({ isLoaded }) => {
   useEffect(() => {
     if (!isLoaded) return
 
-    const pinWrap = pinWrapRef.current
-    const container = containerRef.current
-    if (!pinWrap || !container) return
+    let ctx;
+    const timer = setTimeout(() => {
+      const pinWrap = pinWrapRef.current
+      const container = containerRef.current
+      if (!pinWrap || !container) return
 
-    const mm = gsap.matchMedia()
+      ctx = gsap.context(() => {
+        const getScrollDistance = () => pinWrap.scrollWidth - window.innerWidth
+        
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            pin: true,
+            scrub: 1,
+            start: 'top top',
+            end: () => `+=${getScrollDistance()}`,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+            fastScrollEnd: true,
+          }
+        })
 
-    // Horizontal Scroll for all screen sizes with Scroll Pin gap fix
-    mm.add('(min-width: 0px)', () => {
-      // Calculate scroll duration dynamically based on actual content width
-      const getScrollDistance = () => pinWrap.scrollWidth - window.innerWidth
-      
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          pin: true,
-          scrub: 1,
-          start: 'top top',
-          end: () => `+=${getScrollDistance()}`,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          fastScrollEnd: true,
-        }
-      })
-
-      // Animate the horizontal translate of the wrapper
-      tl.to(pinWrap, {
-        x: () => -getScrollDistance(),
-        ease: 'none'
-      }, 0)
-
-      // Sync progress bar animation
-      const progressBar = container.querySelector('.timeline-progress-bar')
-      if (progressBar) {
-        tl.to(progressBar, {
-          width: '100%',
+        // Animate the horizontal translate of the wrapper
+        tl.to(pinWrap, {
+          x: () => -getScrollDistance(),
           ease: 'none'
         }, 0)
-      }
 
-      // Parallax effect on panel images
-      const images = pinWrap.querySelectorAll('.panel-img')
-      images.forEach(img => {
-        gsap.fromTo(img,
-          { scale: 1.15, xPercent: -6 },
-          {
-            scale: 1,
-            xPercent: 6,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: img,
-              containerAnimation: tl,
-              start: 'left right',
-              end: 'right left',
-              scrub: true,
-            }
-          }
-        )
-      })
+        // Sync progress bar animation
+        const progressBar = container.querySelector('.timeline-progress-bar')
+        if (progressBar) {
+          tl.to(progressBar, {
+            width: '100%',
+            ease: 'none'
+          }, 0)
+        }
 
-      // Premium text stagger parallax as panels slide into view
-      const panels = pinWrap.querySelectorAll('.concept-panel')
-      panels.forEach(panel => {
-        const textWrapper = panel.querySelector('.text-wrapper')
-        if (textWrapper) {
-          gsap.fromTo(textWrapper,
-            { opacity: 0.4, y: 40, scale: 0.97 },
+        // Parallax effect on panel images
+        const images = pinWrap.querySelectorAll('.panel-img')
+        images.forEach(img => {
+          gsap.fromTo(img,
+            { scale: 1.15, xPercent: -10 },
             {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              ease: 'power1.out',
+              scale: 1.02,
+              xPercent: 10,
+              ease: 'none',
               scrollTrigger: {
-                trigger: panel,
+                trigger: img.parentNode,
                 containerAnimation: tl,
-                start: 'left 85%',
-                end: 'left 40%',
+                start: 'left right',
+                end: 'right left',
                 scrub: true,
               }
             }
           )
-        }
-      })
-    })
+        })
 
-    return () => mm.revert()
+        // Premium text stagger parallax as panels slide into view
+        const panels = pinWrap.querySelectorAll('.concept-panel')
+        panels.forEach(panel => {
+          const textWrapper = panel.querySelector('.text-wrapper')
+          if (textWrapper) {
+            gsap.fromTo(textWrapper,
+              { opacity: 0.4, y: 30, scale: 0.98 },
+              {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                ease: 'power1.out',
+                scrollTrigger: {
+                  trigger: panel,
+                  containerAnimation: tl,
+                  start: 'left 85%',
+                  end: 'left 40%',
+                  scrub: true,
+                }
+              }
+            )
+          }
+        })
+      }, container)
+
+      ScrollTrigger.refresh()
+    }, 200)
+
+    return () => {
+      clearTimeout(timer)
+      if (ctx) ctx.revert()
+    }
   }, [isLoaded])
 
   const concepts = [
@@ -165,13 +169,13 @@ const JourneyTimeline = ({ isLoaded }) => {
         {concepts.map((item, idx) => (
           <div 
             key={item.title}
-            className="concept-panel w-screen h-full flex items-center justify-center px-4 sm:px-6 md:px-12 pt-40 sm:pt-44 pb-12 shrink-0"
+            className="concept-panel w-screen h-full flex items-center justify-center px-6 sm:px-10 md:px-16 pt-40 sm:pt-44 pb-12 shrink-0"
           >
             <div 
-              className={`w-full max-w-6xl rounded-[32px] border border-brand-dark/5 p-5 sm:p-8 md:p-14 bg-linear-to-br ${item.color} bg-brand-white/80 backdrop-blur-xl shadow-[0_15px_45px_rgba(0,0,0,0.02)] hover:shadow-[0_25px_50px_rgba(155,0,0,0.05)] hover:border-brand-red/15 transition-all duration-500 flex flex-col lg:grid lg:grid-cols-12 gap-5 md:gap-12 items-center relative overflow-hidden`}
+              className={`w-full max-w-6xl rounded-[32px] border border-brand-dark/5 p-6 sm:p-10 md:p-14 bg-linear-to-br ${item.color} bg-brand-white/70 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.03)] hover:shadow-[0_30px_60px_rgba(155,0,0,0.06)] hover:border-brand-red/15 transition-all duration-700 flex flex-col lg:grid lg:grid-cols-12 gap-8 md:gap-14 items-center relative overflow-hidden`}
             >
               {/* Fractional counter in corner */}
-              <div className="absolute top-6 right-8 z-20 select-none">
+              <div className="absolute top-8 right-8 z-20 select-none">
                 <span className="font-display text-[10px] font-bold text-brand-grey/40 tracking-[0.2em]">
                   {item.number}
                 </span>
@@ -179,13 +183,13 @@ const JourneyTimeline = ({ isLoaded }) => {
 
               {/* Text column */}
               <div className="text-wrapper lg:col-span-7 flex flex-col items-start order-2 lg:order-1">
-                <span className="font-sans text-[10px] font-black text-brand-red tracking-[0.2em] uppercase">
+                <span className="font-sans text-[9px] font-black text-brand-red tracking-[0.25em] uppercase border-b border-brand-red/20 pb-1.5">
                   {item.tag}
                 </span>
-                <h3 className="font-serif text-2xl sm:text-4xl lg:text-7xl text-brand-dark tracking-tight mt-2 md:mt-4 uppercase leading-none">
+                <h3 className="font-serif text-3xl sm:text-5xl lg:text-8xl text-brand-dark tracking-tighter mt-4 md:mt-6 uppercase leading-none font-black">
                   {item.title}
                 </h3>
-                <p className="font-sans text-xs sm:text-base text-brand-grey/90 leading-relaxed mt-4 md:mt-6 font-light max-w-lg">
+                <p className="font-sans text-xs sm:text-sm md:text-base text-brand-grey/80 leading-relaxed mt-5 md:mt-8 font-light max-w-xl">
                   {item.desc}
                 </p>
               </div>
@@ -200,7 +204,7 @@ const JourneyTimeline = ({ isLoaded }) => {
                   <img 
                     src={item.image} 
                     alt={item.title} 
-                    className="panel-img w-full h-full object-cover scale-110 pointer-events-none"
+                    className="panel-img w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700 pointer-events-none"
                   />
                 </div>
               </div>

@@ -1,305 +1,390 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import React, { useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 
-gsap.registerPlugin(ScrollTrigger)
+// Render 3D Push-Pin with drop shadow (Declared outside component scope to maintain stable element identity)
+const PushPin = ({ color = '#dc2626' }) => (
+  <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-30 pointer-events-none flex flex-col items-center">
+    {/* Real drop shadow offset below the pin */}
+    <div className="absolute w-7 h-7 bg-black/45 rounded-full blur-[3px] translate-x-3.5 translate-y-4" />
+    {/* 3D SVG Pin Head & Needle */}
+    <svg width="38" height="44" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id={`pin-head-${color.replace('#', '')}`} cx="30%" cy="30%" r="70%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.5" />
+          <stop offset="25%" stopColor={color} />
+          <stop offset="100%" stopColor="#1a0000" />
+        </radialGradient>
+        <linearGradient id="pin-needle-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#999999" />
+          <stop offset="50%" stopColor="#e5e5e5" />
+          <stop offset="100%" stopColor="#666666" />
+        </linearGradient>
+      </defs>
+      {/* Plastic push head shape */}
+      <path 
+        d="M 6,2 L 18,2 L 16,10 L 20,13 L 20,16 L 4,16 L 4,13 L 8,10 Z" 
+        fill={`url(#pin-head-${color.replace('#', '')})`} 
+        stroke="rgba(0,0,0,0.15)"
+        strokeWidth="0.5"
+      />
+      {/* Metal needle pinning the card */}
+      <rect x="11.2" y="16" width="1.6" height="10" fill="url(#pin-needle-grad)" />
+    </svg>
+  </div>
+)
 
-const PillarsHorizontal = ({ isLoaded }) => {
-  const [activeCategory, setActiveCategory] = useState('all')
-  const contentRef = useRef(null)
-  const headerRef = useRef(null)
-  const sectionRef = useRef(null)
-  const hasAnimatedRef = useRef(false)
 
-  const categories = [
-    { id: 'all', title: 'all programs', count: 4, desc: 'A holistic overview of our focused programs addressing education hubs, community health and wellness, youth vocational empowerment, and eco-conservation.' },
-    { id: 'learning-hub', title: 'village learning hub', count: 1, desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.' },
-    { id: 'neighborhoods', title: 'nurturing neighborhoods', count: 1, desc: 'Uplifting local communities through regular health checkups, wellness camps, and clean water projects.' },
-    { id: 'youth', title: 'empowering youth', count: 1, desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.' },
-    { id: 'mother-earth', title: 'nurturing mother earth', count: 1, desc: 'Preserving our ecosystem through native afforestation drives, solar clinic power setups, and green space development.' }
-  ]
+// Interactive Program Polaroid Card Component with 3D Mouse Tilt Dynamics
+const ProgramCard = ({ proj, onClick }) => {
+  const cardRef = useRef(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
-  const projects = [
-    { id: 1, title: 'Village Learning Hub', category: 'learning-hub', subtitle: 'Primary & Digital Literacy', image: '/images/villagelearning2.jpeg', impact: '500+ Rural Girls' },
-    { id: 2, title: 'Nurturing Our Neighborhoods', category: 'neighborhoods', subtitle: 'Community Health & Well-being', image: '/images/relief_distribution.jpeg', impact: '1,200+ Beneficiaries' },
-    { id: 3, title: 'Empowering Youth', category: 'youth', subtitle: 'Skills & Autonomy', image: '/images/youth_group.jpeg', impact: '250+ Youth' },
-    { id: 4, title: 'For Mother Earth', category: 'mother-earth', subtitle: 'Eco-Conservation & Forestry', image: '/images/ecology.jpeg', impact: '5,000+ Saplings Planted' }
-  ]
-
-  const [displayedProjects, setDisplayedProjects] = useState(projects)
-
-  const activeInfo = categories.find(cat => cat.id === activeCategory)
-
-  // Smooth Category Switcher handler
-  const handleCategoryChange = (newCat) => {
-    if (newCat === activeCategory) return
-    hasAnimatedRef.current = true
-    
-    const cards = contentRef.current.querySelectorAll('.project-card')
-    const headerTitle = headerRef.current.querySelector('h2')
-    const headerDesc = headerRef.current.querySelector('p')
-    
-    // Step 1: Fade out existing cards & header info
-    const tl = gsap.timeline({
-      onComplete: () => {
-        // Step 2: Swap the projects & category in state
-        setActiveCategory(newCat)
-        const nextProjects = newCat === 'all' 
-          ? projects 
-          : projects.filter(proj => proj.category === newCat)
-        setDisplayedProjects(nextProjects)
-      }
+  const handleMouseMove = (e) => {
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left - rect.width / 2
+    const y = e.clientY - rect.top - rect.height / 2
+    // Gentle 10-degree pivot tilt factor
+    setTilt({
+      x: (x / rect.width) * 10,
+      y: (y / rect.height) * -10
     })
-
-    tl.to(cards, {
-      opacity: 0,
-      y: -15,
-      scale: 0.96,
-      duration: 0.25,
-      stagger: 0.02,
-      ease: 'power2.in'
-    }, 0)
-
-    tl.to([headerTitle, headerDesc], {
-      opacity: 0,
-      y: -10,
-      duration: 0.2,
-      stagger: 0.05,
-      ease: 'power2.in'
-    }, 0)
   }
 
-  // Step 3: Fade and stagger in new cards & header text after state update
-  useEffect(() => {
-    if (!isLoaded) return
-    // Guard: Only run this switcher animation if the initial scroll animation has finished
-    if (!hasAnimatedRef.current) return
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 })
+  }
 
-    const cards = contentRef.current.querySelectorAll('.project-card')
-    const imgs = contentRef.current.querySelectorAll('.project-card img')
-    const headerTitle = headerRef.current.querySelector('h2')
-    const headerDesc = headerRef.current.querySelector('p')
-    
-    gsap.fromTo(cards,
-      { opacity: 0, y: 20, scale: 0.97 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.45,
-        stagger: 0.04,
-        ease: 'power3.out',
-        onComplete: () => {
-          ScrollTrigger.refresh()
-        }
-      }
-    )
+  return (
+    <motion.div
+      ref={cardRef}
+      onClick={() => onClick(proj)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={{ rotate: proj.initialRotate }}
+      animate={{
+        rotate: proj.initialRotate,
+        x: proj.xOffset,
+        y: proj.yOffset,
+        rotateX: tilt.y,
+        rotateY: tilt.x,
+        boxShadow: "0 10px 24px rgba(0,0,0,0.22)"
+      }}
+      whileHover={{
+        rotate: 0,
+        scale: 1.03,
+        boxShadow: "0 28px 56px rgba(0,0,0,0.45)",
+        zIndex: 10
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 220,
+        damping: 22
+      }}
+      style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+      className="bg-brand-white border border-brand-dark/5 rounded-[24px] p-6 pb-8 flex flex-col justify-start relative cursor-pointer select-none group border-fine transform-gpu"
+      data-cursor="pointer"
+    >
+      {/* Push Pin */}
+      <PushPin color={proj.pinColor} />
+      
+      {/* Needle hole */}
+      <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black/60 shadow-[inset_0_1px_1px_rgba(0,0,0,0.7)] z-20" />
 
-    // Premium image clip-path reveal + scale-down zoom
-    gsap.fromTo(imgs,
-      { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.22 },
-      {
-        clipPath: 'inset(0% 0% 0% 0%)',
-        scale: 1,
-        duration: 0.75,
-        stagger: 0.04,
-        ease: 'power3.out',
-        clearProps: 'clipPath,scale,transform' // clear props so hover CSS scale still works
-      }
-    )
+      {/* Title block */}
+      <div className="flex justify-center mt-3 mb-4" style={{ transform: 'translateZ(20px)' }}>
+        <div 
+          className="bg-brand-dark text-brand-white font-display font-black uppercase tracking-wider px-4 py-2.5 text-sm shadow-md inline-block -rotate-1 select-none"
+          style={{ transform: 'skewX(-4deg)' }}
+        >
+          {proj.headline}
+        </div>
+      </div>
 
-    gsap.fromTo([headerTitle, headerDesc],
-      { opacity: 0, y: 15 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.08,
-        ease: 'power3.out'
-      }
-    )
-  }, [displayedProjects, isLoaded])
+      {/* Photo Frame */}
+      <div className="relative aspect-4/3 w-full bg-brand-white border border-brand-dark/5 p-1.5 shadow-xs overflow-hidden rounded-lg" style={{ transform: 'translateZ(10px)' }}>
+        <img 
+          src={proj.image} 
+          alt={proj.title} 
+          className="w-full h-full object-cover scale-100 group-hover:scale-[1.02] transition-transform duration-700 pointer-events-none"
+        />
+      </div>
 
-  // Initial ScrollTrigger entrance animation on scroll
-  useEffect(() => {
-    if (!isLoaded) return
+      {/* Caption */}
+      <div className="mt-5 text-center px-2 flex flex-col gap-2" style={{ transform: 'translateZ(15px)' }}>
+        <span className="font-sans text-[10px] font-black tracking-widest text-brand-red uppercase">
+          {proj.subtitle}
+        </span>
+        <p className="font-serif italic text-xs md:text-sm text-brand-grey font-light leading-relaxed max-w-[340px] mx-auto">
+          &ldquo;{proj.desc}&rdquo;
+        </p>
+      </div>
+    </motion.div>
+  )
+}
 
-    const t = setTimeout(() => {
-      ScrollTrigger.refresh()
-    }, 200)
+const PillarsHorizontal = ({ isLoaded }) => {
+  const [selectedCard, setSelectedCard] = useState(null)
 
-    const subtitle = sectionRef.current.querySelector('.subtitle-anim')
-    const headerTitle = headerRef.current.querySelector('h2')
-    const headerDesc = headerRef.current.querySelector('p')
-    const buttons = sectionRef.current.querySelectorAll('.tab-button')
-    const cards = contentRef.current.querySelectorAll('.project-card')
-    const imgs = contentRef.current.querySelectorAll('.project-card img')
-
-    // Set initial states to zero opacity / cropped to prevent layout flash
-    gsap.set([subtitle, headerTitle, headerDesc, buttons, cards], { opacity: 0 })
-    gsap.set(imgs, { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.22 })
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-        onComplete: () => {
-          hasAnimatedRef.current = true
-        }
-      }
-    })
-
-    tl.fromTo(subtitle,
-      { y: 15, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }
-    )
-    tl.fromTo([headerTitle, headerDesc],
-      { y: 25, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, stagger: 0.08, ease: 'power3.out' },
-      '-=0.4'
-    )
-    tl.fromTo(buttons,
-      { x: 20, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' },
-      '-=0.5'
-    )
-    tl.fromTo(cards,
-      { y: 35, opacity: 0, scale: 0.98 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.06, ease: 'power3.out' },
-      '-=0.4'
-    )
-    tl.fromTo(imgs,
-      { clipPath: 'inset(100% 0% 0% 0%)', scale: 1.22 },
-      {
-        clipPath: 'inset(0% 0% 0% 0%)',
-        scale: 1,
-        duration: 0.9,
-        stagger: 0.06,
-        ease: 'power3.out',
-        clearProps: 'clipPath,scale,transform'
-      },
-      '-=0.7' // start in sync with the cards entrance
-    )
-
-    return () => clearTimeout(t)
-  }, [isLoaded])
+  const pillarsData = [
+    {
+      id: 'learning-hub',
+      title: 'Village Learning Hub',
+      subtitle: 'Primary & Digital Literacy',
+      image: '/images/villagelearning2.jpeg',
+      impact: '500+ Rural Girls',
+      initialRotate: -1.8,
+      xOffset: -4,
+      yOffset: -6,
+      pinColor: '#dc2626', // Red pin
+      headline: 'VILLAGE LEARNING HUB',
+      desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.',
+      background: 'Many rural villages lack basic educational infrastructure, books, and computers. Our learning hubs bridge this gap by bringing modern resources and dedicated educators directly to local neighborhoods.',
+      goals: [
+        'Set up 15 libraries with digital study labs',
+        'Train 20+ village-level youth educators',
+        'Increase digital literacy rates among girls by 60%'
+      ]
+    },
+    {
+      id: 'neighborhoods',
+      title: 'Nurturing Our Neighborhoods',
+      subtitle: 'Community Health & Well-being',
+      image: '/images/relief_distribution.jpeg',
+      impact: '1,200+ Beneficiaries',
+      initialRotate: 1.2,
+      xOffset: 4,
+      yOffset: -2,
+      pinColor: '#2563eb', // Blue pin
+      headline: 'NURTURING NEIGHBORHOODS',
+      desc: 'Uplifting local communities through regular health checkups, wellness camps, and clean water projects.',
+      background: 'Preventative healthcare is often out of reach for marginalized communities. We provide direct support through neighborhood health camps, sanitary kit drives, and purified water stations.',
+      goals: [
+        'Host weekly health screenings in remote settlements',
+        'Install 5 community water filtration units',
+        'Conduct menstrual hygiene workshops & kit distributions'
+      ]
+    },
+    {
+      id: 'youth',
+      title: 'Empowering Youth',
+      subtitle: 'Skills & Autonomy',
+      image: '/images/youth_group.jpeg',
+      impact: '250+ Youth Trained',
+      initialRotate: -0.8,
+      xOffset: -5,
+      yOffset: 3,
+      pinColor: '#eab308', // Gold pin
+      headline: 'EMPOWERING YOUTH',
+      desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.',
+      background: 'Youth unemployment in rural communities is high. By providing vocational training, business mentoring, and micro-grants, we help young people establish self-sustaining livelihoods.',
+      goals: [
+        'Set up skill training clinics (stitching, craft, IT)',
+        'Award 10 micro-capital seed grants yearly',
+        'Foster community cooperative startup groups'
+      ]
+    },
+    {
+      id: 'mother-earth',
+      title: 'For Mother Earth',
+      subtitle: 'Eco-Conservation & Forestry',
+      image: '/images/ecology.jpeg',
+      impact: '5,000+ Saplings',
+      initialRotate: 1.8,
+      xOffset: 5,
+      yOffset: -4,
+      pinColor: '#16a34a', // Green pin
+      headline: 'FOR MOTHER EARTH',
+      desc: 'Preserving our ecosystem through native afforestation drives, solar clinic power setups, and green space development.',
+      background: 'Deforestation and carbon footprint expansion directly impact rural livelihoods. We lead community-driven forestry initiatives, plantation drives, and solar power upgrades for village schools.',
+      goals: [
+        'Plant 5,000+ native saplings (Neem, Banyan, etc.)',
+        'Transition 4 local community clinics to solar energy',
+        'Conduct rainwater harvesting training sessions'
+      ]
+    },
+    {
+      id: 'handloom-revival',
+      title: 'Heritage & Handloom Revival',
+      subtitle: 'Craft & Aipan Conservation',
+      image: '/images/carousel6.jpeg',
+      impact: '80+ Women Artisans',
+      initialRotate: -1.4,
+      xOffset: 3,
+      yOffset: 5,
+      pinColor: '#dc2626', // Red pin
+      headline: 'HERITAGE & HANDLOOM',
+      desc: 'Sustaining local Himalayan weaving and sacred Aipan folk arts through female cooperatives and market bridges.',
+      background: 'Traditional Himalayan craft forms are dying as younger generations migrate. We establish design workshops, supply raw wool, and connect local women to urban design centers to revive Pahari handlooms.',
+      goals: [
+        'Sponsor 80+ active weavers with raw materials',
+        'Establish a digital database for traditional patterns',
+        'Setup 3 local handloom aggregation cooperatives'
+      ]
+    }
+  ]
 
   return (
     <section 
-      ref={sectionRef}
       id="pillars" 
       className="relative w-full py-24 md:py-36 bg-brand-cream border-b border-brand-dark/5"
     >
+      {/* Hidden felt/noise filter definition for mud-texture overlay */}
+      <svg className="absolute w-0 h-0 hidden" aria-hidden="true">
+        <filter id="clay-texture-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.2   0 0 0 0 0.15  0.07 0 0 0 0" />
+          <feBlend mode="multiply" in="SourceGraphic" />
+        </filter>
+      </svg>
+
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        {/* Category section subtitle */}
-        <div className="subtitle-anim mb-12 select-none">
+        {/* Subtitle */}
+        <div className="mb-12 select-none">
           <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey block">
-            OUR DEPLOYMENTS
+            OUR FOCUS AREAS
           </span>
         </div>
 
-        {/* Categories Tab Selector with numbers */}
+        {/* Section Header text */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
-          
-          {/* Left Column: Big Category Header */}
-          <div ref={headerRef} className="lg:col-span-8 flex flex-col items-start gap-4">
+          <div className="lg:col-span-8 flex flex-col items-start gap-4">
             <h2 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tight uppercase leading-none">
-              {activeInfo.title}
-              <span className="align-super text-xs text-brand-red ml-3 font-bold font-display">
-                {activeInfo.count}
-              </span>
+              our programs
             </h2>
             <p className="font-sans text-sm md:text-base text-brand-grey/90 leading-relaxed max-w-xl font-light mt-4">
-              {activeInfo.desc}
+              Explore the five key verticals of the Aadi Shakti Mission. Hover to explore, click on any card to slide open its portfolio folder.
             </p>
           </div>
+        </div>
 
-          {/* Right Column: Tab Trigger Buttons */}
-          <div className="lg:col-span-4 flex flex-col items-start gap-2 lg:border-l border-l-0 lg:border-brand-dark/10 lg:pl-8 pl-0 w-full">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => handleCategoryChange(cat.id)}
-                className={`tab-button font-sans text-xs font-extrabold tracking-wider uppercase py-3 px-4 cursor-pointer transition-all duration-300 relative group flex items-center justify-between w-full rounded-xl ${
-                  activeCategory === cat.id 
-                    ? 'text-brand-red bg-brand-red/5' 
-                    : 'text-brand-dark hover:text-brand-red hover:bg-brand-dark/5'
-                }`}
-                data-cursor="pointer"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  {activeCategory === cat.id && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-red" />
-                  )}
-                  {cat.title}
-                </span>
-                <span className="text-[10px] text-brand-grey font-bold font-display relative z-10">
-                  {cat.count}
-                </span>
-                {/* Active marker accent bar */}
-                {activeCategory === cat.id && (
-                  <span className="absolute left-0 top-0 bottom-0 w-[3.5px] bg-brand-red rounded-r" />
-                )}
-              </button>
+        {/* The Premium Terracotta Notice Board */}
+        <div className="w-full bg-[#8B2617] border-[14px] md:border-[20px] border-[#382015] rounded-[32px] p-8 md:p-14 lg:p-20 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-hidden flex flex-col items-center justify-center">
+          
+          {/* Subtle noise texture simulating red clay mud plaster */}
+          <div 
+            className="absolute inset-0 opacity-45 pointer-events-none" 
+            style={{ filter: 'url(#clay-texture-noise)', mixBlendMode: 'multiply' }} 
+          />
+
+
+
+          {/* Scattered Polaroid Cards Grid (Exactly 2 in a row on tablet/desktop) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 w-full max-w-5xl mx-auto z-10">
+            {pillarsData.map((proj) => (
+              <ProgramCard
+                key={proj.id}
+                proj={proj}
+                onClick={(p) => setSelectedCard(p)}
+              />
             ))}
           </div>
-
         </div>
-
-        {/* Dynamic Cards Grid */}
-        <div 
-          ref={contentRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[420px]"
-        >
-          {displayedProjects.map((proj) => (
-            <div 
-              key={proj.id}
-              className="project-card group flex flex-col justify-between rounded-3xl overflow-hidden border border-brand-dark/5 bg-brand-white/80 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.01)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(155,0,0,0.06)] hover:border-brand-red/20"
-            >
-              {/* Image & Overlay Badges */}
-              <div 
-                className="relative aspect-4/3 w-full overflow-hidden"
-                data-cursor="view"
-              >
-                <div className="absolute inset-0 bg-brand-dark/15 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                
-                <img 
-                  src={proj.image} 
-                  alt={proj.title} 
-                  className="w-full h-full object-cover scale-100 group-hover:scale-108 transition-transform duration-700 pointer-events-none"
-                />
-              </div>
-
-              {/* Text / Impact Area */}
-              <div className="p-6 md:p-8 flex flex-col grow justify-between">
-                <div>
-                  <span className="font-sans text-[10px] font-extrabold text-brand-red uppercase tracking-widest">
-                    {proj.subtitle}
-                  </span>
-                  <h3 className="font-serif text-xl md:text-2xl text-brand-dark mt-2 tracking-tight group-hover:text-brand-red transition-colors duration-300">
-                    {proj.title}
-                  </h3>
-                </div>
-
-                {/* Impact Row */}
-                <div className="border-t border-brand-dark/5 pt-4 mt-6 flex items-center justify-between w-full">
-                  <span className="font-sans text-[10px] font-bold text-brand-grey uppercase tracking-wider">
-                    Impact
-                  </span>
-                  <span className="text-xs font-bold text-brand-dark font-display">
-                    {proj.impact}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
       </div>
+
+      {/* Unified Portalled Slide-out Details Drawer (Glassmorphic Splitted Panel) */}
+      {createPortal(
+        <AnimatePresence>
+          {selectedCard && (
+            <div className="fixed inset-0 w-full h-full z-[999999] flex items-center justify-end">
+              
+              {/* Blur Overlay Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedCard(null)}
+                className="absolute inset-0 bg-brand-dark/55 backdrop-blur-xs cursor-pointer"
+              />
+
+              {/* Drawer Container Panel */}
+              <motion.div
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', stiffness: 260, damping: 25 }}
+                className="bg-brand-dark/95 backdrop-blur-xl border-l border-brand-cream/10 w-full max-w-xl h-full shadow-2xl relative flex flex-col text-[#fdfbf7] p-8 md:p-12 overflow-y-auto"
+              >
+                {/* Close Button Header */}
+                <div className="flex justify-between items-center w-full border-b border-brand-cream/10 pb-6 mb-8 select-none">
+                  <div>
+                    <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-[#0ea5e9]">
+                      program portfolio
+                    </span>
+                    <h3 className="font-serif text-2xl uppercase tracking-tight font-bold mt-1">
+                      {selectedCard.title}
+                    </h3>
+                  </div>
+                  <button 
+                    onClick={() => setSelectedCard(null)}
+                    className="font-sans text-[9px] uppercase tracking-widest font-extrabold cursor-pointer py-1.5 px-4 rounded-full border border-brand-cream/20 bg-transparent hover:bg-brand-cream/10 text-brand-cream transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                {/* Polaroid Frame Inside Drawer */}
+                <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-cream/10 shadow-lg mb-8 select-none">
+                  <img 
+                    src={selectedCard.image} 
+                    alt={selectedCard.title} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Accordion detail elements */}
+                <div className="flex flex-col gap-8">
+                  {/* Background Section */}
+                  <div>
+                    <h4 className="font-sans text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest mb-3 select-none">
+                      01 / PROJECT CONTEXT
+                    </h4>
+                    <p className="font-sans text-xs md:text-sm text-brand-cream/80 leading-relaxed font-light">
+                      {selectedCard.background}
+                    </p>
+                  </div>
+
+                  {/* Divider line */}
+                  <hr className="border-brand-cream/10" />
+
+                  {/* Goals Section */}
+                  <div>
+                    <h4 className="font-sans text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest mb-3 select-none">
+                      02 / TARGET MILESTONES
+                    </h4>
+                    <ul className="space-y-3">
+                      {selectedCard.goals.map((goal, idx) => (
+                        <li key={idx} className="flex items-start gap-3 text-xs md:text-sm text-brand-cream/80 font-light leading-snug">
+                          <span className="text-[#0ea5e9] text-base mt-[-4px] select-none">•</span>
+                          <span>{goal}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Divider line */}
+                  <hr className="border-brand-cream/10" />
+
+                  {/* Impact metrics footer */}
+                  <div className="flex items-center justify-between w-full select-none pt-2">
+                    <span className="font-sans text-[10px] font-black text-brand-cream/60 uppercase tracking-widest">
+                      03 / ESTIMATED COMMUNITY IMPACT
+                    </span>
+                    <span className="text-lg md:text-xl font-bold text-[#fdfbf7] font-display border-b border-brand-cream/20 pb-0.5">
+                      {selectedCard.impact}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   )
 }
 
 export default PillarsHorizontal
-

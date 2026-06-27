@@ -1,294 +1,227 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const Hero = ({ onLoaded }) => {
+// Himalayan Peaks Outline SVG component (Nanda Devi & Trishul silhouette)
+const MountainPeaks = React.forwardRef(({ className, path1Ref, path2Ref }, ref) => (
+  <div 
+    ref={ref}
+    className={`absolute inset-0 z-0 pointer-events-none flex items-end justify-center overflow-hidden opacity-0 ${className}`}
+  >
+    <svg 
+      className="w-full h-full text-brand-dark/15 max-w-7xl mx-auto" 
+      viewBox="0 0 1200 400" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Front mountain line */}
+      <path 
+        ref={path1Ref}
+        d="M -50,400 L 150,220 L 280,310 L 480,120 L 600,240 L 850,70 L 1050,220 L 1250,400" 
+        stroke="currentColor" 
+        strokeWidth="1.5" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+        strokeDasharray="1800"
+        strokeDashoffset="1800"
+      />
+      {/* Background dashed mountain line */}
+      <path 
+        ref={path2Ref}
+        d="M 50,400 L 220,250 L 380,350 L 590,170 L 720,280 L 960,110 L 1150,400" 
+        stroke="currentColor" 
+        strokeWidth="1" 
+        strokeDasharray="1500"
+        strokeDashoffset="1500"
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+      />
+      {/* Peak accents */}
+      <path d="M 480,120 L 490,160 M 480,120 L 465,150" stroke="currentColor" strokeWidth="1" />
+      <path d="M 850,70 L 865,115 M 850,70 L 835,110" stroke="currentColor" strokeWidth="1" />
+    </svg>
+  </div>
+))
+
+const Hero = ({ isLoaded }) => {
   const containerRef = useRef(null)
-  const bannerRef = useRef(null)
-  const titleContainerRef = useRef(null)
-  const cardsRef = useRef([])
-  const loaderRef = useRef(null)
-  const scrollCueRef = useRef(null)
+  const cardRef = useRef(null)
+  const mountainsRef = useRef(null)
+  const overlayRef = useRef(null)
+  const introRef = useRef(null)
+  const mountainPath1Ref = useRef(null)
+  const mountainPath2Ref = useRef(null)
 
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [expandedCard, setExpandedCard] = useState(null)
-
-  // 1. Simulation of Loader Progress with Aesthetic Text Reveals
-  useEffect(() => {
-    const progressVal = { val: 0 }
-
-    // Slide up text elements on load
-    gsap.fromTo('.loader-reveal-text', 
-      { yPercent: 105, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: 1.2, ease: 'power4.out', stagger: 0.15 }
-    )
-
-    const loaderTimeline = gsap.timeline({
-      onComplete: () => {
-        setIsLoaded(true)
-        if (onLoaded) onLoaded()
-        // Slide out loader overlay
-        gsap.to(loaderRef.current, {
-          y: '-100%',
-          duration: 1.2,
-          ease: 'power4.inOut',
-          onComplete: () => {
-            if (loaderRef.current) {
-              loaderRef.current.style.display = 'none'
-            }
-          }
-        })
-      }
-    })
-
-    loaderTimeline.to(progressVal, {
-      val: 100,
-      duration: 2.4,
-      ease: 'power2.out',
-      onUpdate: () => {
-        setLoadingProgress(Math.floor(progressVal.val))
-      }
-    })
-  }, [])
-
-  // 2. GSAP ScrollTrigger for Parallax and Card Reveals
   useEffect(() => {
     if (!isLoaded) return
 
-    const banner = bannerRef.current
-    const container = containerRef.current
-    const titleContainer = titleContainerRef.current
-
-    // Set initial positions for cards to animate on scroll
-    gsap.set(cardsRef.current, { y: 150, opacity: 0 })
-
-    const mainTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: '+=150%',
-        pin: true,
-        scrub: 1,
-        invalidateOnRefresh: true,
-      }
-    })
-
-    // Animate central banner expanding to screen fill via clipPath & scale (GPU accelerated, fully smooth)
-    mainTimeline.fromTo(banner, 
-      {
-        clipPath: 'inset(25% 22.5% 25% 22.5% round 32px)',
-        scale: 0.85
-      },
-      {
-        clipPath: 'inset(0% 0% 0% 0% round 0px)',
-        scale: 1,
-        ease: 'none'
-      },
-      0
-    )
-
-    // Animate Hero text opacity/translation
-    mainTimeline.to(titleContainer, {
-      opacity: 0,
-      y: -50,
-      ease: 'none'
-    }, 0)
-
-    // Reveal floating NGO project cards on scroll
-    cardsRef.current.forEach((card, index) => {
-      if (!card) return
-      
-      const xOffset = index % 2 === 0 ? -100 : 100
-      mainTimeline.fromTo(card,
-        {
-          x: xOffset,
-          y: 200,
-          opacity: 0,
-          scale: 0.9
-        },
-        {
-          x: 0,
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          ease: 'power2.out'
-        },
-        index * 0.15 // staggered start
-      )
-    })
-
-    // Fade out scroll cue towards the end of pinning
-    mainTimeline.to(scrollCueRef.current, {
-      opacity: 0,
-      y: 20,
-      pointerEvents: 'none',
-      ease: 'power1.inOut'
-    }, 0.5)
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.trigger === container) {
-          trigger.kill()
+    // Set up GSAP scroll trigger context to handle layout pin & scroll transforms
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "+=120%",
+          scrub: true,
+          pin: true,
+          anticipatePin: 1
         }
       })
-    }
+
+      // Animate card size from centered polaroid to full bleed
+      tl.to(cardRef.current, {
+        width: '100vw',
+        height: '100vh',
+        maxWidth: '100vw',
+        maxHeight: '100vh',
+        borderRadius: '0px',
+        ease: 'none',
+        duration: 1
+      }, 0)
+
+      // Fade in mountain outlines behind the card
+      tl.to(mountainsRef.current, {
+        opacity: 0.35,
+        ease: 'none',
+        duration: 0.7
+      }, 0)
+
+      // Tracing strokes dynamically linked to scroll position
+      tl.to(mountainPath1Ref.current, {
+        strokeDashoffset: 0,
+        ease: 'none',
+        duration: 0.8
+      }, 0)
+
+      tl.to(mountainPath2Ref.current, {
+        strokeDashoffset: 0,
+        ease: 'none',
+        duration: 0.8
+      }, 0)
+
+      // Darken image overlay mask to support typography contrast
+      tl.to(overlayRef.current, {
+        opacity: 0.65,
+        ease: 'none',
+        duration: 0.85
+      }, 0.15)
+
+      // Fade and slide up the bottom description panel
+      tl.fromTo(introRef.current, {
+        opacity: 0,
+        y: 40
+      }, {
+        opacity: 1,
+        y: 0,
+        ease: 'power2.out',
+        duration: 0.45
+      }, 0.7)
+
+    }, containerRef)
+
+    return () => ctx.revert()
   }, [isLoaded])
 
-  const pillars = [
-    {
-      title: 'Village Learning Hub',
-      subtitle: 'Primary & Digital Literacy',
-      desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.',
-      pos: 'top-[10%] left-3 sm:left-8 md:left-16 lg:left-24'
-    },
-    {
-      title: 'Nurturing Our Neighborhoods',
-      subtitle: 'Community Health & Well-being',
-      desc: 'Uplifting local communities through regular health checkups, wellness camps, and clean water projects.',
-      pos: 'top-[30%] right-3 sm:right-8 md:right-16 lg:right-24'
-    },
-    {
-      title: 'Empowering Youth',
-      subtitle: 'Skills & Autonomy',
-      desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.',
-      pos: 'bottom-[10%] left-3 sm:left-8 md:left-16 lg:left-32'
-    },
-    {
-      title: 'For Mother Earth',
-      subtitle: 'Eco-Conservation & Forestry',
-      desc: 'Preserving our ecosystem through native afforestation drives, solar clinic power setups, and green space development.',
-      pos: 'bottom-[30%] right-3 sm:right-8 md:right-16 lg:right-28'
-    }
-  ]
-
-  const handleScrollToAbout = () => {
-    const aboutSection = document.getElementById('philosophy')
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   return (
-    <div id="hero" className="relative w-full overflow-x-hidden">
-      {/* 1. Preloader Overlay */}
-      <div 
-        ref={loaderRef}
-        className="fixed inset-0 w-full h-full bg-brand-skyblue flex flex-col justify-center items-center z-9999 select-none pointer-events-none"
-      >
-        <div className="flex flex-col items-center">
-          {/* NGO Logo Wrapper for Mask Reveal */}
-          <div className="overflow-hidden mb-6 rounded-full w-32 h-32 md:w-40 md:h-40 shadow-md border border-brand-dark/10 bg-brand-white flex items-center justify-center">
-            <img 
-              src="/logo.jpg" 
-              alt="Aadi Shakti Logo" 
-              className="loader-reveal-text block w-full h-full object-cover" 
-            />
-          </div>
+    <div ref={containerRef} className="relative w-full h-screen z-10 bg-[#fdfbf7]">
+      
+      {/* Hidden paper noise filter definition */}
+      <svg className="absolute w-0 h-0 hidden" aria-hidden="true">
+        <filter id="paper-texture-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.2   0 0 0 0 0.15  0.06 0 0 0 0" />
+          <feBlend mode="multiply" in="SourceGraphic" />
+        </filter>
+      </svg>
 
-          {/* Logo / Title with Mask Overflow Reveal */}
-          <div className="overflow-hidden mb-2 py-2">
-            <span className="loader-reveal-text block font-serif font-bold text-5xl md:text-7xl text-brand-dark tracking-tight leading-none">
-              Aadi Shakti.
-            </span>
-          </div>
-
-          <div className="overflow-hidden mb-6 py-1">
-            <span className="loader-reveal-text block font-sans text-[9px] font-black tracking-[0.35em] text-brand-dark uppercase">
-              let me be your helping hand
-            </span>
-          </div>
-
-          {/* Sleek Centered Progress Bar */}
-          <div className="w-48 h-[1.5px] bg-brand-dark/5 relative rounded-full overflow-hidden mt-2">
-            <div 
-              className="absolute left-0 top-0 h-full bg-brand-red transition-all duration-100 ease-out"
-              style={{ width: `${loadingProgress}%` }}
-            />
-          </div>
-
-          {/* Percentage Counter */}
-          <div className="font-display text-[10px] font-black tracking-[0.2em] text-brand-red mt-4">
-            {loadingProgress} %
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Main Page Header Spacer & Scroll Element */}
-      <section 
-        ref={containerRef}
-        className="relative w-full h-screen bg-brand-cream flex flex-col justify-center items-center overflow-hidden border-b border-brand-dark/5"
-      >
-        {/* Sticky Background Title */}
+      {/* Viewport content wrapper */}
+      <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
+        
+        {/* Organic textured paper canvas overlay */}
         <div 
-          ref={titleContainerRef}
-          className="absolute z-10 flex flex-col items-center text-center select-none pointer-events-none"
-        >
-          <span className="font-serif font-bold text-[10vw] md:text-[8vw] text-brand-white leading-[0.9] tracking-tight">
-            Aadi Shakti.
-          </span>
-          <span className="font-display text-xs md:text-sm font-black tracking-[0.4em] text-brand-white/90 uppercase mt-2">
-            empowering change from the roots
-          </span>
-        </div>
+          className="absolute inset-0 opacity-45 pointer-events-none z-0" 
+          style={{ filter: 'url(#paper-texture-noise)', mixBlendMode: 'multiply' }} 
+        />
 
-        {/* Central Expanding Banner Image */}
-        <div 
-          ref={bannerRef}
-          className="absolute z-0 w-screen h-screen overflow-hidden flex items-center justify-center cursor-pointer shadow-2xl hero-banner"
-          data-cursor="view"
+        {/* Himalayan Mountain peak outlines */}
+        <MountainPeaks 
+          ref={mountainsRef} 
+          path1Ref={mountainPath1Ref}
+          path2Ref={mountainPath2Ref}
+        />
+
+        {/* Central Expanding Polaroid Image Card */}
+        <div
+          ref={cardRef}
+          className="relative w-[90vw] h-[60vh] max-w-[620px] max-h-[460px] rounded-[24px] overflow-hidden shadow-2xl z-10 border border-brand-dark/5 bg-brand-white flex items-center justify-center transform-gpu"
         >
-          {/* Overlay mask */}
-          <div className="absolute inset-0 bg-brand-dark/20 z-10" />
+          {/* Picture shadow mask overlay */}
+          <div 
+            ref={overlayRef}
+            className="absolute inset-0 bg-brand-dark opacity-[0.15] z-10 pointer-events-none" 
+          />
+
+          {/* Centered Photograph of Village Women */}
           <img 
-            src="/hero_empower.png" 
-            alt="NGO Activism" 
+            src="/images/village_women_uttarakhand.png" 
+            alt="Uttarakhand Village Women" 
             className="w-full h-full object-cover"
           />
         </div>
 
-        {/* Premium Clickable Scroll Cue Container (Centrally aligned using flex layout to avoid GSAP transform conflicts) */}
-        <div className="absolute bottom-8 left-0 right-0 z-10 flex justify-center pointer-events-none">
-          <div 
-            ref={scrollCueRef}
-            onClick={handleScrollToAbout}
-            className="flex flex-col items-center gap-2 cursor-pointer transition-all duration-300 hover:scale-105 group pointer-events-auto active:scale-95"
-            data-cursor="pointer"
-          >
-            <span className="font-sans text-[9px] font-bold tracking-[0.3em] text-brand-grey group-hover:text-brand-red transition-colors uppercase select-none">
-              Keep Scrolling
-            </span>
-            {/* Animated Mouse Icon */}
-            <div className="w-6 h-10 border border-brand-dark/30 rounded-full flex justify-center pt-2 group-hover:border-brand-red/50 transition-colors bg-brand-cream/40 backdrop-blur-xs">
-              <div className="w-1 h-2.5 bg-brand-red rounded-full animate-scroll-dot" />
+        {/* Sticky Center Title - Always bold, white, and centered on top of card */}
+        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none select-none">
+          <h1 className="font-serif font-black text-[9vw] md:text-[7vw] text-brand-white leading-[0.9] tracking-tight uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)] text-center max-w-5xl px-4 transform-gpu">
+            Aadi Shakti Mission
+          </h1>
+        </div>
+
+        {/* Minimal Typographic wood-carved framed introduction (positioned at bottom) */}
+        <div 
+          ref={introRef}
+          className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex justify-center p-4 pointer-events-none opacity-0"
+        >
+          <div className="border-[2px] border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-dark/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-cream pointer-events-auto">
+            
+            {/* Traditional diamond Aipan corner accents */}
+            <div className="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
             </div>
+            <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+            </div>
+            <div className="absolute -bottom-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+            </div>
+            <div className="absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+            </div>
+
+            {/* Content */}
+            <span className="font-sans text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] text-[#0ea5e9] block mb-2.5 select-none">
+              OUR MOUNTAIN MOVEMENT
+            </span>
+
+            <p className="font-sans text-[11px] md:text-xs text-brand-cream/90 leading-relaxed font-light select-none max-w-md">
+              Aadi Shakti Mission is rooted in the high mountain valleys of Uttarakhand. By backing local women cooperatives, setting up digital literacy hubs, and conserving Pahari craft traditions, we build models of absolute self-reliance for village communities.
+            </p>
+
+            {/* Scroll Indicator */}
+            <div className="mt-4 flex flex-col items-center gap-1 select-none animate-bounce">
+              <span className="font-sans text-[7px] font-bold tracking-wider text-brand-cream/70 uppercase">
+                Explore our community board below
+              </span>
+              <svg className="w-3.5 h-3.5 text-brand-cream/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+
           </div>
         </div>
 
-        {/* Floating Cards (Positioned absolutely over the screen grid) */}
-        {pillars.map((item, idx) => (
-          <div 
-            key={item.title}
-            ref={(el) => (cardsRef.current[idx] = el)}
-            onClick={() => setExpandedCard(expandedCard === idx ? null : idx)}
-            className={`absolute z-20 ${item.pos} flex flex-col p-3 xs:p-4 md:p-6 rounded-2xl bg-brand-white border border-brand-dark/5 shadow-xl max-w-[150px] xs:max-w-[180px] sm:max-w-[220px] md:max-w-[280px] group transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30 cursor-pointer floating-card`}
-          >
-            <span className="text-[8px] xs:text-[9px] md:text-[10px] font-bold text-brand-red uppercase tracking-wider">
-              {item.subtitle}
-            </span>
-            <h3 className="font-serif text-xs xs:text-sm md:text-lg text-brand-dark font-semibold mt-1 md:mt-2 group-hover:text-brand-red transition-colors">
-              {item.title}
-            </h3>
-            <p className={`font-sans text-[10px] xs:text-xs text-brand-grey/95 mt-1 md:mt-2 leading-relaxed font-light ${
-              expandedCard === idx ? '' : 'line-clamp-3 xs:line-clamp-none'
-            }`}>
-              {item.desc}
-            </p>
-          </div>
-        ))}
-      </section>
+      </div>
     </div>
   )
 }

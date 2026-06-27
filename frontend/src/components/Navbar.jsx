@@ -55,15 +55,17 @@ const Navbar = ({ isLoaded, view, setView }) => {
     e.preventDefault()
     setIsOpen(false)
     
+    if (targetId === 'become-member') {
+      if (setView) setView('become-member')
+      return
+    }
+    if (targetId === 'donation-impact') {
+      if (setView) setView('donation')
+      return
+    }
+    
     if (view !== 'home' && setView) {
-      setView('home')
-      // Wait for home page to render and mount sections before scrolling
-      setTimeout(() => {
-        const targetElement = document.getElementById(targetId)
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' })
-        }
-      }, 150)
+      setView('home', targetId)
     } else {
       // Add a slight delay to allow menu animation to complete
       setTimeout(() => {
@@ -122,14 +124,23 @@ const Navbar = ({ isLoaded, view, setView }) => {
           </a>
 
           <div className="flex items-center gap-6">
-            {/* CTA Button */}
+            {/* CTA Buttons */}
             <a
               href="#become-member"
               onClick={(e) => handleNavClick(e, 'become-member')}
-              className="hidden md:inline-flex px-5 py-2.5 rounded-full bg-brand-red text-brand-cream font-sans text-[10px] font-bold uppercase tracking-widest hover:bg-brand-dark transition-colors shadow-sm"
+              className="hidden md:inline-flex px-5 py-2.5 rounded-full bg-brand-red text-brand-cream font-sans text-[10px] font-bold uppercase tracking-widest hover:bg-brand-dark transition-all duration-300 shadow-sm"
               data-cursor="pointer"
             >
               Become a Member
+            </a>
+
+            <a
+              href="#contribute"
+              onClick={(e) => handleNavClick(e, 'donation-impact')}
+              className="hidden md:inline-flex px-5 py-2.5 rounded-full bg-[#0ea5e9] text-brand-cream font-sans text-[10px] font-bold uppercase tracking-widest hover:bg-brand-dark transition-all duration-300 shadow-sm"
+              data-cursor="pointer"
+            >
+              Donate
             </a>
 
             {/* Minimal Menu Trigger (Septiembre style) */}

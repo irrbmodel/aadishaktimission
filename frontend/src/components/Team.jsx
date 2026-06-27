@@ -48,23 +48,27 @@ const Team = ({ isLoaded }) => {
   useEffect(() => {
     if (!isLoaded) return
 
-    if (headingRef.current) {
-      gsap.fromTo(
-        headingRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
+    const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
           }
-        }
-      )
-    }
+        )
+      }
+    })
+
+    return () => ctx.revert()
   }, [isLoaded])
 
   return (

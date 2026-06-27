@@ -24,15 +24,16 @@
 
 /* Custom Scrollbar matching target site */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-brand-cream);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-brand-light-grey);
-  border-radius: 3px;
+  border: 2px solid var(--color-brand-cream);
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-brand-red);
