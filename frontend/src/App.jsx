@@ -159,8 +159,8 @@ const App = () => {
           transitionState === 'idle'
             ? 'opacity-100'
             : transitionState === 'animating-out'
-            ? 'transition-all duration-[650ms] ease-[cubic-bezier(0.25,1,0.5,1)] transform-gpu origin-center opacity-0 scale-[0.985] blur-[1px] pointer-events-none'
-            : 'transition-all duration-[650ms] ease-[cubic-bezier(0.25,1,0.5,1)] transform-gpu origin-center opacity-100 scale-100 blur-none'
+            ? 'transition-all duration-650 ease-[cubic-bezier(0.25,1,0.5,1)] transform-gpu origin-center opacity-0 scale-[0.985] blur-[1px] pointer-events-none'
+            : 'transition-all duration-650 ease-[cubic-bezier(0.25,1,0.5,1)] transform-gpu origin-center opacity-100 scale-100 blur-none'
         }
       >
         {/* Main Content Sections */}

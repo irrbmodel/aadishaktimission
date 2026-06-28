@@ -188,7 +188,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
             placeholder=" "
             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-brand-red py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
           />
-          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-brand-red peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-brand-red">
+          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-brand-red peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-brand-red">
             Full Name
           </label>
           {memberErrors.name && (
@@ -209,7 +209,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
             placeholder=" "
             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-brand-red py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
           />
-          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-brand-red peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-brand-red">
+          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-brand-red peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-brand-red">
             Phone Number
           </label>
           {memberErrors.phone && (
@@ -230,7 +230,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
             placeholder=" "
             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-brand-red py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
           />
-          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-brand-red peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-brand-red">
+          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-brand-red peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-brand-red">
             Email Address
           </label>
           {memberErrors.email && (
@@ -280,7 +280,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
             placeholder=" "
             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
           />
-          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9]">
+          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9]">
             Your Name
           </label>
           {donationErrors.name && (
@@ -301,7 +301,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
             placeholder=" "
             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
           />
-          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9]">
+          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9]">
             Phone Number
           </label>
           {donationErrors.phone && (
@@ -323,7 +323,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
             placeholder=" "
             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 pl-5 pr-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
           />
-          <label className="absolute left-5 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9] peer-focus:left-1 peer-[:not(:placeholder-shown)]:left-1">
+          <label className="absolute left-5 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9] peer-focus:left-1 peer-not-placeholder-shown:left-1">
             Donation Amount (INR)
           </label>
           {donationErrors.amount && (
@@ -411,7 +411,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsDrawerOpen(false)}
-              className="fixed inset-0 z-[9999998] bg-brand-dark/65 backdrop-blur-sm cursor-pointer"
+              className="fixed inset-0 z-9999998 bg-brand-dark/65 backdrop-blur-sm cursor-pointer"
             />
 
             {/* Sidebar Slide-out Drawer Panel */}
@@ -420,7 +420,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 h-full w-full max-w-md z-[9999999] bg-brand-white shadow-2xl flex flex-col text-brand-dark overflow-hidden border-l border-brand-dark/5"
+              className="fixed top-0 right-0 h-full w-full max-w-md z-9999999 bg-brand-white shadow-2xl flex flex-col text-brand-dark overflow-hidden border-l border-brand-dark/5"
             >
               {/* Drawer Header */}
               <div className="p-6 border-b border-brand-dark/5 flex items-center justify-between bg-brand-cream/30">
@@ -522,7 +522,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
                             placeholder=" "
                             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
                           />
-                          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9]">
+                          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9]">
                             ENTER UPI ID (VPA)
                           </label>
                         </div>
@@ -541,7 +541,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
                             placeholder=" "
                             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
                           />
-                          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9]">
+                          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9]">
                             Card Number
                           </label>
                         </div>
@@ -558,7 +558,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
                               placeholder=" "
                               className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
                             />
-                            <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9]">
+                            <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9]">
                               Expiry (MM/YY)
                             </label>
                           </div>
@@ -572,7 +572,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
                               placeholder=" "
                               className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
                             />
-                            <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9]">
+                            <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9]">
                               CVV (***)
                             </label>
                           </div>
@@ -588,7 +588,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
                             placeholder=" "
                             className="peer w-full bg-transparent border-b border-brand-dark/20 focus:border-[#0ea5e9] py-3 px-1 text-sm font-sans text-brand-dark focus:outline-none transition-colors"
                           />
-                          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-[:not(:placeholder-shown)]:-translate-y-5 peer-[:not(:placeholder-shown)]:scale-75 peer-[:not(:placeholder-shown)]:text-[#0ea5e9]">
+                          <label className="absolute left-1 top-3 font-sans text-xs font-bold text-brand-grey/50 uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left peer-focus:-translate-y-5 peer-focus:scale-75 peer-focus:text-[#0ea5e9] peer-not-placeholder-shown:-translate-y-5 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:text-[#0ea5e9]">
                             Cardholder Name
                           </label>
                         </div>

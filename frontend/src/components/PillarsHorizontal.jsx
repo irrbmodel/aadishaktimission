@@ -261,7 +261,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
         </div>
 
         {/* The Premium Terracotta Notice Board */}
-        <div className="w-full bg-[#8B2617] border-[14px] md:border-[20px] border-[#382015] rounded-[32px] p-8 md:p-14 lg:p-20 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-hidden flex flex-col items-center justify-center">
+        <div className="w-full bg-[#8B2617] border-14 md:border-20 border-[#382015] rounded-[32px] p-8 md:p-14 lg:p-20 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-hidden flex flex-col items-center justify-center">
           
           {/* Subtle noise texture simulating red clay mud plaster */}
           <div 
@@ -283,12 +283,11 @@ const PillarsHorizontal = ({ isLoaded }) => {
           </div>
         </div>
       </div>
-
       {/* Unified Portalled Slide-out Details Drawer (Glassmorphic Splitted Panel) */}
       {createPortal(
         <AnimatePresence>
           {selectedCard && (
-            <div className="fixed inset-0 w-full h-full z-[999999] flex items-center justify-end">
+            <div className="fixed inset-0 w-full h-full z-999999 flex items-center justify-end">
               
               {/* Blur Overlay Backdrop */}
               <motion.div

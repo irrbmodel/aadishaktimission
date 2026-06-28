@@ -117,7 +117,7 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
   return (
     <div 
       ref={overlayRef}
-      className="fixed inset-0 w-full h-full z-[9999] pointer-events-none select-none overflow-hidden"
+      className="fixed inset-0 w-full h-full z-9999 pointer-events-none select-none overflow-hidden"
     >
       {/* 5 Staggered Vertical Panels */}
       {Array.from({ length: 5 }).map((_, i) => (
@@ -132,7 +132,7 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
           }}
         >
           {/* Gold & Red premium accent metallic line at the bottom of each panel */}
-          <div className="w-full h-[4px] bg-gradient-to-r from-brand-red via-[#d97706] to-brand-red opacity-80" />
+          <div className="w-full h-[4px] bg-linear-to-r from-brand-red via-[#d97706] to-brand-red opacity-80" />
         </div>
       ))}
 

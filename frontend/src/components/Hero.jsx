@@ -183,7 +183,7 @@ const Hero = ({ isLoaded }) => {
           ref={introRef}
           className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex justify-center p-4 pointer-events-none opacity-0"
         >
-          <div className="border-[2px] border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-dark/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-cream pointer-events-auto">
+          <div className="border-2 border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-dark/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-cream pointer-events-auto">
             
             {/* Traditional diamond Aipan corner accents */}
             <div className="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">

@@ -105,18 +105,34 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
       triggerRipple()
     }
 
+    let lastTime = Date.now()
     // 3. Animation Loop
     const render = () => {
+      const now = Date.now()
+      const dt = Math.min(3, (now - lastTime) / 16.666) // normalized to 60fps (1 unit = 16.67ms)
+      lastTime = now
+
       // Clear with absolute black
       ctx.fillStyle = '#000000'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Draw Constant (Stationary) Stardust with breathing twinkle
+      // Draw Stardust with breathing twinkle and slow drift
       stardust.forEach(p => {
+        // Slow drift
+        p.angle += p.angleSpeed * dt
+        p.x += Math.cos(p.angle) * p.speed * dt
+        p.y += Math.sin(p.angle) * p.speed * dt
+
+        // Wrap around screen edges
+        if (p.x < 0) p.x = canvas.width
+        if (p.x > canvas.width) p.x = 0
+        if (p.y < 0) p.y = canvas.height
+        if (p.y > canvas.height) p.y = 0
+
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
         ctx.fillStyle = p.color
-        const time = Date.now() * 0.0015
+        const time = now * 0.0015
         const twinkle = Math.sin(time + p.x * 0.05 + p.y * 0.05) * 0.2
         ctx.globalAlpha = Math.max(0.02, Math.min(0.8, p.alpha + twinkle))
         ctx.fill()
@@ -127,7 +143,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
         const centerX = canvas.width / 2
         const centerY = canvas.height / 2
         
-        rippleRadius += 14 // speed of wave
+        rippleRadius += 14 * dt // speed of wave
 
         if (rippleRadius < rippleMaxRadius) {
           rippleAlpha = Math.max(0, 1 - (rippleRadius / rippleMaxRadius))
@@ -156,12 +172,12 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
 
         // Draw spiraling sparks
         sparks.forEach(s => {
-          s.angle += s.angleSpeed * s.angleDirection
-          s.x += Math.cos(s.angle) * s.speed
-          s.y += Math.sin(s.angle) * s.speed
+          s.angle += s.angleSpeed * s.angleDirection * dt
+          s.x += Math.cos(s.angle) * s.speed * dt
+          s.y += Math.sin(s.angle) * s.speed * dt
           
-          s.speed *= 0.97
-          s.alpha -= s.decay
+          s.speed *= Math.pow(0.97, dt)
+          s.alpha -= s.decay * dt
 
           if (s.alpha > 0) {
             ctx.beginPath()
@@ -222,7 +238,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
   }
 
   return (
-    <div className="fixed inset-0 w-full h-full z-[99999] overflow-hidden flex flex-col justify-center items-center select-none">
+    <div className="fixed inset-0 w-full h-full z-99999 overflow-hidden flex flex-col justify-center items-center select-none">
       
       {/* Background Canvas Overlay (Fades out in Phase 5 to reveal homepage) */}
       <motion.div 
@@ -250,6 +266,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
               initial={{ x: "-100vw", y: 0, opacity: 0 }}
               animate={seekerAnimation()}
               transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1] }}
+              style={{ willChange: 'transform, opacity' }}
               className="absolute right-[50%] w-[55vw] h-[55vw] max-w-[480px] max-h-[480px] flex items-center justify-end"
             >
               <img
@@ -265,6 +282,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
               initial={{ x: "100vw", y: 0, opacity: 0 }}
               animate={divineAnimation()}
               transition={{ duration: 1.6, ease: [0.25, 1, 0.5, 1] }}
+              style={{ willChange: 'transform, opacity' }}
               className="absolute left-[50%] w-[55vw] h-[55vw] max-w-[480px] max-h-[480px] flex items-center justify-start"
             >
               <img
