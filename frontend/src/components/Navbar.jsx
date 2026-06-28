@@ -17,21 +17,40 @@ const Navbar = ({ isLoaded, view, setView }) => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const mountedRef = useRef(false)
+  const scrollLockRef = useRef(0)
+  const preventTouchRef = useRef(null)
+
   useEffect(() => {
+    // Skip on initial mount — menu is closed by default
+    if (!mountedRef.current) {
+      mountedRef.current = true
+      return
+    }
+
     if (isOpen) {
+      // Save current scroll position
+      scrollLockRef.current = window.scrollY
+
+      // Lock scroll using position:fixed — bulletproof on all browsers incl. iOS Safari
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollLockRef.current}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
       document.body.style.overflow = 'hidden'
-      document.documentElement.style.overflow = 'hidden'
+
+      // Block touch scroll — store reference so we can remove the exact same fn
+      preventTouchRef.current = (e) => e.preventDefault()
+      document.addEventListener('touchmove', preventTouchRef.current, { passive: false })
 
       const tl = gsap.timeline()
 
-      // 1. Slide the entire menu panel in from the top
       tl.fromTo(
         menuRef.current,
         { clipPath: 'inset(0 0 100% 0)', y: '-2%' },
         { clipPath: 'inset(0 0 0% 0)', y: '0%', duration: 0.8, ease: 'power4.inOut' }
       )
 
-      // 2. Stagger-reveal each link from its clipping mask
       tl.fromTo(
         linksRef.current,
         { yPercent: 110, rotate: 3, opacity: 0 },
@@ -43,10 +62,9 @@ const Navbar = ({ isLoaded, view, setView }) => {
           stagger: 0.055,
           ease: 'power3.out',
         },
-        '-=0.45' // overlap with the panel slide
+        '-=0.45'
       )
 
-      // 3. Slide the editorial image in from the right
       if (imageRef.current) {
         tl.fromTo(
           imageRef.current,
@@ -56,7 +74,6 @@ const Navbar = ({ isLoaded, view, setView }) => {
         )
       }
 
-      // 4. Fade in the footer bar
       if (footerRef.current) {
         tl.fromTo(
           footerRef.current,
@@ -67,12 +84,22 @@ const Navbar = ({ isLoaded, view, setView }) => {
       }
 
     } else {
+      // Restore scroll — remove fixed positioning first, then scroll back
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.left = ''
+      document.body.style.right = ''
       document.body.style.overflow = ''
-      document.documentElement.style.overflow = ''
+      window.scrollTo(0, scrollLockRef.current)
+
+      // Remove touch blocker using the exact same reference
+      if (preventTouchRef.current) {
+        document.removeEventListener('touchmove', preventTouchRef.current)
+        preventTouchRef.current = null
+      }
 
       const tl = gsap.timeline()
 
-      // 1. Stagger links out downward
       tl.to(
         [...linksRef.current].reverse(),
         {
@@ -84,7 +111,6 @@ const Navbar = ({ isLoaded, view, setView }) => {
         }
       )
 
-      // 2. Slide image out to right
       if (imageRef.current) {
         tl.to(
           imageRef.current,
@@ -93,12 +119,23 @@ const Navbar = ({ isLoaded, view, setView }) => {
         )
       }
 
-      // 3. Clip the panel back up
       tl.to(
         menuRef.current,
         { clipPath: 'inset(0 0 100% 0)', duration: 0.6, ease: 'power4.inOut' },
         '-=0.15'
       )
+    }
+
+    return () => {
+      // Cleanup if component unmounts while menu is open
+      if (preventTouchRef.current) {
+        document.removeEventListener('touchmove', preventTouchRef.current)
+      }
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.left = ''
+      document.body.style.right = ''
+      document.body.style.overflow = ''
     }
   }, [isOpen])
 
@@ -132,8 +169,6 @@ const Navbar = ({ isLoaded, view, setView }) => {
     { label: 'our programs', id: 'pillars' },
     { label: 'our values', id: 'journey' },
     { label: 'meet the team', id: 'team' },
-    { label: 'become a member', id: 'become-member' },
-    { label: 'contribute', id: 'donation-impact' },
     { label: 'contact', id: 'footer' }
   ]
 
@@ -213,7 +248,7 @@ const Navbar = ({ isLoaded, view, setView }) => {
                 />
                 <span 
                   className={`h-[1.5px] transition-all duration-500 origin-center ${
-                    isOpen ? 'bg-brand-red w-6 -rotate-45 -translate-y-[7.5px]' : 'bg-brand-dark w-6'
+                    isOpen ? 'bg-brand-red w-6 -rotate-45 translate-y-[-7.5px]' : 'bg-brand-dark w-6'
                   }`} 
                 />
               </div>
@@ -247,7 +282,7 @@ const Navbar = ({ isLoaded, view, setView }) => {
                         className="relative inline-block font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-6xl font-light text-brand-dark tracking-tight cursor-pointer transition-all duration-300 py-2 md:py-2.5 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-brand-red after:transition-all after:duration-500 hover:after:w-full"
                         data-cursor="pointer"
                       >
-                        <div className="overflow-hidden">
+                        <div className="overflow-hidden pb-2">
                           <span 
                             ref={(el) => (linksRef.current[index] = el)}
                             className="inline-block origin-bottom-left"

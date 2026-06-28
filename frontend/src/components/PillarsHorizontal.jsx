@@ -319,7 +319,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
           {/* Scattered Polaroid Cards Row (overlapping, scrollable) */}
           <div 
             ref={scrollContainerRef}
-            className="flex flex-row gap-6 md:gap-8 w-full overflow-x-auto pb-16 pt-20 px-8 z-10 scrollbar-none relative"
+            className="flex flex-row gap-6 md:gap-8 w-full overflow-x-auto px-8 z-10 scrollbar-none relative pt-[120px] pb-[120px] mt-[-100px] mb-[-100px]"
           >
             {pillarsData.map((proj) => (
               <div 
