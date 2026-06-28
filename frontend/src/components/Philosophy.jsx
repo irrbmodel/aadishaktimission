@@ -6,133 +6,47 @@ gsap.registerPlugin(ScrollTrigger)
 
 const Philosophy = ({ isLoaded }) => {
   const containerRef = useRef(null)
+  const snapshotsContainerRef = useRef(null)
   const paragraphRef = useRef(null)
   const sliderRef = useRef(null)
   const subHeadingRef = useRef(null)
-  const bgDivRef = useRef(null)
-  const videoContainerRef = useRef(null)
   const descTextRef = useRef(null)
 
   const [sliderIndex, setSliderIndex] = useState(0)
 
-  const philosophyText = 
-    "Aadi Shakti Mission is a committed movement established to enhance and secure the social, economic, and ecological fabric of underserved communities. Combining grassroots activism with professional methodologies, we have spent years executing creative, high-impact initiatives for rural transformation and building honest pathways for human empowerment."
-
   const images = [
-    { src: '/images/book_bank.jpeg', title: "National association for parents and Student's Rights: A Book Bank by Aadhi Shaki Mission" },
-    { src: '/images/sus2.jpeg', title: "Nation Equality: Realizing Women's Rights" },
-    { src: '/images/outreach_walk.jpeg', title: 'Community Outreach Walk' },
-    { src: '/images/women_empowerment_class.jpeg', title: 'Nanhe Kadam, Badi Udaan' },
-    { src: '/images/youth_group.jpeg', title: 'Youth against Corruption' },
-    { src: '/images/carousel6.jpeg', title: "A news letter on :National association for parents and Student's Rights: A Book Bank by Aadhi Shaki Mission" }
+    { 
+      src: '/images/book_bank.jpeg', 
+      title: "A Book Bank by Aadhi Shakti Mission",
+      desc: "Creating micro-libraries and study clusters across remote Himalayan hamlets, ensuring that every child has physical access to textbooks, reference materials, and digital learning tools."
+    },
+    { 
+      src: '/images/sus2.jpeg', 
+      title: "National Equality: Realizing Women's Rights",
+      desc: "Supporting independent women cooperatives and providing them with vocational training, legal literacy, and micro-loans to help build community-led economic resilience."
+    },
+    { 
+      src: '/images/outreach_walk.jpeg', 
+      title: "Community Outreach Walk",
+      desc: "Our teams travel on foot through rugged terrains to interact directly with isolated communities, identifying grassroot issues and delivering direct aid and welfare planning."
+    },
+    { 
+      src: '/images/women_empowerment_class.jpeg', 
+      title: "Nanhe Kadam, Badi Udaan",
+      desc: "Empowering young girls through high-impact academic mentoring, computer classes, and personality development workshops that build confidence and self-reliance."
+    },
+    { 
+      src: '/images/youth_group.jpeg', 
+      title: "Youth Against Corruption",
+      desc: "Mobilizing school and college students to advocate for transparent local administration, environmental conservation, and social welfare awareness campaigns."
+    },
+    { 
+      src: '/images/carousel6.jpeg', 
+      title: "Aadhi Shakti Mission Newsletter",
+      desc: "Documenting and sharing stories of transformation, ecological milestones, and grassroots leadership directly from Uttarakhand's high mountain valleys."
+    }
   ]
 
-  // 1. Word Scroll Colorizer & Subheading Slide-Up Animation
-  useEffect(() => {
-    if (!isLoaded) return
-
-    const ctx = gsap.context(() => {
-      const words = paragraphRef.current.querySelectorAll('.reveal-word')
-      const keywords = ['Aadi Shakti Mission', 'social, economic, and ecological', 'rural transformation', 'human empowerment']
-
-      gsap.fromTo(words,
-        { 
-          color: 'rgba(0, 0, 0, 0.08)',
-          fontWeight: '400'
-        },
-        {
-          color: (index, target) => {
-            const text = target.textContent.trim()
-            if (keywords.some(k => k.includes(text) && text.length > 3)) {
-              return '#9B0000'
-            }
-            return '#000000'
-          },
-          fontWeight: (index, target) => {
-            const text = target.textContent.trim()
-            if (keywords.some(k => k.includes(text) && text.length > 3)) {
-              return '700'
-            }
-            return '400'
-          },
-          stagger: 0.05,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: paragraphRef.current,
-            start: 'top 75%',
-            end: 'bottom 45%',
-            scrub: true,
-          }
-        }
-      )
-
-      // Subheading word slide-up reveal
-      const subHeading = subHeadingRef.current
-      const subWords = subHeading.querySelectorAll('.reveal-word-up')
-      gsap.fromTo(subWords,
-        { yPercent: 100 },
-        {
-          yPercent: 0,
-          stagger: 0.03,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: subHeading,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
-        }
-      )
-
-      // Background Parallax Divider Card
-      gsap.fromTo(bgDivRef.current,
-        { y: -70 },
-        {
-          y: 70,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-          }
-        }
-      )
-
-      // Video Container Floating Parallax
-      gsap.fromTo(videoContainerRef.current,
-        { y: 50 },
-        {
-          y: -50,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: videoContainerRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true
-          }
-        }
-      )
-
-      // Description text slide-up reveal
-      gsap.fromTo(descTextRef.current,
-        { y: 35, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: descTextRef.current,
-            start: 'top 88%',
-            toggleActions: 'play none none none'
-          }
-        }
-      )
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [isLoaded])
 
   // 2. Custom GSAP Slider Transition
   const handlePrev = () => {
@@ -144,219 +58,260 @@ const Philosophy = ({ isLoaded }) => {
   }
 
   useEffect(() => {
-    const sliderImages = sliderRef.current.querySelectorAll('.slider-img-item')
+    if (!isLoaded) return
+
+    const sliderImages = sliderRef.current?.querySelectorAll('.snapshot-img-item')
+    if (!sliderImages || sliderImages.length === 0) return
+
     gsap.to(sliderImages, {
       opacity: 0,
-      scale: 0.95,
-      xPercent: -5,
+      scale: 0.96,
+      rotate: -1,
       duration: 0.5,
       ease: 'power2.inOut',
       overwrite: 'auto'
     })
     
     gsap.fromTo(sliderImages[sliderIndex],
-      { opacity: 0, scale: 1.05, xPercent: 5 },
+      { opacity: 0, scale: 1.04, rotate: 1 },
       {
         opacity: 1,
         scale: 1,
-        xPercent: 0,
-        duration: 0.6,
-        ease: 'power2.out',
+        rotate: 0,
+        duration: 0.7,
+        ease: 'power3.out',
         overwrite: 'auto'
       }
     )
-  }, [sliderIndex])
+
+    // Animate details text
+    const textElements = snapshotsContainerRef.current?.querySelectorAll('.animate-snapshot-details')
+    if (textElements && textElements.length > 0) {
+      gsap.fromTo(textElements,
+        { opacity: 0, y: 15, filter: 'blur(2px)' },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          duration: 0.6,
+          stagger: 0.08,
+          ease: 'power2.out',
+          overwrite: 'auto'
+        }
+      )
+    }
+  }, [sliderIndex, isLoaded])
 
   return (
-    <section 
-      id="philosophy"
-      ref={containerRef}
-      className="relative w-full py-24 md:py-36 bg-brand-cream overflow-hidden border-b border-brand-dark/5"
-    >
-      {/* Subtle background blob */}
-      <div className="absolute glowing-blob w-[400px] h-[400px] bg-brand-red/5 top-[20%] left-[5%] opacity-15" />
+    <>
+      {/* SECTION 1: Core Philosophy */}
+      <section 
+        id="philosophy"
+        ref={containerRef}
+        className="relative w-full min-h-[150vh] bg-brand-cream border-b border-brand-dark/5 flex flex-col justify-between pt-32 pb-48 px-6 md:px-12"
+      >
+        {/* Subtle background lines/grid */}
+        <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5 hidden md:block" />
+        </div>
 
-      {/* Background Parallax Divider Card (Septiembre style) */}
-      <div 
-        ref={bgDivRef}
-        className="absolute left-0 right-0 w-full h-[50%] bg-brand-cream z-0"
-        style={{ top: '35%' }}
-      />
+        {/* Subtle background blob */}
+        <div className="absolute glowing-blob w-[400px] h-[400px] bg-brand-red/5 top-[20%] left-[5%] opacity-15" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
-        {/* About Section Header */}
-        <div className="flex flex-col items-center mb-16 text-center select-none">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey">
-            ABOUT US
+        {/* Section Header */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+            03 / Core Philosophy
+          </span>
+          <span className="font-serif italic text-xs text-brand-grey">
+            Aadi Shakti Mission
           </span>
         </div>
 
-        {/* Word Colorizer Paragraph */}
-        <div className="max-w-5xl mx-auto mb-24 md:mb-32">
-          <p 
-            ref={paragraphRef}
-            className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] leading-tight tracking-tight text-brand-dark/10"
-          >
-            {philosophyText.split(' ').map((word, index) => (
-              <span 
-                key={index} 
-                className="reveal-word inline-block mr-2 select-none"
-              >
-                {word}
-              </span>
-            ))}
-          </p>
-        </div>
+        {/* Center Editorial Text Block */}
+        <div className="sticky top-32 z-20 w-full max-w-4xl mx-auto text-center flex flex-col gap-6 md:gap-8 mt-4 mb-24">
+          {/* Decorative Aipan icon */}
+          <div className="flex justify-center items-center gap-2">
+            <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
+            <div className="w-4 h-4 border border-brand-red/35 rotate-45 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+            </div>
+            <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
+          </div>
 
-        {/* Top Section: About Content (Text + Big Photo) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Text */}
-          <div className="lg:col-span-6 flex flex-col gap-6">
-            <h3 
-              ref={subHeadingRef}
-              className="font-serif text-3xl sm:text-4xl text-brand-dark max-w-lg leading-tight"
-            >
-              {"Evoking transformative change that honors contextual integrity.".split(' ').map((word, idx) => {
-                const cleaned = word.replace(/[^a-zA-Z]/g, '')
-                if (cleaned === 'transformative' || cleaned === 'change') {
-                  return (
-                    <span key={idx} className="inline-block overflow-hidden pb-1 pr-2 mr-1">
-                      <span className="reveal-word-up inline-block font-sans font-black italic text-brand-red pr-2">{word}</span>
-                    </span>
-                  )
-                }
-                return (
-                  <span key={idx} className="inline-block overflow-hidden pb-1 mr-2">
-                    <span className="reveal-word-up inline-block">{word}</span>
-                  </span>
-                )
-              })}
-            </h3>
-            <p 
-              ref={descTextRef}
-              className="font-sans text-sm md:text-base text-brand-grey leading-relaxed max-w-md font-light"
-            >
-              We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.
+          <div className="w-full">
+            <p className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] leading-[1.35] tracking-tight text-[#1C1C1C]">
+              <span className="font-bold text-[#9B0000]">Aadi Shakti Mission</span> is a committed movement established to enhance and secure the <span className="font-bold text-[#9B0000]">social, economic, and ecological</span> fabric of underserved communities. Combining grassroots activism with professional methodologies, we spent years executing high-impact initiatives for <span className="font-bold text-[#9B0000]">rural transformation</span> and <span className="font-bold text-[#9B0000]">human empowerment</span>.
             </p>
           </div>
 
-          {/* Right Column: Big Photo */}
-          <div 
-            ref={videoContainerRef}
-            className="lg:col-span-6 relative aspect-video w-full rounded-3xl overflow-hidden border border-brand-dark/5 shadow-2xl group"
-          >
-            <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-brand-dark/5 transition-all duration-500" />
-            <img 
-              src="/images/banner.jpeg" 
-              alt="Aadi Shakti Mission" 
-              className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-all duration-700"
-            />
+          <div className="flex flex-col items-center gap-3 mt-4 max-w-2xl mx-auto">
+            <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-brand-dark leading-tight">
+              Evoking <span className="font-sans font-black italic text-brand-red">transformative change</span> that honors contextual integrity.
+            </h3>
+            
+            <p className="font-sans text-xs md:text-sm text-brand-grey leading-relaxed max-w-lg font-light mt-2">
+              We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.
+            </p>
           </div>
         </div>
 
-        {/* Bottom Section: Horizontal Swiper/GSAP Image Slider */}
-        <div className="mt-16 bg-brand-cream border border-brand-dark/5 p-8 md:p-12 rounded-[32px] shadow-2xl border-fine transform-gpu">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
-            
-            {/* Custom Interactive Image Slider viewport */}
-            <div 
-              ref={sliderRef}
-              className="lg:col-span-8 relative w-full aspect-video sm:aspect-16/10 rounded-[20px] overflow-hidden border border-brand-dark/5 flex items-center justify-center select-none"
-            >
-              {/* Invisible clickable zones for prev/next navigation */}
-              <div 
-                onClick={handlePrev} 
-                className="absolute left-0 top-0 w-1/2 h-full z-20 cursor-pointer"
-                data-cursor="prev"
-              />
-              <div 
-                onClick={handleNext} 
-                className="absolute right-0 top-0 w-1/2 h-full z-20 cursor-pointer"
-                data-cursor="next"
-              />
+        {/* Section Footer */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center border-t border-brand-dark/5 pt-4 text-[9px] font-bold text-brand-grey tracking-widest uppercase">
+          <span>Section 03</span>
+          <span className="flex items-center gap-2">
+            Scroll to explore snapshots
+            <svg className="w-3 h-3 text-brand-red animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </span>
+        </div>
+      </section>
 
-              {/* Slider Images */}
-              {images.map((img, idx) => (
-                <div 
-                  key={img.src}
-                  className={`slider-img-item absolute inset-0 w-full h-full ${
-                    idx === sliderIndex ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'
+      {/* SECTION 2: Active Snapshots Showcase */}
+      <section
+        id="philosophy-snapshots"
+        ref={snapshotsContainerRef}
+        className="relative w-full h-screen bg-brand-cream overflow-hidden border-b border-brand-dark/5 flex flex-col justify-between py-20 px-6 md:px-12"
+      >
+        {/* Subtle background lines/grid */}
+        <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5 hidden md:block" />
+        </div>
+
+        {/* Glowing blob */}
+        <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/5 bottom-[-10%] right-[-10%] opacity-20 pointer-events-none" />
+
+        {/* Section Header */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+            04 / Active Snapshots
+          </span>
+          <span className="font-serif italic text-xs text-brand-grey">
+            Impact in Uttarakhand
+          </span>
+        </div>
+
+        {/* Grid layout */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mt-6 mb-auto">
+          {/* Left Column: Descriptive text and luxury controls */}
+          <div className="lg:col-span-5 flex flex-col select-none justify-center">
+            {/* Massive numbers layout */}
+            <div className="font-display text-6xl md:text-8xl font-black tracking-tighter text-brand-red/40 mb-2 select-none animate-snapshot-details">
+              0{sliderIndex + 1} <span className="text-brand-dark/30 text-4xl font-light">/</span> <span className="text-brand-dark/50 text-5xl font-light">0{images.length}</span>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <span className="font-sans text-[9px] font-black tracking-[0.25em] text-brand-grey/60 uppercase block animate-snapshot-details">
+                Active Snapshot Focus
+              </span>
+              <h4 className="font-serif text-3xl sm:text-4xl text-brand-dark tracking-tight leading-tight uppercase font-medium animate-snapshot-details">
+                {images[sliderIndex].title}
+              </h4>
+              <p className="font-sans text-xs sm:text-sm text-brand-grey leading-relaxed max-w-md font-light animate-snapshot-details">
+                {images[sliderIndex].desc}
+              </p>
+            </div>
+
+            {/* Luxury Navigation Buttons */}
+            <div className="flex items-center gap-4 mt-8">
+              <button 
+                onClick={handlePrev}
+                className="w-12 h-12 rounded-full border border-brand-dark/15 hover:border-brand-red hover:bg-brand-red hover:text-brand-cream transition-all duration-300 flex items-center justify-center cursor-pointer group"
+                data-cursor="pointer"
+                aria-label="Previous Snapshot"
+              >
+                <svg className="w-4 h-4 stroke-2 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+              <button 
+                onClick={handleNext}
+                className="w-12 h-12 rounded-full border border-brand-dark/15 hover:border-brand-red hover:bg-brand-red hover:text-brand-cream transition-all duration-300 flex items-center justify-center cursor-pointer group"
+                data-cursor="pointer"
+                aria-label="Next Snapshot"
+              >
+                <svg className="w-4 h-4 stroke-2 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Horizontal progress dots */}
+            <div className="flex gap-2 mt-8 items-center">
+              {images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSliderIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                    idx === sliderIndex ? 'w-8 bg-brand-red' : 'w-2 bg-brand-dark/10 hover:bg-brand-dark/30'
                   }`}
-                >
-                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/30 to-transparent z-10 pointer-events-none" />
-                  <img 
-                    src={img.src} 
-                    alt={img.title} 
-                    className="w-full h-full object-cover pointer-events-none"
-                  />
-                </div>
+                  aria-label={`Go to snapshot ${idx + 1}`}
+                />
               ))}
             </div>
+          </div>
 
-            {/* Sidebar Control Panel */}
-            <div className="lg:col-span-4 flex flex-col justify-between py-2">
-              <div className="flex flex-col gap-6">
-                <div>
-                  <span className="font-sans text-[10px] font-black tracking-[0.25em] text-brand-grey uppercase block mb-1">
-                    FIELD WORK SNAPSHOTS
-                  </span>
-                  <div className="flex items-center justify-between border-b border-brand-dark/5 pb-4 mt-2">
-                    <span className="font-display text-xs font-black text-brand-red tracking-wider">
-                      0{sliderIndex + 1} &mdash; 0{images.length}
-                    </span>
-                    
-                    {/* Minimal Dots Progress Indicators */}
-                    <div className="flex gap-1.5 select-none">
-                      {images.map((_, idx) => (
-                        <div
-                          key={idx}
-                          className={`h-1.5 rounded-full transition-all duration-300 ${
-                            idx === sliderIndex ? 'w-6 bg-brand-red' : 'w-1.5 bg-brand-dark/10'
-                          }`}
-                        />
-                      ))}
-                    </div>
+          {/* Right Column: Large Premium framed image display */}
+          <div className="lg:col-span-7 flex justify-center items-center select-none w-full">
+            <div className="relative w-full aspect-video sm:aspect-4/3 max-w-[620px] rounded-[32px] p-4 bg-brand-white shadow-[0_24px_50px_rgba(0,0,0,0.12)] border border-brand-dark/5 transform-gpu">
+              {/* Decorative offset border frame behind photograph */}
+              <div className="absolute -inset-2 rounded-[36px] border border-brand-dark/5 pointer-events-none z-0 rotate-1 transform-gpu scale-102" />
+
+              {/* Viewport for images */}
+              <div 
+                ref={sliderRef}
+                className="relative w-full h-full rounded-[20px] overflow-hidden border border-brand-dark/5 bg-brand-cream shadow-inner flex items-center justify-center cursor-pointer"
+              >
+                {/* Left/Right clickable regions for image */}
+                <div 
+                  onClick={handlePrev} 
+                  className="absolute left-0 top-0 w-1/2 h-full z-20 cursor-w-resize"
+                  title="Previous image"
+                />
+                <div 
+                  onClick={handleNext} 
+                  className="absolute right-0 top-0 w-1/2 h-full z-20 cursor-e-resize"
+                  title="Next image"
+                />
+
+                {/* Slider Images */}
+                {images.map((img, idx) => (
+                  <div 
+                    key={img.src}
+                    className={`snapshot-img-item absolute inset-0 w-full h-full ${
+                      idx === sliderIndex ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'
+                    }`}
+                  >
+                    <div className="absolute inset-0 bg-linear-to-t from-brand-dark/25 to-transparent z-10 pointer-events-none" />
+                    <img 
+                      src={img.src} 
+                      alt={img.title} 
+                      className={`snapshot-img-${idx} w-full h-full object-cover pointer-events-none`}
+                    />
                   </div>
-                </div>
-
-                <div className="pt-2">
-                  <span className="font-sans text-[9px] font-black tracking-[0.25em] text-brand-grey/65 uppercase block mb-3">
-                    ACTIVE PROJECT
-                  </span>
-                  <h4 className="font-serif text-xl sm:text-2xl text-brand-dark tracking-tight leading-relaxed max-w-sm">
-                    {images[sliderIndex].title}
-                  </h4>
-                </div>
-              </div>
-
-              {/* Navigation Buttons */}
-              <div className="flex items-center gap-4 mt-8 select-none">
-                <button 
-                  onClick={handlePrev}
-                  className="px-5 py-3 border border-brand-dark/10 rounded-full font-sans text-[10px] font-bold tracking-widest uppercase text-brand-dark hover:bg-brand-dark hover:text-brand-white transition-all duration-300 cursor-pointer flex items-center gap-2"
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-                  </svg>
-                  Prev
-                </button>
-                <button 
-                  onClick={handleNext}
-                  className="px-5 py-3 border border-brand-dark/10 rounded-full font-sans text-[10px] font-bold tracking-widest uppercase text-brand-dark hover:bg-brand-dark hover:text-brand-white transition-all duration-300 cursor-pointer flex items-center gap-2"
-                >
-                  Next
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+                ))}
               </div>
             </div>
-
           </div>
         </div>
-      </div>
 
-    </section>
+        {/* Section Footer */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center border-t border-brand-dark/5 pt-4 text-[9px] font-bold text-brand-grey tracking-widest uppercase">
+          <span>Section 04</span>
+          <span className="flex items-center gap-2">
+            Scroll to explore Programs
+            <svg className="w-3 h-3 text-brand-red animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+            </svg>
+          </span>
+        </div>
+      </section>
+    </>
   )
 }
 

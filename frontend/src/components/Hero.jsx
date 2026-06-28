@@ -1,228 +1,177 @@
 import React, { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
-
-// Himalayan Peaks Outline SVG component (Nanda Devi & Trishul silhouette)
-const MountainPeaks = React.forwardRef(({ className, path1Ref, path2Ref }, ref) => (
-  <div 
-    ref={ref}
-    className={`absolute inset-0 z-0 pointer-events-none flex items-end justify-center overflow-hidden opacity-0 ${className}`}
-  >
-    <svg 
-      className="w-full h-full text-brand-dark/15 max-w-7xl mx-auto" 
-      viewBox="0 0 1200 400" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Front mountain line */}
-      <path 
-        ref={path1Ref}
-        d="M -50,400 L 150,220 L 280,310 L 480,120 L 600,240 L 850,70 L 1050,220 L 1250,400" 
-        stroke="currentColor" 
-        strokeWidth="1.5" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-        strokeDasharray="1800"
-        strokeDashoffset="1800"
-      />
-      {/* Background dashed mountain line */}
-      <path 
-        ref={path2Ref}
-        d="M 50,400 L 220,250 L 380,350 L 590,170 L 720,280 L 960,110 L 1150,400" 
-        stroke="currentColor" 
-        strokeWidth="1" 
-        strokeDasharray="1500"
-        strokeDashoffset="1500"
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
-      />
-      {/* Peak accents */}
-      <path d="M 480,120 L 490,160 M 480,120 L 465,150" stroke="currentColor" strokeWidth="1" />
-      <path d="M 850,70 L 865,115 M 850,70 L 835,110" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  </div>
-))
 
 const Hero = ({ isLoaded }) => {
   const containerRef = useRef(null)
-  const cardRef = useRef(null)
-  const mountainsRef = useRef(null)
-  const overlayRef = useRef(null)
-  const introRef = useRef(null)
-  const mountainPath1Ref = useRef(null)
-  const mountainPath2Ref = useRef(null)
+  const titleWordsRef = useRef([])
+  const imageRef = useRef(null)
+  const textRef = useRef(null)
+  const borderRef = useRef(null)
 
   useEffect(() => {
     if (!isLoaded) return
 
-    // Set up GSAP scroll trigger context to handle layout pin & scroll transforms
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=120%",
-          scrub: true,
-          pin: true,
-          anticipatePin: 1
+      // 1. Title reveal animation (Slide up and rotate slightly from hidden mask)
+      gsap.fromTo(titleWordsRef.current,
+        { yPercent: 110, rotate: 1 },
+        { 
+          yPercent: 0, 
+          rotate: 0,
+          duration: 1.2, 
+          stagger: 0.08, 
+          ease: 'power4.out',
+          delay: 0.2
         }
-      })
+      )
 
-      // Animate card size from centered polaroid to full bleed
-      tl.to(cardRef.current, {
-        width: '100vw',
-        height: '100vh',
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-        borderRadius: '0px',
-        ease: 'none',
-        duration: 1
-      }, 0)
+      // 2. Image card reveal (scale up & fade in)
+      gsap.fromTo(imageRef.current,
+        { scale: 1.12, opacity: 0, rotate: 1 },
+        { 
+          scale: 1, 
+          opacity: 1, 
+          rotate: -0.5,
+          duration: 1.4, 
+          ease: 'power3.out',
+          delay: 0.5
+        }
+      )
 
-      // Fade in mountain outlines behind the card
-      tl.to(mountainsRef.current, {
-        opacity: 0.35,
-        ease: 'none',
-        duration: 0.7
-      }, 0)
+      // 3. Border decorative lines drawing
+      gsap.fromTo(borderRef.current,
+        { scaleX: 0, opacity: 0 },
+        { 
+          scaleX: 1, 
+          opacity: 0.8,
+          duration: 1.5, 
+          ease: 'power3.inOut',
+          delay: 0.4
+        }
+      )
 
-      // Tracing strokes dynamically linked to scroll position
-      tl.to(mountainPath1Ref.current, {
-        strokeDashoffset: 0,
-        ease: 'none',
-        duration: 0.8
-      }, 0)
+      // 4. Parallax scroll effect on the hero image
+      const img = imageRef.current?.querySelector('img')
+      if (img) {
+        gsap.to(img, {
+          yPercent: 12,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          }
+        })
+      }
 
-      tl.to(mountainPath2Ref.current, {
-        strokeDashoffset: 0,
-        ease: 'none',
-        duration: 0.8
-      }, 0)
-
-      // Darken image overlay mask to support typography contrast
-      tl.to(overlayRef.current, {
-        opacity: 0.65,
-        ease: 'none',
-        duration: 0.85
-      }, 0.15)
-
-      // Fade and slide up the bottom description panel
-      tl.fromTo(introRef.current, {
-        opacity: 0,
-        y: 40
-      }, {
-        opacity: 1,
-        y: 0,
-        ease: 'power2.out',
-        duration: 0.45
-      }, 0.7)
-
+      // 5. Parallax drift on text column
+      if (textRef.current) {
+        gsap.to(textRef.current, {
+          yPercent: -15,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true
+          }
+        })
+      }
     }, containerRef)
 
     return () => ctx.revert()
   }, [isLoaded])
 
   return (
-    <div ref={containerRef} className="relative w-full h-screen z-10 bg-brand-cream">
-      
-      {/* Hidden paper noise filter definition */}
-      <svg className="absolute w-0 h-0 hidden" aria-hidden="true">
-        <filter id="paper-texture-noise">
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.2   0 0 0 0 0.15  0.06 0 0 0 0" />
-          <feBlend mode="multiply" in="SourceGraphic" />
-        </filter>
-      </svg>
+    <section 
+      id="hero" 
+      ref={containerRef} 
+      className="relative w-full min-h-[100vh] bg-brand-cream flex flex-col justify-center pt-24 pb-32 border-b border-brand-dark/5"
+    >
+      {/* Organic textured paper canvas overlay */}
+      <div 
+        className="absolute inset-0 opacity-45 pointer-events-none z-0" 
+        style={{ filter: 'url(#paper-texture-noise-parallax)', mixBlendMode: 'multiply' }} 
+      />
 
-      {/* Viewport content wrapper */}
-      <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
+      {/* Decorative Blob */}
+      <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/5 top-[-10%] left-[-10%] opacity-15 pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         
-        {/* Organic textured paper canvas overlay */}
-        <div 
-          className="absolute inset-0 opacity-45 pointer-events-none z-0" 
-          style={{ filter: 'url(#paper-texture-noise)', mixBlendMode: 'multiply' }} 
-        />
-
-        {/* Himalayan Mountain peak outlines */}
-        <MountainPeaks 
-          ref={mountainsRef} 
-          path1Ref={mountainPath1Ref}
-          path2Ref={mountainPath2Ref}
-        />
-
-        {/* Central Expanding Polaroid Image Card */}
-        <div
-          ref={cardRef}
-          className="relative w-[90vw] h-[60vh] max-w-[620px] max-h-[460px] rounded-[24px] overflow-hidden shadow-2xl z-10 border border-brand-dark/5 bg-brand-white flex items-center justify-center transform-gpu"
-        >
-          {/* Picture shadow mask overlay */}
-          <div 
-            ref={overlayRef}
-            className="absolute inset-0 bg-brand-dark opacity-[0.15] z-10 pointer-events-none" 
-          />
-
-          {/* Centered Photograph of Village Women */}
-          <img 
-            src="/images/village_women_uttarakhand.png" 
-            alt="Uttarakhand Village Women" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Sticky Center Title - Always bold, white, and centered on top of card */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none select-none">
-          <h1 className="font-serif font-black text-[9vw] md:text-[7vw] text-brand-white leading-[0.9] tracking-tight uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)] text-center max-w-5xl px-4 transform-gpu">
-            Aadi Shakti Mission
-          </h1>
-        </div>
-
-        {/* Minimal Typographic wood-carved framed introduction (positioned at bottom) */}
-        <div 
-          ref={introRef}
-          className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex justify-center p-4 pointer-events-none opacity-0"
-        >
-          <div className="border-2 border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-dark/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-cream pointer-events-auto">
-            
-            {/* Traditional diamond Aipan corner accents */}
-            <div className="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
-              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
-            </div>
-            <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
-              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
-            </div>
-            <div className="absolute -bottom-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
-              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
-            </div>
-            <div className="absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
-              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
-            </div>
-
-            {/* Content */}
-            <span className="font-sans text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] text-[#0ea5e9] block mb-2.5 select-none">
-              OUR MOUNTAIN MOVEMENT
+        {/* Typographic Details */}
+        <div ref={textRef} className="lg:col-span-7 xl:col-span-8 flex flex-col items-center lg:items-start text-center lg:text-left select-none w-full">
+          {/* Section Header */}
+          <div className="w-full flex flex-col items-center lg:items-start justify-center lg:justify-start border-b border-brand-dark/10 pb-4 mb-8">
+            <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+              01 / Introduction
             </span>
+            <span className="font-serif italic text-xs text-brand-grey mt-2">
+              Our Mountain Movement
+            </span>
+          </div>
 
-            <p className="font-sans text-[11px] md:text-xs text-brand-cream/90 leading-relaxed font-light select-none max-w-md">
-              Aadi Shakti Mission is rooted in the high mountain valleys of Uttarakhand. By backing local women cooperatives, setting up digital literacy hubs, and conserving Pahari craft traditions, we build models of absolute self-reliance for village communities.
-            </p>
-
-            {/* Scroll Indicator */}
-            <div className="mt-4 flex flex-col items-center gap-1 select-none animate-bounce">
-              <span className="font-sans text-[7px] font-bold tracking-wider text-brand-cream/70 uppercase">
-                Explore our community board below
+          {/* Large Title Reveal */}
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tighter text-brand-dark uppercase mb-6 flex flex-wrap justify-center lg:justify-start">
+            {['Aadi', 'Shakti', 'Mission'].map((word, idx) => (
+              <span key={idx} className="inline-block overflow-hidden pb-1 pr-3 lg:pr-4">
+                <span 
+                  ref={el => titleWordsRef.current[idx] = el}
+                  className={`inline-block origin-left font-black ${
+                    word === 'Shakti' ? 'text-brand-red font-serif italic' : ''
+                  }`}
+                >
+                  {word}
+                </span>
               </span>
-              <svg className="w-3.5 h-3.5 text-brand-cream/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            ))}
+          </h1>
+
+          {/* Cultural Aipan Line Accents */}
+          <div ref={borderRef} className="w-full max-w-lg h-[2px] bg-brand-dark/10 relative my-4 origin-left">
+            <div className="absolute -top-1.5 left-1/2 lg:left-0 lg:translate-x-4 -translate-x-1/2 w-4 h-4 bg-brand-cream border border-brand-dark/20 rotate-45 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
+            </div>
+          </div>
+
+          <p className="font-sans text-xs md:text-sm text-brand-grey font-light leading-relaxed max-w-lg xl:max-w-xl my-4">
+            Restoring equilibrium to Himalayan villages. Rooted in the high mountain valleys of Uttarakhand, we back grassroots women cooperatives, establish digital literacy hubs, and restore traditional Pahari craft lineages.
+          </p>
+
+          {/* Scroll Down Button */}
+          <div className="mt-8 flex items-center gap-4 group cursor-pointer border border-brand-dark/10 px-6 py-3 rounded-full hover:bg-brand-dark transition-all duration-300">
+            <span className="font-sans text-[9px] font-bold uppercase tracking-widest text-brand-dark group-hover:text-brand-cream transition-colors">
+              Explore the story
+            </span>
+            <div className="w-6 h-6 rounded-full flex items-center justify-center text-brand-dark group-hover:text-brand-cream transition-all duration-300">
+              <svg className="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </div>
+          </div>
+        </div>
 
+        {/* Large Visual Card */}
+        <div className="lg:col-span-5 xl:col-span-4 w-full flex justify-center lg:justify-end mt-4 lg:mt-0">
+          <div 
+            ref={imageRef}
+            className="relative aspect-4/5 lg:aspect-square w-full max-w-md lg:max-w-none rounded-[32px] overflow-hidden shadow-2xl border border-brand-dark/5 bg-brand-white flex items-center justify-center transform-gpu opacity-0"
+          >
+            {/* Shading Mask */}
+            <div className="absolute inset-0 bg-brand-dark opacity-[0.08] z-10 pointer-events-none" />
+
+            {/* Uttarakhand Children Smiling Picture */}
+            <img 
+              src="/images/children_smiling.jpeg" 
+              alt="Uttarakhand Children Smiling" 
+              className="w-full h-full object-cover scale-110 pointer-events-none"
+            />
           </div>
         </div>
 
       </div>
-    </div>
+    </section>
   )
 }
 

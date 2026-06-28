@@ -1,10 +1,14 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 // Render 3D Push-Pin with drop shadow (Declared outside component scope to maintain stable element identity)
 const PushPin = ({ color = '#dc2626' }) => (
-  <div className="absolute -top-7 left-1/2 -translate-x-1/2 z-30 pointer-events-none flex flex-col items-center">
+  <div className="push-pin-item absolute -top-7 left-1/2 -translate-x-1/2 z-30 pointer-events-none flex flex-col items-center">
     {/* Real drop shadow offset below the pin */}
     <div className="absolute w-7 h-7 bg-black/45 rounded-full blur-[3px] translate-x-3.5 translate-y-4" />
     {/* 3D SVG Pin Head & Needle */}
@@ -127,6 +131,57 @@ const ProgramCard = ({ proj, onClick }) => {
 
 const PillarsHorizontal = ({ isLoaded }) => {
   const [selectedCard, setSelectedCard] = useState(null)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    if (!isLoaded) return
+
+    const ctx = gsap.context(() => {
+      const cards = containerRef.current.querySelectorAll('.program-card-item')
+      
+      // Initial hidden, rotated, and translated state for cards
+      gsap.set(cards, { opacity: 0, y: 70, scale: 0.9, rotate: -2 })
+
+      // Target pins inside cards - start above with large scale
+      const pins = containerRef.current.querySelectorAll('.push-pin-item')
+      gsap.set(pins, { y: -80, opacity: 0, scale: 1.6 })
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      // Stagger cards fade-in
+      tl.to(cards, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        rotate: (i, target) => {
+          // Keep the original rotation angle of the card
+          return parseFloat(target.dataset.rotate || 0)
+        },
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power3.out'
+      })
+
+      // Stagger pins drop-in with bounce
+      tl.to(pins, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.75,
+        stagger: 0.15,
+        ease: 'bounce.out'
+      }, '-=0.55')
+
+    }, containerRef)
+
+    return () => ctx.revert()
+  }, [isLoaded])
 
   const pillarsData = [
     {
@@ -226,10 +281,36 @@ const PillarsHorizontal = ({ isLoaded }) => {
     }
   ]
 
+  const scrollContainerRef = useRef(null)
+
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+    
+    // Enable horizontal scrolling with vertical mouse wheel
+    const onWheel = (e) => {
+      // Only capture if it's primarily vertical scrolling (standard mouse wheel)
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const atStart = container.scrollLeft === 0 && e.deltaY < 0
+        const atEnd = container.scrollWidth - container.clientWidth <= container.scrollLeft + 1 && e.deltaY > 0
+        
+        // If not at the edges, translate vertical wheel to horizontal scroll and stop page scroll
+        if (!atStart && !atEnd) {
+          e.preventDefault()
+          container.scrollLeft += e.deltaY
+        }
+      }
+    }
+    
+    container.addEventListener('wheel', onWheel, { passive: false })
+    return () => container.removeEventListener('wheel', onWheel)
+  }, [])
+
   return (
     <section 
       id="pillars" 
-      className="relative w-full py-24 md:py-36 bg-brand-cream border-b border-brand-dark/5"
+      ref={containerRef}
+      className="relative w-full min-h-[120vh] bg-brand-cream border-b border-brand-dark/5 flex flex-col pt-32 pb-48 overflow-hidden"
     >
       {/* Hidden felt/noise filter definition for mud-texture overlay */}
       <svg className="absolute w-0 h-0 hidden" aria-hidden="true">
@@ -240,28 +321,31 @@ const PillarsHorizontal = ({ isLoaded }) => {
         </filter>
       </svg>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        {/* Subtitle */}
-        <div className="mb-12 select-none">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey block">
-            OUR FOCUS AREAS
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-center py-6 md:py-12">
+        {/* Section Header */}
+        <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+            05 / Our Programs
+          </span>
+          <span className="font-serif italic text-xs text-brand-grey">
+            Focus Areas
           </span>
         </div>
 
         {/* Section Header text */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
-          <div className="lg:col-span-8 flex flex-col items-start gap-4">
-            <h2 className="font-serif text-5xl md:text-7xl text-brand-dark tracking-tight uppercase leading-none">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start mb-6 md:mb-8">
+          <div className="lg:col-span-8 flex flex-col items-start gap-2">
+            <h2 className="font-serif text-4xl md:text-6xl text-brand-dark tracking-tight uppercase leading-none">
               our programs
             </h2>
-            <p className="font-sans text-sm md:text-base text-brand-grey/90 leading-relaxed max-w-xl font-light mt-4">
-              Explore the five key verticals of the Aadi Shakti Mission. Hover to explore, click on any card to slide open its portfolio folder.
+            <p className="font-sans text-xs md:text-sm text-brand-grey/90 leading-relaxed max-w-xl font-light">
+              Explore the five key verticals of the Aadi Shakti Mission. Swipe horizontally, click on any card to slide open its portfolio folder.
             </p>
           </div>
         </div>
 
         {/* The Premium Terracotta Notice Board */}
-        <div className="w-full bg-[#8B2617] border-14 md:border-20 border-[#382015] rounded-[32px] p-8 md:p-14 lg:p-20 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-hidden flex flex-col items-center justify-center">
+        <div className="w-full bg-[#8B2617] border-8 md:border-12 border-[#382015] rounded-[32px] py-16 px-4 md:py-20 lg:py-24 md:px-8 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-hidden flex flex-col items-center justify-center min-h-[550px] md:min-h-[650px]">
           
           {/* Subtle noise texture simulating red clay mud plaster */}
           <div 
@@ -269,17 +353,39 @@ const PillarsHorizontal = ({ isLoaded }) => {
             style={{ filter: 'url(#clay-texture-noise)', mixBlendMode: 'multiply' }} 
           />
 
-
-
-          {/* Scattered Polaroid Cards Grid (Exactly 2 in a row on tablet/desktop) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 w-full max-w-5xl mx-auto z-10">
+          {/* Scattered Polaroid Cards Row (overlapping, scrollable) */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex flex-row gap-6 md:gap-8 w-full overflow-x-auto pb-6 pt-4 px-4 z-10 scrollbar-none relative"
+          >
             {pillarsData.map((proj) => (
-              <ProgramCard
-                key={proj.id}
-                proj={proj}
-                onClick={(p) => setSelectedCard(p)}
-              />
+              <div 
+                key={proj.id} 
+                className="program-card-item origin-center w-[290px] md:w-[310px] shrink-0"
+                data-rotate={proj.initialRotate}
+              >
+                <ProgramCard
+                  proj={proj}
+                  onClick={(p) => setSelectedCard(p)}
+                />
+              </div>
             ))}
+          </div>
+
+          {/* Animated Scroll Sideways Marker */}
+          <div className="absolute bottom-4 right-6 md:bottom-8 md:right-10 flex items-center gap-2 z-20 pointer-events-none opacity-70">
+            <span className="font-sans text-[9px] md:text-[10px] font-bold text-white/90 uppercase tracking-[0.2em] hidden sm:block">
+              Scroll
+            </span>
+            <motion.div 
+              animate={{ x: [0, 8, 0] }} 
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <polyline points="14 6 20 12 14 18"></polyline>
+              </svg>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -74,25 +74,28 @@ const Team = ({ isLoaded }) => {
   return (
     <section 
       id="team" 
-      className="relative w-full py-24 md:py-36 bg-brand-cream border-b border-brand-dark/5 overflow-hidden"
+      className="relative w-full min-h-screen bg-brand-cream border-b border-brand-dark/5 flex flex-col pt-32 pb-48"
     >
       {/* Decorative Blob */}
       <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/5 top-[10%] right-[-10%] opacity-20 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10">
         
-        {/* Subtitle */}
-        <div className="mb-16 select-none">
-          <span className="font-sans text-[10px] font-black uppercase tracking-[0.3em] text-brand-grey block">
-            OUR COLLECTIVE LEADERSHIP
+        {/* Section Header */}
+        <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+            06 / Leadership
+          </span>
+          <span className="font-serif italic text-xs text-brand-grey">
+            Our Founders
           </span>
         </div>
 
         {/* Heading & Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* Left Side: Editorial Headers & Interactive List */}
-          <div className="lg:col-span-6 flex flex-col gap-12">
+          <div className="lg:col-span-6 flex flex-col gap-8">
             <div ref={headingRef} className="flex flex-col gap-4">
               <h2 className="font-serif text-5xl md:text-7xl text-brand-dark uppercase tracking-tight leading-none">
                 our <br />
@@ -158,7 +161,7 @@ const Team = ({ isLoaded }) => {
           <div className="lg:col-span-6">
             <div 
               ref={previewCardRef}
-              className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-8 md:p-10 shadow-2xl flex flex-col gap-8 overflow-hidden min-h-[580px] justify-between"
+              className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-6 md:p-8 shadow-2xl flex flex-col gap-4 overflow-hidden justify-between h-full max-h-[85vh]"
             >
               {/* Top Accent Lines */}
               <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-red" />
@@ -171,7 +174,7 @@ const Team = ({ isLoaded }) => {
               </div>
 
               {/* Portrait Display */}
-              <div className="relative aspect-4/3 w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40 animate-on-change">
+              <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40 animate-on-change">
                 <img 
                   src={team[activeMember].image} 
                   alt={team[activeMember].name} 
@@ -181,7 +184,7 @@ const Team = ({ isLoaded }) => {
               </div>
 
               {/* Details & Quote Content */}
-              <div className="flex flex-col gap-6 relative z-10 grow justify-between">
+              <div className="flex flex-col gap-4 relative z-10 grow justify-between">
                 
                 {/* Biography & Quote */}
                 <div className="flex flex-col gap-4">

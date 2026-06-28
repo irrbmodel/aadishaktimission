@@ -75,6 +75,7 @@ const StatsCounter = () => {
 
   return (
     <section 
+      id="stats"
       ref={containerRef}
       className="stats-container relative w-full py-24 md:py-36 bg-brand-dark transition-colors duration-700 overflow-hidden border-b border-white/5"
     >

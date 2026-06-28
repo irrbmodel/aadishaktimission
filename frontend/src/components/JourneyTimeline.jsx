@@ -19,14 +19,16 @@ const JourneyTimeline = ({ isLoaded }) => {
 
       ctx = gsap.context(() => {
         const getScrollDistance = () => pinWrap.scrollWidth - window.innerWidth
+        const scrollDist = getScrollDistance()
         
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             pin: true,
+            pinSpacing: true,
             scrub: 1,
             start: 'top top',
-            end: () => `+=${getScrollDistance()}`,
+            end: () => `+=${getScrollDistance() + window.innerHeight}`,
             invalidateOnRefresh: true,
             anticipatePin: 1,
             fastScrollEnd: true,
@@ -36,15 +38,20 @@ const JourneyTimeline = ({ isLoaded }) => {
         // Animate the horizontal translate of the wrapper
         tl.to(pinWrap, {
           x: () => -getScrollDistance(),
-          ease: 'none'
+          ease: 'none',
+          duration: scrollDist
         }, 0)
+
+        // Empty spacer tween: Keeps the section pinned while the next section slides up
+        tl.to({}, { duration: window.innerHeight })
 
         // Sync progress bar animation
         const progressBar = container.querySelector('.timeline-progress-bar')
         if (progressBar) {
           tl.to(progressBar, {
             width: '100%',
-            ease: 'none'
+            ease: 'none',
+            duration: scrollDist
           }, 0)
         }
 

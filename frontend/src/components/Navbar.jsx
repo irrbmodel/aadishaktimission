@@ -22,6 +22,7 @@ const Navbar = ({ isLoaded, view, setView }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
       // GSAP animate menu open
       gsap.to(menuRef.current, {
         y: '0%',
@@ -42,6 +43,7 @@ const Navbar = ({ isLoaded, view, setView }) => {
       )
     } else {
       document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
       // GSAP animate menu close
       gsap.to(menuRef.current, {
         y: '-100%',
@@ -170,23 +172,22 @@ const Navbar = ({ isLoaded, view, setView }) => {
         </div>
       </header>
 
-      {/* Full Screen Menu Overlay */}
       <nav 
         ref={menuRef}
-        className="fixed inset-0 w-full h-screen bg-brand-cream border-b border-brand-dark/5 z-40 transform -translate-y-full flex flex-col px-6 md:px-24 pt-20 md:pt-28 pb-12 overflow-y-auto"
+        className="fixed inset-0 w-full h-[100dvh] bg-brand-cream border-b border-brand-dark/5 z-40 transform -translate-y-full flex flex-col px-6 md:px-24 pt-24 md:pt-32 pb-8 md:pb-12 overflow-y-auto"
       >
-        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center my-auto">
+        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center my-auto min-h-min">
           {/* Left Column: Navigation links and info */}
-          <div className="md:col-span-7 flex flex-col items-start gap-10 w-full">
+          <div className="md:col-span-7 flex flex-col items-center md:items-start gap-8 md:gap-10 w-full">
             {/* Links List */}
-            <ul className="flex flex-col gap-5 md:gap-7">
+            <ul className="flex flex-col items-center md:items-start gap-1 sm:gap-2 md:gap-4 w-full">
               {menuItems.map((item, index) => (
-                <li key={item.label} className="overflow-hidden">
+                <li key={item.label} className="overflow-hidden w-full text-center md:text-left py-1">
                   <a
                     ref={(el) => (linksRef.current[index] = el)}
                     href={`#${item.id}`}
                     onClick={(e) => handleNavClick(e, item.id)}
-                    className="btn-underline font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-tight cursor-pointer"
+                    className="inline-block btn-underline font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-tight cursor-pointer pb-2 md:pb-4 pt-1"
                     data-cursor="pointer"
                   >
                     <span data-letter={item.label}>{item.label}</span>
@@ -196,7 +197,7 @@ const Navbar = ({ isLoaded, view, setView }) => {
             </ul>
 
             {/* Socials / Language info footer */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full border-t border-brand-dark/10 pt-8 gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full border-t border-brand-dark/10 pt-6 md:pt-8 gap-4 mt-auto md:mt-0 pb-4 md:pb-0">
               <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase">
                 AADI SHAKTI MISSION NGO &copy; 2026
               </span>

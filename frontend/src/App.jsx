@@ -6,12 +6,15 @@ import Lenis from 'lenis'
 // Core Components
 import Navbar from './components/Navbar'
 import PageTransition from './components/PageTransition'
+import StoryNavigator from './components/StoryNavigator'
 
 // Page Sections
 import Hero from './components/Hero'
+import PolaroidParallax from './components/PolaroidParallax'
 import Philosophy from './components/Philosophy'
 import PillarsHorizontal from './components/PillarsHorizontal'
 import JourneyTimeline from './components/JourneyTimeline'
+import Gallery from './components/Gallery'
 import Team from './components/Team'
 import ActionHub from './components/ActionHub'
 import MembershipPayment from './components/MembershipPayment'
@@ -138,6 +141,55 @@ const App = () => {
     }
   }, [isLoaded])
 
+  useEffect(() => {
+    if (!isLoaded || view !== 'home') return
+
+    // Allow slight delay to let elements settle and calculate bounds correctly
+    const timer = setTimeout(() => {
+      const panels = [
+        document.getElementById('hero'),
+        document.getElementById('polaroid-transition'),
+        document.getElementById('philosophy'),
+        document.getElementById('philosophy-snapshots'),
+        document.getElementById('pillars'),
+        document.getElementById('journey'),
+        document.getElementById('gallery'),
+        document.getElementById('team')
+      ].filter(Boolean)
+
+      const ctx = gsap.context(() => {
+        // 1. (GSAP pinning for static h-screen panels removed to allow natural scrolling for variable height sections)
+
+        // 2. Scale down, blur, and fade out the current panel as the next panel overlaps it
+        panels.forEach((panel, i) => {
+          if (i === panels.length - 1) return // Skip the last panel (Team)
+
+          const nextPanel = panels[i + 1]
+          if (nextPanel) {
+            gsap.to(panel, {
+              scale: 0.88,
+              opacity: 0.25,
+              filter: 'blur(4px)',
+              yPercent: -15, // parallax drift back
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: nextPanel,
+                start: 'top bottom', // starts when next panel enters
+                end: 'top top',      // ends when next panel covers it
+                scrub: true,
+                invalidateOnRefresh: true
+              }
+            })
+          }
+        })
+      })
+
+      ScrollTrigger.refresh()
+    }, 300)
+
+    return () => clearTimeout(timer)
+  }, [isLoaded, view])
+
   return (
     <div className="relative min-h-screen bg-brand-cream selection:bg-brand-red selection:text-brand-cream">
       {/* Dynamic Background Glowing Blobs (Global mesh accent) */}
@@ -165,11 +217,13 @@ const App = () => {
       >
         {/* Main Content Sections */}
         {view === 'home' ? (
-          <main className="relative z-10 w-full overflow-hidden">
+          <main className="relative z-10 w-full bg-brand-cream">
             <Hero isLoaded={isLoaded} />
+            <PolaroidParallax isLoaded={isLoaded} />
             <Philosophy isLoaded={isLoaded} />
             <PillarsHorizontal isLoaded={isLoaded} />
             <JourneyTimeline isLoaded={isLoaded} />
+            <Gallery />
             <Team isLoaded={isLoaded} />
           </main>
         ) : view === 'become-member' ? (
@@ -260,6 +314,9 @@ const App = () => {
           onComplete={() => setIntroFinished(true)} 
         />
       )}
+
+      {/* Story Navigator Sidebar */}
+      {view === 'home' && <StoryNavigator isLoaded={isLoaded && introFinished} />}
     </div>
   )
 }

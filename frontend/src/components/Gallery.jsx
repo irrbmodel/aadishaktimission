@@ -92,12 +92,21 @@ const Gallery = () => {
     <section 
       id="gallery"
       ref={containerRef}
-      className="relative w-full py-24 md:py-36 bg-brand-dark overflow-hidden border-b border-white/5"
+      className="relative w-full min-h-screen bg-brand-dark border-b border-white/5 flex flex-col pt-32 pb-48"
     >
       {/* Decorative Blob */}
       <div className="absolute glowing-blob w-[450px] h-[450px] bg-brand-orange bottom-[20%] right-[-10%] opacity-10" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+        {/* Section Header */}
+        <div className="w-full flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+            07 / Visual Archive
+          </span>
+          <span className="font-serif italic text-xs text-white/50">
+            Shakti in Action
+          </span>
+        </div>
         
         {/* Intro */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
@@ -124,8 +133,8 @@ const Gallery = () => {
                 onClick={() => setActiveFilter(filter.id)}
                 className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ${
                   activeFilter === filter.id 
-                    ? 'bg-brand-orange text-brand-dark font-black shadow-md shadow-brand-orange/20' 
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'bg-white text-black font-black shadow-md shadow-white/20' 
+                    : 'text-white hover:bg-white/10'
                 }`}
                 data-cursor="pointer"
               >
@@ -136,7 +145,7 @@ const Gallery = () => {
         </div>
 
         {/* Asymmetric Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 min-h-[600px]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[60vh] md:h-[62vh] w-full">
           {filteredItems.map((item) => (
             <div 
               key={item.id}
@@ -154,15 +163,12 @@ const Gallery = () => {
                 <img 
                   src={item.image} 
                   alt={item.title} 
-                  className="w-full h-full object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-700 ease-out min-h-[250px] md:min-h-[350px]"
+                  className="w-full h-full object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-700 ease-out"
                 />
 
                 {/* Text Details overlay */}
                 <div className="absolute bottom-6 left-6 right-6 z-20 md:translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out flex items-end justify-between">
                   <div>
-                    <span className="text-[10px] font-bold text-brand-orange tracking-widest uppercase">
-                      {item.category}
-                    </span>
                     <h3 className="text-xl md:text-2xl font-display font-black text-white mt-1 uppercase">
                       {item.title}
                     </h3>
