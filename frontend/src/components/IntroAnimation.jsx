@@ -298,11 +298,11 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
 
   const divineAnimation = () => {
     if (phase === 1) return { x: "100vw", opacity: 0 }
-    if (phase === 2) return { x: "0vw", opacity: 0.98 }
+    if (phase === 2) return { x: "-35px", opacity: 0.98 }
     if (phase === 3) {
       // Touch clasp: shift left slightly, lift upward, and fade out
       return { 
-        x: "-40px", 
+        x: "-55px", 
         y: -120, 
         scale: 1.04,
         opacity: [0.98, 1, 1, 0],
