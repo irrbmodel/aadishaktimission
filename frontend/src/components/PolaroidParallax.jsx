@@ -65,7 +65,7 @@ const PolaroidParallax = ({ isLoaded }) => {
           end: () => `+=${window.innerHeight * 1}`,
           pin: true,
           pinSpacing: true,
-          scrub: true,
+          scrub: 1.5,
           invalidateOnRefresh: true
         }
       })
@@ -126,24 +126,9 @@ const PolaroidParallax = ({ isLoaded }) => {
 
   return (
     <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-dark">
-      
-      {/* Hidden paper noise filter definition */}
-      <svg className="absolute w-0 h-0 hidden" aria-hidden="true">
-        <filter id="paper-texture-noise-parallax">
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.2   0 0 0 0 0.15  0.06 0 0 0 0" />
-          <feBlend mode="multiply" in="SourceGraphic" />
-        </filter>
-      </svg>
 
       {/* Viewport content wrapper */}
       <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
-        
-        {/* Organic textured paper canvas overlay */}
-        <div 
-          className="absolute inset-0 opacity-45 pointer-events-none z-0" 
-          style={{ filter: 'url(#paper-texture-noise-parallax)', mixBlendMode: 'multiply' }} 
-        />
 
         {/* Himalayan Mountain peak outlines */}
         <MountainPeaks 
@@ -180,12 +165,9 @@ const PolaroidParallax = ({ isLoaded }) => {
 
         {/* Section Header */}
         <div className="absolute top-0 left-0 w-full px-6 md:px-12 pt-16 z-30 pointer-events-none">
-          <div className="w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-cream/20 pb-4">
+          <div className="w-full max-w-7xl mx-auto flex items-center border-b border-brand-cream/20 pb-4">
             <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
               02 / Our Community
-            </span>
-            <span className="font-serif italic text-xs text-brand-cream/70">
-              Grassroots Movement
             </span>
           </div>
         </div>

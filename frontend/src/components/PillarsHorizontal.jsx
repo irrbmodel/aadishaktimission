@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 // Render 3D Push-Pin with drop shadow (Declared outside component scope to maintain stable element identity)
 const PushPin = ({ color = '#dc2626' }) => (
-  <div className="push-pin-item absolute -top-7 left-1/2 -translate-x-1/2 z-30 pointer-events-none flex flex-col items-center">
+  <div className="push-pin-item absolute -top-7 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center">
     {/* Real drop shadow offset below the pin */}
     <div className="absolute w-7 h-7 bg-black/45 rounded-full blur-[3px] translate-x-3.5 translate-y-4" />
     {/* 3D SVG Pin Head & Needle */}
@@ -142,9 +142,9 @@ const PillarsHorizontal = ({ isLoaded }) => {
       // Initial hidden, rotated, and translated state for cards
       gsap.set(cards, { opacity: 0, y: 70, scale: 0.9, rotate: -2 })
 
-      // Target pins inside cards - start above with large scale
+      // Target pins inside cards - start slightly above so they don't clip in the scroll container
       const pins = containerRef.current.querySelectorAll('.push-pin-item')
-      gsap.set(pins, { y: -80, opacity: 0, scale: 1.6 })
+      gsap.set(pins, { y: -30, opacity: 0, scale: 1.3 })
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -283,43 +283,12 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
   const scrollContainerRef = useRef(null)
 
-  useEffect(() => {
-    const container = scrollContainerRef.current
-    if (!container) return
-    
-    // Enable horizontal scrolling with vertical mouse wheel
-    const onWheel = (e) => {
-      // Only capture if it's primarily vertical scrolling (standard mouse wheel)
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        const atStart = container.scrollLeft === 0 && e.deltaY < 0
-        const atEnd = container.scrollWidth - container.clientWidth <= container.scrollLeft + 1 && e.deltaY > 0
-        
-        // If not at the edges, translate vertical wheel to horizontal scroll and stop page scroll
-        if (!atStart && !atEnd) {
-          e.preventDefault()
-          container.scrollLeft += e.deltaY
-        }
-      }
-    }
-    
-    container.addEventListener('wheel', onWheel, { passive: false })
-    return () => container.removeEventListener('wheel', onWheel)
-  }, [])
-
   return (
     <section 
       id="pillars" 
       ref={containerRef}
       className="relative w-full min-h-[120vh] bg-brand-cream border-b border-brand-dark/5 flex flex-col pt-32 pb-48 overflow-hidden"
     >
-      {/* Hidden felt/noise filter definition for mud-texture overlay */}
-      <svg className="absolute w-0 h-0 hidden" aria-hidden="true">
-        <filter id="clay-texture-noise">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.2   0 0 0 0 0.15  0.07 0 0 0 0" />
-          <feBlend mode="multiply" in="SourceGraphic" />
-        </filter>
-      </svg>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-center py-6 md:py-12">
         {/* Section Header */}
@@ -345,18 +314,12 @@ const PillarsHorizontal = ({ isLoaded }) => {
         </div>
 
         {/* The Premium Terracotta Notice Board */}
-        <div className="w-full bg-[#8B2617] border-8 md:border-12 border-[#382015] rounded-[32px] py-16 px-4 md:py-20 lg:py-24 md:px-8 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-hidden flex flex-col items-center justify-center min-h-[550px] md:min-h-[650px]">
+        <div className="w-full bg-[#8B2617] border-8 md:border-12 border-[#382015] rounded-[32px] pt-8 pb-12 px-4 md:px-8 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-visible flex flex-col items-center justify-start min-h-[550px] md:min-h-[650px]">
           
-          {/* Subtle noise texture simulating red clay mud plaster */}
-          <div 
-            className="absolute inset-0 opacity-45 pointer-events-none" 
-            style={{ filter: 'url(#clay-texture-noise)', mixBlendMode: 'multiply' }} 
-          />
-
           {/* Scattered Polaroid Cards Row (overlapping, scrollable) */}
           <div 
             ref={scrollContainerRef}
-            className="flex flex-row gap-6 md:gap-8 w-full overflow-x-auto pb-6 pt-4 px-4 z-10 scrollbar-none relative"
+            className="flex flex-row gap-6 md:gap-8 w-full overflow-x-auto pb-16 pt-20 px-8 z-10 scrollbar-none relative"
           >
             {pillarsData.map((proj) => (
               <div 

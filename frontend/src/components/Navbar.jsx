@@ -6,16 +6,14 @@ const Navbar = ({ isLoaded, view, setView }) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const menuRef = useRef(null)
   const linksRef = useRef([])
+  const imageRef = useRef(null)
+  const footerRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
+      setIsScrolled(window.scrollY > 50)
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -23,33 +21,84 @@ const Navbar = ({ isLoaded, view, setView }) => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       document.documentElement.style.overflow = 'hidden'
-      // GSAP animate menu open
-      gsap.to(menuRef.current, {
-        y: '0%',
-        duration: 0.8,
-        ease: 'power4.out',
-      })
-      gsap.fromTo(
-        linksRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: 'power3.out',
-          delay: 0.3,
-        }
+
+      const tl = gsap.timeline()
+
+      // 1. Slide the entire menu panel in from the top
+      tl.fromTo(
+        menuRef.current,
+        { clipPath: 'inset(0 0 100% 0)', y: '-2%' },
+        { clipPath: 'inset(0 0 0% 0)', y: '0%', duration: 0.8, ease: 'power4.inOut' }
       )
+
+      // 2. Stagger-reveal each link from its clipping mask
+      tl.fromTo(
+        linksRef.current,
+        { yPercent: 110, rotate: 3, opacity: 0 },
+        {
+          yPercent: 0,
+          rotate: 0,
+          opacity: 1,
+          duration: 0.65,
+          stagger: 0.055,
+          ease: 'power3.out',
+        },
+        '-=0.45' // overlap with the panel slide
+      )
+
+      // 3. Slide the editorial image in from the right
+      if (imageRef.current) {
+        tl.fromTo(
+          imageRef.current,
+          { x: 60, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out' },
+          '-=0.5'
+        )
+      }
+
+      // 4. Fade in the footer bar
+      if (footerRef.current) {
+        tl.fromTo(
+          footerRef.current,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+          '-=0.3'
+        )
+      }
+
     } else {
       document.body.style.overflow = ''
       document.documentElement.style.overflow = ''
-      // GSAP animate menu close
-      gsap.to(menuRef.current, {
-        y: '-100%',
-        duration: 0.6,
-        ease: 'power4.in',
-      })
+
+      const tl = gsap.timeline()
+
+      // 1. Stagger links out downward
+      tl.to(
+        [...linksRef.current].reverse(),
+        {
+          yPercent: 110,
+          opacity: 0,
+          duration: 0.35,
+          stagger: 0.03,
+          ease: 'power2.in',
+        }
+      )
+
+      // 2. Slide image out to right
+      if (imageRef.current) {
+        tl.to(
+          imageRef.current,
+          { x: 50, opacity: 0, duration: 0.3, ease: 'power2.in' },
+          '<'
+        )
+      }
+
+      // 3. Clip the panel back up
+      tl.to(
+        menuRef.current,
+        { clipPath: 'inset(0 0 100% 0)', duration: 0.6, ease: 'power4.inOut' },
+        '-=0.15'
+      )
     }
   }, [isOpen])
 
@@ -69,7 +118,6 @@ const Navbar = ({ isLoaded, view, setView }) => {
     if (view !== 'home' && setView) {
       setView('home', targetId)
     } else {
-      // Add a slight delay to allow menu animation to complete
       setTimeout(() => {
         const targetElement = document.getElementById(targetId)
         if (targetElement) {
@@ -92,149 +140,166 @@ const Navbar = ({ isLoaded, view, setView }) => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 px-6 md:px-12 bg-brand-cream border-b border-brand-dark/5 ${
-          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
-        } ${
-          isScrolled 
-            ? 'py-4 shadow-[0_4px_30px_rgba(0,0,0,0.02)]' 
-            : 'py-6'
-        }`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 px-4 sm:px-6 lg:px-12 flex justify-center ${
+          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8 pointer-events-none'
+        } ${isScrolled ? 'pt-4' : 'pt-6 md:pt-8'}`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className={`w-full max-w-7xl flex items-center justify-between transition-all duration-700 ${
+          isScrolled 
+            ? 'bg-brand-cream/80 backdrop-blur-xl border border-brand-dark/10 shadow-[0_8px_32px_rgba(0,0,0,0.08)] py-3 px-6 rounded-full'
+            : 'bg-transparent py-2 px-2'
+        }`}>
           {/* Logo & Brand Name */}
           <a 
             href="#" 
             onClick={(e) => handleNavClick(e, 'hero')}
-            className="flex items-center gap-3 group focus:outline-none"
+            className="flex items-center gap-3 group focus:outline-none cursor-pointer"
             data-cursor="pointer"
           >
-            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full overflow-hidden border border-brand-dark/10 shadow-xs shrink-0">
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-brand-dark/15 shadow-sm shrink-0 transition-transform duration-500 group-hover:scale-105">
               <img 
                 src="/logo.jpg" 
                 alt="Aadi Shakti Logo" 
                 className="w-full h-full object-cover" 
               />
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-serif font-bold text-2xl md:text-3xl text-brand-dark tracking-tight">
+            <div className="flex items-baseline gap-1.5 md:gap-2">
+              <span className="font-serif font-black text-xl md:text-2xl text-brand-dark tracking-tight">
                 Aadi Shakti.
               </span>
-              <span className="font-display text-[9px] font-black tracking-[0.25em] text-brand-dark uppercase">
+              <span className="hidden sm:inline-block font-display text-[8px] md:text-[9px] font-black tracking-[0.25em] text-brand-dark uppercase">
                 mission
               </span>
             </div>
           </a>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
             {/* CTA Buttons */}
+            <a
+              href="#contribute"
+              onClick={(e) => handleNavClick(e, 'donation-impact')}
+              className="hidden lg:inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-transparent border border-brand-dark/20 text-brand-dark font-sans text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-dark hover:text-brand-cream transition-all duration-300"
+              data-cursor="pointer"
+            >
+              Contribute
+            </a>
+            
             <a
               href="#become-member"
               onClick={(e) => handleNavClick(e, 'become-member')}
-              className="hidden md:inline-flex px-5 py-2.5 rounded-full bg-brand-red text-brand-cream font-sans text-[10px] font-bold uppercase tracking-widest hover:bg-brand-dark transition-all duration-300 shadow-sm"
+              className="hidden sm:inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-brand-red text-brand-cream font-sans text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-dark transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5"
               data-cursor="pointer"
             >
               Become a Member
             </a>
 
-            <a
-              href="#contribute"
-              onClick={(e) => handleNavClick(e, 'donation-impact')}
-              className="hidden md:inline-flex px-5 py-2.5 rounded-full bg-[#0ea5e9] text-brand-cream font-sans text-[10px] font-bold uppercase tracking-widest hover:bg-brand-dark transition-all duration-300 shadow-sm"
+            {/* Premium Menu Trigger */}
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className="relative w-12 h-12 flex flex-col justify-center items-center group focus:outline-none z-50 cursor-pointer rounded-full hover:bg-brand-dark/5 transition-colors"
+              aria-label="Menu"
               data-cursor="pointer"
             >
-              Donate
-            </a>
-
-            {/* Minimal Menu Trigger (Septiembre style) */}
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="relative w-10 h-6 flex flex-col justify-between items-end group focus:outline-none z-50 cursor-pointer"
-            aria-label="Menu"
-            data-cursor="pointer"
-          >
-            <span 
-              className={`h-[1.5px] bg-brand-dark transition-all duration-300 origin-right ${
-                isOpen ? 'w-8 -rotate-45 translate-y-[6px] translate-x-[-2px]' : 'w-10'
-              }`} 
-            />
-            <span 
-              className={`h-[1.5px] bg-brand-dark transition-all duration-200 ${
-                isOpen ? 'w-0 opacity-0' : 'w-7 group-hover:w-10'
-              }`} 
-            />
-            <span 
-              className={`h-[1.5px] bg-brand-dark transition-all duration-300 origin-right ${
-                isOpen ? 'w-8 rotate-45 translate-y-[-6px] translate-x-[-2px]' : 'w-10'
-              }`} 
-            />
-          </button>
+              <div className="relative w-6 h-4 flex flex-col justify-between items-end">
+                <span 
+                  className={`h-[1.5px] transition-all duration-500 origin-center ${
+                    isOpen ? 'bg-brand-red w-6 rotate-45 translate-y-[7px]' : 'bg-brand-dark w-6'
+                  }`} 
+                />
+                <span 
+                  className={`h-[1.5px] transition-all duration-300 ${
+                    isOpen ? 'bg-brand-red w-0 opacity-0' : 'bg-brand-dark w-4 group-hover:w-6'
+                  }`} 
+                />
+                <span 
+                  className={`h-[1.5px] transition-all duration-500 origin-center ${
+                    isOpen ? 'bg-brand-red w-6 -rotate-45 -translate-y-[7.5px]' : 'bg-brand-dark w-6'
+                  }`} 
+                />
+              </div>
+            </button>
           </div>
         </div>
       </header>
 
+      {/* Full Screen Menu Overlay */}
       <nav 
         ref={menuRef}
-        className="fixed inset-0 w-full h-[100dvh] bg-brand-cream border-b border-brand-dark/5 z-40 transform -translate-y-full flex flex-col px-6 md:px-24 pt-24 md:pt-32 pb-8 md:pb-12 overflow-y-auto"
+        style={{ clipPath: 'inset(0 0 100% 0)' }}
+        className="fixed inset-0 w-full h-dvh bg-brand-cream z-40 flex flex-col overflow-hidden"
       >
-        <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center my-auto min-h-min">
-          {/* Left Column: Navigation links and info */}
-          <div className="md:col-span-7 flex flex-col items-center md:items-start gap-8 md:gap-10 w-full">
-            {/* Links List */}
-            <ul className="flex flex-col items-center md:items-start gap-1 sm:gap-2 md:gap-4 w-full">
-              {menuItems.map((item, index) => (
-                <li key={item.label} className="overflow-hidden w-full text-center md:text-left py-1">
-                  <a
-                    ref={(el) => (linksRef.current[index] = el)}
-                    href={`#${item.id}`}
-                    onClick={(e) => handleNavClick(e, item.id)}
-                    className="inline-block btn-underline font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-brand-dark tracking-tight cursor-pointer pb-2 md:pb-4 pt-1"
-                    data-cursor="pointer"
-                  >
-                    <span data-letter={item.label}>{item.label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+        {/* Inner layout — full height, no overflow */}
+        <div className="flex flex-col h-full w-full px-6 md:px-14 lg:px-20 pt-20 md:pt-24 pb-4 md:pb-8">
+          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 flex-1 min-h-0 items-center">
 
-            {/* Socials / Language info footer */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full border-t border-brand-dark/10 pt-6 md:pt-8 gap-4 mt-auto md:mt-0 pb-4 md:pb-0">
-              <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-brand-grey uppercase">
-                AADI SHAKTI MISSION NGO &copy; 2026
+            {/* Left Column: Navigation links */}
+            <div className="lg:col-span-7 flex flex-col items-center lg:items-start w-full overflow-hidden">
+              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.3em] text-[#0ea5e9] mb-3 select-none hidden lg:block">
+                Navigation
               </span>
-              <div className="flex gap-6">
-                {['Instagram', 'Linkedin', 'Twitter'].map((soc) => (
-                  <a 
-                    key={soc}
-                    href="#"
-                    className="font-sans text-xs font-semibold text-brand-dark hover:text-brand-red transition-colors cursor-pointer"
-                    data-cursor="pointer"
-                  >
-                    {soc}
-                  </a>
-                ))}
+              <ul className="flex flex-col items-center lg:items-start w-full">
+                {menuItems.map((item, index) => {
+                  return (
+                    <li key={item.label} className="w-full text-center lg:text-left border-b border-brand-dark/8 last:border-b-0">
+                      <a
+                        href={`#${item.id}`}
+                        onClick={(e) => handleNavClick(e, item.id)}
+                        className="relative inline-block font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-6xl font-light text-brand-dark tracking-tight cursor-pointer transition-all duration-300 py-2 md:py-2.5 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-brand-red after:transition-all after:duration-500 hover:after:w-full"
+                        data-cursor="pointer"
+                      >
+                        <div className="overflow-hidden">
+                          <span 
+                            ref={(el) => (linksRef.current[index] = el)}
+                            className="inline-block origin-bottom-left"
+                          >
+                            {item.label}
+                          </span>
+                        </div>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+
+            {/* Right Column: Editorial Visual (visible only on large screens) */}
+            <div className="hidden lg:flex lg:col-span-5 w-full justify-end items-center h-full">
+              <div ref={imageRef} className="relative w-full max-w-sm xl:max-w-md h-[65%] rounded-2xl overflow-hidden shadow-2xl group/menu-img opacity-0">
+                <div className="absolute inset-0 bg-linear-to-t from-brand-dark/70 via-brand-dark/10 to-transparent z-10 pointer-events-none" />
+                <img 
+                  src="/images/youth_group.jpeg" 
+                  alt="Empowering Communities" 
+                  className="w-full h-full object-cover scale-105 group-hover/menu-img:scale-100 transition-transform duration-1000 ease-out pointer-events-none"
+                />
+                <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-8 pointer-events-none">
+                  <span className="font-sans text-[9px] font-bold text-brand-red uppercase tracking-widest mb-2">
+                    Our Mission
+                  </span>
+                  <p className="font-serif italic text-base md:text-lg text-brand-cream leading-snug">
+                    Empowerment from the roots, reaching the highest peaks.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Editorial Image Grid (visible only on desktop/tablet) */}
-          <div className="hidden md:block md:col-span-5 w-full">
-            <div className="relative aspect-3/4 w-full rounded-[24px] overflow-hidden border border-brand-dark/5 shadow-2xl group/menu-img">
-              {/* Overlay shading gradient */}
-              <div className="absolute inset-0 bg-linear-to-t from-brand-dark/30 to-transparent z-10 transition-opacity duration-700 pointer-events-none group-hover/menu-img:opacity-75" />
-              
-              <img 
-                src="/images/youth_group.jpeg" 
-                alt="Empowering Communities" 
-                className="w-full h-full object-cover scale-105 group-hover/menu-img:scale-100 transition-transform duration-1000 ease-out pointer-events-none"
-              />
-              
-              {/* Floating aesthetic quote banner */}
-              <div className="absolute bottom-6 left-6 z-20 pointer-events-none">
-                <span className="font-serif text-xs text-brand-cream uppercase tracking-wider block bg-brand-dark/80 px-4 py-2 rounded-xl backdrop-blur-md border border-white/5 shadow-md">
-                  Empowerment from the roots
-                </span>
-              </div>
+          {/* Footer row */}
+          <div ref={footerRef} className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-center justify-between border-t border-brand-dark/10 pt-4 gap-3 opacity-0">
+            <div className="flex items-center gap-6">
+              {['Instagram', 'Linkedin', 'Twitter'].map((soc) => (
+                <a 
+                  key={soc}
+                  href="#"
+                  className="font-sans text-[10px] font-bold tracking-widest text-brand-dark/50 hover:text-brand-red uppercase transition-colors cursor-pointer"
+                  data-cursor="pointer"
+                >
+                  {soc}
+                </a>
+              ))}
             </div>
+            <span className="font-sans text-[9px] font-bold tracking-[0.2em] text-brand-dark/30 uppercase">
+              AADI SHAKTI MISSION NGO &copy; 2026
+            </span>
           </div>
         </div>
       </nav>

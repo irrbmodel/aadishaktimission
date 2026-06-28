@@ -102,6 +102,30 @@ const Philosophy = ({ isLoaded }) => {
     }
   }, [sliderIndex, isLoaded])
 
+  // Scroll reveal for the Philosophy text
+  useEffect(() => {
+    if (!isLoaded || !paragraphRef.current) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(paragraphRef.current,
+        { opacity: 0.1, y: 20, filter: 'blur(12px)' },
+        {
+          opacity: 1,
+          y: 0,
+          filter: 'blur(0px)',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 50%',
+            end: 'top top',
+            scrub: 0.5
+          }
+        }
+      )
+    }, containerRef)
+
+    return () => ctx.revert()
+  }, [isLoaded])
+
   return (
     <>
       {/* SECTION 1: Core Philosophy */}
@@ -142,8 +166,8 @@ const Philosophy = ({ isLoaded }) => {
           </div>
 
           <div className="w-full">
-            <p className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] leading-[1.35] tracking-tight text-[#1C1C1C]">
-              <span className="font-bold text-[#9B0000]">Aadi Shakti Mission</span> is a committed movement established to enhance and secure the <span className="font-bold text-[#9B0000]">social, economic, and ecological</span> fabric of underserved communities. Combining grassroots activism with professional methodologies, we spent years executing high-impact initiatives for <span className="font-bold text-[#9B0000]">rural transformation</span> and <span className="font-bold text-[#9B0000]">human empowerment</span>.
+            <p ref={paragraphRef} className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] leading-[1.35] tracking-tight text-[#1C1C1C]">
+              <span className="font-bold text-brand-red">Aadi Shakti Mission</span> is a committed movement established to enhance and secure the <span className="font-bold text-brand-red">social, economic, and ecological</span> fabric of underserved communities. Combining grassroots activism with professional methodologies, we spent years executing high-impact initiatives for <span className="font-bold text-brand-red">rural transformation</span> and <span className="font-bold text-brand-red">human empowerment</span>.
             </p>
           </div>
 

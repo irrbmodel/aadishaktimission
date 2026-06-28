@@ -87,14 +87,8 @@ const Hero = ({ isLoaded }) => {
     <section 
       id="hero" 
       ref={containerRef} 
-      className="relative w-full min-h-[100vh] bg-brand-cream flex flex-col justify-center pt-24 pb-32 border-b border-brand-dark/5"
+      className="relative w-full min-h-screen bg-brand-cream flex flex-col justify-center pt-32 pb-32 border-b border-brand-dark/5"
     >
-      {/* Organic textured paper canvas overlay */}
-      <div 
-        className="absolute inset-0 opacity-45 pointer-events-none z-0" 
-        style={{ filter: 'url(#paper-texture-noise-parallax)', mixBlendMode: 'multiply' }} 
-      />
-
       {/* Decorative Blob */}
       <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/5 top-[-10%] left-[-10%] opacity-15 pointer-events-none" />
 
