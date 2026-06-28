@@ -14,6 +14,11 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
   const onStartTransitionRef = useRef(onStartTransition)
   const onCompleteRef = useRef(onComplete)
 
+  const phaseRef = useRef(phase)
+  useEffect(() => {
+    phaseRef.current = phase
+  }, [phase])
+
   useEffect(() => {
     onStartTransitionRef.current = onStartTransition
     onCompleteRef.current = onComplete
@@ -50,17 +55,17 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
     const handleResize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
+      rippleMaxRadius = Math.max(canvas.width, canvas.height) * 1.4
     }
     window.addEventListener('resize', handleResize)
-    handleResize()
 
     // 1. Stardust Particles: Slow breathing wave-like drift
     const stardustCount = 80
     const stardust = []
     for (let i = 0; i < stardustCount; i++) {
       stardust.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
         speed: Math.random() * 0.08 + 0.02,
         angle: Math.random() * Math.PI * 2,
         angleSpeed: (Math.random() - 0.5) * 0.005,
@@ -69,6 +74,10 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
         color: i % 3 === 0 ? '#ffeebf' : i % 3 === 1 ? '#a8ecff' : '#ffffff'
       })
     }
+
+    // Set canvas dimensions
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
 
     // 2. Ripple & Sparks
     let rippleRadius = 0
@@ -101,24 +110,92 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
       }
     }
 
-    if (phase === 3) {
-      triggerRipple()
-    }
-
     let lastTime = Date.now()
     // 3. Animation Loop
     const render = () => {
       const now = Date.now()
-      const dt = Math.min(3, (now - lastTime) / 16.666) // normalized to 60fps (1 unit = 16.67ms)
+      const dt = Math.min(3, (now - lastTime) / 16.666) // normalized to 60fps
       lastTime = now
 
-      // Clear with absolute black
-      ctx.fillStyle = '#000000'
+      // Check for ripple trigger from state changes
+      if (phaseRef.current === 3 && !rippleActive) {
+        triggerRipple()
+      }
+
+      ctx.save()
+
+      // A. Premium space/cosmic gradient background
+      const bgGrad = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height / 2, 0,
+        canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height)
+      )
+      
+      const time = now * 0.0005
+      const breath = Math.sin(time) * 0.04
+      
+      let coreIntensity = 0.12 + breath
+      if (phaseRef.current >= 3) {
+        coreIntensity = 0.28 + Math.sin(now * 0.002) * 0.03
+      }
+      
+      bgGrad.addColorStop(0, `rgba(18, 10, 36, ${coreIntensity})`) // Deep indigo-violet core
+      bgGrad.addColorStop(0.5, '#04020a') // Deep cosmic dark navy-purple
+      bgGrad.addColorStop(1, '#000000') // Pitch black outer edge
+      
+      ctx.fillStyle = bgGrad
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Draw Stardust with breathing twinkle and slow drift
+      // B. Dynamic central breathing aura
+      const centerX = canvas.width / 2
+      const centerY = canvas.height / 2
+      let auraRadius = 150 + Math.sin(now * 0.001) * 20
+      let auraOpacity = 0.15
+      let auraColor = '111, 185, 217' // skyblue
+      
+      if (phaseRef.current === 3 && rippleActive) {
+        // Contact energy burst
+        auraRadius = 350 + rippleRadius * 0.2
+        auraOpacity = Math.max(0, 0.45 - rippleRadius / rippleMaxRadius)
+        auraColor = '255, 238, 191' // warm gold
+      } else if (phaseRef.current >= 4) {
+        // Logo reveal glow
+        auraRadius = 250 + Math.sin(now * 0.0025) * 15
+        auraOpacity = 0.22
+        auraColor = '111, 185, 217'
+      }
+      
+      const auraGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, auraRadius)
+      auraGrad.addColorStop(0, `rgba(${auraColor}, ${auraOpacity})`)
+      auraGrad.addColorStop(0.5, `rgba(${auraColor}, ${auraOpacity * 0.35})`)
+      auraGrad.addColorStop(1, 'rgba(0, 0, 0, 0)')
+      
+      ctx.fillStyle = auraGrad
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // C. Draw Constellation lines (Elegant connecting fibers)
+      ctx.lineWidth = 0.6
+      for (let i = 0; i < stardust.length; i++) {
+        for (let j = i + 1; j < stardust.length; j++) {
+          const dx = stardust[i].x - stardust[j].x
+          const dy = stardust[i].y - stardust[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          const maxDist = 110
+          if (dist < maxDist) {
+            const alphaFactor = (1 - dist / maxDist)
+            const alpha = alphaFactor * 0.07 * Math.min(stardust[i].alpha, stardust[j].alpha)
+            
+            ctx.beginPath()
+            ctx.moveTo(stardust[i].x, stardust[i].y)
+            ctx.lineTo(stardust[j].x, stardust[j].y)
+            const lineCol = (i + j) % 2 === 0 ? '111, 185, 217' : '255, 238, 191'
+            ctx.strokeStyle = `rgba(${lineCol}, ${alpha})`
+            ctx.stroke()
+          }
+        }
+      }
+
+      // D. Draw Stardust with breathing twinkle and slow drift
       stardust.forEach(p => {
-        // Slow drift
         p.angle += p.angleSpeed * dt
         p.x += Math.cos(p.angle) * p.speed * dt
         p.y += Math.sin(p.angle) * p.speed * dt
@@ -132,18 +209,18 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
         ctx.fillStyle = p.color
-        const time = now * 0.0015
-        const twinkle = Math.sin(time + p.x * 0.05 + p.y * 0.05) * 0.2
+        const twinkleTime = now * 0.0015
+        const twinkle = Math.sin(twinkleTime + p.x * 0.05 + p.y * 0.05) * 0.2
         ctx.globalAlpha = Math.max(0.02, Math.min(0.8, p.alpha + twinkle))
         ctx.fill()
       })
 
-      // Update & Draw Ripple
+      // Reset globalAlpha after stardust to avoid affecting subsequent elements
+      ctx.globalAlpha = 1.0
+
+      // E. Update & Draw Ripple
       if (rippleActive) {
-        const centerX = canvas.width / 2
-        const centerY = canvas.height / 2
-        
-        rippleRadius += 14 * dt // speed of wave
+        rippleRadius += 14 * dt
 
         if (rippleRadius < rippleMaxRadius) {
           rippleAlpha = Math.max(0, 1 - (rippleRadius / rippleMaxRadius))
@@ -151,7 +228,6 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
           ctx.beginPath()
           ctx.arc(centerX, centerY, rippleRadius, 0, Math.PI * 2)
           
-          // Classy multi-color volumetric gradient stroke
           const grad = ctx.createRadialGradient(
             centerX, centerY, Math.max(0, rippleRadius - 30),
             centerX, centerY, rippleRadius + 30
@@ -189,10 +265,9 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
             ctx.fill()
           }
         })
-        ctx.shadowBlur = 0
-        ctx.globalAlpha = 1.0
       }
 
+      ctx.restore()
       animationFrameId = requestAnimationFrame(render)
     }
 
@@ -202,7 +277,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('resize', handleResize)
     }
-  }, [phase])
+  }, [])
 
   // Custom animation properties representing the physical touch & lift
   const seekerAnimation = () => {
@@ -300,105 +375,124 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
       <AnimatePresence>
         {phase >= 4 && (
           <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
-            
-            {/* Logo Image Wrapper (Offset upward from center using absolute positioning) */}
-            {phase === 4 && (
+            <div className="relative flex flex-col items-center justify-center">
+              
+              {/* Brand Title (Dead Center Anchor) */}
+              <motion.h1
+                initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+                animate={phase === 5 ? {
+                  scale: 24, 
+                  opacity: 0, 
+                  filter: 'blur(15px)' 
+                } : {
+                  opacity: 1,
+                  scale: 1,
+                  filter: 'blur(0px)'
+                }}
+                transition={phase === 5 ? {
+                  duration: 0.85,
+                  ease: [0.7, 0, 0.25, 1]
+                } : {
+                  duration: 1.2,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="font-serif font-bold text-6xl md:text-8xl text-white tracking-wide leading-none text-center select-none transform-gpu"
+              >
+                Aadi Shakti
+              </motion.h1>
+
+              {/* Logo (Above Title, relative to Title) */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: -60 }}
-                animate={{ opacity: 1, scale: 1, y: -160 }}
-                exit={{ opacity: 0, scale: 0.8, y: -220, transition: { duration: 0.5 } }}
-                transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
-                className="absolute flex items-center justify-center w-36 h-36 md:w-44 md:h-44"
+                initial={{ opacity: 0, y: -20, scale: 0.85, filter: 'blur(8px)' }}
+                animate={phase === 5 ? {
+                  opacity: 0,
+                  y: -60,
+                  scale: 0.8,
+                  filter: 'blur(4px)'
+                } : {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  filter: 'blur(0px)'
+                }}
+                transition={phase === 5 ? {
+                  duration: 0.4,
+                  ease: 'easeIn'
+                } : {
+                  duration: 1.2,
+                  delay: 0.2,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="absolute bottom-[calc(100%+2rem)] flex flex-col items-center"
               >
                 {/* Orbit Ring */}
-                <motion.svg
-                  viewBox="0 0 100 100"
-                  className="absolute inset-0 w-full h-full"
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 24, ease: 'linear' }}
-                >
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="47"
-                    fill="none"
-                    stroke="url(#orbit-grad)"
-                    strokeWidth="1"
-                    strokeDasharray="5 5 10 5"
-                  />
-                  <defs>
-                    <linearGradient id="orbit-grad" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#ffeebf" />
-                      <stop offset="50%" stopColor="#6fb9d9" stopOpacity="0.3" />
-                      <stop offset="100%" stopColor="#ffeebf" />
-                    </linearGradient>
-                  </defs>
-                </motion.svg>
+                <div className="relative flex items-center justify-center w-28 h-28 md:w-36 md:h-36">
+                  <motion.svg
+                    viewBox="0 0 100 100"
+                    className="absolute inset-0 w-full h-full"
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 24, ease: 'linear' }}
+                  >
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="47"
+                      fill="none"
+                      stroke="url(#orbit-grad)"
+                      strokeWidth="1.2"
+                      strokeDasharray="4 6 12 6"
+                    />
+                    <defs>
+                      <linearGradient id="orbit-grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#ffeebf" />
+                        <stop offset="50%" stopColor="#6fb9d9" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#ffeebf" />
+                      </linearGradient>
+                    </defs>
+                  </motion.svg>
 
-                {/* Logo Image */}
-                <div className="w-[88%] h-[88%] rounded-full overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(111,185,217,0.2)] bg-black flex items-center justify-center">
-                  <img 
-                    src="/logo.jpg" 
-                    alt="Aadi Shakti Logo" 
-                    className="w-full h-full object-cover" 
-                  />
+                  {/* Logo Image */}
+                  <div className="w-[86%] h-[86%] rounded-full overflow-hidden border border-white/15 shadow-[0_0_35px_rgba(111,185,217,0.25)] bg-black flex items-center justify-center">
+                    <img 
+                      src="/logo.jpg" 
+                      alt="Aadi Shakti Logo" 
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
                 </div>
               </motion.div>
-            )}
 
-            {/* Brand Title (Centred perfectly in the viewport, zooms from the absolute center) */}
-            <div className="absolute inset-x-0 flex justify-center items-center select-none overflow-visible">
-              {phase === 5 ? (
-                <motion.h1
-                  animate={{ 
-                    scale: 24, 
-                    opacity: 0, 
-                    filter: 'blur(15px)' 
-                  }}
-                  transition={{ duration: 0.85, ease: [0.7, 0, 0.25, 1] }}
-                  className="font-serif font-bold text-6xl md:text-8xl text-white tracking-tight leading-none text-center transform-gpu"
-                >
-                  Aadi Shakti
-                </motion.h1>
-              ) : (
-                <h1 className="font-serif font-bold text-6xl md:text-8xl text-white tracking-tight leading-none text-center flex overflow-visible">
-                  {"Aadi Shakti".split("").map((char, index) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0, y: 30, rotateX: -45 }}
-                      animate={phase === 4 ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-                      transition={{ 
-                        duration: 0.95, 
-                        delay: 0.15 + index * 0.045, 
-                        ease: [0.215, 0.61, 0.355, 1] 
-                      }}
-                      className="inline-block transform-gpu origin-bottom whitespace-pre"
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                </h1>
-              )}
-            </div>
-
-            {/* Tagline / Subtitle (Offset downward from center using absolute positioning) */}
-            {phase === 4 && (
+              {/* Tagline / Subtitle (Below Title, relative to Title) */}
               <motion.div
-                initial={{ opacity: 0, y: 160 }}
-                animate={{ opacity: 0.8, y: 120 }}
-                exit={{ opacity: 0, y: 180, transition: { duration: 0.4 } }}
-                transition={{ duration: 1.2, delay: 0.45, ease: [0.25, 1, 0.5, 1] }}
-                className="absolute flex flex-col items-center text-center"
+                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                animate={phase === 5 ? {
+                  opacity: 0,
+                  y: 40,
+                  filter: 'blur(4px)'
+                } : {
+                  opacity: 0.8,
+                  y: 0,
+                  filter: 'blur(0px)'
+                }}
+                transition={phase === 5 ? {
+                  duration: 0.4,
+                  ease: 'easeIn'
+                } : {
+                  duration: 1.2,
+                  delay: 0.35,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="absolute top-[calc(100%+2rem)] flex flex-col items-center text-center w-80 md:w-[480px]"
               >
                 <p className="font-sans text-[11px] font-black tracking-[0.4em] text-sky-200 uppercase mb-2">
                   mission
                 </p>
-                <blockquote className="font-serif italic text-sm md:text-base text-gray-300 font-light max-w-[280px] md:max-w-md">
+                <blockquote className="font-serif italic text-sm md:text-base text-gray-300 font-light leading-relaxed">
                   &ldquo;Let me be your helping hand.&rdquo;
                 </blockquote>
               </motion.div>
-            )}
 
+            </div>
           </div>
         )}
       </AnimatePresence>
