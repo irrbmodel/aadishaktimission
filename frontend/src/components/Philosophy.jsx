@@ -179,7 +179,7 @@ const Philosophy = ({ isLoaded }) => {
       {/* Background Parallax Divider Card (Septiembre style) */}
       <div 
         ref={bgDivRef}
-        className="absolute left-0 right-0 w-full h-[50%] bg-brand-white/55 border-y border-brand-dark/5 shadow-inner z-0"
+        className="absolute left-0 right-0 w-full h-[50%] bg-brand-cream z-0"
         style={{ top: '35%' }}
       />
 
@@ -255,7 +255,7 @@ const Philosophy = ({ isLoaded }) => {
         </div>
 
         {/* Bottom Section: Horizontal Swiper/GSAP Image Slider */}
-        <div className="mt-16 bg-brand-white border border-brand-dark/5 p-8 md:p-12 rounded-[32px] shadow-2xl border-fine transform-gpu">
+        <div className="mt-16 bg-brand-cream border border-brand-dark/5 p-8 md:p-12 rounded-[32px] shadow-2xl border-fine transform-gpu">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
             
             {/* Custom Interactive Image Slider viewport */}

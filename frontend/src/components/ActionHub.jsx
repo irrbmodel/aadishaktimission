@@ -376,7 +376,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
   return (
     <section 
       id="action-hub" 
-      className="relative w-full py-16 bg-[#fdfbf7] text-brand-dark overflow-hidden"
+      className="relative w-full py-16 bg-brand-cream text-brand-dark overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10">
         

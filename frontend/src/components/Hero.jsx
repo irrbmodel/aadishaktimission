@@ -125,7 +125,7 @@ const Hero = ({ isLoaded }) => {
   }, [isLoaded])
 
   return (
-    <div ref={containerRef} className="relative w-full h-screen z-10 bg-[#fdfbf7]">
+    <div ref={containerRef} className="relative w-full h-screen z-10 bg-brand-cream">
       
       {/* Hidden paper noise filter definition */}
       <svg className="absolute w-0 h-0 hidden" aria-hidden="true">
