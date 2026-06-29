@@ -283,6 +283,26 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
   const scrollContainerRef = useRef(null)
 
+  const handleScrollClick = () => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current
+      const cardWidth = container.clientWidth > 768 ? 342 : 314
+      const maxScroll = container.scrollWidth - container.clientWidth
+      
+      if (container.scrollLeft >= maxScroll - 10) {
+        container.scrollTo({
+          left: 0,
+          behavior: 'smooth'
+        })
+      } else {
+        container.scrollBy({
+          left: cardWidth,
+          behavior: 'smooth'
+        })
+      }
+    }
+  }
+
   return (
     <section 
       id="pillars" 
@@ -336,7 +356,11 @@ const PillarsHorizontal = ({ isLoaded }) => {
           </div>
 
           {/* Animated Scroll Sideways Marker */}
-          <div className="absolute bottom-4 right-6 md:bottom-8 md:right-10 flex items-center gap-2 z-20 pointer-events-none opacity-70">
+          <div 
+            onClick={handleScrollClick}
+            className="absolute bottom-4 right-6 md:bottom-8 md:right-10 flex items-center gap-2 z-20 pointer-events-auto cursor-pointer opacity-70 hover:opacity-100 hover:scale-105 active:scale-95 transition-all duration-300 select-none"
+            data-cursor="pointer"
+          >
             <span className="font-sans text-[9px] md:text-[10px] font-bold text-white/90 uppercase tracking-[0.2em] hidden sm:block">
               Scroll
             </span>
