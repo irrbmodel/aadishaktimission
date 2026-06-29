@@ -6,7 +6,6 @@ import Lenis from 'lenis'
 // Core Components
 import Navbar from './components/Navbar'
 import PageTransition from './components/PageTransition'
-import StoryNavigator from './components/StoryNavigator'
 
 // Page Sections
 import Hero from './components/Hero'
@@ -424,8 +423,7 @@ const App = () => {
         />
       )}
 
-      {/* Story Navigator Sidebar */}
-      {view === 'home' && <StoryNavigator isLoaded={isLoaded && introFinished} />}
+
 
       {/* Unified Get Involved Side Panel */}
       <GetInvolvedSidePanel
