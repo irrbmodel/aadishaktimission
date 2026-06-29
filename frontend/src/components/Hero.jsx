@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 
-const Hero = ({ isLoaded }) => {
+const Hero = ({ isLoaded, onJoinNow }) => {
   const containerRef = useRef(null)
   const titleWordsRef = useRef([])
   const imageRef = useRef(null)
@@ -133,14 +133,14 @@ const Hero = ({ isLoaded }) => {
             Restoring equilibrium to Himalayan villages. Rooted in the high mountain valleys of Uttarakhand, we back grassroots women cooperatives, establish digital literacy hubs, and restore traditional Pahari craft lineages.
           </p>
 
-          {/* Scroll Down Button */}
-          <div className="mt-8 flex items-center gap-4 group cursor-pointer border border-brand-dark/10 px-6 py-3 rounded-full hover:bg-brand-dark transition-all duration-300">
+          {/* Join Now Button */}
+          <div onClick={onJoinNow} className="mt-8 inline-flex items-center gap-4 group cursor-pointer border border-brand-dark/10 px-6 py-3 rounded-full hover:bg-brand-dark transition-all duration-300">
             <span className="font-sans text-[9px] font-bold uppercase tracking-widest text-brand-dark group-hover:text-brand-cream transition-colors">
-              Explore the story
+              Join now
             </span>
             <div className="w-6 h-6 rounded-full flex items-center justify-center text-brand-dark group-hover:text-brand-cream transition-all duration-300">
-              <svg className="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </div>
           </div>

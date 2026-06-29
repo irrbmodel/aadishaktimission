@@ -218,7 +218,7 @@ const App = () => {
         {/* Main Content Sections */}
         {view === 'home' ? (
           <main className="relative z-10 w-full bg-brand-cream">
-            <Hero isLoaded={isLoaded} />
+            <Hero isLoaded={isLoaded} onJoinNow={() => navigateTo('become-member', 'Membership')} />
             <PolaroidParallax isLoaded={isLoaded} />
             <Philosophy isLoaded={isLoaded} />
             <PillarsHorizontal isLoaded={isLoaded} />
