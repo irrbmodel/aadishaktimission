@@ -253,7 +253,7 @@ const Philosophy = ({ isLoaded }) => {
       <section
         id="philosophy-snapshots"
         ref={snapshotsContainerRef}
-        className="relative w-full h-[600px] lg:h-screen bg-brand-cream overflow-x-hidden lg:overflow-hidden border-b border-brand-dark/5 flex flex-col justify-between"
+        className="relative w-full h-[620px] sm:h-[600px] lg:h-screen bg-brand-cream overflow-x-hidden lg:overflow-hidden border-b border-brand-dark/5 flex flex-col justify-between"
       >
         {/* Subtle background blob */}
         <div className="absolute glowing-blob w-[550px] h-[550px] bg-brand-red/5 bottom-[-10%] right-[-10%] opacity-20 pointer-events-none" />
@@ -289,7 +289,7 @@ const Philosophy = ({ isLoaded }) => {
                 </div>
 
                 {/* Left Column: Details */}
-                <div className="lg:col-span-5 flex flex-col justify-center relative z-10 max-w-md lg:max-w-lg pt-12 lg:pt-0">
+                <div className="lg:col-span-5 flex flex-col justify-center relative z-10 max-w-md lg:max-w-lg pt-4 lg:pt-0">
                   <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2 animate-horizontal-details">
                       <div className="w-1.5 h-1.5 bg-brand-grey rounded-full animate-pulse" />
@@ -314,7 +314,7 @@ const Philosophy = ({ isLoaded }) => {
                 </div>
 
                 {/* Right Column: Polaroid Image (Full Display) */}
-                <div className="lg:col-span-7 flex justify-center items-center relative z-10 w-full pb-12 lg:pb-0">
+                <div className="lg:col-span-7 flex justify-center items-center relative z-10 w-full pb-4 lg:pb-0">
                   <div className="snapshot-image-frame relative w-full aspect-video sm:aspect-4/3 max-w-[320px] sm:max-w-[400px] lg:max-w-[560px] rounded-[24px] lg:rounded-[36px] p-2.5 lg:p-4 bg-brand-white shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-brand-dark/5 transition-transform duration-700 ease-out transform group-hover:scale-[1.02]">
                     <div className="absolute -inset-1 rounded-[26px] lg:rounded-[38px] border border-brand-dark/5 pointer-events-none z-0 rotate-1 transform" />
                     <div className="relative w-full h-full rounded-[14px] lg:rounded-[22px] overflow-hidden border border-brand-dark/5 shadow-inner">

@@ -186,6 +186,7 @@ const App = () => {
         
 
         // 2. Polaroid Exit -> Philosophy enters
+        const polaroid = document.getElementById('polaroid-transition')
         const philosophy = document.getElementById('philosophy')
         if (polaroid && philosophy) {
           const centralCard = polaroid.querySelector('.rounded-\\[24px\\]') || polaroid.querySelector('.z-10')

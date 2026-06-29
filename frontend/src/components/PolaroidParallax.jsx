@@ -188,10 +188,10 @@ const PolaroidParallax = ({ isLoaded }) => {
           ref={textRef}
           className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none select-none max-w-5xl mx-auto px-6 text-center transform-gpu opacity-0"
         >
-          <h2 className="font-serif font-black text-[7vw] sm:text-[6vw] md:text-[4.5vw] text-brand-cream leading-[1.1] tracking-tight uppercase drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)] mb-4 md:mb-6 max-w-3xl">
+          <h2 className="font-serif font-black text-3xl sm:text-4xl md:text-[4.5vw] text-brand-cream leading-[1.1] tracking-tight uppercase drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)] mb-4 md:mb-6 max-w-3xl">
             Our Commitment
           </h2>
-          <p className="font-sans text-[3.5vw] sm:text-[2.6vw] md:text-[1.5vw] lg:text-[1.25vw] text-brand-white/95 leading-relaxed font-light drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] max-w-2xl px-4 md:px-0">
+          <p className="font-sans text-xs sm:text-sm md:text-[1.25vw] text-brand-white/95 leading-relaxed font-light drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] max-w-2xl px-4 md:px-0">
             We do not believe in fleeting shadows or temporary fixes. Our commitment is to sow seeds of quiet resilience in the soil of every community we join. We pledge to listen to the silent needs of the grassroots, weaving education, health, and independence into a legacy that stands long after we are gone nurturing growth that belongs entirely to the people.
           </p>
         </div>

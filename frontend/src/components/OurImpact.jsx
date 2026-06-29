@@ -50,35 +50,35 @@ const OurImpact = ({ isLoaded }) => {
           </div>
 
           {/* Content panel */}
-          <div className="relative z-10 max-w-6xl mx-auto w-full flex flex-col items-center justify-center text-center text-white gap-6 md:gap-10">
+          <div className="relative z-10 max-w-6xl mx-auto w-full flex flex-col items-center justify-center text-center text-white gap-4 sm:gap-6 md:gap-10">
             {/* Section Header */}
             <div className="flex flex-col items-center gap-2">
               <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
                 {slide.tag}
               </span>
-              <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-brand-cream uppercase tracking-tight leading-none mt-2">
+              <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-brand-cream uppercase tracking-tight leading-none mt-2">
                 OUR IMPACT
               </h2>
             </div>
 
             {/* Metric & Description */}
             <div className="flex flex-col items-center gap-4 max-w-2xl px-4">
-              <div className="inline-flex flex-col items-center bg-brand-dark/40 border border-white/20 rounded-2xl px-10 py-8 backdrop-blur-md shadow-2xl">
-                <span className="font-serif text-6xl sm:text-7xl md:text-8xl font-black text-brand-cream leading-none drop-shadow-lg">
+              <div className="inline-flex flex-col items-center bg-brand-dark/40 border border-white/20 rounded-2xl px-6 py-4 sm:px-10 sm:py-8 backdrop-blur-md shadow-2xl">
+                <span className="font-serif text-5xl sm:text-7xl md:text-8xl font-black text-brand-cream leading-none drop-shadow-lg">
                   {slide.num}
                 </span>
                 <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-widest text-[#0ea5e9] mt-3">
                   {slide.label}
                 </span>
               </div>
-              <p className="font-sans text-sm md:text-base text-brand-cream/90 font-light leading-relaxed mt-4">
+               <p className="font-sans text-xs sm:text-sm md:text-base text-brand-cream/90 font-light leading-relaxed mt-4">
                 {slide.desc}
               </p>
             </div>
 
             {/* Inspirational Quote Overlay */}
-            <div className="max-w-3xl mt-4 px-6 border-l-2 border-[#0ea5e9]/60 pl-4 md:pl-6">
-              <blockquote className="font-serif text-base sm:text-lg md:text-xl text-brand-cream/90 italic leading-relaxed text-left">
+            <div className="max-w-3xl mt-2 sm:mt-4 px-6 border-l-2 border-[#0ea5e9]/60 pl-4 md:pl-6">
+              <blockquote className="font-serif text-sm sm:text-base md:text-xl text-brand-cream/90 italic leading-relaxed text-left">
                 {slide.quote}
               </blockquote>
             </div>

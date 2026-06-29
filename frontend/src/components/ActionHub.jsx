@@ -498,9 +498,9 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
               <div 
                 key={stat.label} 
                 className={`text-center ${
-                  i !== 0 ? 'md:border-l md:border-brand-dark/6' : ''
+                  i === 1 || i === 3 ? 'border-l border-brand-dark/6' : ''
                 } ${
-                  i === 1 || i === 3 ? 'border-l border-brand-dark/6 md:border-l-0' : ''
+                  i === 2 ? 'md:border-l md:border-brand-dark/6' : ''
                 } ${
                   i >= 2 ? 'border-t pt-4 mt-2 md:border-t-0 md:pt-0 md:mt-0 border-brand-dark/6' : ''
                 }`}

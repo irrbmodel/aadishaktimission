@@ -386,23 +386,23 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                                     <div className="flex justify-between items-start">
                                       <div>
                                         <div className="w-9 h-6 bg-amber-400/30 rounded border border-amber-300/20 mb-1" />
-                                        <span className="text-[6px] text-brand-dark/30 tracking-widest font-mono">SECURE CHIP</span>
+                                        <span className="text-[6px] text-brand-cream/40 tracking-widest font-mono">SECURE CHIP</span>
                                       </div>
                                       <span className="font-serif text-xs text-brand-red font-bold">Aadi Shakti.</span>
                                     </div>
-                                    <span className="font-mono text-sm md:text-base tracking-widest text-brand-dark/80">
+                                    <span className="font-mono text-sm md:text-base tracking-widest text-brand-cream/90">
                                       {cardNumber || '•••• •••• •••• ••••'}
                                     </span>
                                     <div className="flex justify-between items-end border-t border-white/8 pt-2">
                                       <div>
-                                        <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">HOLDER</span>
-                                        <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-dark/70 truncate max-w-[130px]">
+                                        <span className="text-[6px] text-brand-cream/40 font-mono tracking-wider block">HOLDER</span>
+                                        <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-cream/80 truncate max-w-[130px]">
                                           {cardName || 'YOUR NAME'}
                                         </span>
                                       </div>
                                       <div className="text-right">
-                                        <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">EXPIRY</span>
-                                        <span className="font-mono text-[9px] font-bold text-brand-dark/70">{cardExpiry || 'MM/YY'}</span>
+                                        <span className="text-[6px] text-brand-cream/40 font-mono tracking-wider block">EXPIRY</span>
+                                        <span className="font-mono text-[9px] font-bold text-brand-cream/80">{cardExpiry || 'MM/YY'}</span>
                                       </div>
                                     </div>
                                   </motion.div>
@@ -540,26 +540,25 @@ const MembershipPayment = ({ membershipData, onBack }) => {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="w-full max-w-md relative rounded-3xl overflow-hidden border border-brand-dark/8 shadow-2xl"
             >
-              {/* Card Header */}
               <div className="relative bg-linear-to-br from-brand-dark via-[#1a1a1a] to-[#0f0f0f] px-8 py-8 overflow-hidden">
                 <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-brand-red/20 blur-3xl" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-amber-500/8 blur-2xl" />
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-dark/30 block mb-1">Aadi Shakti Mission</span>
-                      <h3 className="font-serif text-2xl text-brand-dark uppercase tracking-tight">{currentTier.title}</h3>
+                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-cream/40 block mb-1">Aadi Shakti Mission</span>
+                      <h3 className="font-serif text-2xl text-brand-cream uppercase tracking-tight">{currentTier.title}</h3>
                     </div>
                     <span className="text-2xl">{currentTier.icon}</span>
                   </div>
                   <div className="flex justify-between items-end">
                     <div>
-                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">MEMBER NAME</span>
-                      <span className="font-sans text-sm font-bold text-brand-dark uppercase tracking-wide">{membershipData.name}</span>
+                      <span className="text-[7px] text-brand-cream/40 font-mono tracking-wider block">MEMBER NAME</span>
+                      <span className="font-sans text-sm font-bold text-brand-cream uppercase tracking-wide">{membershipData.name}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">MEMBER ID</span>
-                      <span className="font-mono text-xs font-bold text-brand-dark/70">{memberId}</span>
+                      <span className="text-[7px] text-brand-cream/40 font-mono tracking-wider block">MEMBER ID</span>
+                      <span className="font-mono text-xs font-bold text-brand-cream/70">{memberId}</span>
                     </div>
                   </div>
                 </div>

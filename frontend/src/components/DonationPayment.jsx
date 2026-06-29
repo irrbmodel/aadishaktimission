@@ -317,23 +317,23 @@ const DonationPayment = ({ donationData, onBack }) => {
                                 <div className="flex justify-between items-start">
                                   <div>
                                     <div className="w-9 h-6 bg-amber-400/30 rounded border border-amber-300/20 mb-1" />
-                                    <span className="text-[6px] text-brand-dark/30 tracking-widest font-mono">SECURE CHIP</span>
+                                    <span className="text-[6px] text-brand-cream/40 tracking-widest font-mono">SECURE CHIP</span>
                                   </div>
                                   <span className="font-serif text-xs text-brand-skyblue font-bold">Aadi Shakti.</span>
                                 </div>
-                                <span className="font-mono text-sm md:text-base tracking-widest text-brand-dark/80">
+                                <span className="font-mono text-sm md:text-base tracking-widest text-brand-cream/90">
                                   {cardNumber || '•••• •••• •••• ••••'}
                                 </span>
                                 <div className="flex justify-between items-end border-t border-white/8 pt-2">
                                   <div>
-                                    <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">HOLDER</span>
-                                    <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-dark/70 truncate max-w-[130px]">
+                                    <span className="text-[6px] text-brand-cream/40 font-mono tracking-wider block">HOLDER</span>
+                                    <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-cream/80 truncate max-w-[130px]">
                                       {cardName || 'YOUR NAME'}
                                     </span>
                                   </div>
                                   <div className="text-right">
-                                    <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">EXPIRY</span>
-                                    <span className="font-mono text-[9px] font-bold text-brand-dark/70">{cardExpiry || 'MM/YY'}</span>
+                                    <span className="text-[6px] text-brand-cream/40 font-mono tracking-wider block">EXPIRY</span>
+                                    <span className="font-mono text-[9px] font-bold text-brand-cream/80">{cardExpiry || 'MM/YY'}</span>
                                   </div>
                                 </div>
                               </motion.div>
@@ -501,19 +501,19 @@ const DonationPayment = ({ donationData, onBack }) => {
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-dark/30 block mb-1">Aadi Shakti Mission</span>
-                      <h3 className="font-serif text-xl text-brand-dark uppercase tracking-tight">Donation Certificate</h3>
+                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-cream/40 block mb-1">Aadi Shakti Mission</span>
+                      <h3 className="font-serif text-xl text-brand-cream uppercase tracking-tight">Donation Certificate</h3>
                     </div>
                     <span className="font-sans text-[7px] font-black tracking-wider uppercase px-2 py-0.5 border border-emerald-400/30 text-emerald-300 bg-emerald-500/15 rounded-md">Verified</span>
                   </div>
                   <div className="flex justify-between items-end">
                     <div>
-                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">DONOR NAME</span>
-                      <span className="font-sans text-sm font-bold text-brand-dark uppercase tracking-wide">{donationData.donorName || ''}</span>
+                      <span className="text-[7px] text-brand-cream/40 font-mono tracking-wider block">DONOR NAME</span>
+                      <span className="font-sans text-sm font-bold text-brand-cream uppercase tracking-wide">{donationData.donorName || ''}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">AMOUNT</span>
-                      <span className="font-serif text-2xl font-bold text-brand-dark">₹{amount}</span>
+                      <span className="text-[7px] text-brand-cream/40 font-mono tracking-wider block">AMOUNT</span>
+                      <span className="font-serif text-2xl font-bold text-brand-cream">₹{amount}</span>
                     </div>
                   </div>
                 </div>

@@ -261,7 +261,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
         className="fixed inset-0 w-full h-dvh bg-brand-cream z-40 flex flex-col overflow-hidden"
       >
         {/* Inner layout — full height, no overflow */}
-        <div className="flex flex-col h-full w-full px-6 md:px-14 lg:px-20 pt-20 md:pt-24 pb-4 md:pb-8">
+        <div className="flex flex-col h-full w-full px-6 md:px-14 lg:px-20 pt-20 md:pt-24 pb-4 md:pb-8 overflow-y-auto scrollbar-none">
           <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 flex-1 min-h-0 items-center">
 
             {/* Left Column: Navigation links */}
