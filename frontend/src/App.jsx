@@ -160,6 +160,10 @@ const App = () => {
       const ctx = gsap.context(() => {
         // Individual custom element transitions as each next section enters the view
         
+        // Skip exit scroll animations on mobile/touch screens to avoid lagging
+        const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+        if (!isDesktop) return
+        
         // 1. Hero Exit -> Polaroid enters
         const hero = document.getElementById('hero')
         const polaroid = document.getElementById('polaroid-transition')
@@ -337,9 +341,9 @@ const App = () => {
               stagger: 0.03,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: team,
-                start: 'top 50%',
-                end: 'top 10%',
+                trigger: gallery,
+                start: 'bottom bottom',
+                end: 'bottom 30%',
                 scrub: true
               }
             })

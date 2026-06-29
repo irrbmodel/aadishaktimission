@@ -54,6 +54,10 @@ const Gallery = () => {
   ]
 
   useEffect(() => {
+    // Skip skew animation on touch devices to improve scrolling performance
+    const isHoverDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (!isHoverDevice) return
+
     // Scroll velocity skewing effect
     let proxy = { skew: 0 }
     const skewSetter = gsap.quickTo('.gallery-item-inner', 'skewY', { duration: 0.3, ease: 'power3' })

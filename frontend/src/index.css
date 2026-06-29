@@ -175,6 +175,12 @@ h1, h2, h3, h4, h5, h6 {
 .z-9999 {
   z-index: 9999;
 }
+.z-99999 {
+  z-index: 99999;
+}
+.z-999999 {
+  z-index: 999999;
+}
 
 /* Premium Menu Underline / Letter Slide Hover Effect */
 .btn-underline {

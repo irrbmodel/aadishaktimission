@@ -106,8 +106,8 @@ const Team = ({ isLoaded }) => {
               </p>
             </div>
 
-            {/* Interactive Team Names List */}
-            <div className="flex flex-col border-t border-brand-dark/10 divide-y divide-brand-dark/10 mt-4">
+            {/* Interactive Team Names List - Hidden on mobile/tablets */}
+            <div className="hidden lg:flex flex-col border-t border-brand-dark/10 divide-y divide-brand-dark/10 mt-4">
               {team.map((member, idx) => (
                 <button
                   key={member.name}
@@ -157,8 +157,8 @@ const Team = ({ isLoaded }) => {
             </div>
           </div>
 
-          {/* Right Side: Editorial Preview Spotlight Showcase */}
-          <div className="lg:col-span-6">
+          {/* Right Side: Editorial Preview Spotlight Showcase - Hidden on mobile/tablets */}
+          <div className="hidden lg:block lg:col-span-6">
             <div 
               ref={previewCardRef}
               className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-6 md:p-8 shadow-2xl flex flex-col gap-4 overflow-hidden justify-between h-full max-h-[85vh]"
@@ -214,6 +214,54 @@ const Team = ({ isLoaded }) => {
               </div>
 
             </div>
+          </div>
+
+          {/* Mobile/Tablet Stacked Founders Display - Visible only on small viewports */}
+          <div className="flex flex-col gap-8 lg:hidden mt-8 w-full">
+            {team.map((member) => (
+              <div 
+                key={member.name}
+                className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-6 md:p-8 shadow-2xl flex flex-col gap-6 overflow-hidden"
+              >
+                {/* Top Accent Line */}
+                <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-red" />
+                
+                {/* Portrait Display */}
+                <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40">
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover brightness-95"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                {/* Details & Quote Content */}
+                <div className="flex flex-col gap-4 relative z-10">
+                  {/* Quote */}
+                  <blockquote>
+                    <p className="font-serif text-base md:text-lg text-brand-dark/95 leading-relaxed italic relative pl-4 border-l-2 border-brand-red/60">
+                      "{member.quote}"
+                    </p>
+                  </blockquote>
+
+                  {/* Biography */}
+                  <p className="font-sans text-xs md:text-sm text-brand-grey leading-relaxed font-light">
+                    {member.bio}
+                  </p>
+
+                  {/* Director Signature Label */}
+                  <div className="border-t border-brand-dark/5 pt-4 flex flex-col gap-1">
+                    <span className="font-serif text-xl text-brand-dark font-medium tracking-tight">
+                      {member.name}
+                    </span>
+                    <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-wider">
+                      {member.role}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
         </div>

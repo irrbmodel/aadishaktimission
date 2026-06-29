@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// Check if device supports hover interactions to optimize mobile scrolling
+const isHoverDevice = typeof window !== 'undefined' ? window.matchMedia('(hover: hover) and (pointer: fine)').matches : false
 
 // Render 3D Push-Pin with drop shadow (Declared outside component scope to maintain stable element identity)
 const PushPin = ({ color = '#dc2626' }) => (
@@ -39,26 +42,32 @@ const PushPin = ({ color = '#dc2626' }) => (
 )
 
 
-// Interactive Program Polaroid Card Component with 3D Mouse Tilt Dynamics
+// Interactive Program Polaroid Card Component with 3D Mouse Tilt Dynamics (Optimized via Framer Motion Values)
 const ProgramCard = ({ proj, onClick }) => {
   const cardRef = useRef(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+
+  // Motion values to animate directly on the GPU without triggering React state changes/re-renders
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+
+  // Map mouse coordinates to smooth spring rotations
+  const rotateXSpring = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), { stiffness: 220, damping: 22 })
+  const rotateYSpring = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), { stiffness: 220, damping: 22 })
 
   const handleMouseMove = (e) => {
+    if (!isHoverDevice) return
     const card = cardRef.current
     if (!card) return
     const rect = card.getBoundingClientRect()
-    const x = e.clientX - rect.left - rect.width / 2
-    const y = e.clientY - rect.top - rect.height / 2
-    // Gentle 10-degree pivot tilt factor
-    setTilt({
-      x: (x / rect.width) * 10,
-      y: (y / rect.height) * -10
-    })
+    // Normalized client coordinates (-0.5 to 0.5)
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5)
   }
 
   const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 })
+    if (!isHoverDevice) return
+    mouseX.set(0)
+    mouseY.set(0)
   }
 
   return (
@@ -72,22 +81,25 @@ const ProgramCard = ({ proj, onClick }) => {
         rotate: proj.initialRotate,
         x: proj.xOffset,
         y: proj.yOffset,
-        rotateX: tilt.y,
-        rotateY: tilt.x,
         boxShadow: "0 10px 24px rgba(0,0,0,0.22)"
       }}
-      whileHover={{
+      whileHover={isHoverDevice ? {
         rotate: 0,
         scale: 1.03,
         boxShadow: "0 28px 56px rgba(0,0,0,0.45)",
         zIndex: 10
-      }}
+      } : {}}
       transition={{
         type: "spring",
         stiffness: 220,
         damping: 22
       }}
-      style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+      style={{ 
+        transformStyle: 'preserve-3d', 
+        perspective: '1000px',
+        rotateX: isHoverDevice ? rotateXSpring : 0,
+        rotateY: isHoverDevice ? rotateYSpring : 0
+      }}
       className="bg-brand-white border border-brand-dark/5 rounded-[24px] p-6 pb-8 flex flex-col justify-start relative cursor-pointer select-none group border-fine transform-gpu"
       data-cursor="pointer"
     >
@@ -112,7 +124,7 @@ const ProgramCard = ({ proj, onClick }) => {
         <img 
           src={proj.image} 
           alt={proj.title} 
-          className="w-full h-full object-cover scale-100 group-hover:scale-[1.02] transition-transform duration-700 pointer-events-none"
+          className="w-full h-full object-cover scale-105 md:scale-100 md:group-hover:scale-[1.02] transition-transform duration-700 pointer-events-none"
         />
       </div>
 

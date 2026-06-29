@@ -59,8 +59,9 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
     }
     window.addEventListener('resize', handleResize)
 
-    // 1. Stardust Particles: Slow breathing wave-like drift
-    const stardustCount = 80
+    // 1. Stardust Particles: Slow breathing wave-like drift (reduced on mobile for performance)
+    const isMobile = window.innerWidth < 768
+    const stardustCount = isMobile ? 35 : 80
     const stardust = []
     for (let i = 0; i < stardustCount; i++) {
       stardust.push({
@@ -172,24 +173,29 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
       ctx.fillStyle = auraGrad
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // C. Draw Constellation lines (Elegant connecting fibers)
-      ctx.lineWidth = 0.6
-      for (let i = 0; i < stardust.length; i++) {
-        for (let j = i + 1; j < stardust.length; j++) {
-          const dx = stardust[i].x - stardust[j].x
-          const dy = stardust[i].y - stardust[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          const maxDist = 110
-          if (dist < maxDist) {
-            const alphaFactor = (1 - dist / maxDist)
-            const alpha = alphaFactor * 0.07 * Math.min(stardust[i].alpha, stardust[j].alpha)
-            
-            ctx.beginPath()
-            ctx.moveTo(stardust[i].x, stardust[i].y)
-            ctx.lineTo(stardust[j].x, stardust[j].y)
-            const lineCol = (i + j) % 2 === 0 ? '111, 185, 217' : '255, 238, 191'
-            ctx.strokeStyle = `rgba(${lineCol}, ${alpha})`
-            ctx.stroke()
+      // C. Draw Constellation lines (Elegant connecting fibers) - disabled on mobile
+      if (!isMobile) {
+        ctx.lineWidth = 0.6
+        const maxDist = 110
+        const maxDistSq = maxDist * maxDist
+        for (let i = 0; i < stardust.length; i++) {
+          for (let j = i + 1; j < stardust.length; j++) {
+            const dx = stardust[i].x - stardust[j].x
+            const dy = stardust[i].y - stardust[j].y
+            const distSq = dx * dx + dy * dy
+            // Perform fast check first before doing expensive square root
+            if (distSq < maxDistSq) {
+              const dist = Math.sqrt(distSq)
+              const alphaFactor = (1 - dist / maxDist)
+              const alpha = alphaFactor * 0.07 * Math.min(stardust[i].alpha, stardust[j].alpha)
+              
+              ctx.beginPath()
+              ctx.moveTo(stardust[i].x, stardust[i].y)
+              ctx.lineTo(stardust[j].x, stardust[j].y)
+              const lineCol = (i + j) % 2 === 0 ? '111, 185, 217' : '255, 238, 191'
+              ctx.strokeStyle = `rgba(${lineCol}, ${alpha})`
+              ctx.stroke()
+            }
           }
         }
       }

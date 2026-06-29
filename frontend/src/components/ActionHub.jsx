@@ -238,14 +238,19 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="grid grid-cols-3 gap-4 mb-16 p-6 rounded-2xl border border-brand-dark/6 bg-brand-white shadow-sm"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 mb-16 p-6 rounded-2xl border border-brand-dark/6 bg-brand-white shadow-sm"
           >
             {[
               { label: 'Active Members', value: 247, suffix: '+' },
               { label: 'Districts Covered', value: 8, suffix: '' },
               { label: 'Lives Impacted', value: 12400, suffix: '+' }
             ].map((stat, i) => (
-              <div key={stat.label} className={`text-center ${i !== 0 ? 'border-l border-brand-dark/6' : ''}`}>
+              <div 
+                key={stat.label} 
+                className={`text-center ${
+                  i !== 0 ? 'sm:border-l border-t sm:border-t-0 pt-4 sm:pt-0 border-brand-dark/6' : ''
+                }`}
+              >
                 <div className="font-serif text-2xl md:text-4xl text-brand-dark font-bold">
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </div>
@@ -482,7 +487,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 p-6 rounded-2xl border border-brand-dark/6 bg-brand-white shadow-sm"
+            className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4 mb-16 p-6 rounded-2xl border border-brand-dark/6 bg-brand-white shadow-sm"
           >
             {[
               { label: 'Total Contributed', value: 2840000, prefix: '₹', suffix: '+' },
@@ -490,7 +495,16 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
               { label: 'Village Programs', value: 43, suffix: '' },
               { label: '80G Receipts', value: 1300, suffix: '+' }
             ].map((stat, i) => (
-              <div key={stat.label} className={`text-center ${i !== 0 ? 'border-l border-brand-dark/6' : ''}`}>
+              <div 
+                key={stat.label} 
+                className={`text-center ${
+                  i !== 0 ? 'md:border-l md:border-brand-dark/6' : ''
+                } ${
+                  i === 1 || i === 3 ? 'border-l border-brand-dark/6 md:border-l-0' : ''
+                } ${
+                  i >= 2 ? 'border-t pt-4 mt-2 md:border-t-0 md:pt-0 md:mt-0 border-brand-dark/6' : ''
+                }`}
+              >
                 <div className="font-serif text-xl md:text-3xl text-brand-dark font-bold leading-none">
                   <AnimatedCounter target={stat.value} prefix={stat.prefix || ''} suffix={stat.suffix} />
                 </div>
