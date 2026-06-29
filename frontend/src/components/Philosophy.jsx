@@ -55,43 +55,76 @@ const Philosophy = ({ isLoaded }) => {
     }
   ]
 
-  // 1. Scroll reveal for the new premium Philosophy grid layout
+  const renderP1 = () => {
+    const text = "Aadi Shakti Mission is a committed movement established to enhance and secure the social, economic, and ecological fabric of underserved communities. Combining grassroots activism with professional methodologies, we spent years executing high-impact initiatives for rural transformation and human empowerment."
+    const redWords = ["social,", "economic,", "ecological", "rural", "transformation", "human", "empowerment."]
+    
+    return text.split(' ').map((word, idx) => {
+      const isRed = redWords.includes(word)
+      return (
+        <span 
+          key={`p1-${idx}`} 
+          className={`reveal-word-p1 inline-block mr-[0.25em] transition-colors duration-500 ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.15 }}
+        >
+          {word}
+        </span>
+      )
+    })
+  }
+
+  const renderP2 = () => {
+    const text = "Evoking transformative change that honors contextual integrity."
+    const redWords = ["transformative", "change"]
+    
+    return text.split(' ').map((word, idx) => {
+      const isRed = redWords.includes(word)
+      return (
+        <span 
+          key={`p2-${idx}`} 
+          className={`reveal-word-p2 inline-block mr-[0.25em] transition-colors duration-500 ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.15 }}
+        >
+          {word}
+        </span>
+      )
+    })
+  }
+
+  // 1. Scroll reveal for the centered Philosophy text layout
   useEffect(() => {
     if (!isLoaded) return
 
     const ctx = gsap.context(() => {
-      // Left side profile layout slide-in
-      gsap.fromTo('.philosophy-left-col',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
+      // Timeline for paragraph 1 and paragraph 2 word reveals
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 75%",
+          end: "bottom 35%",
+          scrub: 1.2, // Smooth scrubbing
         }
-      )
+      })
 
-      // Right side cards staggered fade-in
-      gsap.fromTo('.philosophy-card',
-        { opacity: 0, y: 40, filter: 'blur(4px)' },
-        {
-          opacity: 1,
-          y: 0,
-          filter: 'blur(0px)',
-          duration: 0.8,
-          stagger: 0.12,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.philosophy-cards-grid',
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-          }
-        }
+      // Stagger paragraph 1 words from opacity 0.15 to 1.0
+      tl.to(".reveal-word-p1", {
+        opacity: 1,
+        stagger: 0.015,
+        ease: "none"
+      })
+
+      // Stagger paragraph 2 words from opacity 0.15 to 1.0 after paragraph 1 finishes
+      tl.to(".reveal-word-p2", {
+        opacity: 1,
+        stagger: 0.025,
+        ease: "none"
+      }, "+=0.05")
+
+      // Fade in the footer small text at the end
+      tl.fromTo(".philosophy-footer-text",
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
+        "+=0.05"
       )
     }, containerRef)
 
@@ -167,11 +200,11 @@ const Philosophy = ({ isLoaded }) => {
 
   return (
     <>
-      {/* SECTION 1: Core Philosophy with Premium Layout */}
+      {/* SECTION 1: Core Philosophy / About Us Centered Editorial Layout */}
       <section 
         id="philosophy"
         ref={containerRef}
-        className="relative w-full bg-brand-cream border-b border-brand-dark/5 pt-32 pb-48 px-6 md:px-12 overflow-hidden"
+        className="relative w-full bg-brand-cream py-36 md:py-48 px-6 md:px-12 flex flex-col items-center justify-center overflow-hidden border-b border-brand-dark/5"
       >
         {/* Subtle grid lines background */}
         <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
@@ -180,146 +213,32 @@ const Philosophy = ({ isLoaded }) => {
           <div className="w-px h-full bg-brand-dark/5 hidden md:block" />
         </div>
 
-        {/* Subtle background blob */}
-        <div className="absolute glowing-blob w-[450px] h-[450px] bg-brand-red/5 top-[10%] left-[5%] opacity-20 pointer-events-none" />
-
-        {/* Section Header */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-16 select-none">
-          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
-            03 / Who We Are & Our Approach
-          </span>
-          <span className="font-serif italic text-xs text-brand-grey">
-            Aadi Shakti Mission
-          </span>
+        {/* Ornament icon at top center */}
+        <div className="flex flex-col items-center gap-2 mb-14 select-none relative z-10">
+          <div className="w-2.5 h-2.5 bg-brand-red rotate-45 border border-brand-light-grey/60 flex items-center justify-center shadow-xs">
+            <div className="w-1.5 h-1.5 bg-brand-cream rounded-full" />
+          </div>
+          <div className="w-px h-10 bg-linear-to-b from-brand-red/30 to-transparent" />
         </div>
 
-        {/* Premium Asymmetric Layout Grid */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        {/* Content Container */}
+        <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center text-center gap-12 md:gap-14">
           
-          {/* Left Column: Asymmetric Editorial Profile */}
-          <div className="philosophy-left-col lg:col-span-5 flex flex-col gap-8 relative select-none">
-            {/* Elegant header */}
-            <div className="flex flex-col gap-3">
-              <span className="font-sans text-[10px] font-black text-brand-red tracking-[0.25em] uppercase">
-                About Us
-              </span>
-              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-brand-dark font-black tracking-tighter leading-none uppercase">
-                Practical, Local, Sustained.
-              </h2>
-            </div>
-            
-            {/* Museum-style framed photo overlay */}
-            <div className="relative w-full aspect-[4/3] rounded-[28px] overflow-hidden border border-brand-dark/5 p-3.5 bg-brand-white shadow-[0_20px_50px_rgba(0,0,0,0.06)] transform -rotate-1 hover:rotate-0 transition-transform duration-700 ease-out">
-              <div className="absolute inset-0 bg-brand-dark/5 z-10 pointer-events-none" />
-              <img 
-                src="/images/women_empowerment_class.jpeg" 
-                alt="Our Community Class" 
-                className="w-full h-full object-cover rounded-[18px]"
-              />
-              
-              {/* Floating brand message card */}
-              <div className="absolute bottom-6 -right-6 bg-brand-dark border border-brand-light-grey/15 text-brand-cream px-6 py-5 rounded-[22px] max-w-[260px] shadow-2xl z-20 flex flex-col gap-2 transform rotate-2">
-                {/* Traditional Pahari design-inspired diamond */}
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 bg-brand-light-grey rounded-full" />
-                  <span className="font-display text-[7px] font-black tracking-[0.3em] uppercase text-brand-light-grey">
-                    THE VISION
-                  </span>
-                </div>
-                <p className="font-serif italic text-xs leading-relaxed text-brand-cream/90">
-                  "Awakening Himalayan potential. One community, one cooperative, one craft at a time."
-                </p>
-              </div>
-            </div>
+          {/* Paragraph 1 - Large Editorial Serif Reveal */}
+          <p className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] leading-[1.45] text-brand-dark tracking-tight text-center max-w-5xl">
+            {renderP1()}
+          </p>
 
-            {/* Introductory copy */}
-            <div className="flex flex-col gap-4 mt-8 max-w-md">
-              <p className="font-sans text-sm text-brand-grey leading-relaxed font-light">
-                We partner with communities to co-design practical interventions that strengthen education, livelihoods, and health while respecting local heritage.
-              </p>
-            </div>
-          </div>
+          {/* Paragraph 2 - Sub-headline Serif Reveal */}
+          <p className="font-serif italic text-xl sm:text-2xl md:text-3.5xl text-brand-dark leading-relaxed tracking-tight text-center max-w-3xl">
+            {renderP2()}
+          </p>
 
-          {/* Right Column: Cascading 3-Pillar Cards Grid */}
-          <div className="philosophy-cards-grid lg:col-span-7 flex flex-col gap-6 w-full">
-            {[
-              {
-                num: '01',
-                title: 'Social Equity',
-                icon: <Eye className="text-brand-light-grey group-hover:text-brand-cream" size={22} />,
-                desc: 'We organize independent women cooperatives, establish mentorship pathways for young girls, and build digital libraries to eliminate systemic literacy barriers across remote valleys.',
-                points: ['Independent cooperatives', 'Academic mentoring', 'Digital study libraries']
-              },
-              {
-                num: '02',
-                title: 'Economic Autonomy',
-                icon: <Shield className="text-brand-light-grey group-hover:text-brand-cream" size={22} />,
-                desc: 'By establishing local handloom cooperative structures, supplying premium raw materials, and matching products to urban design centers, we secure sustainable wages for artisans.',
-                points: ['Handloom coop models', 'Premium raw materials', 'Urban design markets']
-              },
-              {
-                num: '03',
-                title: 'Ecological Harmony',
-                icon: <Leaf className="text-brand-light-grey group-hover:text-brand-cream" size={22} />,
-                desc: 'We lead community native afforestation drives, rain-water harvesting study clusters, and solar clinic energy transitions to safeguard vulnerable Himalayan ecosystems.',
-                points: ['Native afforestation', 'Rain-water harvesting', 'Solar energy transitions']
-              }
-            ].map((pillar) => (
-              <div 
-                key={pillar.num}
-                className="philosophy-card group w-full bg-brand-white/40 hover:bg-brand-white border border-brand-dark/5 hover:border-brand-grey/25 rounded-[32px] p-8 md:p-10 shadow-[0_12px_30px_rgba(0,0,0,0.01)] hover:shadow-[0_24px_55px_rgba(2,99,88,0.05)] transition-all duration-500 relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-start cursor-default"
-              >
-                {/* Visual Number Indicator */}
-                <div className="absolute right-6 top-6 font-display text-8xl font-black text-brand-grey/5 select-none pointer-events-none transition-colors duration-500 group-hover:text-brand-grey/10">
-                  {pillar.num}
-                </div>
-                
-                {/* Left side card icon container */}
-                <div className="w-12 h-12 rounded-2xl bg-brand-dark/5 group-hover:bg-brand-dark flex items-center justify-center shrink-0 transition-colors duration-500">
-                  {pillar.icon}
-                </div>
-                
-                {/* Content */}
-                <div className="flex flex-col gap-4 relative z-10 max-w-lg">
-                  <div className="flex flex-col gap-1">
-                    <span className="font-display text-[8px] font-black tracking-widest text-brand-red/60 uppercase">
-                      PILLAR {pillar.num}
-                    </span>
-                    <h3 className="font-display text-xl sm:text-2xl text-brand-dark font-black uppercase tracking-tight">
-                      {pillar.title}
-                    </h3>
-                  </div>
-                  <p className="font-sans text-xs sm:text-sm text-brand-grey leading-relaxed font-light">
-                    {pillar.desc}
-                  </p>
-                  
-                  {/* Action Highlights */}
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {pillar.points.map((pt, i) => (
-                      <span key={i} className="font-sans text-[9px] font-bold text-brand-dark bg-brand-light-grey/30 border border-brand-light-grey/10 rounded-full px-3 py-1 uppercase tracking-wider">
-                        {pt}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Decorative border highlight line */}
-                <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-brand-red/0 group-hover:bg-brand-red transition-colors duration-500" />
-              </div>
-            ))}
-          </div>
+          {/* Paragraph 3 - Small Sans-Serif Muted Footer */}
+          <p className="philosophy-footer-text font-sans text-xs sm:text-sm text-brand-grey/60 leading-relaxed font-light text-center max-w-2xl mt-4 select-none">
+            We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.
+          </p>
 
-        </div>
-
-        {/* Section Footer */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center border-t border-brand-dark/5 mt-20 pt-4 text-[9px] font-bold text-brand-grey tracking-widest uppercase select-none">
-          <span>Section 03</span>
-          <span className="flex items-center gap-2">
-            Scroll to explore snapshots
-            <svg className="w-3 h-3 text-brand-red animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </svg>
-          </span>
         </div>
       </section>
 
@@ -358,7 +277,7 @@ const Philosophy = ({ isLoaded }) => {
               <div className="w-full max-w-7xl h-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center px-6 md:px-16 pt-28 pb-24 relative overflow-hidden">
                 
                 {/* Massive backdrop index behind the content */}
-                <div className="absolute left-6 bottom-4 font-display text-[15rem] md:text-[24rem] font-black text-brand-grey/[0.03] select-none pointer-events-none tracking-tighter leading-none z-0">
+                <div className="absolute left-6 bottom-4 font-display text-[15rem] md:text-[24rem] font-black text-brand-grey/3 select-none pointer-events-none tracking-tighter leading-none z-0">
                   0{idx + 1}
                 </div>
 

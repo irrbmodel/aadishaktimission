@@ -271,7 +271,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
                 />
                 <span 
                   className={`h-[1.5px] transition-all duration-500 origin-center ${
-                    isOpen ? 'bg-brand-red w-6 -rotate-45 -translate-y-[7px]' : `${isDarkHero ? 'bg-brand-cream' : 'bg-brand-dark'} w-5 group-hover:w-6`
+                    isOpen ? 'bg-brand-red w-6 -rotate-45 translate-y-[-7px]' : `${isDarkHero ? 'bg-brand-cream' : 'bg-brand-dark'} w-5 group-hover:w-6`
                   }`} 
                 />
               </div>

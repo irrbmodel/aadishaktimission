@@ -46,7 +46,7 @@ const OurImpact = ({ isLoaded }) => {
               className="w-full h-full object-cover"
               style={{ filter: 'blur(4px) brightness(0.4)', transform: 'scale(1.05)' }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/60 via-brand-dark/40 to-brand-dark/80 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-linear-to-b from-brand-dark/60 via-brand-dark/40 to-brand-dark/80 mix-blend-multiply" />
           </div>
 
           {/* Content panel */}

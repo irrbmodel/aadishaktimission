@@ -58,7 +58,7 @@ const Hero = ({ isLoaded, onJoinNow }) => {
     <section 
       id="hero" 
       ref={containerRef} 
-      className="relative w-full h-[100vh] flex flex-col justify-end pb-28 sm:pb-36 md:pb-44 px-6 sm:px-12 md:px-20 overflow-hidden"
+      className="relative w-full h-screen flex flex-col justify-end pb-28 sm:pb-36 md:pb-44 px-6 sm:px-12 md:px-20 overflow-hidden"
     >
       {/* Background Video */}
       <video
@@ -71,7 +71,7 @@ const Hero = ({ isLoaded, onJoinNow }) => {
       />
 
       {/* Dark Contrast Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/30 z-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/45 to-black/30 z-10 pointer-events-none" />
 
       {/* Left-side welcome accent */}
       <div 

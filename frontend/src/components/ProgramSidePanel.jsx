@@ -100,7 +100,7 @@ export default function ProgramSidePanel({ isOpen, onClose, programTitle, onGetI
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-brand-dark/40 backdrop-blur-sm z-[90]"
+            className="fixed inset-0 bg-brand-dark/40 backdrop-blur-sm z-90"
           />
 
           {/* Panel */}
@@ -109,7 +109,7 @@ export default function ProgramSidePanel({ isOpen, onClose, programTitle, onGetI
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-[100dvh] w-full md:w-[500px] lg:w-[600px] bg-brand-white z-[100] shadow-2xl flex flex-col"
+            className="fixed top-0 right-0 h-dvh w-full md:w-[500px] lg:w-[600px] bg-brand-white z-100 shadow-2xl flex flex-col"
           >
             {/* Header / Image Area */}
             <div className="relative h-64 sm:h-80 shrink-0">
