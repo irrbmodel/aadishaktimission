@@ -145,7 +145,7 @@ const Gallery = () => {
         </div>
 
         {/* Asymmetric Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[60vh] md:h-[62vh] w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[350px] md:auto-rows-[450px] w-full">
           {filteredItems.map((item) => (
             <div 
               key={item.id}

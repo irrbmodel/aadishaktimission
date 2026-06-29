@@ -338,8 +338,8 @@ const App = () => {
               ease: 'power1.inOut',
               scrollTrigger: {
                 trigger: team,
-                start: 'top bottom',
-                end: 'top 30%',
+                start: 'top 50%',
+                end: 'top 10%',
                 scrub: true
               }
             })
