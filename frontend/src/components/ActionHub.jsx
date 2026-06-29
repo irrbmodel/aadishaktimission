@@ -392,7 +392,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                     <button
                       type="submit"
                       data-cursor="pointer"
-                      className="group relative w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase overflow-hidden bg-brand-red text-brand-cream cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-brand-red/25 hover:-translate-y-0.5 mt-2"
+                      className="group relative w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase overflow-hidden bg-linear-to-r from-brand-red to-brand-grey text-brand-cream cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-brand-red/25 hover:-translate-y-0.5 mt-2"
                     >
                       <span className="relative z-10 flex items-center justify-center gap-3 group-hover:text-brand-dark transition-colors duration-300">
                         Proceed to Membership
@@ -400,7 +400,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
                       </span>
-                      <div className="absolute inset-0 bg-brand-cream opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-linear-to-r from-brand-cream to-brand-light-grey opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </button>
 
                     <div className="flex items-center gap-2 justify-center">
@@ -699,12 +699,12 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                     <button
                       type="submit"
                       data-cursor="pointer"
-                      className="group relative w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase overflow-hidden bg-brand-red text-brand-cream cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-brand-red/25 hover:-translate-y-0.5 mt-2"
+                      className="group relative w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase overflow-hidden bg-linear-to-r from-brand-red to-brand-grey text-brand-cream cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-brand-red/25 hover:-translate-y-0.5 mt-2"
                     >
                       <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-brand-dark transition-colors duration-300">
                         🔒 Proceed to Payment — ₹{donationForm.amount}
                       </span>
-                      <div className="absolute inset-0 bg-brand-cream opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-linear-to-r from-brand-cream to-brand-light-grey opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </button>
 
                     <div className="flex justify-center items-center gap-3 text-brand-grey/40 text-[9px] font-sans">

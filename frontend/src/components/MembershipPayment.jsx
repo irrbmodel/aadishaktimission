@@ -286,35 +286,35 @@ const MembershipPayment = ({ membershipData, onBack }) => {
               >
                 <div className="relative rounded-3xl overflow-hidden border border-brand-dark/6 shadow-2xl">
                   {/* Header */}
-                  <div className="relative bg-brand-cream px-8 py-7 overflow-hidden">
-                    <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-brand-red/20 blur-3xl" />
+                  <div className="relative bg-brand-dark px-8 py-7 overflow-hidden">
+                    <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-brand-cream/10 blur-3xl" />
                     <div className="relative z-10">
                       <div className="flex items-center gap-2 mb-3">
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
-                        <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-dark/40">Secure Transaction</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-cream animate-pulse" />
+                        <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-cream/60">Secure Transaction</span>
                       </div>
-                      <h2 className="font-serif text-4xl text-brand-dark uppercase tracking-tight leading-[0.88]">Checkout</h2>
+                      <h2 className="font-serif text-4xl text-brand-cream uppercase tracking-tight leading-[0.88]">Checkout</h2>
                     </div>
                   </div>
 
                   {/* Member Info Summary */}
-                  <div className="bg-brand-cream/60 px-8 py-4 border-b border-brand-dark/6">
+                  <div className="bg-brand-dark/90 px-8 py-4 border-y border-brand-cream/10">
                     <div className="flex flex-col gap-2 font-sans text-[10px]">
                       <div className="flex justify-between items-center">
-                        <span className="text-brand-grey uppercase tracking-wider">Member</span>
-                        <span className="font-bold text-brand-dark">{(membershipData.name || '').toUpperCase()}</span>
+                        <span className="text-brand-cream/60 uppercase tracking-wider">Member</span>
+                        <span className="font-bold text-brand-cream">{(membershipData.name || '').toUpperCase()}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-brand-grey uppercase tracking-wider">Contact</span>
-                        <span className="font-bold text-brand-grey text-[9px]">{membershipData.phone} · {membershipData.email}</span>
+                        <span className="text-brand-cream/60 uppercase tracking-wider">Contact</span>
+                        <span className="font-bold text-brand-cream/80 text-[9px]">{membershipData.phone} · {membershipData.email}</span>
                       </div>
-                      <div className="flex justify-between items-center border-t border-brand-dark/6 pt-2 mt-1">
-                        <span className="text-brand-grey uppercase tracking-wider">Tier</span>
-                        <span className="font-bold text-brand-red text-xs">{currentTier.title}</span>
+                      <div className="flex justify-between items-center border-t border-brand-cream/10 pt-2 mt-1">
+                        <span className="text-brand-cream/60 uppercase tracking-wider">Tier</span>
+                        <span className="font-bold text-brand-cream text-xs">{currentTier.title}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-brand-grey uppercase tracking-wider">Total</span>
-                        <span className="font-serif text-lg font-bold text-brand-dark">
+                        <span className="text-brand-cream/60 uppercase tracking-wider">Total</span>
+                        <span className="font-serif text-lg font-bold text-brand-cream">
                           {currentTier.price === 0 ? '₹0 · Free' : `₹${currentTier.price} / ${currentTier.period}`}
                         </span>
                       </div>
@@ -336,9 +336,11 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                         </label>
                         <button
                           type="submit"
-                          className="w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-2"
+                          className="relative overflow-hidden w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-linear-to-r from-brand-red to-brand-grey text-brand-cream hover:text-brand-dark border border-transparent transition-all duration-300 flex items-center justify-center cursor-pointer shadow-lg shadow-brand-dark/20 mt-2 before:absolute before:inset-0 before:bg-linear-to-r before:from-brand-cream before:to-brand-light-grey before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
                         >
-                          Confirm Volunteer Registration
+                          <span className="relative z-10 flex items-center justify-center gap-1.5">
+                            Confirm Volunteer Registration
+                          </span>
                         </button>
                       </form>
                     ) : (
@@ -350,10 +352,10 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                               key={m.id}
                               type="button"
                               onClick={() => setPaymentMethod(m.id)}
-                              className={`py-3 rounded-xl font-sans font-bold text-xs uppercase cursor-pointer border transition-all ${
+                              className={`py-3 rounded-xl font-sans font-bold text-xs uppercase cursor-pointer border transition-all flex items-center justify-center gap-1.5 ${
                                 paymentMethod === m.id
-                                  ? 'bg-brand-cream border-brand-dark text-brand-dark'
-                                  : 'bg-brand-cream border-brand-dark/10 text-brand-dark hover:border-brand-dark/25'
+                                  ? 'bg-linear-to-r from-brand-red to-brand-grey border-brand-cream text-brand-cream'
+                                  : 'bg-linear-to-r from-brand-red/90 to-brand-grey/90 border-brand-cream/15 text-brand-cream/60 hover:from-brand-red hover:to-brand-grey hover:text-brand-cream hover:border-brand-cream/45'
                               }`}
                             >
                               {m.label}
@@ -438,9 +440,11 @@ const MembershipPayment = ({ membershipData, onBack }) => {
 
                             <button
                               type="submit"
-                              className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-1"
+                              className="relative overflow-hidden w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-linear-to-r from-brand-red to-brand-grey text-brand-cream hover:text-brand-dark border border-transparent transition-all duration-300 flex items-center justify-center cursor-pointer shadow-lg shadow-brand-dark/20 mt-1 before:absolute before:inset-0 before:bg-linear-to-r before:from-brand-cream before:to-brand-light-grey before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
                             >
-                              🔒 Pay ₹{currentTier.price}/{currentTier.period}
+                              <span className="relative z-10 flex items-center justify-center gap-1.5">
+                                🔒 Pay ₹{currentTier.price}/{currentTier.period}
+                              </span>
                             </button>
                             <div className="flex justify-center gap-3 text-brand-grey/40 text-[9px] font-sans">
                               <span>✓ 256-Bit SSL</span><span>•</span><span>✓ Secure Gateway</span>
@@ -466,9 +470,11 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                             <LightInput label="UPI ID (VPA)" type="text" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                             <button
                               type="submit"
-                              className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20"
+                              className="relative overflow-hidden w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-linear-to-r from-brand-red to-brand-grey text-brand-cream hover:text-brand-dark border border-transparent transition-all duration-300 flex items-center justify-center cursor-pointer shadow-lg shadow-brand-dark/20 before:absolute before:inset-0 before:bg-linear-to-r before:from-brand-cream before:to-brand-light-grey before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
                             >
-                              🔒 Pay ₹{currentTier.price}/{currentTier.period}
+                              <span className="relative z-10 flex items-center justify-center gap-1.5">
+                                🔒 Pay ₹{currentTier.price}/{currentTier.period}
+                              </span>
                             </button>
                           </form>
                         )}
@@ -586,9 +592,11 @@ const MembershipPayment = ({ membershipData, onBack }) => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
               onClick={onBack}
-              className="px-10 py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-cream hover:bg-brand-cream hover:text-brand-dark text-brand-dark transition-all cursor-pointer border border-brand-dark/10 shadow-sm"
+              className="relative overflow-hidden px-10 py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-linear-to-r from-brand-red to-brand-grey text-brand-cream hover:text-brand-dark border border-transparent transition-all duration-300 flex items-center justify-center cursor-pointer shadow-lg shadow-brand-dark/20 before:absolute before:inset-0 before:bg-linear-to-r before:from-brand-cream before:to-brand-light-grey before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300"
             >
-              Return to Homepage
+              <span className="relative z-10 flex items-center justify-center gap-1.5">
+                Return to Homepage
+              </span>
             </motion.button>
           </div>
         )}
