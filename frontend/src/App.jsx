@@ -22,6 +22,7 @@ import Footer from './components/Footer'
 import IntroAnimation from './components/IntroAnimation'
 import GetInvolvedSidePanel from './components/GetInvolvedSidePanel'
 import ProgramSidePanel from './components/ProgramSidePanel'
+import OurValues from './components/OurValues'
 
 // Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger)
@@ -224,7 +225,6 @@ const App = () => {
           if (centralCard) {
             gsap.to(centralCard, {
               opacity: 0,
-              xPercent: -30,
               scale: 0.9,
               ease: 'power1.inOut',
               scrollTrigger: {
@@ -273,42 +273,23 @@ const App = () => {
         // 4. Philosophy Snapshots Exit -> Journey enters
         const journey = document.getElementById('journey')
         if (snapshots && journey) {
-          const sliderImg = snapshots.querySelector('.lg\\:col-span-7')
-          const detailsPanel = snapshots.querySelector('.lg\\:col-span-5')
-          
-          if (sliderImg) {
-            gsap.to(sliderImg, {
-              opacity: 0,
-              xPercent: -15,
-              scale: 0.95,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: journey,
-                start: 'top bottom',
-                end: 'top 40%',
-                scrub: true
-              }
-            })
-          }
-          if (detailsPanel) {
-            gsap.to(detailsPanel, {
-              opacity: 0,
-              yPercent: 15,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: journey,
-                start: 'top bottom',
-                end: 'top 40%',
-                scrub: true
-              }
-            })
-          }
+          gsap.to(snapshots, {
+            opacity: 0,
+            scale: 0.97,
+            ease: 'power1.inOut',
+            scrollTrigger: {
+              trigger: journey,
+              start: 'top bottom',
+              end: 'top 20%',
+              scrub: true
+            }
+          })
         }
 
         // 6. Journey Exit -> Gallery enters
         const gallery = document.getElementById('gallery')
         if (journey && gallery) {
-          const timelinePanels = journey.querySelectorAll('.concept-panel')
+          const timelinePanels = journey.querySelectorAll('.program-text-section, .program-img')
           if (timelinePanels.length) {
             gsap.to(timelinePanels, {
               opacity: 0,
@@ -336,8 +317,8 @@ const App = () => {
     <div className="relative min-h-screen bg-brand-cream selection:bg-brand-red selection:text-brand-cream">
       {/* Dynamic Background Glowing Blobs (Global mesh accent) */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-30 overflow-hidden">
-        <div className="glowing-blob w-[600px] h-[600px] bg-brand-red/10 top-[-20%] left-[-10%]" />
-        <div className="glowing-blob w-[500px] h-[500px] bg-brand-grey/5 bottom-[-10%] right-[-10%] [animation-delay:-8s]" />
+        <div className="glowing-blob w-150 h-150 bg-brand-red/10 top-[-20%] left-[-10%]" />
+        <div className="glowing-blob w-125 h-125 bg-brand-grey/5 bottom-[-10%] right-[-10%] [animation-delay:-8s]" />
       </div>
 
       {/* Navigation Header */}
@@ -364,6 +345,7 @@ const App = () => {
             <Hero isLoaded={isLoaded} onJoinNow={() => openSidePanel('membership')} />
             <PolaroidParallax isLoaded={isLoaded} />
             <Philosophy isLoaded={isLoaded} />
+            <OurValues isLoaded={isLoaded} />
             <JourneyTimeline isLoaded={isLoaded} onOpenProgram={openProgramPanel} />
             <Gallery />
             <OurImpact isLoaded={isLoaded} />

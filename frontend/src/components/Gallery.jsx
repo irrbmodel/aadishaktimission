@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Gallery = () => {
   const [activeFilter, setActiveFilter] = useState('all')
+  const galleryRef = useRef(null)
 
   const items = [
     {
@@ -52,13 +57,44 @@ const Gallery = () => {
     ? items 
     : items.filter(item => item.category === activeFilter)
 
+  useEffect(() => {
+    if (!galleryRef.current) return
+
+    const cards = galleryRef.current.querySelectorAll('.gallery-card')
+    if (!cards.length) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 30, scale: 0.98, filter: 'blur(6px)' },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: 'blur(0px)',
+          duration: 0.8,
+          stagger: 0.08,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: galleryRef.current,
+            start: 'top 85%',
+            once: true,
+          },
+        }
+      )
+    }, galleryRef)
+
+    return () => ctx.revert()
+  }, [activeFilter])
+
   return (
     <section 
       id="gallery"
+      ref={galleryRef}
       className="relative z-10 w-full min-h-screen bg-brand-cream flex flex-col pt-32 pb-32"
     >
       {/* Decorative Blob */}
-      <div className="absolute glowing-blob w-[450px] h-[450px] bg-brand-orange bottom-[20%] right-[-10%] opacity-10 pointer-events-none" />
+      <div className="absolute glowing-blob w-112.5 h-112.5 bg-brand-orange bottom-[20%] right-[-10%] opacity-10 pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         {/* Section Header */}
@@ -111,10 +147,11 @@ const Gallery = () => {
           {filteredItems.map((item) => (
             <div 
               key={item.id}
-              className={`relative overflow-hidden rounded-3xl group shadow-sm hover:shadow-xl transition-shadow duration-300 ${item.span}`}
+              className={`gallery-card relative overflow-hidden rounded-[28px] group shadow-[0_18px_60px_rgba(0,0,0,0.06)] border border-brand-dark/5 hover:shadow-[0_24px_70px_rgba(0,0,0,0.1)] transition-all duration-500 ${item.span}`}
             >
               {/* Background Dim Shadow overlay */}
               <div className="absolute inset-0 bg-linear-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-60 group-hover:opacity-80 z-10 transition-opacity duration-300 pointer-events-none" />
+              <div className="absolute inset-0 rounded-[28px] border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
               {/* Cover Image */}
               <img 
@@ -122,6 +159,7 @@ const Gallery = () => {
                 alt={item.title} 
                 className="w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
               />
+              <div className="absolute inset-0 bg-brand-red/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               {/* Text Details overlay */}
               <div className="absolute bottom-6 left-6 right-6 z-20 md:translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out flex items-end justify-between">

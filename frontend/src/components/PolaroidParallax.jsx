@@ -50,9 +50,9 @@ const PolaroidParallax = ({ isLoaded }) => {
   const cardRef = useRef(null)
   const mountainsRef = useRef(null)
   const overlayRef = useRef(null)
-  const introRef = useRef(null)
   const mountainPath1Ref = useRef(null)
   const mountainPath2Ref = useRef(null)
+  const textRef = useRef(null)
 
   useEffect(() => {
     if (!isLoaded) return
@@ -62,7 +62,7 @@ const PolaroidParallax = ({ isLoaded }) => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: () => `+=${window.innerHeight * 1}`,
+          end: () => `+=${window.innerHeight * 2.5}`,
           pin: true,
           pinSpacing: true,
           scrub: 1.5,
@@ -103,21 +103,23 @@ const PolaroidParallax = ({ isLoaded }) => {
 
       // Darken image overlay mask to support typography contrast
       tl.to(overlayRef.current, {
-        opacity: 0.65,
+        opacity: 0.75,
         ease: 'none',
         duration: 0.85
       }, 0.15)
-      
-      // Fade and slide up the bottom description panel
-      tl.fromTo(introRef.current, {
-        opacity: 0,
-        y: 40
-      }, {
-        opacity: 1,
-        y: 0,
-        ease: 'power2.out',
-        duration: 0.45
-      }, 0.7)
+
+      // Fade in and slide up text only after background is fully zoomed in
+      tl.fromTo(textRef.current, 
+        { opacity: 0, y: 30, scale: 0.95 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          scale: 1,
+          ease: 'power2.out',
+          duration: 0.5 
+        }, 
+        1.0
+      )
 
     }, containerRef)
 
@@ -145,7 +147,7 @@ const PolaroidParallax = ({ isLoaded }) => {
           {/* Picture shadow mask overlay */}
           <div 
             ref={overlayRef}
-            className="absolute inset-0 bg-brand-cream opacity-[0.15] z-10 pointer-events-none" 
+            className="absolute inset-0 bg-brand-dark opacity-[0.15] z-10 pointer-events-none" 
           />
 
           {/* Centered Photograph of Village Women */}
@@ -156,11 +158,17 @@ const PolaroidParallax = ({ isLoaded }) => {
           />
         </div>
 
-        {/* Sticky Center Title - Always bold, white, and centered on top of card */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none select-none">
-          <h2 className="font-serif font-black text-[8vw] md:text-[6vw] text-brand-white leading-[0.9] tracking-tight uppercase drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)] text-center max-w-5xl px-4 transform-gpu">
-            OUR COMMUNITY
+        {/* Sticky Center Content - Animates to full opacity when card is fully zoomed in */}
+        <div 
+          ref={textRef}
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none select-none max-w-5xl mx-auto px-6 text-center transform-gpu opacity-0"
+        >
+          <h2 className="font-serif font-black text-[7vw] sm:text-[6vw] md:text-[4.5vw] text-brand-cream leading-[1.1] tracking-tight uppercase drop-shadow-[0_4px_20px_rgba(0,0,0,0.85)] mb-4 md:mb-6 max-w-3xl">
+            Our Commitment
           </h2>
+          <p className="font-sans text-[3.5vw] sm:text-[2.6vw] md:text-[1.5vw] lg:text-[1.25vw] text-brand-white/95 leading-relaxed font-light drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] max-w-2xl px-4 md:px-0">
+            We do not believe in fleeting shadows or temporary fixes. Our commitment is to sow seeds of quiet resilience in the soil of every community we join. We pledge to listen to the silent needs of the grassroots, weaving education, health, and independence into a legacy that stands long after we are gone nurturing growth that belongs entirely to the people.
+          </p>
         </div>
 
         {/* Section Header */}
@@ -174,7 +182,6 @@ const PolaroidParallax = ({ isLoaded }) => {
 
         {/* Minimal Typographic wood-carved framed introduction (positioned at bottom) */}
         <div 
-          ref={introRef}
           className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex justify-center p-4 pointer-events-none opacity-0"
         >
           <div className="border-2 border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-cream/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-dark pointer-events-auto">

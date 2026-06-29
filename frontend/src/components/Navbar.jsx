@@ -15,14 +15,22 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
       setIsScrolled(window.scrollY > 50)
       
       const ourImpactEl = document.getElementById('our-impact')
+      const journeyEl = document.getElementById('journey')
+      
+      let isOverImpact = false
+      let isOverJourney = false
+
       if (ourImpactEl) {
         const rect = ourImpactEl.getBoundingClientRect()
-        // Hide navbar when our-impact is covering the screen/top portion
-        const isOverImpact = rect.top <= 80 && rect.bottom >= 80
-        setIsNavbarHidden(isOverImpact)
-      } else {
-        setIsNavbarHidden(false)
+        isOverImpact = rect.top <= 80 && rect.bottom >= 80
       }
+
+      if (journeyEl) {
+        const rect = journeyEl.getBoundingClientRect()
+        isOverJourney = rect.top <= 80 && rect.bottom >= 80
+      }
+
+      setIsNavbarHidden(isOverImpact || isOverJourney)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -176,7 +184,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   }
 
   const menuItems = [
-    { label: 'about us', id: 'philosophy' },
+    { label: 'our approach', id: 'philosophy' },
     { label: 'our programs', id: 'journey' },
     { label: 'our impact', id: 'our-impact' },
     { label: 'meet the team', id: 'team' },

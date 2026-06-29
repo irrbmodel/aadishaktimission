@@ -10,7 +10,7 @@ const StoryNavigator = ({ isLoaded }) => {
   const chapters = [
     { id: 'hero', title: 'Vision', num: '01' },
     { id: 'polaroid-transition', title: 'Community', num: '02' },
-    { id: 'philosophy', title: 'About Us', num: '03' },
+    { id: 'philosophy', title: 'Our Approach', num: '03' },
     { id: 'philosophy-snapshots', title: 'Snapshots', num: '04' },
     { id: 'journey', title: 'Programs', num: '05' },
     { id: 'gallery', title: 'Archive', num: '06' },

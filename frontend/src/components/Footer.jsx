@@ -40,7 +40,7 @@ const Footer = ({ view, setView }) => {
               EXPLORE
             </h3>
             {[
-              { label: 'about us', id: 'philosophy' },
+              { label: 'our approach', id: 'philosophy' },
               { label: 'our programs', id: 'journey' },
               { label: 'our impact', id: 'our-impact' },
               { label: 'meet the team', id: 'team' },
