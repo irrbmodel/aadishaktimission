@@ -77,20 +77,12 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
   const [memberErrors, setMemberErrors] = useState({})
   const [selectedTierPreview, setSelectedTierPreview] = useState('advocate')
 
-  const [donationForm, setDonationForm] = useState({ name: '', phone: '', amount: '1500' })
+  const [donationForm, setDonationForm] = useState({ name: '', phone: '', email: '', amount: '1500' })
   const [selectedChip, setSelectedChip] = useState('1500')
   const [donationErrors, setDonationErrors] = useState({})
   const [selectedCategory, setSelectedCategory] = useState('general')
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState('upi')
-  const [upiId, setUpiId] = useState('')
-  const [cardNumber, setCardNumber] = useState('')
-  const [cardExpiry, setCardExpiry] = useState('')
-  const [cardCvv, setCardCvv] = useState('')
-  const [cardName, setCardName] = useState('')
-  const [paymentStep, setPaymentStep] = useState('form')
-  const [processingStatus, setProcessingStatus] = useState('')
+
 
   const membershipTiers = [
     {
@@ -179,34 +171,20 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
     const errs = {}
     if (!donationForm.name.trim()) errs.name = 'Name is required'
     if (!donationForm.phone.trim()) errs.phone = 'Phone is required'
+    if (!donationForm.email.trim()) errs.email = 'Email address is required'
     const amt = parseFloat(donationForm.amount)
     if (isNaN(amt) || amt < 100) errs.amount = 'Minimum donation is ₹100'
     if (Object.keys(errs).length > 0) { setDonationErrors(errs); return }
-    setUpiId(''); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(donationForm.name)
-    setPaymentStep('form'); setIsDrawerOpen(true)
+    if (onProceed) {
+      onProceed({
+        donorName: donationForm.name,
+        donorEmail: donationForm.email,
+        amount: amt,
+        category: selectedCategory
+      })
+    }
   }
 
-  const handleCardNumberChange = (e) => {
-    let v = e.target.value.replace(/\D/g, '').slice(0, 16)
-    setCardNumber(v.replace(/(\d{4})/g, '$1 ').trim())
-  }
-
-  const handleExpiryChange = (e) => {
-    let v = e.target.value.replace(/\D/g, '').slice(0, 4)
-    if (v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2)
-    setCardExpiry(v)
-  }
-
-  const handlePayNow = (e) => {
-    e.preventDefault()
-    setPaymentStep('processing')
-    const steps = ['Establishing secure SSL gateway...', 'Validating transaction token...', 'Authorizing payment...', 'Generating 80G receipt...']
-    let i = 0; setProcessingStatus(steps[0])
-    const iv = setInterval(() => {
-      if (i < steps.length - 1) { i++; setProcessingStatus(steps[i]) }
-      else { clearInterval(iv); setPaymentStep('success') }
-    }, 900)
-  }
 
   // ─── MEMBERSHIP PAGE ────────────────────────────────────────────────────────
   if (mode === 'membership') {
@@ -658,6 +636,17 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
                       }}
                       error={donationErrors.phone}
                     />
+                    <FloatInput
+                      label="Email Address"
+                      type="email"
+                      name="donorEmail"
+                      value={donationForm.email}
+                      onChange={(e) => {
+                        setDonationForm(prev => ({ ...prev, email: e.target.value }))
+                        if (donationErrors.email) setDonationErrors(prev => ({ ...prev, email: '' }))
+                      }}
+                      error={donationErrors.email}
+                    />
 
                     {/* 80G Notice */}
                     <div className="flex items-start gap-3 p-4 rounded-2xl border border-emerald-500/20 bg-emerald-50/50">
@@ -692,174 +681,7 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
           </div>
         </div>
 
-        {/* ─── Payment Drawer ─────────────────────────────────────────────────── */}
-        <AnimatePresence>
-          {isDrawerOpen && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsDrawerOpen(false)}
-                className="fixed inset-0 z-9998 bg-brand-dark/50 backdrop-blur-sm cursor-pointer"
-              />
-              <motion.div
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ type: 'spring', stiffness: 280, damping: 30 }}
-                className="fixed top-0 right-0 h-full w-full max-w-md z-9999 bg-brand-white border-l border-brand-dark/8 flex flex-col overflow-hidden shadow-2xl"
-              >
-                {/* Drawer Header */}
-                <div className="p-6 border-b border-brand-dark/6 flex items-center justify-between bg-brand-cream/40">
-                  <div>
-                    <h3 className="font-serif text-xl font-bold tracking-tight uppercase text-brand-dark">Secure Checkout</h3>
-                    <span className="font-sans text-[8px] font-black tracking-widest text-brand-skyblue uppercase block mt-0.5">Direct Aid Interface</span>
-                  </div>
-                  <button
-                    onClick={() => setIsDrawerOpen(false)}
-                    className="font-sans text-[9px] font-extrabold uppercase tracking-widest text-brand-grey hover:text-brand-red cursor-pointer py-1.5 px-4 border border-brand-dark/10 rounded-full hover:bg-brand-red/5 transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
 
-                <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
-                  {/* Summary */}
-                  <div className="bg-brand-skyblue/6 border border-brand-skyblue/15 rounded-2xl p-5">
-                    <span className="font-sans text-[8px] font-black tracking-wider text-brand-grey uppercase block mb-3">Contribution Summary</span>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-sans text-xs text-brand-grey">Donor: {donationForm.name}</span>
-                      <span className="font-serif text-2xl font-bold text-brand-dark">₹{donationForm.amount}</span>
-                    </div>
-                    <p className="font-sans text-[10px] text-brand-grey leading-relaxed border-t border-brand-dark/6 pt-2 mt-1">
-                      {getImpactCopy(donationForm.amount)}
-                    </p>
-                  </div>
-
-                  {paymentStep === 'form' && (
-                    <form onSubmit={handlePayNow} className="flex flex-col gap-6">
-                      {/* Method Tabs */}
-                      <div className="grid grid-cols-2 gap-2">
-                        {[{ id: 'upi', label: '📱 UPI / Apps' }, { id: 'card', label: '💳 Card' }].map(m => (
-                          <button
-                            key={m.id}
-                            type="button"
-                            onClick={() => setPaymentMethod(m.id)}
-                            className={`py-3 rounded-xl font-sans font-bold text-xs uppercase cursor-pointer border transition-all ${
-                              paymentMethod === m.id
-                                ? 'bg-brand-dark border-brand-dark text-brand-cream'
-                                : 'bg-brand-cream border-brand-dark/10 text-brand-dark hover:border-brand-dark/25'
-                            }`}
-                          >
-                            {m.label}
-                          </button>
-                        ))}
-                      </div>
-
-                      {paymentMethod === 'upi' ? (
-                        <div className="flex flex-col gap-4">
-                          <div className="grid grid-cols-3 gap-2">
-                            {['Google Pay', 'PhonePe', 'Paytm'].map(app => (
-                              <button
-                                key={app}
-                                type="button"
-                                onClick={() => setUpiId(`${donationForm.phone}@${app === 'Paytm' ? 'paytm' : app === 'PhonePe' ? 'ybl' : 'okaxis'}`)}
-                                className="py-2.5 rounded-xl border border-brand-dark/8 text-[10px] font-sans text-brand-grey hover:text-brand-dark hover:border-brand-dark/20 bg-brand-cream transition-all font-bold"
-                              >
-                                {app}
-                              </button>
-                            ))}
-                          </div>
-                          <div className="relative">
-                            <input
-                              type="text"
-                              required
-                              value={upiId}
-                              onChange={(e) => setUpiId(e.target.value)}
-                              placeholder="Enter UPI ID (VPA)"
-                              className="w-full h-12 px-4 rounded-xl border border-brand-dark/10 bg-brand-cream/50 font-sans text-sm text-brand-dark focus:outline-none focus:border-brand-red/30"
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col gap-4">
-                          <div className="relative">
-                            <input type="text" required maxLength={19} value={cardNumber} onChange={handleCardNumberChange} placeholder="Card Number" className="w-full h-12 px-4 rounded-xl border border-brand-dark/10 bg-brand-cream/50 font-mono text-sm text-brand-dark focus:outline-none focus:border-brand-red/30" />
-                          </div>
-                          <div className="grid grid-cols-2 gap-3">
-                            <input type="text" required maxLength={5} value={cardExpiry} onChange={handleExpiryChange} placeholder="MM / YY" className="h-12 px-4 rounded-xl border border-brand-dark/10 bg-brand-cream/50 font-mono text-sm text-brand-dark focus:outline-none focus:border-brand-red/30" />
-                            <input type="password" required maxLength={3} value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))} placeholder="CVV" className="h-12 px-4 rounded-xl border border-brand-dark/10 bg-brand-cream/50 font-mono text-sm text-brand-dark focus:outline-none focus:border-brand-red/30" />
-                          </div>
-                          <input type="text" required value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder="Cardholder Name" className="h-12 px-4 rounded-xl border border-brand-dark/10 bg-brand-cream/50 font-sans text-sm text-brand-dark focus:outline-none focus:border-brand-red/30" />
-                        </div>
-                      )}
-
-                      <button type="submit" className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg">
-                        🔒 Pay ₹{donationForm.amount} Securely
-                      </button>
-                      <div className="flex justify-center gap-3 text-brand-grey/50 text-[9px] font-sans">
-                        <span>✓ SSL Encrypted</span><span>•</span><span>✓ 80G Eligible</span>
-                      </div>
-                    </form>
-                  )}
-
-                  {paymentStep === 'processing' && (
-                    <div className="flex-1 flex flex-col items-center justify-center gap-6 py-16">
-                      <div className="w-14 h-14 rounded-full border-2 border-brand-red/20 border-t-brand-red animate-spin" />
-                      <div className="text-center">
-                        <span className="font-sans text-[10px] font-black text-brand-grey uppercase tracking-widest animate-pulse block mb-2">
-                          Processing Transaction
-                        </span>
-                        <p className="font-sans text-xs text-brand-grey max-w-xs leading-relaxed">{processingStatus}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {paymentStep === 'success' && (
-                    <div className="flex-1 flex flex-col items-center justify-center gap-8 py-8 text-center">
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-                        className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-500/20 text-emerald-600 flex items-center justify-center shadow-lg"
-                      >
-                        <svg className="w-8 h-8 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                        </svg>
-                      </motion.div>
-                      <div>
-                        <h3 className="font-serif text-2xl uppercase tracking-tight font-bold mb-2 text-brand-dark">Donation Received</h3>
-                        <p className="font-sans text-xs text-brand-grey max-w-xs leading-relaxed">
-                          Thank you, {donationForm.name}. Your contribution has cleared our secure gateway.
-                        </p>
-                      </div>
-                      <div className="w-full bg-brand-cream border border-brand-dark/6 p-5 rounded-2xl flex flex-col gap-3 text-xs text-left">
-                        <span className="font-sans text-[8px] font-black tracking-widest text-brand-grey uppercase block mb-1">Transaction Receipt</span>
-                        {[
-                          { label: 'Transaction ID', value: `TXN_DON_${Math.floor(100000 + Math.random() * 900000)}`, mono: true },
-                          { label: 'Funds Allocated', value: `₹${donationForm.amount}` },
-                          { label: 'Tax Receipt', value: '80G Generated', green: true }
-                        ].map((row) => (
-                          <div key={row.label} className="flex justify-between items-center border-b border-brand-dark/5 pb-2 last:border-0 last:pb-0">
-                            <span className="font-sans text-brand-grey text-[10px] uppercase tracking-wider">{row.label}</span>
-                            <span className={`font-bold text-[10px] ${row.mono ? 'font-mono text-brand-dark' : row.green ? 'text-emerald-600' : 'text-brand-dark'}`}>{row.value}</span>
-                          </div>
-                        ))}
-                      </div>
-                      <button
-                        onClick={() => setIsDrawerOpen(false)}
-                        className="w-full py-3.5 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
       </div>
     )
   }
