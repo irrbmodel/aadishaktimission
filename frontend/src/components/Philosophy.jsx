@@ -64,8 +64,8 @@ const Philosophy = ({ isLoaded }) => {
       return (
         <span 
           key={`p1-${idx}`} 
-          className={`reveal-word-p1 inline-block mr-[0.25em] transition-colors duration-500 ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.15 }}
+          className={`reveal-word-p1 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.08, filter: "blur(6px)", transform: "translateY(12px)" }}
         >
           {word}
         </span>
@@ -82,8 +82,8 @@ const Philosophy = ({ isLoaded }) => {
       return (
         <span 
           key={`p2-${idx}`} 
-          className={`reveal-word-p2 inline-block mr-[0.25em] transition-colors duration-500 ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.15 }}
+          className={`reveal-word-p2 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.08, filter: "blur(6px)", transform: "translateY(12px)" }}
         >
           {word}
         </span>
@@ -91,7 +91,7 @@ const Philosophy = ({ isLoaded }) => {
     })
   }
 
-  // 1. Scroll reveal for the centered Philosophy text layout
+  // 1. Scroll reveal for the centered Philosophy text layout (Mist Reveal Effect)
   useEffect(() => {
     if (!isLoaded) return
 
@@ -106,18 +106,22 @@ const Philosophy = ({ isLoaded }) => {
         }
       })
 
-      // Stagger paragraph 1 words from opacity 0.15 to 1.0
+      // Stagger paragraph 1 words - smoothly fading in, clearing blur, and sliding up
       tl.to(".reveal-word-p1", {
         opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
         stagger: 0.015,
-        ease: "none"
+        ease: "power1.out"
       })
 
-      // Stagger paragraph 2 words from opacity 0.15 to 1.0 after paragraph 1 finishes
+      // Stagger paragraph 2 words after paragraph 1 finishes
       tl.to(".reveal-word-p2", {
         opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
         stagger: 0.025,
-        ease: "none"
+        ease: "power1.out"
       }, "+=0.05")
 
       // Fade in the footer small text at the end
