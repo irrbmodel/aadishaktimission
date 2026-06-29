@@ -127,7 +127,7 @@ const PolaroidParallax = ({ isLoaded }) => {
   }, [isLoaded])
 
   return (
-    <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-cream">
+    <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-cream z-10">
 
       {/* Viewport content wrapper */}
       <div className="relative w-full h-full overflow-hidden flex items-center justify-center">

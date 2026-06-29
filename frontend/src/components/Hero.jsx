@@ -1,5 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Hero = ({ isLoaded, onJoinNow }) => {
   const containerRef = useRef(null)
@@ -36,18 +39,74 @@ const Hero = ({ isLoaded, onJoinNow }) => {
         }
       )
 
-      // 3. Parallax scroll effect on text column
-      if (textRef.current) {
-        gsap.to(textRef.current, {
-          yPercent: -12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
+      // 3. Sticky Stack Pin & Shrink/Fade Out on scroll
+      const hero = containerRef.current
+      const polaroid = document.getElementById('polaroid-transition')
+      
+      if (hero && polaroid) {
+        // Pin the hero section until polaroid hits the top of the viewport
+        ScrollTrigger.create({
+          trigger: hero,
+          start: "top top",
+          endTrigger: polaroid,
+          end: "top top",
+          pin: true,
+          pinSpacing: false,
+          onRefresh: (self) => {
+            if (self.spacer) {
+              self.spacer.style.zIndex = "0"
+            }
           }
         })
+
+        // Scrub animation for the hero contents
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: hero,
+            start: "top top",
+            endTrigger: polaroid,
+            end: "top top",
+            scrub: true,
+            invalidateOnRefresh: true
+          }
+        })
+
+        // Query video and overlay
+        const video = hero.querySelector('video')
+        const overlay = hero.querySelector('.absolute.inset-0.bg-linear-to-t')
+
+        if (video) {
+          tl.to(video, {
+            scale: 0.92,
+            filter: "blur(6px)",
+            opacity: 0.35,
+            ease: 'none'
+          }, 0)
+        }
+
+        if (overlay) {
+          tl.to(overlay, {
+            opacity: 0.9,
+            ease: 'none'
+          }, 0)
+        }
+
+        if (textRef.current) {
+          tl.to(textRef.current, {
+            opacity: 0,
+            yPercent: -45,
+            scale: 0.96,
+            ease: 'none'
+          }, 0)
+        }
+
+        if (welcomeRef.current) {
+          tl.to(welcomeRef.current, {
+            opacity: 0,
+            xPercent: -30,
+            ease: 'none'
+          }, 0)
+        }
       }
     }, containerRef)
 

@@ -180,41 +180,6 @@ const App = () => {
         const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
         if (!isDesktop) return
         
-        // 1. Hero Exit -> Polaroid enters
-        const hero = document.getElementById('hero')
-        const polaroid = document.getElementById('polaroid-transition')
-        if (hero && polaroid) {
-          const textCol = hero.querySelector('.lg\\:col-span-7')
-          const imgCol = hero.querySelector('.lg\\:col-span-5')
-          
-          if (textCol) {
-            gsap.to(textCol, {
-              opacity: 0,
-              y: -80,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: polaroid,
-                start: 'top bottom',
-                end: 'top top',
-                scrub: true
-              }
-            })
-          }
-          if (imgCol) {
-            gsap.to(imgCol, {
-              opacity: 0,
-              scale: 0.85,
-              rotation: -5,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: polaroid,
-                start: 'top bottom',
-                end: 'top top',
-                scrub: true
-              }
-            })
-          }
-        }
 
         // 2. Polaroid Exit -> Philosophy enters
         const philosophy = document.getElementById('philosophy')
