@@ -124,7 +124,7 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
         <div
           key={i}
           ref={(el) => (panelsRef.current[i] = el)}
-          className="absolute top-0 h-full w-[20.2%] bg-[#0a0908] border-r border-[#1c1a17] flex flex-col justify-end"
+          className="absolute top-0 h-full w-[20.2%] bg-brand-dark border-r border-brand-cream/20 flex flex-col justify-end"
           style={{
             left: `${i * 20}%`,
             transform: 'translateY(-100%)',
@@ -142,10 +142,10 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
         className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 opacity-0 transform-gpu"
       >
         {/* Subtle glowing halo ring behind logo */}
-        <div className="absolute w-36 h-36 rounded-full bg-brand-red/10 blur-xl pointer-events-none animate-pulse" />
+        <div className="absolute w-48 h-48 rounded-full bg-brand-red/10 blur-xl pointer-events-none animate-pulse" />
 
         {/* Circular Logo Outline */}
-        <div className="relative w-20 h-20 rounded-full overflow-hidden border border-brand-cream/15 mb-4.5 shadow-2xl flex items-center justify-center bg-black">
+        <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-brand-cream/15 mb-6 shadow-2xl flex items-center justify-center bg-brand-cream">
           <img
             src="/logo.jpg"
             alt="Aadi Shakti Logo"
@@ -154,12 +154,12 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
         </div>
 
         {/* Brand Name */}
-        <h2 className="font-serif text-3xl md:text-4xl text-brand-cream tracking-[0.06em] font-bold mb-1 shadow-xs">
+        <h2 className="font-serif text-5xl md:text-6xl text-brand-cream tracking-[0.06em] font-bold mb-2 shadow-xs">
           Aadi Shakti
         </h2>
 
         {/* Subtitle */}
-        <span className="font-sans text-[9px] font-black tracking-[0.4em] text-brand-red uppercase">
+        <span className="font-sans text-[12px] md:text-[14px] font-black tracking-[0.4em] text-white uppercase">
           mission
         </span>
       </div>

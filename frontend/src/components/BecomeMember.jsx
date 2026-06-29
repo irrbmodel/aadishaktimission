@@ -183,7 +183,7 @@ const BecomeMember = ({ isLoaded, onProceed }) => {
 
               <button
                 type="submit"
-                className="w-full mt-4 py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-dark text-brand-cream transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                className="w-full mt-4 py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-cream text-brand-cream hover:text-brand-dark transition-all flex items-center justify-center gap-2 group cursor-pointer"
                 data-cursor="pointer"
               >
                 <span>Proceed</span>

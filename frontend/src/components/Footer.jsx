@@ -41,8 +41,8 @@ const Footer = ({ view, setView }) => {
             </h3>
             {[
               { label: 'about us', id: 'philosophy' },
-              { label: 'our programs', id: 'pillars' },
-              { label: 'our values', id: 'journey' },
+              { label: 'our programs', id: 'journey' },
+              { label: 'our impact', id: 'our-impact' },
               { label: 'meet the team', id: 'team' },
               { label: 'contribute', id: 'donation-impact' }
             ].map((link) => (

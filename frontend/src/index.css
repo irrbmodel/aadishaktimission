@@ -13,12 +13,12 @@
   --font-display: "Outfit", sans-serif;
   --font-serif: "Gilda Display", serif;
   
-  --color-brand-red: #9B0000;
-  --color-brand-cream: #FFFBF2;
-  --color-brand-dark: #0a0a0a;
+  --color-brand-red: #012b26;
+  --color-brand-cream: #FFF8D6;
+  --color-brand-dark: #013e37;
   --color-brand-white: #FFFFFF;
-  --color-brand-grey: #666666;
-  --color-brand-light-grey: #E5DEC9;
+  --color-brand-grey: #026358;
+  --color-brand-light-grey: #F0E6A1;
   --color-brand-skyblue: #6fb9d9;
 
   --animate-pulse-subtle: pulse-subtle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -26,11 +26,11 @@
   @keyframes pulse-subtle {
     0%, 100% {
       transform: scale(1);
-      filter: drop-shadow(0 0 15px rgba(255, 238, 191, 0.15)) brightness(1);
+      filter: drop-shadow(0 0 15px rgba(1, 62, 55, 0.15)) brightness(1);
     }
     50% {
       transform: scale(1.02);
-      filter: drop-shadow(0 0 35px rgba(255, 238, 191, 0.45)) brightness(1.06);
+      filter: drop-shadow(0 0 35px rgba(1, 62, 55, 0.45)) brightness(1.06);
     }
   }
 }

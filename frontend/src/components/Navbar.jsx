@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
-const Navbar = ({ isLoaded, view, setView }) => {
+const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isNavbarHidden, setIsNavbarHidden] = useState(false)
   const menuRef = useRef(null)
   const linksRef = useRef([])
   const imageRef = useRef(null)
@@ -12,6 +13,16 @@ const Navbar = ({ isLoaded, view, setView }) => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
+      
+      const ourImpactEl = document.getElementById('our-impact')
+      if (ourImpactEl) {
+        const rect = ourImpactEl.getBoundingClientRect()
+        // Hide navbar when our-impact is covering the screen/top portion
+        const isOverImpact = rect.top <= 80 && rect.bottom >= 80
+        setIsNavbarHidden(isOverImpact)
+      } else {
+        setIsNavbarHidden(false)
+      }
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -144,11 +155,11 @@ const Navbar = ({ isLoaded, view, setView }) => {
     setIsOpen(false)
     
     if (targetId === 'become-member') {
-      if (setView) setView('become-member')
+      if (onGetInvolvedClick) onGetInvolvedClick('membership')
       return
     }
     if (targetId === 'donation-impact') {
-      if (setView) setView('donation')
+      if (onGetInvolvedClick) onGetInvolvedClick('donation')
       return
     }
     
@@ -166,8 +177,8 @@ const Navbar = ({ isLoaded, view, setView }) => {
 
   const menuItems = [
     { label: 'about us', id: 'philosophy' },
-    { label: 'our programs', id: 'pillars' },
-    { label: 'our values', id: 'journey' },
+    { label: 'our programs', id: 'journey' },
+    { label: 'our impact', id: 'our-impact' },
     { label: 'meet the team', id: 'team' },
     { label: 'contact', id: 'footer' }
   ]
@@ -176,7 +187,11 @@ const Navbar = ({ isLoaded, view, setView }) => {
     <>
       <header 
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 px-4 sm:px-6 lg:px-12 flex justify-center ${
-          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8 pointer-events-none'
+          isNavbarHidden
+            ? 'opacity-0 -translate-y-full pointer-events-none'
+            : isLoaded
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-0 -translate-y-8 pointer-events-none'
         } ${isScrolled ? 'pt-4' : 'pt-6 md:pt-8'}`}
       >
         <div className={`w-full max-w-7xl flex items-center justify-between transition-all duration-700 ${
@@ -210,28 +225,18 @@ const Navbar = ({ isLoaded, view, setView }) => {
 
           <div className="flex items-center gap-4 md:gap-6">
             {/* CTA Buttons */}
-            <a
-              href="#contribute"
-              onClick={(e) => handleNavClick(e, 'donation-impact')}
-              className="hidden lg:inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-transparent border border-brand-dark/20 text-brand-dark font-sans text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-dark hover:text-brand-cream transition-all duration-300"
+            <button
+              onClick={() => onGetInvolvedClick && onGetInvolvedClick('donation')}
+              className="inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 rounded-full border border-transparent bg-brand-red text-brand-cream font-sans text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-cream hover:text-brand-dark hover:border-brand-dark transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
               data-cursor="pointer"
             >
-              Contribute
-            </a>
-            
-            <a
-              href="#become-member"
-              onClick={(e) => handleNavClick(e, 'become-member')}
-              className="hidden sm:inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-brand-red text-brand-cream font-sans text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-dark transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5"
-              data-cursor="pointer"
-            >
-              Become a Member
-            </a>
+              Get Involved
+            </button>
 
             {/* Premium Menu Trigger */}
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="relative w-12 h-12 flex flex-col justify-center items-center group focus:outline-none z-50 cursor-pointer rounded-full hover:bg-brand-dark/5 transition-colors"
+              className="relative w-12 h-12 flex flex-col justify-center items-center group focus:outline-none z-50 cursor-pointer rounded-full hover:bg-brand-cream/5 transition-colors"
               aria-label="Menu"
               data-cursor="pointer"
             >
@@ -248,7 +253,7 @@ const Navbar = ({ isLoaded, view, setView }) => {
                 />
                 <span 
                   className={`h-[1.5px] transition-all duration-500 origin-center ${
-                    isOpen ? 'bg-brand-red w-6 -rotate-45 translate-y-[-7.5px]' : 'bg-brand-dark w-6'
+                    isOpen ? 'bg-brand-red w-6 -rotate-45 -translate-y-[7px]' : 'bg-brand-dark w-5 group-hover:w-6'
                   }`} 
                 />
               </div>
@@ -310,7 +315,7 @@ const Navbar = ({ isLoaded, view, setView }) => {
                   <span className="font-sans text-[9px] font-bold text-brand-red uppercase tracking-widest mb-2">
                     Our Mission
                   </span>
-                  <p className="font-serif italic text-base md:text-lg text-brand-cream leading-snug">
+                  <p className="font-serif italic text-base md:text-lg text-brand-dark leading-snug">
                     Empowerment from the roots, reaching the highest peaks.
                   </p>
                 </div>

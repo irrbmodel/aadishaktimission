@@ -41,7 +41,7 @@ const SingleStat = ({ targetValue, label, suffix = '', prefix = '' }) => {
       </span>
       
       {/* Label */}
-      <span className="text-xs font-bold tracking-[0.2em] text-white/50 group-hover:text-white mt-4 uppercase text-center transition-colors">
+      <span className="text-xs font-bold tracking-[0.2em] text-brand-dark/50 group-hover:text-brand-dark mt-4 uppercase text-center transition-colors">
         {label}
       </span>
     </div>
@@ -77,7 +77,7 @@ const StatsCounter = () => {
     <section 
       id="stats"
       ref={containerRef}
-      className="stats-container relative w-full py-24 md:py-36 bg-brand-dark transition-colors duration-700 overflow-hidden border-b border-white/5"
+      className="stats-container relative w-full py-24 md:py-36 bg-brand-cream transition-colors duration-700 overflow-hidden border-b border-white/5"
     >
       {/* Decorative Blob */}
       <div className="absolute glowing-blob w-[450px] h-[450px] bg-brand-pink top-[-10%] right-[-10%] opacity-15" />
@@ -87,7 +87,7 @@ const StatsCounter = () => {
           <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">
             Our Scale of Action
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase mt-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-brand-dark uppercase mt-2">
             SHAKTI IN NUMBERS
           </h2>
           <p className="text-xs md:text-sm text-gray-400 max-w-md mt-4">

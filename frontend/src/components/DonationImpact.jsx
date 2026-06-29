@@ -180,7 +180,7 @@ const DonationImpact = ({ isLoaded, onProceedToDonation }) => {
                       className={`py-3 rounded-xl border text-xs font-bold font-display cursor-pointer transition-all duration-300 ${
                         donationAmount === val && !customAmount
                           ? 'border-brand-red bg-brand-red/5 text-brand-red scale-105 shadow-sm shadow-brand-red/5'
-                          : 'border-brand-dark/10 bg-brand-white hover:border-brand-red/30 text-brand-dark'
+                          : 'border-brand-dark/10 bg-brand-white hover:border-brand-red/30 text-brand-cream'
                       }`}
                       data-cursor="pointer"
                     >
@@ -256,7 +256,7 @@ const DonationImpact = ({ isLoaded, onProceedToDonation }) => {
               className="relative bg-brand-white border border-brand-dark/5 p-8 md:p-10 rounded-[32px] shadow-2xl flex flex-col gap-6 overflow-hidden min-h-[440px] justify-between"
             >
               {/* Payment terminal top banner */}
-              <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-dark" />
+              <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-cream" />
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-6 h-full justify-between">
                 <div className="flex flex-col gap-4">
@@ -328,7 +328,7 @@ const DonationImpact = ({ isLoaded, onProceedToDonation }) => {
                 <div className="flex flex-col gap-3 mt-4">
                   <button
                     type="submit"
-                    className="w-full py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-dark text-brand-cream hover:text-brand-cream transition-all duration-300 shadow-md shadow-brand-red/10 cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-red hover:bg-brand-cream text-brand-cream hover:text-brand-dark transition-all duration-300 shadow-md shadow-brand-red/10 cursor-pointer flex items-center justify-center gap-2"
                     data-cursor="pointer"
                   >
                     PROCEED TO PAYMENT — ₹{currentAmount}

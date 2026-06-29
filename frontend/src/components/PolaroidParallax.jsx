@@ -125,7 +125,7 @@ const PolaroidParallax = ({ isLoaded }) => {
   }, [isLoaded])
 
   return (
-    <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-dark">
+    <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-cream">
 
       {/* Viewport content wrapper */}
       <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
@@ -145,7 +145,7 @@ const PolaroidParallax = ({ isLoaded }) => {
           {/* Picture shadow mask overlay */}
           <div 
             ref={overlayRef}
-            className="absolute inset-0 bg-brand-dark opacity-[0.15] z-10 pointer-events-none" 
+            className="absolute inset-0 bg-brand-cream opacity-[0.15] z-10 pointer-events-none" 
           />
 
           {/* Centered Photograph of Village Women */}
@@ -177,7 +177,7 @@ const PolaroidParallax = ({ isLoaded }) => {
           ref={introRef}
           className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex justify-center p-4 pointer-events-none opacity-0"
         >
-          <div className="border-2 border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-dark/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-cream pointer-events-auto">
+          <div className="border-2 border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-cream/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-dark pointer-events-auto">
             
             {/* Traditional diamond Aipan corner accents */}
             <div className="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
@@ -194,16 +194,16 @@ const PolaroidParallax = ({ isLoaded }) => {
             </div>
 
             {/* Content */}
-            <p className="font-sans text-[11px] md:text-xs text-brand-cream/90 leading-relaxed font-light select-none max-w-md mt-4">
+            <p className="font-sans text-[11px] md:text-xs text-brand-dark/90 leading-relaxed font-light select-none max-w-md mt-4">
               Aadi Shakti Mission is rooted in the high mountain valleys of Uttarakhand. By backing local women cooperatives, setting up digital literacy hubs, and conserving Pahari craft traditions, we build models of absolute self-reliance for village communities.
             </p>
 
             {/* Scroll Indicator */}
             <div className="mt-4 flex flex-col items-center gap-1 select-none animate-bounce">
-              <span className="font-sans text-[7px] font-bold tracking-wider text-brand-cream/70 uppercase">
+              <span className="font-sans text-[7px] font-bold tracking-wider text-brand-dark/70 uppercase">
                 Keep scrolling to explore our philosophy
               </span>
-              <svg className="w-3.5 h-3.5 text-brand-cream/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 text-brand-dark/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </div>

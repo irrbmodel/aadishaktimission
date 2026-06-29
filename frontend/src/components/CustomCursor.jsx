@@ -98,14 +98,14 @@ const CustomCursor = () => {
   // Determine size & content based on custom state
   let cursorText = ''
   let ringClasses = 'w-6 h-6 -mt-3 -ml-3 border border-brand-dark/30 bg-transparent'
-  let dotClasses = 'w-1.5 h-1.5 -mt-0.75 -ml-0.75 bg-brand-dark'
+  let dotClasses = 'w-1.5 h-1.5 -mt-0.75 -ml-0.75 bg-brand-cream'
 
   if (cursorState === 'pointer') {
     ringClasses = 'w-10 h-10 -mt-5 -ml-5 border border-brand-red bg-brand-red/5 scale-110'
     dotClasses = 'w-1 h-1 -mt-0.5 -ml-0.5 bg-brand-red'
   } else if (cursorState === 'view') {
     cursorText = 'VIEW'
-    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-120'
+    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-cream text-brand-cream text-[9px] font-black tracking-widest scale-120'
     dotClasses = 'scale-0'
   } else if (cursorState === 'play') {
     cursorText = 'PLAY'
@@ -113,15 +113,15 @@ const CustomCursor = () => {
     dotClasses = 'scale-0'
   } else if (cursorState === 'prev') {
     cursorText = 'PREV'
-    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-120'
+    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-cream text-brand-dark text-[9px] font-black tracking-widest scale-120'
     dotClasses = 'scale-0'
   } else if (cursorState === 'next') {
     cursorText = 'NEXT'
-    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-120'
+    ringClasses = 'w-14 h-14 -mt-7 -ml-7 border-none bg-brand-cream text-brand-dark text-[9px] font-black tracking-widest scale-120'
     dotClasses = 'scale-0'
   } else if (cursorState === 'drag') {
     cursorText = 'DRAG'
-    ringClasses = 'w-12 h-12 -mt-6 -ml-6 border-none bg-brand-dark text-brand-cream text-[9px] font-black tracking-widest scale-110'
+    ringClasses = 'w-12 h-12 -mt-6 -ml-6 border-none bg-brand-cream text-brand-dark text-[9px] font-black tracking-widest scale-110'
     dotClasses = 'scale-0'
   }
 

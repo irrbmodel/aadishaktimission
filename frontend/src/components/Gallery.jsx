@@ -1,11 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import React, { useState } from 'react'
 
 const Gallery = () => {
-  const containerRef = useRef(null)
   const [activeFilter, setActiveFilter] = useState('all')
 
   const items = [
@@ -53,41 +48,6 @@ const Gallery = () => {
     }
   ]
 
-  useEffect(() => {
-    // Skip skew animation on touch devices to improve scrolling performance
-    const isHoverDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-    if (!isHoverDevice) return
-
-    // Scroll velocity skewing effect
-    let proxy = { skew: 0 }
-    const skewSetter = gsap.quickTo('.gallery-item-inner', 'skewY', { duration: 0.3, ease: 'power3' })
-    const clamp = gsap.utils.clamp(-6, 6) // limit skew to be subtle and aesthetic
-
-    const skewTrigger = ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: 'top bottom',
-      end: 'bottom top',
-      onUpdate: (self) => {
-        const skew = clamp(self.getVelocity() / -450)
-        // only apply if it's larger than the current skew to prevent jitters
-        if (Math.abs(skew) > Math.abs(proxy.skew)) {
-          proxy.skew = skew
-          gsap.to(proxy, {
-            skew: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-            overwrite: 'auto',
-            onUpdate: () => skewSetter(proxy.skew)
-          })
-        }
-      }
-    })
-
-    return () => {
-      skewTrigger.kill()
-    }
-  }, [activeFilter]) // Recreate trigger when grid items re-render from filter change
-
   const filteredItems = activeFilter === 'all' 
     ? items 
     : items.filter(item => item.category === activeFilter)
@@ -95,19 +55,18 @@ const Gallery = () => {
   return (
     <section 
       id="gallery"
-      ref={containerRef}
-      className="relative w-full min-h-screen bg-brand-dark border-b border-white/5 flex flex-col pt-32 pb-48"
+      className="relative z-10 w-full min-h-screen bg-brand-cream flex flex-col pt-32 pb-32"
     >
       {/* Decorative Blob */}
-      <div className="absolute glowing-blob w-[450px] h-[450px] bg-brand-orange bottom-[20%] right-[-10%] opacity-10" />
+      <div className="absolute glowing-blob w-[450px] h-[450px] bg-brand-orange bottom-[20%] right-[-10%] opacity-10 pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         {/* Section Header */}
-        <div className="w-full flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+        <div className="w-full flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
           <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
             07 / Visual Archive
           </span>
-          <span className="font-serif italic text-xs text-white/50">
+          <span className="font-serif italic text-xs text-brand-dark/50">
             Shakti in Action
           </span>
         </div>
@@ -118,13 +77,13 @@ const Gallery = () => {
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-orange">
               Our Visual Archive
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white uppercase mt-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-brand-dark uppercase mt-2">
               SHAKTI IN ACTION
             </h2>
           </div>
 
           {/* Filter Bar */}
-          <div className="flex flex-wrap gap-2 bg-white/5 p-1 border border-white/5 rounded-full overflow-x-auto max-w-full">
+          <div className="flex flex-wrap gap-2 bg-brand-dark/5 p-1 border border-brand-dark/5 rounded-full overflow-x-auto max-w-full">
             {[
               { id: 'all', label: 'All Projects' },
               { id: 'education', label: 'Education' },
@@ -137,10 +96,9 @@ const Gallery = () => {
                 onClick={() => setActiveFilter(filter.id)}
                 className={`px-5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ${
                   activeFilter === filter.id 
-                    ? 'bg-white text-black font-black shadow-md shadow-white/20' 
-                    : 'text-white hover:bg-white/10'
+                    ? 'bg-brand-dark text-brand-cream font-black shadow-md shadow-brand-dark/20' 
+                    : 'text-brand-dark hover:bg-brand-dark/10'
                 }`}
-                data-cursor="pointer"
               >
                 {filter.label}
               </button>
@@ -153,33 +111,27 @@ const Gallery = () => {
           {filteredItems.map((item) => (
             <div 
               key={item.id}
-              className={`gallery-item relative overflow-hidden rounded-3xl border border-white/10 group ${item.span}`}
+              className={`relative overflow-hidden rounded-3xl group shadow-sm hover:shadow-xl transition-shadow duration-300 ${item.span}`}
             >
-              {/* Inner container to apply the velocity skewing */}
-              <div 
-                className="gallery-item-inner w-full h-full relative"
-                data-cursor="view"
-              >
-                {/* Background Dim Shadow overlay */}
-                <div className="absolute inset-0 bg-linear-to-t from-brand-indigo/80 via-transparent to-transparent opacity-60 group-hover:opacity-85 z-10 transition-opacity duration-300 pointer-events-none" />
+              {/* Background Dim Shadow overlay */}
+              <div className="absolute inset-0 bg-linear-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-60 group-hover:opacity-80 z-10 transition-opacity duration-300 pointer-events-none" />
 
-                {/* Cover Image */}
-                <img 
-                  src={item.image} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-700 ease-out"
-                />
+              {/* Cover Image */}
+              <img 
+                src={item.image} 
+                alt={item.title} 
+                className="w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
 
-                {/* Text Details overlay */}
-                <div className="absolute bottom-6 left-6 right-6 z-20 md:translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out flex items-end justify-between">
-                  <div>
-                    <h3 className="text-xl md:text-2xl font-display font-black text-white mt-1 uppercase">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white md:scale-0 group-hover:scale-100 group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-brand-dark transition-all duration-300">
-                    <span className="text-xs font-black">→</span>
-                  </div>
+              {/* Text Details overlay */}
+              <div className="absolute bottom-6 left-6 right-6 z-20 md:translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out flex items-end justify-between">
+                <div>
+                  <h3 className="text-xl md:text-2xl font-display font-black text-white mt-1 uppercase">
+                    {item.title}
+                  </h3>
+                </div>
+                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white md:scale-0 group-hover:scale-100 group-hover:border-brand-orange group-hover:bg-brand-orange group-hover:text-brand-dark transition-all duration-300">
+                  <span className="text-xs font-black">→</span>
                 </div>
               </div>
             </div>

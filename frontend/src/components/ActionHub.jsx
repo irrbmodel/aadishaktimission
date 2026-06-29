@@ -313,7 +313,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                           }`}>{tier.price}</div>
                           {selectedTierPreview === tier.id && (
                             <div className="w-4 h-4 rounded-full bg-brand-red flex items-center justify-center ml-auto mt-1.5">
-                              <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-2.5 h-2.5 text-brand-dark" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
                               </svg>
                             </div>
@@ -360,19 +360,19 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-brand-dark/6">
                 <div className="relative bg-brand-dark px-8 py-8 overflow-hidden">
-                  <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-brand-red/20 blur-3xl" />
-                  <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-amber-500/8 blur-2xl" />
+                  <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-brand-cream/5 blur-3xl" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-brand-cream/5 blur-2xl" />
                   <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-4">
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
-                      <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-cream/40">
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-cream animate-pulse" />
+                      <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-cream/60">
                         Step 1 of 2 · Basic Details
                       </span>
                     </div>
                     <h2 className="font-serif text-5xl text-brand-cream uppercase tracking-tight leading-[0.88]">
                       Join<br />Now
                     </h2>
-                    <p className="font-sans text-xs text-brand-cream/35 font-light mt-3 max-w-xs leading-relaxed">
+                    <p className="font-sans text-xs text-brand-cream/60 font-light mt-3 max-w-xs leading-relaxed">
                       Fill in your details to proceed to tier selection and membership checkout.
                     </p>
                   </div>
@@ -394,13 +394,13 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                       data-cursor="pointer"
                       className="group relative w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase overflow-hidden bg-brand-red text-brand-cream cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-brand-red/25 hover:-translate-y-0.5 mt-2"
                     >
-                      <span className="relative z-10 flex items-center justify-center gap-3">
+                      <span className="relative z-10 flex items-center justify-center gap-3 group-hover:text-brand-dark transition-colors duration-300">
                         Proceed to Membership
                         <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                         </svg>
                       </span>
-                      <div className="absolute inset-0 bg-brand-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-brand-cream opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </button>
 
                     <div className="flex items-center gap-2 justify-center">
@@ -419,7 +419,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
               <div className="mt-5 flex items-center gap-3 px-2">
                 <div className="flex -space-x-2">
                   {['#9B0000', '#1a1a1a', '#059669', '#D97706', '#2563EB'].map((color, i) => (
-                    <div key={i} className="w-7 h-7 rounded-full border-2 border-brand-cream flex items-center justify-center text-[7px] text-white font-bold" style={{ backgroundColor: color }}>
+                    <div key={i} className="w-7 h-7 rounded-full border-2 border-brand-cream flex items-center justify-center text-[7px] text-brand-dark font-bold" style={{ backgroundColor: color }}>
                       {['A', 'S', 'M', 'R', 'K'][i]}
                     </div>
                   ))}
@@ -573,7 +573,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                       <div className="font-sans text-[10px] text-brand-grey relative z-10">{chip.impact}</div>
                       {selectedChip === chip.value && (
                         <div className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-brand-red flex items-center justify-center">
-                          <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="w-2.5 h-2.5 text-brand-dark" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
                           </svg>
                         </div>
@@ -629,11 +629,11 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-brand-dark/6">
                 <div className="relative bg-brand-dark px-8 py-8 overflow-hidden">
-                  <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-brand-red/15 blur-3xl" />
+                  <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-brand-cream/5 blur-3xl" />
                   <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-4">
-                      <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
-                      <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-cream/40">
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-cream animate-pulse" />
+                      <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-cream/60">
                         Secure Donation Gateway
                       </span>
                     </div>
@@ -642,7 +642,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                     </h2>
                     <div className="mt-3 flex items-baseline gap-2">
                       <span className="font-serif text-3xl text-brand-cream font-bold">₹{donationForm.amount || '0'}</span>
-                      <span className="font-sans text-xs text-brand-cream/40">
+                      <span className="font-sans text-xs text-brand-cream/60">
                         → {categories.find(c => c.id === selectedCategory)?.label}
                       </span>
                     </div>
@@ -699,12 +699,12 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
                     <button
                       type="submit"
                       data-cursor="pointer"
-                      className="group relative w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase overflow-hidden bg-brand-dark text-brand-cream cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-brand-red/25 hover:-translate-y-0.5 mt-2"
+                      className="group relative w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase overflow-hidden bg-brand-red text-brand-cream cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-brand-red/25 hover:-translate-y-0.5 mt-2"
                     >
-                      <span className="relative z-10 flex items-center justify-center gap-2">
+                      <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-brand-dark transition-colors duration-300">
                         🔒 Proceed to Payment — ₹{donationForm.amount}
                       </span>
-                      <div className="absolute inset-0 bg-brand-red opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-brand-cream opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </button>
 
                     <div className="flex justify-center items-center gap-3 text-brand-grey/40 text-[9px] font-sans">

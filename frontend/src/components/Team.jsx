@@ -74,7 +74,7 @@ const Team = ({ isLoaded }) => {
   return (
     <section 
       id="team" 
-      className="relative w-full min-h-screen bg-brand-cream border-b border-brand-dark/5 flex flex-col pt-32 pb-48"
+      className="relative z-20 w-full min-h-screen bg-brand-cream border-b border-brand-dark/5 flex flex-col pt-32 pb-48"
     >
       {/* Decorative Blob */}
       <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/5 top-[10%] right-[-10%] opacity-20 pointer-events-none" />
@@ -146,7 +146,7 @@ const Team = ({ isLoaded }) => {
                   <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
                     activeMember === idx 
                       ? 'border-brand-red bg-brand-red text-brand-cream rotate-45 scale-110 shadow-md shadow-brand-red/10' 
-                      : 'border-brand-dark/15 text-brand-dark group-hover:border-brand-dark group-hover:bg-brand-dark group-hover:text-brand-cream'
+                      : 'border-brand-dark/15 text-brand-dark group-hover:border-brand-dark group-hover:bg-brand-cream group-hover:text-brand-dark'
                   }`}>
                     <svg className="w-3.5 h-3.5 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"></path>

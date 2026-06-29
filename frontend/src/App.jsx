@@ -12,15 +12,16 @@ import StoryNavigator from './components/StoryNavigator'
 import Hero from './components/Hero'
 import PolaroidParallax from './components/PolaroidParallax'
 import Philosophy from './components/Philosophy'
-import PillarsHorizontal from './components/PillarsHorizontal'
 import JourneyTimeline from './components/JourneyTimeline'
 import Gallery from './components/Gallery'
+import OurImpact from './components/OurImpact'
 import Team from './components/Team'
-import ActionHub from './components/ActionHub'
 import MembershipPayment from './components/MembershipPayment'
 import DonationPayment from './components/DonationPayment'
 import Footer from './components/Footer'
 import IntroAnimation from './components/IntroAnimation'
+import GetInvolvedSidePanel from './components/GetInvolvedSidePanel'
+import ProgramSidePanel from './components/ProgramSidePanel'
 
 // Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger)
@@ -31,6 +32,20 @@ const App = () => {
   const [view, setView] = useState('home') // 'home', 'become-member', 'donation', 'membership-payment', or 'donation-payment'
   const [membershipData, setMembershipData] = useState({ name: '', email: '', phone: '' })
   const [donationData, setDonationData] = useState({ donorName: '', donorEmail: '', amount: 0, category: 'general' })
+  const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
+  const [sidePanelMode, setSidePanelMode] = useState('donation')
+  const [isProgramPanelOpen, setIsProgramPanelOpen] = useState(false)
+  const [selectedProgramTitle, setSelectedProgramTitle] = useState(null)
+
+  const openProgramPanel = (title) => {
+    setSelectedProgramTitle(title)
+    setIsProgramPanelOpen(true)
+  }
+
+  const openSidePanel = (mode = 'donation') => {
+    setSidePanelMode(mode)
+    setIsSidePanelOpen(true)
+  }
 
   // Premium Page Transition States
   const [isTransitioning, setIsTransitioning] = useState(false)
@@ -151,9 +166,9 @@ const App = () => {
         document.getElementById('polaroid-transition'),
         document.getElementById('philosophy'),
         document.getElementById('philosophy-snapshots'),
-        document.getElementById('pillars'),
         document.getElementById('journey'),
         document.getElementById('gallery'),
+        document.getElementById('our-impact'),
         document.getElementById('team')
       ].filter(Boolean)
 
@@ -255,9 +270,9 @@ const App = () => {
           }
         }
 
-        // 4. Philosophy Snapshots Exit -> Pillars enters
-        const pillars = document.getElementById('pillars')
-        if (snapshots && pillars) {
+        // 4. Philosophy Snapshots Exit -> Journey enters
+        const journey = document.getElementById('journey')
+        if (snapshots && journey) {
           const sliderImg = snapshots.querySelector('.lg\\:col-span-7')
           const detailsPanel = snapshots.querySelector('.lg\\:col-span-5')
           
@@ -268,7 +283,7 @@ const App = () => {
               scale: 0.95,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: pillars,
+                trigger: journey,
                 start: 'top bottom',
                 end: 'top 40%',
                 scrub: true
@@ -281,29 +296,9 @@ const App = () => {
               yPercent: 15,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: pillars,
-                start: 'top bottom',
-                end: 'top 40%',
-                scrub: true
-              }
-            })
-          }
-        }
-
-        // 5. Pillars Exit -> Journey enters
-        const journey = document.getElementById('journey')
-        if (pillars && journey) {
-          const board = pillars.querySelector('.pillars-board')
-          if (board) {
-            gsap.to(board, {
-              opacity: 0,
-              yPercent: 12,
-              scale: 0.96,
-              ease: 'power1.inOut',
-              scrollTrigger: {
                 trigger: journey,
                 start: 'top bottom',
-                end: 'top top',
+                end: 'top 40%',
                 scrub: true
               }
             })
@@ -324,26 +319,6 @@ const App = () => {
                 trigger: gallery,
                 start: 'top bottom',
                 end: 'top top',
-                scrub: true
-              }
-            })
-          }
-        }
-
-        // 7. Gallery Exit -> Team enters
-        const team = document.getElementById('team')
-        if (gallery && team) {
-          const galleryItems = gallery.querySelectorAll('.gallery-item')
-          if (galleryItems.length) {
-            gsap.to(galleryItems, {
-              opacity: 0.1,
-              scale: 0.9,
-              stagger: 0.03,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: gallery,
-                start: 'bottom bottom',
-                end: 'bottom 30%',
                 scrub: true
               }
             })
@@ -370,6 +345,7 @@ const App = () => {
         isLoaded={isLoaded} 
         view={view} 
         setView={(v, targetSection) => navigateTo(v, v === 'home' ? 'Home' : v === 'donation' ? 'Donation' : 'Membership', targetSection)} 
+        onGetInvolvedClick={() => openSidePanel('donation')}
       />
 
       {/* Main Content & Footer Wrapper with Premium Fade & Scale Transitions */}
@@ -384,17 +360,17 @@ const App = () => {
       >
         {/* Main Content Sections */}
         {view === 'home' ? (
-          <main className="relative z-10 w-full bg-brand-cream overflow-x-hidden">
-            <Hero isLoaded={isLoaded} onJoinNow={() => navigateTo('become-member', 'Membership')} />
+          <main className="relative z-10 w-full bg-brand-cream overflow-clip">
+            <Hero isLoaded={isLoaded} onJoinNow={() => openSidePanel('membership')} />
             <PolaroidParallax isLoaded={isLoaded} />
             <Philosophy isLoaded={isLoaded} />
-            <PillarsHorizontal isLoaded={isLoaded} />
-            <JourneyTimeline isLoaded={isLoaded} />
+            <JourneyTimeline isLoaded={isLoaded} onOpenProgram={openProgramPanel} />
             <Gallery />
+            <OurImpact isLoaded={isLoaded} />
             <Team isLoaded={isLoaded} />
           </main>
         ) : view === 'become-member' ? (
-          <main className="relative z-10 w-full overflow-hidden pt-20">
+          <main className="relative z-10 w-full overflow-clip pt-20">
             <ActionHub 
               isLoaded={isLoaded} 
               mode="membership"
@@ -408,7 +384,7 @@ const App = () => {
             />
           </main>
         ) : view === 'donation' ? (
-          <main className="relative z-10 w-full overflow-hidden pt-20">
+          <main className="relative z-10 w-full overflow-clip pt-20">
             <ActionHub 
               isLoaded={isLoaded} 
               mode="donation"
@@ -422,14 +398,14 @@ const App = () => {
             />
           </main>
         ) : view === 'membership-payment' ? (
-          <main className="relative z-10 w-full overflow-hidden">
+          <main className="relative z-10 w-full overflow-clip">
             <MembershipPayment 
               membershipData={membershipData} 
               onBack={() => navigateTo('home', 'Home')} 
             />
           </main>
         ) : view === 'donation-payment' ? (
-          <main className="relative z-10 w-full overflow-hidden">
+          <main className="relative z-10 w-full overflow-clip">
             <DonationPayment 
               donationData={donationData} 
               onBack={() => navigateTo('home', 'Home')} 
@@ -440,7 +416,15 @@ const App = () => {
         {/* Footer Section */}
         <Footer 
           view={view} 
-          setView={(v, targetSection) => navigateTo(v, v === 'home' ? 'Home' : v === 'donation' ? 'Donation' : 'Membership', targetSection)} 
+          setView={(v, targetSection) => {
+            if (v === 'donation') {
+              openSidePanel('donation')
+            } else if (v === 'become-member') {
+              openSidePanel('membership')
+            } else {
+              navigateTo(v, v === 'home' ? 'Home' : v === 'donation' ? 'Donation' : 'Membership', targetSection)
+            }
+          }} 
         />
       </div>
 
@@ -492,6 +476,39 @@ const App = () => {
 
       {/* Story Navigator Sidebar */}
       {view === 'home' && <StoryNavigator isLoaded={isLoaded && introFinished} />}
+
+      {/* Unified Get Involved Side Panel */}
+      <GetInvolvedSidePanel
+        isOpen={isSidePanelOpen}
+        onClose={() => setIsSidePanelOpen(false)}
+        defaultMode={sidePanelMode}
+        onProceedDonation={(data) => {
+          setIsSidePanelOpen(false)
+          setTimeout(() => {
+            navigateTo('donation-payment', 'Donation', () => {
+              ScrollTrigger.getAll().forEach(t => t.kill())
+              setDonationData(data)
+            })
+          }, 100)
+        }}
+        onProceedMember={(data) => {
+          setIsSidePanelOpen(false)
+          setTimeout(() => {
+            navigateTo('membership-payment', 'Membership', () => {
+              ScrollTrigger.getAll().forEach(t => t.kill())
+              setMembershipData(data)
+            })
+          }, 100)
+        }}
+      />
+
+      {/* Program Details Side Panel */}
+      <ProgramSidePanel 
+        isOpen={isProgramPanelOpen}
+        onClose={() => setIsProgramPanelOpen(false)}
+        programTitle={selectedProgramTitle}
+        onGetInvolved={() => openSidePanel('donation')}
+      />
     </div>
   )
 }

@@ -13,7 +13,7 @@ const isHoverDevice = typeof window !== 'undefined' ? window.matchMedia('(hover:
 const PushPin = ({ color = '#dc2626' }) => (
   <div className="push-pin-item absolute -top-7 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center">
     {/* Real drop shadow offset below the pin */}
-    <div className="absolute w-7 h-7 bg-black/45 rounded-full blur-[3px] translate-x-3.5 translate-y-4" />
+    <div className="absolute w-7 h-7 bg-brand-cream/45 rounded-full blur-[3px] translate-x-3.5 translate-y-4" />
     {/* 3D SVG Pin Head & Needle */}
     <svg width="38" height="44" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -107,12 +107,12 @@ const ProgramCard = ({ proj, onClick }) => {
       <PushPin color={proj.pinColor} />
       
       {/* Needle hole */}
-      <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black/60 shadow-[inset_0_1px_1px_rgba(0,0,0,0.7)] z-20" />
+      <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-brand-cream/60 shadow-[inset_0_1px_1px_rgba(0,0,0,0.7)] z-20" />
 
       {/* Title block */}
       <div className="flex justify-center mt-3 mb-4" style={{ transform: 'translateZ(20px)' }}>
         <div 
-          className="bg-brand-dark text-brand-white font-display font-black uppercase tracking-wider px-4 py-2.5 text-sm shadow-md inline-block -rotate-1 select-none"
+          className="bg-brand-cream text-brand-white font-display font-black uppercase tracking-wider px-4 py-2.5 text-sm shadow-md inline-block -rotate-1 select-none"
           style={{ transform: 'skewX(-4deg)' }}
         >
           {proj.headline}
@@ -373,7 +373,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
             className="absolute bottom-4 right-6 md:bottom-8 md:right-10 flex items-center gap-2 z-20 pointer-events-auto cursor-pointer opacity-70 hover:opacity-100 hover:scale-105 active:scale-95 transition-all duration-300 select-none"
             data-cursor="pointer"
           >
-            <span className="font-sans text-[9px] md:text-[10px] font-bold text-white/90 uppercase tracking-[0.2em] hidden sm:block">
+            <span className="font-sans text-[9px] md:text-[10px] font-bold text-brand-dark/90 uppercase tracking-[0.2em] hidden sm:block">
               Scroll
             </span>
             <motion.div 
@@ -400,7 +400,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setSelectedCard(null)}
-                className="absolute inset-0 bg-brand-dark/55 backdrop-blur-xs cursor-pointer"
+                className="absolute inset-0 bg-brand-cream/55 backdrop-blur-xs cursor-pointer"
               />
 
               {/* Drawer Container Panel */}
@@ -409,10 +409,10 @@ const PillarsHorizontal = ({ isLoaded }) => {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', stiffness: 260, damping: 25 }}
-                className="bg-brand-dark/95 backdrop-blur-xl border-l border-brand-cream/10 w-full max-w-xl h-full shadow-2xl relative flex flex-col text-[#fdfbf7] p-8 md:p-12 overflow-y-auto"
+                className="bg-brand-cream/95 backdrop-blur-xl border-l border-brand-dark/10 w-full max-w-xl h-full shadow-2xl relative flex flex-col text-brand-dark p-8 md:p-12 overflow-y-auto"
               >
                 {/* Close Button Header */}
-                <div className="flex justify-between items-center w-full border-b border-brand-cream/10 pb-6 mb-8 select-none">
+                <div className="flex justify-between items-center w-full border-b border-brand-dark/10 pb-6 mb-8 select-none">
                   <div>
                     <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-[#0ea5e9]">
                       program portfolio
@@ -423,14 +423,14 @@ const PillarsHorizontal = ({ isLoaded }) => {
                   </div>
                   <button 
                     onClick={() => setSelectedCard(null)}
-                    className="font-sans text-[9px] uppercase tracking-widest font-extrabold cursor-pointer py-1.5 px-4 rounded-full border border-brand-cream/20 bg-transparent hover:bg-brand-cream/10 text-brand-cream transition-colors"
+                    className="font-sans text-[9px] uppercase tracking-widest font-extrabold cursor-pointer py-1.5 px-4 rounded-full border border-brand-dark/20 bg-transparent hover:bg-brand-dark/10 text-brand-dark transition-colors"
                   >
                     Close
                   </button>
                 </div>
 
                 {/* Polaroid Frame Inside Drawer */}
-                <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-cream/10 shadow-lg mb-8 select-none">
+                <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/10 shadow-lg mb-8 select-none">
                   <img 
                     src={selectedCard.image} 
                     alt={selectedCard.title} 
@@ -445,7 +445,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
                     <h4 className="font-sans text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest mb-3 select-none">
                       01 / PROJECT CONTEXT
                     </h4>
-                    <p className="font-sans text-xs md:text-sm text-brand-cream/80 leading-relaxed font-light">
+                    <p className="font-sans text-xs md:text-sm text-brand-dark/80 leading-relaxed font-light">
                       {selectedCard.background}
                     </p>
                   </div>
@@ -460,7 +460,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
                     </h4>
                     <ul className="space-y-3">
                       {selectedCard.goals.map((goal, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-xs md:text-sm text-brand-cream/80 font-light leading-snug">
+                        <li key={idx} className="flex items-start gap-3 text-xs md:text-sm text-brand-dark/80 font-light leading-snug">
                           <span className="text-[#0ea5e9] text-base mt-[-4px] select-none">•</span>
                           <span>{goal}</span>
                         </li>
@@ -473,7 +473,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
                   {/* Impact metrics footer */}
                   <div className="flex items-center justify-between w-full select-none pt-2">
-                    <span className="font-sans text-[10px] font-black text-brand-cream/60 uppercase tracking-widest">
+                    <span className="font-sans text-[10px] font-black text-brand-dark/60 uppercase tracking-widest">
                       03 / ESTIMATED COMMUNITY IMPACT
                     </span>
                     <span className="text-lg md:text-xl font-bold text-[#fdfbf7] font-display border-b border-brand-cream/20 pb-0.5">

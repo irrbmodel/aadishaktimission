@@ -101,7 +101,7 @@ const TierCard = ({ tier, isSelected, onClick }) => (
           isSelected ? 'border-brand-red bg-brand-red' : 'border-brand-dark/15'
         }`}>
           {isSelected && (
-            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-3 h-3 text-brand-dark" fill="currentColor" viewBox="0 0 20 20">
               <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
             </svg>
           )}
@@ -113,7 +113,7 @@ const TierCard = ({ tier, isSelected, onClick }) => (
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 const MembershipPayment = ({ membershipData, onBack }) => {
-  const [selectedTier, setSelectedTier] = useState('advocate')
+  const [selectedTier, setSelectedTier] = useState(membershipData.tier || 'advocate')
   const [paymentMethod, setPaymentMethod] = useState('card')
   const [paymentStep, setPaymentStep] = useState('input')
   const [processingStatus, setProcessingStatus] = useState('Initiating secure portal...')
@@ -286,14 +286,14 @@ const MembershipPayment = ({ membershipData, onBack }) => {
               >
                 <div className="relative rounded-3xl overflow-hidden border border-brand-dark/6 shadow-2xl">
                   {/* Header */}
-                  <div className="relative bg-brand-dark px-8 py-7 overflow-hidden">
+                  <div className="relative bg-brand-cream px-8 py-7 overflow-hidden">
                     <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-brand-red/20 blur-3xl" />
                     <div className="relative z-10">
                       <div className="flex items-center gap-2 mb-3">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
-                        <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-cream/40">Secure Transaction</span>
+                        <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-dark/40">Secure Transaction</span>
                       </div>
-                      <h2 className="font-serif text-4xl text-brand-cream uppercase tracking-tight leading-[0.88]">Checkout</h2>
+                      <h2 className="font-serif text-4xl text-brand-dark uppercase tracking-tight leading-[0.88]">Checkout</h2>
                     </div>
                   </div>
 
@@ -336,7 +336,7 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                         </label>
                         <button
                           type="submit"
-                          className="w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-2"
+                          className="w-full py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-2"
                         >
                           Confirm Volunteer Registration
                         </button>
@@ -352,7 +352,7 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                               onClick={() => setPaymentMethod(m.id)}
                               className={`py-3 rounded-xl font-sans font-bold text-xs uppercase cursor-pointer border transition-all ${
                                 paymentMethod === m.id
-                                  ? 'bg-brand-dark border-brand-dark text-brand-cream'
+                                  ? 'bg-brand-cream border-brand-dark text-brand-dark'
                                   : 'bg-brand-cream border-brand-dark/10 text-brand-dark hover:border-brand-dark/25'
                               }`}
                             >
@@ -386,23 +386,23 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                                     <div className="flex justify-between items-start">
                                       <div>
                                         <div className="w-9 h-6 bg-amber-400/30 rounded border border-amber-300/20 mb-1" />
-                                        <span className="text-[6px] text-brand-cream/30 tracking-widest font-mono">SECURE CHIP</span>
+                                        <span className="text-[6px] text-brand-dark/30 tracking-widest font-mono">SECURE CHIP</span>
                                       </div>
                                       <span className="font-serif text-xs text-brand-red font-bold">Aadi Shakti.</span>
                                     </div>
-                                    <span className="font-mono text-sm md:text-base tracking-widest text-brand-cream/80">
+                                    <span className="font-mono text-sm md:text-base tracking-widest text-brand-dark/80">
                                       {cardNumber || '•••• •••• •••• ••••'}
                                     </span>
                                     <div className="flex justify-between items-end border-t border-white/8 pt-2">
                                       <div>
-                                        <span className="text-[6px] text-brand-cream/30 font-mono tracking-wider block">HOLDER</span>
-                                        <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-cream/70 truncate max-w-[130px]">
+                                        <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">HOLDER</span>
+                                        <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-dark/70 truncate max-w-[130px]">
                                           {cardName || 'YOUR NAME'}
                                         </span>
                                       </div>
                                       <div className="text-right">
-                                        <span className="text-[6px] text-brand-cream/30 font-mono tracking-wider block">EXPIRY</span>
-                                        <span className="font-mono text-[9px] font-bold text-brand-cream/70">{cardExpiry || 'MM/YY'}</span>
+                                        <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">EXPIRY</span>
+                                        <span className="font-mono text-[9px] font-bold text-brand-dark/70">{cardExpiry || 'MM/YY'}</span>
                                       </div>
                                     </div>
                                   </motion.div>
@@ -414,9 +414,9 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                                     exit={{ opacity: 0 }}
                                     className="absolute inset-0 flex flex-col justify-center z-10"
                                   >
-                                    <div className="w-full h-8 bg-black/70 mb-4" />
+                                    <div className="w-full h-8 bg-brand-cream/70 mb-4" />
                                     <div className="flex items-center justify-end gap-3 px-5">
-                                      <span className="text-[7px] text-brand-cream/30 font-mono tracking-wider">CVV</span>
+                                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider">CVV</span>
                                       <div className="bg-brand-cream text-brand-dark font-mono text-xs font-bold px-4 py-1 rounded tracking-widest">
                                         {cardCvv || '•••'}
                                       </div>
@@ -438,7 +438,7 @@ const MembershipPayment = ({ membershipData, onBack }) => {
 
                             <button
                               type="submit"
-                              className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-1"
+                              className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-1"
                             >
                               🔒 Pay ₹{currentTier.price}/{currentTier.period}
                             </button>
@@ -466,7 +466,7 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                             <LightInput label="UPI ID (VPA)" type="text" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                             <button
                               type="submit"
-                              className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20"
+                              className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20"
                             >
                               🔒 Pay ₹{currentTier.price}/{currentTier.period}
                             </button>
@@ -547,19 +547,19 @@ const MembershipPayment = ({ membershipData, onBack }) => {
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-cream/30 block mb-1">Aadi Shakti Mission</span>
-                      <h3 className="font-serif text-2xl text-brand-cream uppercase tracking-tight">{currentTier.title}</h3>
+                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-dark/30 block mb-1">Aadi Shakti Mission</span>
+                      <h3 className="font-serif text-2xl text-brand-dark uppercase tracking-tight">{currentTier.title}</h3>
                     </div>
                     <span className="text-2xl">{currentTier.icon}</span>
                   </div>
                   <div className="flex justify-between items-end">
                     <div>
-                      <span className="text-[7px] text-brand-cream/30 font-mono tracking-wider block">MEMBER NAME</span>
-                      <span className="font-sans text-sm font-bold text-brand-cream uppercase tracking-wide">{membershipData.name}</span>
+                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">MEMBER NAME</span>
+                      <span className="font-sans text-sm font-bold text-brand-dark uppercase tracking-wide">{membershipData.name}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[7px] text-brand-cream/30 font-mono tracking-wider block">MEMBER ID</span>
-                      <span className="font-mono text-xs font-bold text-brand-cream/70">{memberId}</span>
+                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">MEMBER ID</span>
+                      <span className="font-mono text-xs font-bold text-brand-dark/70">{memberId}</span>
                     </div>
                   </div>
                 </div>
@@ -587,7 +587,7 @@ const MembershipPayment = ({ membershipData, onBack }) => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
               onClick={onBack}
-              className="px-10 py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-cream hover:bg-brand-dark hover:text-brand-cream text-brand-dark transition-all cursor-pointer border border-brand-dark/10 shadow-sm"
+              className="px-10 py-4 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-cream hover:bg-brand-cream hover:text-brand-dark text-brand-dark transition-all cursor-pointer border border-brand-dark/10 shadow-sm"
             >
               Return to Homepage
             </motion.button>

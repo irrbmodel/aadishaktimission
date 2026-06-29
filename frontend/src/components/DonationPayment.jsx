@@ -243,17 +243,17 @@ const DonationPayment = ({ donationData, onBack }) => {
               >
                 <div className="relative rounded-3xl overflow-hidden border border-brand-dark/6 shadow-2xl">
                   {/* Header */}
-                  <div className="relative bg-brand-dark px-8 py-7 overflow-hidden">
+                  <div className="relative bg-brand-cream px-8 py-7 overflow-hidden">
                     <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-brand-red/20 blur-3xl" />
                     <div className="relative z-10">
                       <div className="flex items-center gap-2 mb-3">
                         <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
-                        <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-cream/40">Secure Payment</span>
+                        <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-dark/40">Secure Payment</span>
                       </div>
-                      <h2 className="font-serif text-4xl text-brand-cream uppercase tracking-tight leading-[0.88]">Checkout</h2>
+                      <h2 className="font-serif text-4xl text-brand-dark uppercase tracking-tight leading-[0.88]">Checkout</h2>
                       <div className="flex items-baseline gap-2 mt-2">
-                        <span className="font-serif text-2xl font-bold text-brand-cream">₹{amount}</span>
-                        <span className="font-sans text-xs text-brand-cream/40">→ {currentCategory.title}</span>
+                        <span className="font-serif text-2xl font-bold text-brand-dark">₹{amount}</span>
+                        <span className="font-sans text-xs text-brand-dark/40">→ {currentCategory.title}</span>
                       </div>
                     </div>
                   </div>
@@ -283,7 +283,7 @@ const DonationPayment = ({ donationData, onBack }) => {
                           onClick={() => setPaymentMethod(m.id)}
                           className={`py-3 rounded-xl font-sans font-bold text-xs uppercase cursor-pointer border transition-all ${
                             paymentMethod === m.id
-                              ? 'bg-brand-dark border-brand-dark text-brand-cream'
+                              ? 'bg-brand-cream border-brand-dark text-brand-dark'
                               : 'bg-brand-cream border-brand-dark/10 text-brand-dark hover:border-brand-dark/25'
                           }`}
                         >
@@ -317,23 +317,23 @@ const DonationPayment = ({ donationData, onBack }) => {
                                 <div className="flex justify-between items-start">
                                   <div>
                                     <div className="w-9 h-6 bg-amber-400/30 rounded border border-amber-300/20 mb-1" />
-                                    <span className="text-[6px] text-brand-cream/30 tracking-widest font-mono">SECURE CHIP</span>
+                                    <span className="text-[6px] text-brand-dark/30 tracking-widest font-mono">SECURE CHIP</span>
                                   </div>
                                   <span className="font-serif text-xs text-brand-skyblue font-bold">Aadi Shakti.</span>
                                 </div>
-                                <span className="font-mono text-sm md:text-base tracking-widest text-brand-cream/80">
+                                <span className="font-mono text-sm md:text-base tracking-widest text-brand-dark/80">
                                   {cardNumber || '•••• •••• •••• ••••'}
                                 </span>
                                 <div className="flex justify-between items-end border-t border-white/8 pt-2">
                                   <div>
-                                    <span className="text-[6px] text-brand-cream/30 font-mono tracking-wider block">HOLDER</span>
-                                    <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-cream/70 truncate max-w-[130px]">
+                                    <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">HOLDER</span>
+                                    <span className="font-sans text-[9px] font-bold uppercase tracking-wide text-brand-dark/70 truncate max-w-[130px]">
                                       {cardName || 'YOUR NAME'}
                                     </span>
                                   </div>
                                   <div className="text-right">
-                                    <span className="text-[6px] text-brand-cream/30 font-mono tracking-wider block">EXPIRY</span>
-                                    <span className="font-mono text-[9px] font-bold text-brand-cream/70">{cardExpiry || 'MM/YY'}</span>
+                                    <span className="text-[6px] text-brand-dark/30 font-mono tracking-wider block">EXPIRY</span>
+                                    <span className="font-mono text-[9px] font-bold text-brand-dark/70">{cardExpiry || 'MM/YY'}</span>
                                   </div>
                                 </div>
                               </motion.div>
@@ -345,9 +345,9 @@ const DonationPayment = ({ donationData, onBack }) => {
                                 exit={{ opacity: 0 }}
                                 className="absolute inset-0 flex flex-col justify-center z-10"
                               >
-                                <div className="w-full h-8 bg-black/70 mb-4" />
+                                <div className="w-full h-8 bg-brand-cream/70 mb-4" />
                                 <div className="flex items-center justify-end gap-3 px-5">
-                                  <span className="text-[7px] text-brand-cream/30 font-mono tracking-wider">CVV</span>
+                                  <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider">CVV</span>
                                   <div className="bg-brand-cream text-brand-dark font-mono text-xs font-bold px-4 py-1 rounded tracking-widest">
                                     {cardCvv || '•••'}
                                   </div>
@@ -367,7 +367,7 @@ const DonationPayment = ({ donationData, onBack }) => {
 
                         <button
                           type="submit"
-                          className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-1"
+                          className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20 mt-1"
                         >
                           🔒 Donate ₹{amount} Securely
                         </button>
@@ -413,16 +413,16 @@ const DonationPayment = ({ donationData, onBack }) => {
                         </div>
 
                         <div className="flex items-center gap-3">
-                          <div className="h-px bg-brand-dark/8 flex-1" />
+                          <div className="h-px bg-brand-cream/8 flex-1" />
                           <span className="font-sans text-[9px] font-bold tracking-widest uppercase text-brand-grey">or enter VPA</span>
-                          <div className="h-px bg-brand-dark/8 flex-1" />
+                          <div className="h-px bg-brand-cream/8 flex-1" />
                         </div>
 
                         <LightInput label="UPI ID (VPA)" type="text" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
 
                         <button
                           type="submit"
-                          className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20"
+                          className="w-full py-4 rounded-2xl font-sans font-bold text-sm tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer shadow-lg shadow-brand-dark/20"
                         >
                           🔒 Verify &amp; Donate ₹{amount}
                         </button>
@@ -501,19 +501,19 @@ const DonationPayment = ({ donationData, onBack }) => {
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-cream/30 block mb-1">Aadi Shakti Mission</span>
-                      <h3 className="font-serif text-xl text-brand-cream uppercase tracking-tight">Donation Certificate</h3>
+                      <span className="font-sans text-[8px] font-black uppercase tracking-[0.4em] text-brand-dark/30 block mb-1">Aadi Shakti Mission</span>
+                      <h3 className="font-serif text-xl text-brand-dark uppercase tracking-tight">Donation Certificate</h3>
                     </div>
                     <span className="font-sans text-[7px] font-black tracking-wider uppercase px-2 py-0.5 border border-emerald-400/30 text-emerald-300 bg-emerald-500/15 rounded-md">Verified</span>
                   </div>
                   <div className="flex justify-between items-end">
                     <div>
-                      <span className="text-[7px] text-brand-cream/30 font-mono tracking-wider block">DONOR NAME</span>
-                      <span className="font-sans text-sm font-bold text-brand-cream uppercase tracking-wide">{donationData.donorName || ''}</span>
+                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">DONOR NAME</span>
+                      <span className="font-sans text-sm font-bold text-brand-dark uppercase tracking-wide">{donationData.donorName || ''}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[7px] text-brand-cream/30 font-mono tracking-wider block">AMOUNT</span>
-                      <span className="font-serif text-2xl font-bold text-brand-cream">₹{amount}</span>
+                      <span className="text-[7px] text-brand-dark/30 font-mono tracking-wider block">AMOUNT</span>
+                      <span className="font-serif text-2xl font-bold text-brand-dark">₹{amount}</span>
                     </div>
                   </div>
                 </div>
@@ -553,7 +553,7 @@ const DonationPayment = ({ donationData, onBack }) => {
               <button
                 type="button"
                 onClick={onBack}
-                className="flex-1 py-3.5 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-dark hover:bg-brand-red text-brand-cream transition-all cursor-pointer text-center shadow-lg"
+                className="flex-1 py-3.5 rounded-2xl font-sans font-bold text-xs tracking-widest uppercase bg-brand-cream hover:bg-brand-red text-brand-cream transition-all cursor-pointer text-center shadow-lg"
               >
                 Return Home
               </button>

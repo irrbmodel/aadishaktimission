@@ -136,9 +136,9 @@ const Philosophy = ({ isLoaded }) => {
       >
         {/* Subtle background lines/grid */}
         <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
-          <div className="w-px h-full bg-brand-dark/5" />
-          <div className="w-px h-full bg-brand-dark/5" />
-          <div className="w-px h-full bg-brand-dark/5 hidden md:block" />
+          <div className="w-px h-full bg-brand-cream/5" />
+          <div className="w-px h-full bg-brand-cream/5" />
+          <div className="w-px h-full bg-brand-cream/5 hidden md:block" />
         </div>
 
         {/* Subtle background blob */}
@@ -202,9 +202,9 @@ const Philosophy = ({ isLoaded }) => {
       >
         {/* Subtle background lines/grid */}
         <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
-          <div className="w-px h-full bg-brand-dark/5" />
-          <div className="w-px h-full bg-brand-dark/5" />
-          <div className="w-px h-full bg-brand-dark/5 hidden md:block" />
+          <div className="w-px h-full bg-brand-cream/5" />
+          <div className="w-px h-full bg-brand-cream/5" />
+          <div className="w-px h-full bg-brand-cream/5 hidden md:block" />
         </div>
 
         {/* Glowing blob */}
@@ -272,7 +272,7 @@ const Philosophy = ({ isLoaded }) => {
                   key={idx}
                   onClick={() => setSliderIndex(idx)}
                   className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-                    idx === sliderIndex ? 'w-8 bg-brand-red' : 'w-2 bg-brand-dark/10 hover:bg-brand-dark/30'
+                    idx === sliderIndex ? 'w-8 bg-brand-red' : 'w-2 bg-brand-cream/10 hover:bg-brand-cream/30'
                   }`}
                   aria-label={`Go to snapshot ${idx + 1}`}
                 />
