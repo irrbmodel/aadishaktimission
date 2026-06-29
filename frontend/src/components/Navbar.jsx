@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,30 +14,45 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   const footerRef = useRef(null)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-      
-      const ourImpactEl = document.getElementById('our-impact')
-      const journeyEl = document.getElementById('journey')
-      
-      let isOverImpact = false
-      let isOverJourney = false
+    if (!isLoaded) return
 
-      if (ourImpactEl) {
-        const rect = ourImpactEl.getBoundingClientRect()
-        isOverImpact = rect.top <= 80 && rect.bottom >= 80
-      }
+    const ourImpactEl = document.getElementById('our-impact')
+    const journeyEl = document.getElementById('journey')
 
+    const ctx = gsap.context(() => {
+      // 1. Scrolled state triggered 50px down from viewport top (works on all pages)
+      ScrollTrigger.create({
+        start: 'top -50px',
+        onToggle: (self) => setIsScrolled(self.isActive)
+      })
+
+      // 2. Hide navbar over journey section (works only if element exists)
       if (journeyEl) {
-        const rect = journeyEl.getBoundingClientRect()
-        isOverJourney = rect.top <= 80 && rect.bottom >= 80
+        ScrollTrigger.create({
+          trigger: journeyEl,
+          start: 'top 80px',
+          end: 'bottom 80px',
+          onToggle: (self) => setIsNavbarHidden(self.isActive)
+        })
       }
 
-      setIsNavbarHidden(isOverImpact || isOverJourney)
+      // 3. Hide navbar over our-impact section (works only if element exists)
+      if (ourImpactEl) {
+        ScrollTrigger.create({
+          trigger: ourImpactEl,
+          start: 'top 80px',
+          end: 'bottom 80px',
+          onToggle: (self) => setIsNavbarHidden(self.isActive)
+        })
+      }
+    })
+
+    return () => {
+      ctx.revert()
+      setIsNavbarHidden(false)
+      setIsScrolled(false)
     }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isLoaded, view])
 
   const mountedRef = useRef(false)
   const scrollLockRef = useRef(0)

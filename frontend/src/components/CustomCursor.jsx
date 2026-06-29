@@ -129,19 +129,29 @@ const CustomCursor = () => {
     <div 
       className={`fixed top-0 left-0 pointer-events-none z-9999 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
-      {/* Outer Ring */}
+      {/* Outer Ring positioning wrapper */}
       <div 
         ref={cursorRingRef}
-        className={`absolute rounded-full flex items-center justify-center pointer-events-none transition-all duration-300 ease-out select-none font-sans ${ringClasses}`}
+        className="absolute top-0 left-0 pointer-events-none"
       >
-        {cursorText && <span className="font-sans text-center">{cursorText}</span>}
+        {/* Inner Ring styling element */}
+        <div 
+          className={`absolute rounded-full flex items-center justify-center pointer-events-none transition-all duration-300 ease-out select-none font-sans ${ringClasses}`}
+        >
+          {cursorText && <span className="font-sans text-center">{cursorText}</span>}
+        </div>
       </div>
 
-      {/* Center Dot */}
+      {/* Center Dot positioning wrapper */}
       <div 
         ref={cursorDotRef}
-        className={`absolute rounded-full pointer-events-none transition-transform duration-250 ${dotClasses}`}
-      />
+        className="absolute top-0 left-0 pointer-events-none"
+      >
+        {/* Inner Dot styling element */}
+        <div 
+          className={`absolute rounded-full pointer-events-none transition-transform duration-250 ${dotClasses}`}
+        />
+      </div>
     </div>
   )
 }

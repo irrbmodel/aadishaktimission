@@ -268,33 +268,35 @@ const GetInvolvedSidePanel = ({ isOpen, onClose, defaultMode = 'donation', onPro
                 <button
                   type="button"
                   onClick={() => setMode('donation')}
-                  className={`flex-1 py-3 text-center font-sans text-[10px] font-bold uppercase tracking-[0.15em] rounded-xl transition-all duration-300 relative z-10 cursor-pointer ${
+                  className={`flex-1 py-3 text-center font-sans text-[10px] font-bold uppercase tracking-[0.15em] rounded-xl transition-all duration-300 relative cursor-pointer ${
                     mode === 'donation' ? 'text-brand-cream' : 'text-brand-grey/80 hover:text-brand-dark'
                   }`}
                 >
-                  Make a Donation
+                  {mode === 'donation' && (
+                    <motion.div
+                      layoutId="activeIndicator"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                      className="absolute inset-0 bg-brand-red rounded-xl shadow-md z-0"
+                    />
+                  )}
+                  <span className="relative z-10">Make a Donation</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setMode('membership')}
-                  className={`flex-1 py-3 text-center font-sans text-[10px] font-bold uppercase tracking-[0.15em] rounded-xl transition-all duration-300 relative z-10 cursor-pointer ${
+                  className={`flex-1 py-3 text-center font-sans text-[10px] font-bold uppercase tracking-[0.15em] rounded-xl transition-all duration-300 relative cursor-pointer ${
                     mode === 'membership' ? 'text-brand-cream' : 'text-brand-grey/80 hover:text-brand-dark'
                   }`}
                 >
-                  Become a Member
+                  {mode === 'membership' && (
+                    <motion.div
+                      layoutId="activeIndicator"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                      className="absolute inset-0 bg-brand-red rounded-xl shadow-md z-0"
+                    />
+                  )}
+                  <span className="relative z-10">Become a Member</span>
                 </button>
-
-                {/* Animated Background Indicator */}
-                <motion.div
-                  className="absolute top-1 bottom-1 bg-brand-red rounded-xl shadow-md"
-                  layoutId="activeIndicator"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  style={{
-                    left: mode === 'donation' ? '4px' : '50%',
-                    right: mode === 'donation' ? '50%' : '4px',
-                    width: 'calc(50% - 4px)'
-                  }}
-                />
               </div>
 
               {/* Mode Specific Layouts */}

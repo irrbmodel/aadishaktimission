@@ -117,6 +117,21 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
+/* Philosophy word reveal classes */
+.reveal-word-p1,
+.reveal-word-p2 {
+  opacity: 0.08;
+  transform: translateY(16px);
+  will-change: transform, opacity;
+}
+@media (hover: hover) and (pointer: fine) {
+  .reveal-word-p1,
+  .reveal-word-p2 {
+    filter: blur(4px);
+    will-change: transform, opacity, filter;
+  }
+}
+
 /* Subtle glowing light meshes */
 .glowing-blob {
   position: absolute;

@@ -176,12 +176,16 @@ const OurValues = ({ isLoaded }) => {
           <div className="lg:col-span-7">
             <div className="rounded-4xl border border-brand-dark/10 bg-white/70 p-3 shadow-[0_24px_60px_rgba(0,0,0,0.06)] backdrop-blur-sm">
               <div className="relative aspect-4/5 overflow-hidden rounded-3xl">
-                <img
-                  key={activeValue.image}
-                  src={activeValue.image}
-                  alt={activeValue.title}
-                  className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out"
-                />
+                {values.map((value, index) => (
+                  <img
+                    key={value.image}
+                    src={value.image}
+                    alt={value.title}
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${
+                      index === activeIndex ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                ))}
                 <div className="absolute inset-0 bg-linear-to-t from-brand-dark/70 via-brand-dark/15 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 z-10 flex items-end justify-between gap-4">
                   <div>

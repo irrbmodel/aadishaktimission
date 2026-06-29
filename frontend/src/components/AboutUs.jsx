@@ -16,8 +16,7 @@ const AboutUs = ({ isLoaded }) => {
       return (
         <span 
           key={`p1-${idx}`} 
-          className={`reveal-word-p1 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isHighlighted ? 'text-brand-yellow font-bold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.08, transform: "translateY(16px)", filter: "blur(4px)" }}
+          className={`reveal-word-p1 inline-block mr-[0.25em] ${isHighlighted ? 'text-brand-yellow font-bold' : 'text-brand-dark font-light'}`}
         >
           {word}
         </span>
@@ -34,8 +33,7 @@ const AboutUs = ({ isLoaded }) => {
       return (
         <span 
           key={`p2-${idx}`} 
-          className={`reveal-word-p2 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isHighlighted ? 'text-brand-yellow font-bold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.08, transform: "translateY(16px)", filter: "blur(4px)" }}
+          className={`reveal-word-p2 inline-block mr-[0.25em] ${isHighlighted ? 'text-brand-yellow font-bold' : 'text-brand-dark font-light'}`}
         >
           {word}
         </span>
@@ -48,6 +46,8 @@ const AboutUs = ({ isLoaded }) => {
     if (!isLoaded) return
 
     const ctx = gsap.context(() => {
+      const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
       // Timeline for paragraph 1 and paragraph 2 word reveals
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -62,7 +62,7 @@ const AboutUs = ({ isLoaded }) => {
       tl.to(".reveal-word-p1", {
         opacity: 1,
         y: 0,
-        filter: "blur(0px)",
+        ...(isDesktop ? { filter: "blur(0px)" } : {}),
         stagger: 0.015,
         ease: "power2.out"
       })
@@ -71,7 +71,7 @@ const AboutUs = ({ isLoaded }) => {
       tl.to(".reveal-word-p2", {
         opacity: 1,
         y: 0,
-        filter: "blur(0px)",
+        ...(isDesktop ? { filter: "blur(0px)" } : {}),
         stagger: 0.025,
         ease: "power2.out"
       }, "+=0.05")

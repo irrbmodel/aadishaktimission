@@ -23,6 +23,7 @@ import IntroAnimation from './components/IntroAnimation'
 import GetInvolvedSidePanel from './components/GetInvolvedSidePanel'
 import ProgramSidePanel from './components/ProgramSidePanel'
 import OurValues from './components/OurValues'
+import ActionHub from './components/ActionHub'
 
 // Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger)
