@@ -199,7 +199,7 @@ const PolaroidParallax = ({ isLoaded }) => {
         {/* Section Header */}
         <div className="absolute top-0 left-0 w-full px-6 md:px-12 pt-16 z-30 pointer-events-none">
           <div className="w-full max-w-7xl mx-auto flex items-center border-b border-brand-cream/20 pb-4">
-            <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+            <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
               02 / Our Community
             </span>
           </div>

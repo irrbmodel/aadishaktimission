@@ -325,7 +325,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-center py-6 md:py-12">
         {/* Section Header */}
         <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
-          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
             05 / Our Programs
           </span>
           <span className="font-serif italic text-xs text-brand-grey">
@@ -414,7 +414,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
                 {/* Close Button Header */}
                 <div className="flex justify-between items-center w-full border-b border-brand-dark/10 pb-6 mb-8 select-none">
                   <div>
-                    <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-[#0ea5e9]">
+                    <span className="font-sans text-[9px] font-black uppercase tracking-[0.3em] text-brand-red/80">
                       program portfolio
                     </span>
                     <h3 className="font-serif text-2xl uppercase tracking-tight font-bold mt-1">
@@ -442,7 +442,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
                 <div className="flex flex-col gap-8">
                   {/* Background Section */}
                   <div>
-                    <h4 className="font-sans text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest mb-3 select-none">
+                    <h4 className="font-sans text-[10px] font-black text-brand-red/80 uppercase tracking-widest mb-3 select-none">
                       01 / PROJECT CONTEXT
                     </h4>
                     <p className="font-sans text-xs md:text-sm text-brand-dark/80 leading-relaxed font-light">
@@ -455,13 +455,13 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
                   {/* Goals Section */}
                   <div>
-                    <h4 className="font-sans text-[10px] font-black text-[#0ea5e9] uppercase tracking-widest mb-3 select-none">
+                    <h4 className="font-sans text-[10px] font-black text-brand-red/80 uppercase tracking-widest mb-3 select-none">
                       02 / TARGET MILESTONES
                     </h4>
                     <ul className="space-y-3">
                       {selectedCard.goals.map((goal, idx) => (
                         <li key={idx} className="flex items-start gap-3 text-xs md:text-sm text-brand-dark/80 font-light leading-snug">
-                          <span className="text-[#0ea5e9] text-base mt-[-4px] select-none">•</span>
+                          <span className="text-brand-red/80 text-base mt-[-4px] select-none">•</span>
                           <span>{goal}</span>
                         </li>
                       ))}

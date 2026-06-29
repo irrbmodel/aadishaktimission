@@ -268,7 +268,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
 
             {/* Left Column: Navigation links */}
             <div className="lg:col-span-7 flex flex-col items-center lg:items-start w-full overflow-hidden">
-              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.3em] text-[#0ea5e9] mb-3 select-none hidden lg:block">
+              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.3em] text-brand-red/80 mb-3 select-none hidden lg:block">
                 Navigation
               </span>
               <ul className="flex flex-col items-center lg:items-start w-full">

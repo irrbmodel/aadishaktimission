@@ -53,7 +53,7 @@ const OurImpact = ({ isLoaded }) => {
           <div className="relative z-10 max-w-6xl mx-auto w-full flex flex-col items-center justify-center text-center text-white gap-4 sm:gap-6 md:gap-10">
             {/* Section Header */}
             <div className="flex flex-col items-center gap-2">
-              <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+              <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-[0.35em] text-brand-cream/80">
                 {slide.tag}
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-brand-cream uppercase tracking-tight leading-none mt-2">
@@ -67,7 +67,7 @@ const OurImpact = ({ isLoaded }) => {
                 <span className="font-serif text-5xl sm:text-7xl md:text-8xl font-black text-brand-cream leading-none drop-shadow-lg">
                   {slide.num}
                 </span>
-                <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-widest text-[#0ea5e9] mt-3">
+                <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-widest text-brand-cream/70 mt-3">
                   {slide.label}
                 </span>
               </div>
@@ -77,7 +77,7 @@ const OurImpact = ({ isLoaded }) => {
             </div>
 
             {/* Inspirational Quote Overlay */}
-            <div className="max-w-3xl mt-2 sm:mt-4 px-6 border-l-2 border-[#0ea5e9]/60 pl-4 md:pl-6">
+            <div className="max-w-3xl mt-2 sm:mt-4 px-6 border-l-2 border-brand-cream/40 pl-4 md:pl-6">
               <blockquote className="font-serif text-sm sm:text-base md:text-xl text-brand-cream/90 italic leading-relaxed text-left">
                 {slide.quote}
               </blockquote>

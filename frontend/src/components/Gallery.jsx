@@ -98,7 +98,7 @@ const Gallery = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         {/* Section Header */}
         <div className="w-full flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
-          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
             07 / Visual Archive
           </span>
           <span className="font-serif italic text-xs text-brand-dark/50">
