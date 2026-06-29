@@ -58,68 +58,93 @@ const PolaroidParallax = ({ isLoaded }) => {
     if (!isLoaded) return
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: () => `+=${window.innerHeight * 2.5}`,
-          pin: true,
-          pinSpacing: true,
-          scrub: 1.5,
-          invalidateOnRefresh: true
-        }
-      })
+      const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-      // Animate card size from centered polaroid to full bleed
-      tl.to(cardRef.current, {
-        width: '100vw',
-        height: '100vh',
-        maxWidth: '100vw',
-        maxHeight: '100vh',
-        borderRadius: '0px',
-        ease: 'none',
-        duration: 1
-      }, 0)
+      if (isDesktop) {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: () => `+=${window.innerHeight * 2.5}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: 1.5,
+            invalidateOnRefresh: true
+          }
+        })
 
-      // Fade in mountain outlines behind the card
-      tl.to(mountainsRef.current, {
-        opacity: 0.35,
-        ease: 'none',
-        duration: 0.7
-      }, 0)
+        // Animate card size from centered polaroid to full bleed
+        tl.to(cardRef.current, {
+          width: '100vw',
+          height: '100vh',
+          maxWidth: '100vw',
+          maxHeight: '100vh',
+          borderRadius: '0px',
+          ease: 'none',
+          duration: 1
+        }, 0)
 
-      // Tracing strokes dynamically linked to scroll position
-      tl.to(mountainPath1Ref.current, {
-        strokeDashoffset: 0,
-        ease: 'none',
-        duration: 0.8
-      }, 0)
+        // Fade in mountain outlines behind the card
+        tl.to(mountainsRef.current, {
+          opacity: 0.35,
+          ease: 'none',
+          duration: 0.7
+        }, 0)
 
-      tl.to(mountainPath2Ref.current, {
-        strokeDashoffset: 0,
-        ease: 'none',
-        duration: 0.8
-      }, 0)
+        // Tracing strokes dynamically linked to scroll position
+        tl.to(mountainPath1Ref.current, {
+          strokeDashoffset: 0,
+          ease: 'none',
+          duration: 0.8
+        }, 0)
 
-      // Darken image overlay mask to support typography contrast
-      tl.to(overlayRef.current, {
-        opacity: 0.75,
-        ease: 'none',
-        duration: 0.85
-      }, 0.15)
+        tl.to(mountainPath2Ref.current, {
+          strokeDashoffset: 0,
+          ease: 'none',
+          duration: 0.8
+        }, 0)
 
-      // Fade in and slide up text only after background is fully zoomed in
-      tl.fromTo(textRef.current, 
-        { opacity: 0, y: 30, scale: 0.95 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          scale: 1,
-          ease: 'power2.out',
-          duration: 0.5 
-        }, 
-        1.0
-      )
+        // Darken image overlay mask to support typography contrast
+        tl.to(overlayRef.current, {
+          opacity: 0.75,
+          ease: 'none',
+          duration: 0.85
+        }, 0.15)
+
+        // Fade in and slide up text only after background is fully zoomed in
+        tl.fromTo(textRef.current, 
+          { opacity: 0, y: 30, scale: 0.95 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            scale: 1,
+            ease: 'power2.out',
+            duration: 0.5 
+          }, 
+          1.0
+        )
+      } else {
+        // Mobile-optimized simple reveal (no pinning or layout resizing)
+        gsap.set(overlayRef.current, { opacity: 0.7 })
+        gsap.set(mountainsRef.current, { opacity: 0.25 })
+        gsap.set(mountainPath1Ref.current, { strokeDashoffset: 0 })
+        gsap.set(mountainPath2Ref.current, { strokeDashoffset: 0 })
+
+        gsap.fromTo(textRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top 65%',
+              toggleActions: 'play none none none'
+            }
+          }
+        )
+      }
 
     }, containerRef)
 
@@ -142,7 +167,7 @@ const PolaroidParallax = ({ isLoaded }) => {
         {/* Central Expanding Polaroid Image Card */}
         <div
           ref={cardRef}
-          className="relative w-[90vw] h-[60vh] max-w-[620px] max-h-[460px] rounded-[24px] overflow-hidden shadow-2xl z-10 border border-brand-dark/5 bg-brand-white flex items-center justify-center transform-gpu"
+          className="absolute inset-0 w-full h-full rounded-none md:relative md:w-[90vw] md:h-[60vh] md:max-w-[620px] md:max-h-[460px] md:rounded-[24px] overflow-hidden shadow-2xl z-10 border border-brand-dark/5 bg-brand-white flex items-center justify-center transform-gpu"
         >
           {/* Picture shadow mask overlay */}
           <div 
@@ -182,7 +207,7 @@ const PolaroidParallax = ({ isLoaded }) => {
 
         {/* Minimal Typographic wood-carved framed introduction (positioned at bottom) */}
         <div 
-          className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex justify-center p-4 pointer-events-none opacity-0"
+          className="absolute inset-x-0 bottom-6 md:bottom-10 z-30 flex justify-center p-4 pointer-events-none md:opacity-0"
         >
           <div className="border-2 border-double border-brand-cream/80 py-4 px-6 md:py-6 md:px-8 max-w-xl bg-brand-cream/50 backdrop-blur-xs rounded-xl relative shadow-2xl flex flex-col items-center text-center text-brand-dark pointer-events-auto">
             

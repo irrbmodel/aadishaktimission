@@ -39,11 +39,12 @@ const Hero = ({ isLoaded, onJoinNow }) => {
         }
       )
 
-      // 3. Sticky Stack Pin & Shrink/Fade Out on scroll
+      // 3. Sticky Stack Pin & Shrink/Fade Out on scroll (Desktop only)
       const hero = containerRef.current
       const polaroid = document.getElementById('polaroid-transition')
+      const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
       
-      if (hero && polaroid) {
+      if (isDesktop && hero && polaroid) {
         // Pin the hero section until polaroid hits the top of the viewport
         ScrollTrigger.create({
           trigger: hero,
@@ -78,7 +79,6 @@ const Hero = ({ isLoaded, onJoinNow }) => {
         if (video) {
           tl.to(video, {
             scale: 0.92,
-            filter: "blur(6px)",
             opacity: 0.35,
             ease: 'none'
           }, 0)

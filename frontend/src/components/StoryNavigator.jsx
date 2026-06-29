@@ -86,7 +86,7 @@ const StoryNavigator = ({ isLoaded }) => {
             <button
               key={ch.id}
               onClick={() => scrollToSection(ch.id)}
-              className="flex items-center gap-4 group cursor-pointer relative py-1 focus:outline-none"
+              className="flex items-center gap-2 group cursor-pointer relative py-1 focus:outline-none"
               data-cursor="pointer"
             >
               {/* Hover text label */}
@@ -98,7 +98,7 @@ const StoryNavigator = ({ isLoaded }) => {
 
               {/* Chapter dot and index */}
               <div className="flex items-center justify-center w-6 h-6 relative">
-                <span className={`absolute font-display text-[8px] font-black tracking-tighter -left-6 transition-all duration-300 ${
+                <span className={`absolute font-display text-[8px] font-black tracking-tighter left-6 transition-all duration-300 ${
                   isActive ? 'text-brand-red opacity-100 scale-100' : 'text-brand-grey/40 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100'
                 }`}>
                   {ch.num}

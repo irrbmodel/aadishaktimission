@@ -48,19 +48,9 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
     }
 
     if (isOpen) {
-      // Save current scroll position
-      scrollLockRef.current = window.scrollY
-
-      // Lock scroll using position:fixed — bulletproof on all browsers incl. iOS Safari
-      document.body.style.position = 'fixed'
-      document.body.style.top = `-${scrollLockRef.current}px`
-      document.body.style.left = '0'
-      document.body.style.right = '0'
-      document.body.style.overflow = 'hidden'
-
-      // Block touch scroll — store reference so we can remove the exact same fn
-      preventTouchRef.current = (e) => e.preventDefault()
-      document.addEventListener('touchmove', preventTouchRef.current, { passive: false })
+      // Pause smooth scrolling and lock native viewport scroll
+      window.lenis?.stop()
+      document.documentElement.classList.add('lenis-stopped')
 
       const tl = gsap.timeline()
 
@@ -103,19 +93,9 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
       }
 
     } else {
-      // Restore scroll — remove fixed positioning first, then scroll back
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.left = ''
-      document.body.style.right = ''
-      document.body.style.overflow = ''
-      window.scrollTo(0, scrollLockRef.current)
-
-      // Remove touch blocker using the exact same reference
-      if (preventTouchRef.current) {
-        document.removeEventListener('touchmove', preventTouchRef.current)
-        preventTouchRef.current = null
-      }
+      // Restore smooth scrolling and unlock viewport scroll
+      document.documentElement.classList.remove('lenis-stopped')
+      window.lenis?.start()
 
       const tl = gsap.timeline()
 
@@ -147,14 +127,8 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
 
     return () => {
       // Cleanup if component unmounts while menu is open
-      if (preventTouchRef.current) {
-        document.removeEventListener('touchmove', preventTouchRef.current)
-      }
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.left = ''
-      document.body.style.right = ''
-      document.body.style.overflow = ''
+      document.documentElement.classList.remove('lenis-stopped')
+      window.lenis?.start()
     }
   }, [isOpen])
 

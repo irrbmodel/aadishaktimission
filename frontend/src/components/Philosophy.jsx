@@ -64,8 +64,8 @@ const Philosophy = ({ isLoaded }) => {
       return (
         <span 
           key={`p1-${idx}`} 
-          className={`reveal-word-p1 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.08, filter: "blur(6px)", transform: "translateY(12px)" }}
+          className={`reveal-word-p1 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.08, transform: "translateY(12px)" }}
         >
           {word}
         </span>
@@ -82,8 +82,8 @@ const Philosophy = ({ isLoaded }) => {
       return (
         <span 
           key={`p2-${idx}`} 
-          className={`reveal-word-p2 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.08, filter: "blur(6px)", transform: "translateY(12px)" }}
+          className={`reveal-word-p2 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.08, transform: "translateY(12px)" }}
         >
           {word}
         </span>
@@ -106,11 +106,10 @@ const Philosophy = ({ isLoaded }) => {
         }
       })
 
-      // Stagger paragraph 1 words - smoothly fading in, clearing blur, and sliding up
+      // Stagger paragraph 1 words - smoothly fading in and sliding up
       tl.to(".reveal-word-p1", {
         opacity: 1,
         y: 0,
-        filter: "blur(0px)",
         stagger: 0.015,
         ease: "power1.out"
       })
@@ -119,7 +118,6 @@ const Philosophy = ({ isLoaded }) => {
       tl.to(".reveal-word-p2", {
         opacity: 1,
         y: 0,
-        filter: "blur(0px)",
         stagger: 0.025,
         ease: "power1.out"
       }, "+=0.05")
@@ -145,6 +143,9 @@ const Philosophy = ({ isLoaded }) => {
     if (!scrollSection || !scrollContent) return
 
     const ctx = gsap.context(() => {
+      const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      if (!isDesktop) return
+
       // Pin snapshots section and scroll horizontal track
       const horizontalTween = gsap.to(scrollContent, {
         x: () => -(scrollContent.scrollWidth - window.innerWidth),
@@ -250,13 +251,13 @@ const Philosophy = ({ isLoaded }) => {
       <section
         id="philosophy-snapshots"
         ref={snapshotsContainerRef}
-        className="relative w-full h-screen bg-brand-cream overflow-hidden border-b border-brand-dark/5 flex flex-col justify-between"
+        className="relative w-full h-[600px] lg:h-screen bg-brand-cream overflow-x-hidden lg:overflow-hidden border-b border-brand-dark/5 flex flex-col justify-between"
       >
         {/* Subtle background blob */}
         <div className="absolute glowing-blob w-[550px] h-[550px] bg-brand-red/5 bottom-[-10%] right-[-10%] opacity-20 pointer-events-none" />
 
         {/* Section Header (Fixed position overlay during pinning) */}
-        <div className="absolute top-0 left-0 w-full pt-12 px-6 md:px-12 z-20">
+        <div className="absolute top-0 left-0 w-full pt-12 px-6 md:px-12 z-20 hidden lg:block">
           <div className="w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 select-none">
             <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
               04 / Active Snapshots
@@ -270,23 +271,23 @@ const Philosophy = ({ isLoaded }) => {
         {/* Horizontal Track (translates horizontally) */}
         <div 
           ref={sliderRef}
-          className="flex flex-row flex-nowrap items-center h-full z-10 transform-gpu"
+          className="flex flex-row flex-nowrap items-center w-full h-full z-10 transform-gpu overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory scroll-smooth scrollbar-none lg:snap-none px-4 lg:px-0"
         >
           {images.map((img, idx) => (
             <div 
               key={img.src}
-              className="horizontal-snapshot-card shrink-0 w-screen h-screen flex items-center justify-center relative select-none"
+              className="horizontal-snapshot-card shrink-0 w-[90vw] lg:w-screen h-full flex items-center justify-center relative select-none snap-center mr-4 lg:mr-0"
             >
               {/* Inner layout container with padding to avoid overlapping headers/footers */}
-              <div className="w-full max-w-7xl h-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center px-6 md:px-16 pt-28 pb-24 relative overflow-hidden">
+              <div className="w-full max-w-7xl h-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-16 items-center px-4 lg:px-16 pt-20 lg:pt-28 pb-10 lg:pb-24 relative overflow-hidden">
                 
                 {/* Massive backdrop index behind the content */}
-                <div className="absolute left-6 bottom-4 font-display text-[15rem] md:text-[24rem] font-black text-brand-grey/3 select-none pointer-events-none tracking-tighter leading-none z-0">
+                <div className="absolute left-4 bottom-2 font-display text-[10rem] lg:text-[24rem] font-black text-brand-grey/3 select-none pointer-events-none tracking-tighter leading-none z-0">
                   0{idx + 1}
                 </div>
 
                 {/* Left Column: Details */}
-                <div className="lg:col-span-5 flex flex-col justify-center relative z-10 max-w-md lg:max-w-lg">
+                <div className="lg:col-span-5 flex flex-col justify-center relative z-10 max-w-md lg:max-w-lg pt-12 lg:pt-0">
                   <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-2 animate-horizontal-details">
                       <div className="w-1.5 h-1.5 bg-brand-grey rounded-full animate-pulse" />
@@ -311,7 +312,7 @@ const Philosophy = ({ isLoaded }) => {
                 </div>
 
                 {/* Right Column: Polaroid Image (Full Display) */}
-                <div className="lg:col-span-7 flex justify-center items-center relative z-10 w-full">
+                <div className="lg:col-span-7 flex justify-center items-center relative z-10 w-full pb-12 lg:pb-0">
                   <div className="snapshot-image-frame relative w-full aspect-video sm:aspect-4/3 max-w-[320px] sm:max-w-[400px] lg:max-w-[560px] rounded-[24px] lg:rounded-[36px] p-2.5 lg:p-4 bg-brand-white shadow-[0_15px_35px_rgba(0,0,0,0.06)] border border-brand-dark/5 transition-transform duration-700 ease-out transform group-hover:scale-[1.02]">
                     <div className="absolute -inset-1 rounded-[26px] lg:rounded-[38px] border border-brand-dark/5 pointer-events-none z-0 rotate-1 transform" />
                     <div className="relative w-full h-full rounded-[14px] lg:rounded-[22px] overflow-hidden border border-brand-dark/5 shadow-inner">
@@ -331,7 +332,7 @@ const Philosophy = ({ isLoaded }) => {
         </div>
 
         {/* Section Progress Bar Footer (Fixed position overlay during pinning) */}
-        <div className="absolute bottom-0 left-0 w-full pb-8 px-6 md:px-12 z-20">
+        <div className="absolute bottom-0 left-0 w-full pb-8 px-6 md:px-12 z-20 hidden lg:block">
           <div className="w-full max-w-7xl mx-auto flex flex-col gap-4 border-t border-brand-dark/5 pt-6">
             {/* Scroll indicators */}
             <div className="flex justify-between items-center text-[9px] font-bold text-brand-grey tracking-widest uppercase select-none">

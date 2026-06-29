@@ -31,11 +31,10 @@ const Team = ({ isLoaded }) => {
     if (previewCardRef.current) {
       gsap.fromTo(
         previewCardRef.current.querySelectorAll('.animate-on-change'),
-        { opacity: 0, y: 15, filter: 'blur(4px)' },
+        { opacity: 0, y: 15 },
         { 
           opacity: 1, 
           y: 0, 
-          filter: 'blur(0px)',
           duration: 0.5, 
           stagger: 0.08, 
           ease: 'power2.out' 

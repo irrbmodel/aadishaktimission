@@ -66,12 +66,11 @@ const Gallery = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 30, scale: 0.98, filter: 'blur(6px)' },
+        { opacity: 0, y: 30, scale: 0.98 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          filter: 'blur(0px)',
           duration: 0.8,
           stagger: 0.08,
           ease: 'power3.out',

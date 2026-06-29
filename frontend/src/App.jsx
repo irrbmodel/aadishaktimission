@@ -97,6 +97,9 @@ const App = () => {
       infinite: false,
     })
 
+    // Expose Lenis instance globally
+    window.lenis = lenis
+
     // 2. Sync Lenis scroll updates with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update)
 
@@ -105,7 +108,7 @@ const App = () => {
       lenis.raf(time * 1000)
     }
     gsap.ticker.add(rafUpdate)
-    gsap.ticker.lagSmoothing(0)
+    gsap.ticker.lagSmoothing(500, 33)
 
     // Refresh GSAP on Lenis updates (forces recalcs on layout reflows)
     const handleRefresh = () => {
@@ -137,6 +140,7 @@ const App = () => {
     // Cleanup on unmount
     return () => {
       lenis.destroy()
+      window.lenis = null
       gsap.ticker.remove(rafUpdate)
       ScrollTrigger.removeEventListener('refresh', handleRefresh)
       window.removeEventListener('load', handleLoad)
@@ -223,7 +227,6 @@ const App = () => {
             gsap.to(stickyText, {
               opacity: 0,
               scale: 1.08,
-              filter: 'blur(10px)',
               ease: 'power1.inOut',
               scrollTrigger: {
                 trigger: snapshots,
@@ -259,7 +262,6 @@ const App = () => {
             gsap.to(timelinePanels, {
               opacity: 0,
               scale: 0.92,
-              filter: 'blur(4px)',
               ease: 'power1.inOut',
               scrollTrigger: {
                 trigger: gallery,

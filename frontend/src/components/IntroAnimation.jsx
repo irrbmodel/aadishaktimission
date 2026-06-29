@@ -60,16 +60,14 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
               
               {/* Brand Title */}
               <motion.h1
-                initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={phase === 5 ? {
                   scale: 1.03, 
                   opacity: 0, 
-                  y: -10,
-                  filter: 'blur(15px)' 
+                  y: -10
                 } : {
                   opacity: 1,
-                  scale: 1,
-                  filter: 'blur(0px)'
+                  scale: 1
                 }}
                 transition={phase === 5 ? {
                   duration: 0.85,
@@ -85,17 +83,15 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
 
               {/* Logo (Above Title) */}
               <motion.div
-                initial={{ opacity: 0, y: -20, scale: 0.85, filter: 'blur(8px)' }}
+                initial={{ opacity: 0, y: -20, scale: 0.85 }}
                 animate={phase === 5 ? {
                   opacity: 0,
                   y: -70,
-                  scale: 0.8,
-                  filter: 'blur(4px)'
+                  scale: 0.8
                 } : {
                   opacity: 1,
                   y: 0,
-                  scale: 1,
-                  filter: 'blur(0px)'
+                  scale: 1
                 }}
                 transition={phase === 5 ? {
                   duration: 0.4,
@@ -146,15 +142,13 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
 
               {/* Tagline / Subtitle */}
               <motion.div
-                initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={phase === 5 ? {
                   opacity: 0,
-                  y: -10,
-                  filter: 'blur(4px)'
+                  y: -10
                 } : {
                   opacity: 0.8,
-                  y: 0,
-                  filter: 'blur(0px)'
+                  y: 0
                 }}
                 transition={phase === 5 ? {
                   duration: 0.4,

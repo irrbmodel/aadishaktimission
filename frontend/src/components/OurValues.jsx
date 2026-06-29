@@ -49,11 +49,10 @@ const OurValues = ({ isLoaded }) => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 24, filter: 'blur(6px)' },
+        { opacity: 0, y: 24 },
         {
           opacity: 1,
           y: 0,
-          filter: 'blur(0px)',
           duration: 0.8,
           stagger: 0.08,
           ease: 'power3.out',
@@ -71,6 +70,9 @@ const OurValues = ({ isLoaded }) => {
 
   useEffect(() => {
     if (!isLoaded || !sectionRef.current) return
+
+    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (!isDesktop) return
 
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
