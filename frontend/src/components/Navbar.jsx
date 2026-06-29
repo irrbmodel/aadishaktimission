@@ -134,6 +134,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
 
   const handleNavClick = (e, targetId) => {
     e.preventDefault()
+    const wasOpen = isOpen
     setIsOpen(false)
     
     if (targetId === 'become-member') {
@@ -148,17 +149,18 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
     if (view !== 'home' && setView) {
       setView('home', targetId)
     } else {
+      const scrollDelay = wasOpen ? 600 : 0
       setTimeout(() => {
         const targetElement = document.getElementById(targetId)
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth' })
         }
-      }, 600)
+      }, scrollDelay)
     }
   }
 
   const menuItems = [
-    { label: 'our approach', id: 'philosophy' },
+    { label: 'home', id: 'hero' },
     { label: 'our programs', id: 'journey' },
     { label: 'our impact', id: 'our-impact' },
     { label: 'meet the team', id: 'team' },

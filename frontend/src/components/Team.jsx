@@ -157,59 +157,21 @@ const Team = ({ isLoaded }) => {
           </div>
 
           {/* Right Side: Editorial Preview Spotlight Showcase - Hidden on mobile/tablets */}
-          <div className="hidden lg:block lg:col-span-6">
+          <div className="hidden lg:block lg:col-span-6 h-full">
             <div 
               ref={previewCardRef}
-              className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-6 md:p-8 shadow-2xl flex flex-col gap-4 overflow-hidden justify-between h-full max-h-[85vh]"
+              className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-3 shadow-2xl flex flex-col overflow-hidden h-full max-h-[85vh] animate-on-change"
             >
               {/* Top Accent Lines */}
-              <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-red" />
-              
-              {/* Inner Decorative Quote Icon */}
-              <div className="absolute right-8 top-8 opacity-5 text-brand-dark pointer-events-none select-none">
-                <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-4.765 2.827-4.765 5.71 0 .862.392 1.306 1.147 1.306 1.823 0 3.162 1.377 3.162 3.518 0 2.228-1.567 3.865-3.864 3.865-2.298 0-5.658-2.203-5.658-8.625 0-10.231 10.457-10.128 10.457-10.128v1.5s-6.31 1.667-6.31 8.625c0 .09.004.166.01.25.794-.57 1.761-.859 2.753-.859 2.52 0 4.58 2.059 4.58 4.58 0 2.52-2.06 4.58-4.58 4.58-2.518 0-4.578-2.06-4.578-4.58zm-14 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-4.782 2.827-4.782 5.71 0 .862.392 1.306 1.147 1.306 1.822 0 3.162 1.377 3.162 3.518 0 2.228-1.567 3.865-3.864 3.865-2.297 0-5.658-2.203-5.658-8.625 0-10.231 10.457-10.128 10.457-10.128v1.5s-6.31 1.667-6.31 8.625c0 .09.004.166.01.25.794-.57 1.762-.859 2.753-.859 2.52 0 4.58 2.059 4.58 4.58 0 2.52-2.06 4.58-4.58 4.58-2.518 0-4.578-2.06-4.578-4.58z" />
-                </svg>
-              </div>
+              <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-red z-10" />
 
               {/* Portrait Display */}
-              <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40 animate-on-change">
+              <div className="relative h-full w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40">
                 <img 
                   src={team[activeMember].image} 
                   alt={team[activeMember].name} 
                   className="w-full h-full object-cover brightness-95 md:hover:scale-105 transition-all duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 via-transparent to-transparent pointer-events-none" />
-              </div>
-
-              {/* Details & Quote Content */}
-              <div className="flex flex-col gap-4 relative z-10 grow justify-between">
-                
-                {/* Biography & Quote */}
-                <div className="flex flex-col gap-4">
-                  {/* Quote */}
-                  <blockquote className="animate-on-change">
-                    <p className="font-serif text-lg md:text-xl text-brand-dark/95 leading-relaxed italic relative pl-4 border-l-2 border-brand-red/60">
-                      "{team[activeMember].quote}"
-                    </p>
-                  </blockquote>
-
-                  {/* Biography */}
-                  <p className="font-sans text-sm text-brand-grey leading-relaxed font-light animate-on-change">
-                    {team[activeMember].bio}
-                  </p>
-                </div>
-
-                {/* Director Signature Label */}
-                <div className="border-t border-brand-dark/5 pt-4 flex flex-col gap-1 animate-on-change">
-                  <span className="font-serif text-2xl text-brand-dark font-medium tracking-tight">
-                    {team[activeMember].name}
-                  </span>
-                  <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-wider">
-                    {team[activeMember].role}
-                  </span>
-                </div>
-
               </div>
 
             </div>
@@ -220,10 +182,10 @@ const Team = ({ isLoaded }) => {
             {team.map((member) => (
               <div 
                 key={member.name}
-                className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-6 md:p-8 shadow-2xl flex flex-col gap-6 overflow-hidden"
+                className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-3 shadow-2xl flex flex-col overflow-hidden"
               >
                 {/* Top Accent Line */}
-                <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-red" />
+                <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-red z-10" />
                 
                 {/* Portrait Display */}
                 <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40">
@@ -232,32 +194,6 @@ const Team = ({ isLoaded }) => {
                     alt={member.name} 
                     className="w-full h-full object-cover brightness-95"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/40 via-transparent to-transparent pointer-events-none" />
-                </div>
-
-                {/* Details & Quote Content */}
-                <div className="flex flex-col gap-4 relative z-10">
-                  {/* Quote */}
-                  <blockquote>
-                    <p className="font-serif text-base md:text-lg text-brand-dark/95 leading-relaxed italic relative pl-4 border-l-2 border-brand-red/60">
-                      "{member.quote}"
-                    </p>
-                  </blockquote>
-
-                  {/* Biography */}
-                  <p className="font-sans text-xs md:text-sm text-brand-grey leading-relaxed font-light">
-                    {member.bio}
-                  </p>
-
-                  {/* Director Signature Label */}
-                  <div className="border-t border-brand-dark/5 pt-4 flex flex-col gap-1">
-                    <span className="font-serif text-xl text-brand-dark font-medium tracking-tight">
-                      {member.name}
-                    </span>
-                    <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-wider">
-                      {member.role}
-                    </span>
-                  </div>
                 </div>
               </div>
             ))}
