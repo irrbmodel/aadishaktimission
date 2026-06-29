@@ -9,14 +9,14 @@ const AboutUs = ({ isLoaded }) => {
 
   const renderP1 = () => {
     const text = "Aadi Shakti Mission is a committed movement established to enhance and secure the social, economic, and ecological fabric of underserved communities. Combining grassroots activism with professional methodologies, we spent years executing high-impact initiatives for rural transformation and human empowerment."
-    const redWords = ["social,", "economic,", "ecological", "rural", "transformation", "human", "empowerment."]
+    const highlightedWords = ["social,", "economic,", "ecological", "rural", "transformation", "human", "empowerment."]
     
     return text.split(' ').map((word, idx) => {
-      const isRed = redWords.includes(word)
+      const isHighlighted = highlightedWords.includes(word)
       return (
         <span 
           key={`p1-${idx}`} 
-          className={`reveal-word-p1 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-bold' : 'text-brand-dark font-light'}`}
+          className={`reveal-word-p1 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isHighlighted ? 'text-brand-yellow font-bold' : 'text-brand-dark font-light'}`}
           style={{ opacity: 0.08, transform: "translateY(16px)", filter: "blur(4px)" }}
         >
           {word}
@@ -27,14 +27,14 @@ const AboutUs = ({ isLoaded }) => {
 
   const renderP2 = () => {
     const text = "Evoking transformative change that honors contextual integrity."
-    const redWords = ["transformative", "change"]
+    const highlightedWords = ["transformative", "change"]
     
     return text.split(' ').map((word, idx) => {
-      const isRed = redWords.includes(word)
+      const isHighlighted = highlightedWords.includes(word)
       return (
         <span 
           key={`p2-${idx}`} 
-          className={`reveal-word-p2 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-bold' : 'text-brand-dark font-light'}`}
+          className={`reveal-word-p2 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isHighlighted ? 'text-brand-yellow font-bold' : 'text-brand-dark font-light'}`}
           style={{ opacity: 0.08, transform: "translateY(16px)", filter: "blur(4px)" }}
         >
           {word}
