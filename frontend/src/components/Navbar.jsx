@@ -183,6 +183,8 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
     { label: 'contact', id: 'footer' }
   ]
 
+  const isDarkHero = !isScrolled && view === 'home' && !isOpen
+
   return (
     <>
       <header 
@@ -206,7 +208,9 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
             className="flex items-center gap-3 group focus:outline-none cursor-pointer"
             data-cursor="pointer"
           >
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-brand-dark/15 shadow-sm shrink-0 transition-transform duration-500 group-hover:scale-105">
+            <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border shadow-sm shrink-0 transition-all duration-500 group-hover:scale-105 ${
+              isDarkHero ? 'border-brand-cream/30' : 'border-brand-dark/15'
+            }`}>
               <img 
                 src="/logo.jpg" 
                 alt="Aadi Shakti Logo" 
@@ -214,10 +218,14 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
               />
             </div>
             <div className="flex items-baseline gap-1.5 md:gap-2">
-              <span className="font-serif font-black text-xl md:text-2xl text-brand-dark tracking-tight">
+              <span className={`font-serif font-black text-xl md:text-2xl tracking-tight transition-colors duration-300 ${
+                isDarkHero ? 'text-brand-cream' : 'text-brand-dark'
+              }`}>
                 Aadi Shakti.
               </span>
-              <span className="hidden sm:inline-block font-display text-[8px] md:text-[9px] font-black tracking-[0.25em] text-brand-dark uppercase">
+              <span className={`hidden sm:inline-block font-display text-[8px] md:text-[9px] font-black tracking-[0.25em] uppercase transition-colors duration-300 ${
+                isDarkHero ? 'text-brand-cream/80' : 'text-brand-dark'
+              }`}>
                 mission
               </span>
             </div>
@@ -236,24 +244,26 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
             {/* Premium Menu Trigger */}
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="relative w-12 h-12 flex flex-col justify-center items-center group focus:outline-none z-50 cursor-pointer rounded-full hover:bg-brand-cream/5 transition-colors"
+              className={`relative w-12 h-12 flex flex-col justify-center items-center group focus:outline-none z-50 cursor-pointer rounded-full transition-colors ${
+                isDarkHero ? 'hover:bg-brand-cream/10' : 'hover:bg-brand-cream/5'
+              }`}
               aria-label="Menu"
               data-cursor="pointer"
             >
               <div className="relative w-6 h-4 flex flex-col justify-between items-end">
                 <span 
                   className={`h-[1.5px] transition-all duration-500 origin-center ${
-                    isOpen ? 'bg-brand-red w-6 rotate-45 translate-y-[7px]' : 'bg-brand-dark w-6'
+                    isOpen ? 'bg-brand-red w-6 rotate-45 translate-y-[7px]' : `${isDarkHero ? 'bg-brand-cream' : 'bg-brand-dark'} w-6`
                   }`} 
                 />
                 <span 
                   className={`h-[1.5px] transition-all duration-300 ${
-                    isOpen ? 'bg-brand-red w-0 opacity-0' : 'bg-brand-dark w-4 group-hover:w-6'
+                    isOpen ? 'bg-brand-red w-0 opacity-0' : `${isDarkHero ? 'bg-brand-cream' : 'bg-brand-dark'} w-4 group-hover:w-6`
                   }`} 
                 />
                 <span 
                   className={`h-[1.5px] transition-all duration-500 origin-center ${
-                    isOpen ? 'bg-brand-red w-6 -rotate-45 -translate-y-[7px]' : 'bg-brand-dark w-5 group-hover:w-6'
+                    isOpen ? 'bg-brand-red w-6 -rotate-45 -translate-y-[7px]' : `${isDarkHero ? 'bg-brand-cream' : 'bg-brand-dark'} w-5 group-hover:w-6`
                   }`} 
                 />
               </div>

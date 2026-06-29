@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Eye, Shield, Leaf } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const Philosophy = ({ isLoaded }) => {
   const containerRef = useRef(null)
   const snapshotsContainerRef = useRef(null)
-  const paragraphRef = useRef(null)
   const sliderRef = useRef(null)
-  const subHeadingRef = useRef(null)
-  const descTextRef = useRef(null)
-
   const [sliderIndex, setSliderIndex] = useState(0)
 
   const images = [
@@ -47,8 +44,6 @@ const Philosophy = ({ isLoaded }) => {
     }
   ]
 
-
-  // 2. Custom GSAP Slider Transition
   const handlePrev = () => {
     setSliderIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
   }
@@ -57,6 +52,7 @@ const Philosophy = ({ isLoaded }) => {
     setSliderIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
   }
 
+  // 1. Snapshot slider transition effect
   useEffect(() => {
     if (!isLoaded) return
 
@@ -84,7 +80,6 @@ const Philosophy = ({ isLoaded }) => {
       }
     )
 
-    // Animate details text
     const textElements = snapshotsContainerRef.current?.querySelectorAll('.animate-snapshot-details')
     if (textElements && textElements.length > 0) {
       gsap.fromTo(textElements,
@@ -102,22 +97,40 @@ const Philosophy = ({ isLoaded }) => {
     }
   }, [sliderIndex, isLoaded])
 
-  // Scroll reveal for the Philosophy text
+  // 2. Scroll reveal for the new premium Philosophy grid layout
   useEffect(() => {
-    if (!isLoaded || !paragraphRef.current) return
+    if (!isLoaded) return
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(paragraphRef.current,
-        { opacity: 0.1, y: 20, filter: 'blur(12px)' },
+      // Left side text slide-in
+      gsap.fromTo('.philosophy-left-col',
+        { opacity: 0, x: -20 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 95%',
+            toggleActions: 'play none none none'
+          }
+        }
+      )
+
+      // Right side cards staggered fade-in
+      gsap.fromTo('.philosophy-card',
+        { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
-          filter: 'blur(0px)',
+          duration: 0.7,
+          stagger: 0.08,
+          ease: 'power2.out',
           scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 50%',
-            end: 'top top',
-            scrub: 0.5
+            trigger: '.philosophy-cards-grid',
+            start: 'top 95%',
+            toggleActions: 'play none none none'
           }
         }
       )
@@ -128,62 +141,114 @@ const Philosophy = ({ isLoaded }) => {
 
   return (
     <>
-      {/* SECTION 1: Core Philosophy */}
+      {/* SECTION 1: Core Philosophy with Premium Layout */}
       <section 
         id="philosophy"
         ref={containerRef}
-        className="relative w-full min-h-[150vh] bg-brand-cream border-b border-brand-dark/5 flex flex-col justify-between pt-32 pb-48 px-6 md:px-12"
+        className="relative w-full bg-brand-cream border-b border-brand-dark/5 pt-32 pb-48 px-6 md:px-12 overflow-hidden"
       >
-        {/* Subtle background lines/grid */}
+        {/* Subtle grid lines background */}
         <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
-          <div className="w-px h-full bg-brand-cream/5" />
-          <div className="w-px h-full bg-brand-cream/5" />
-          <div className="w-px h-full bg-brand-cream/5 hidden md:block" />
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5 hidden md:block" />
         </div>
 
         {/* Subtle background blob */}
-        <div className="absolute glowing-blob w-[400px] h-[400px] bg-brand-red/5 top-[20%] left-[5%] opacity-15" />
+        <div className="absolute glowing-blob w-[400px] h-[400px] bg-brand-red/5 top-[15%] left-[5%] opacity-15 pointer-events-none" />
 
         {/* Section Header */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-16 select-none">
           <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
-            03 / Core Philosophy
+            03 / About Us
           </span>
           <span className="font-serif italic text-xs text-brand-grey">
             Aadi Shakti Mission
           </span>
         </div>
 
-        {/* Center Editorial Text Block */}
-        <div className="sticky top-32 z-20 w-full max-w-4xl mx-auto text-center flex flex-col gap-6 md:gap-8 mt-4 mb-24">
-          {/* Decorative Aipan icon */}
-          <div className="flex justify-center items-center gap-2">
-            <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
-            <div className="w-4 h-4 border border-brand-red/35 rotate-45 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+        {/* Premium Split Layout Grid */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          {/* Left Column: Vision Header & Core Philosophy Intro */}
+          <div className="philosophy-left-col lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-32 select-none">
+            {/* Decorative Aipan symbol */}
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
+              <div className="w-4 h-4 border border-brand-red/35 rotate-45 flex items-center justify-center">
+                <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+              </div>
+              <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
             </div>
-            <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
-          </div>
 
-          <div className="w-full">
-            <p ref={paragraphRef} className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] leading-[1.35] tracking-tight text-[#1C1C1C]">
-              <span className="font-bold text-brand-red">Aadi Shakti Mission</span> is a committed movement established to enhance and secure the <span className="font-bold text-brand-red">social, economic, and ecological</span> fabric of underserved communities. Combining grassroots activism with professional methodologies, we spent years executing high-impact initiatives for <span className="font-bold text-brand-red">rural transformation</span> and <span className="font-bold text-brand-red">human empowerment</span>.
+            <span className="font-sans text-[10px] font-black text-brand-red tracking-widest uppercase">
+              Our Vision & Method
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-brand-dark font-black uppercase tracking-tight leading-none">
+              Transformative <br />Change
+            </h2>
+            <p className="font-sans text-sm sm:text-base text-brand-grey leading-relaxed font-light mt-2 max-w-md">
+              Aadi Shakti Mission is a committed movement established to enhance and secure the social, economic, and ecological fabric of underserved communities. 
+            </p>
+            <p className="font-sans text-xs sm:text-sm text-brand-grey/85 leading-relaxed font-light max-w-md">
+              Combining grassroots activism with professional methodologies, we build long-term local resilience that honors contextual integrity and fosters micro-independence.
             </p>
           </div>
 
-          <div className="flex flex-col items-center gap-3 mt-4 max-w-2xl mx-auto">
-            <h3 className="font-serif text-xl sm:text-2xl md:text-3xl text-brand-dark leading-tight">
-              Evoking <span className="font-sans font-black italic text-brand-red">transformative change</span> that honors contextual integrity.
-            </h3>
-            
-            <p className="font-sans text-xs md:text-sm text-brand-grey leading-relaxed max-w-lg font-light mt-2">
-              We believe standard local community interventions should prioritize durability, micro-independence, and self-reliance. Learn more about our mission below.
-            </p>
+          {/* Right Column: Interactive 3-Pillar Cards Grid */}
+          <div className="philosophy-cards-grid lg:col-span-7 flex flex-col gap-6 w-full">
+            {[
+              {
+                num: '01',
+                title: 'Social Equity',
+                icon: <Eye className="text-brand-red" size={24} />,
+                desc: 'We organize independent women cooperatives, establish mentorship pathways for young girls, and build digital libraries to eliminate systemic literacy barriers across remote valleys.'
+              },
+              {
+                num: '02',
+                title: 'Economic Autonomy',
+                icon: <Shield className="text-brand-red" size={24} />,
+                desc: 'By establishing local handloom cooperative structures, supplying premium raw materials, and matching products to urban design centers, we secure sustainable wages for artisans.'
+              },
+              {
+                num: '03',
+                title: 'Ecological Harmony',
+                icon: <Leaf className="text-brand-red" size={24} />,
+                desc: 'We lead community native afforestation drives, rain-water harvesting study clusters, and solar clinic energy transitions to safeguard vulnerable Himalayan ecosystems.'
+              }
+            ].map((pillar) => (
+              <div 
+                key={pillar.num}
+                className="philosophy-card group w-full bg-brand-white/60 hover:bg-brand-white border border-brand-dark/5 hover:border-brand-red/20 rounded-[24px] p-8 md:p-10 shadow-[0_10px_35px_rgba(0,0,0,0.01)] hover:shadow-[0_20px_45px_rgba(155,0,0,0.04)] transition-all duration-500 relative overflow-hidden flex flex-col md:flex-row gap-6 md:gap-8 items-start cursor-default"
+              >
+                {/* Visual Number Indicator */}
+                <div className="font-display text-4xl font-black text-brand-red/35 select-none shrink-0 md:pt-1">
+                  {pillar.num}
+                </div>
+                
+                {/* Content */}
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    {pillar.icon}
+                    <h3 className="font-serif text-xl sm:text-2xl text-brand-dark font-bold uppercase tracking-tight">
+                      {pillar.title}
+                    </h3>
+                  </div>
+                  <p className="font-sans text-xs sm:text-sm text-brand-grey leading-relaxed font-light">
+                    {pillar.desc}
+                  </p>
+                </div>
+                
+                {/* Decorative border highlight line */}
+                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-brand-red/0 group-hover:bg-brand-red transition-colors duration-500" />
+              </div>
+            ))}
           </div>
+
         </div>
 
         {/* Section Footer */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center border-t border-brand-dark/5 pt-4 text-[9px] font-bold text-brand-grey tracking-widest uppercase">
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center border-t border-brand-dark/5 mt-20 pt-4 text-[9px] font-bold text-brand-grey tracking-widest uppercase select-none">
           <span>Section 03</span>
           <span className="flex items-center gap-2">
             Scroll to explore snapshots
@@ -200,18 +265,18 @@ const Philosophy = ({ isLoaded }) => {
         ref={snapshotsContainerRef}
         className="relative w-full h-screen bg-brand-cream overflow-hidden border-b border-brand-dark/5 flex flex-col justify-between py-20 px-6 md:px-12"
       >
-        {/* Subtle background lines/grid */}
+        {/* Grid lines background */}
         <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
-          <div className="w-px h-full bg-brand-cream/5" />
-          <div className="w-px h-full bg-brand-cream/5" />
-          <div className="w-px h-full bg-brand-cream/5 hidden md:block" />
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5" />
+          <div className="w-px h-full bg-brand-dark/5 hidden md:block" />
         </div>
 
         {/* Glowing blob */}
         <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/5 bottom-[-10%] right-[-10%] opacity-20 pointer-events-none" />
 
         {/* Section Header */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6 select-none">
           <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
             04 / Active Snapshots
           </span>
@@ -222,9 +287,9 @@ const Philosophy = ({ isLoaded }) => {
 
         {/* Grid layout */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mt-6 mb-auto">
-          {/* Left Column: Descriptive text and luxury controls */}
+          {/* Left Column: Descriptive text and controls */}
           <div className="lg:col-span-5 flex flex-col select-none justify-center">
-            {/* Massive numbers layout */}
+            {/* Massive counter */}
             <div className="font-display text-6xl md:text-8xl font-black tracking-tighter text-brand-red/40 mb-2 select-none animate-snapshot-details">
               0{sliderIndex + 1} <span className="text-brand-dark/30 text-4xl font-light">/</span> <span className="text-brand-dark/50 text-5xl font-light">0{images.length}</span>
             </div>
@@ -241,7 +306,7 @@ const Philosophy = ({ isLoaded }) => {
               </p>
             </div>
 
-            {/* Luxury Navigation Buttons */}
+            {/* Navigation buttons */}
             <div className="flex items-center gap-4 mt-8">
               <button 
                 onClick={handlePrev}
@@ -265,14 +330,14 @@ const Philosophy = ({ isLoaded }) => {
               </button>
             </div>
 
-            {/* Horizontal progress dots */}
+            {/* Navigation progress dots */}
             <div className="flex gap-2 mt-8 items-center">
               {images.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSliderIndex(idx)}
                   className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-                    idx === sliderIndex ? 'w-8 bg-brand-red' : 'w-2 bg-brand-cream/10 hover:bg-brand-cream/30'
+                    idx === sliderIndex ? 'w-8 bg-brand-red' : 'w-2 bg-brand-dark/10 hover:bg-brand-dark/30'
                   }`}
                   aria-label={`Go to snapshot ${idx + 1}`}
                 />
@@ -280,18 +345,15 @@ const Philosophy = ({ isLoaded }) => {
             </div>
           </div>
 
-          {/* Right Column: Large Premium framed image display */}
+          {/* Right Column: Frame mockup photograph container */}
           <div className="lg:col-span-7 flex justify-center items-center select-none w-full">
             <div className="relative w-full aspect-video sm:aspect-4/3 max-w-[620px] rounded-[32px] p-4 bg-brand-white shadow-[0_24px_50px_rgba(0,0,0,0.12)] border border-brand-dark/5 transform-gpu">
-              {/* Decorative offset border frame behind photograph */}
               <div className="absolute -inset-2 rounded-[36px] border border-brand-dark/5 pointer-events-none z-0 rotate-1 transform-gpu scale-102" />
 
-              {/* Viewport for images */}
               <div 
                 ref={sliderRef}
                 className="relative w-full h-full rounded-[20px] overflow-hidden border border-brand-dark/5 bg-brand-cream shadow-inner flex items-center justify-center cursor-pointer"
               >
-                {/* Left/Right clickable regions for image */}
                 <div 
                   onClick={handlePrev} 
                   className="absolute left-0 top-0 w-1/2 h-full z-20 cursor-w-resize"
@@ -303,7 +365,6 @@ const Philosophy = ({ isLoaded }) => {
                   title="Next image"
                 />
 
-                {/* Slider Images */}
                 {images.map((img, idx) => (
                   <div 
                     key={img.src}
@@ -325,7 +386,7 @@ const Philosophy = ({ isLoaded }) => {
         </div>
 
         {/* Section Footer */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center border-t border-brand-dark/5 pt-4 text-[9px] font-bold text-brand-grey tracking-widest uppercase">
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center border-t border-brand-dark/5 pt-4 text-[9px] font-bold text-brand-grey tracking-widest uppercase select-none">
           <span>Section 04</span>
           <span className="flex items-center gap-2">
             Scroll to explore Programs

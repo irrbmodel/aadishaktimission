@@ -4,71 +4,42 @@ import { gsap } from 'gsap'
 const Hero = ({ isLoaded, onJoinNow }) => {
   const containerRef = useRef(null)
   const titleWordsRef = useRef([])
-  const imageRef = useRef(null)
   const textRef = useRef(null)
-  const borderRef = useRef(null)
+  const welcomeRef = useRef(null)
 
   useEffect(() => {
     if (!isLoaded) return
 
     const ctx = gsap.context(() => {
-      // 1. Title reveal animation (Slide up and rotate slightly from hidden mask)
+      // 1. Text column reveal animation (Slide up and fade in)
       gsap.fromTo(titleWordsRef.current,
-        { yPercent: 110, rotate: 1 },
+        { y: 30, opacity: 0 },
         { 
-          yPercent: 0, 
-          rotate: 0,
+          y: 0, 
+          opacity: 1,
           duration: 1.2, 
-          stagger: 0.08, 
-          ease: 'power4.out',
+          stagger: 0.15, 
+          ease: 'power3.out',
           delay: 0.2
         }
       )
 
-      // 2. Image card reveal (scale up & fade in)
-      gsap.fromTo(imageRef.current,
-        { scale: 1.12, opacity: 0, rotate: 1 },
+      // 2. Welcome accent reveal (slide from left and fade in)
+      gsap.fromTo(welcomeRef.current,
+        { x: -20, opacity: 0 },
         { 
-          scale: 1, 
-          opacity: 1, 
-          rotate: -0.5,
-          duration: 1.4, 
+          x: 0, 
+          opacity: 1,
+          duration: 1.2, 
           ease: 'power3.out',
           delay: 0.5
         }
       )
 
-      // 3. Border decorative lines drawing
-      gsap.fromTo(borderRef.current,
-        { scaleX: 0, opacity: 0 },
-        { 
-          scaleX: 1, 
-          opacity: 0.8,
-          duration: 1.5, 
-          ease: 'power3.inOut',
-          delay: 0.4
-        }
-      )
-
-      // 4. Parallax scroll effect on the hero image
-      const img = imageRef.current?.querySelector('img')
-      if (img) {
-        gsap.to(img, {
-          yPercent: 12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
-        })
-      }
-
-      // 5. Parallax drift on text column
+      // 3. Parallax scroll effect on text column
       if (textRef.current) {
         gsap.to(textRef.current, {
-          yPercent: -15,
+          yPercent: -12,
           ease: 'none',
           scrollTrigger: {
             trigger: containerRef.current,
@@ -87,83 +58,66 @@ const Hero = ({ isLoaded, onJoinNow }) => {
     <section 
       id="hero" 
       ref={containerRef} 
-      className="relative w-full min-h-screen bg-brand-cream flex flex-col justify-center pt-32 pb-32 border-b border-brand-dark/5"
+      className="relative w-full h-[100vh] flex flex-col justify-end pb-28 sm:pb-36 md:pb-44 px-6 sm:px-12 md:px-20 overflow-hidden"
     >
-      {/* Decorative Blob */}
-      <div className="absolute glowing-blob w-[500px] h-[500px] bg-brand-red/5 top-[-10%] left-[-10%] opacity-15 pointer-events-none" />
+      {/* Background Video */}
+      <video
+        src="/hero.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0 blur-[1px] scale-102 pointer-events-none"
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-        
-        {/* Typographic Details */}
-        <div ref={textRef} className="lg:col-span-7 xl:col-span-8 flex flex-col items-center lg:items-start text-center lg:text-left select-none w-full">
-          {/* Section Header */}
-          <div className="w-full flex flex-col items-center lg:items-start justify-center lg:justify-start border-b border-brand-dark/10 pb-4 mb-8">
-            <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
-              01 / Introduction
-            </span>
-            <span className="font-serif italic text-xs text-brand-grey mt-2">
-              Our Mountain Movement
-            </span>
-          </div>
+      {/* Dark Contrast Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/30 z-10 pointer-events-none" />
 
-          {/* Large Title Reveal */}
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tighter text-brand-dark uppercase mb-6 flex flex-wrap justify-center lg:justify-start">
-            {['Aadi', 'Shakti', 'Mission'].map((word, idx) => (
-              <span key={idx} className="inline-block overflow-hidden pb-1 pr-3 lg:pr-4">
-                <span 
-                  ref={el => titleWordsRef.current[idx] = el}
-                  className={`inline-block origin-left font-black ${
-                    word === 'Shakti' ? 'text-brand-red font-serif italic' : ''
-                  }`}
-                >
-                  {word}
-                </span>
-              </span>
-            ))}
+      {/* Left-side welcome accent */}
+      <div 
+        ref={welcomeRef}
+        className="absolute bottom-28 sm:bottom-36 md:bottom-44 left-6 sm:left-12 md:left-20 z-20 hidden md:flex items-center gap-4 select-none opacity-0"
+      >
+        <span className="w-8 h-px bg-brand-cream/40" />
+        <span className="font-sans text-[10px] font-bold text-brand-cream/60 tracking-[0.25em] uppercase">
+          Welcome
+        </span>
+      </div>
+
+      {/* Content wrapper - aligned bottom-right */}
+      <div 
+        ref={textRef} 
+        className="relative z-20 max-w-4xl ml-auto text-right select-none w-full flex flex-col items-end gap-6 sm:gap-8"
+      >
+        <div className="flex flex-col items-end gap-4 max-w-3xl">
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[5.5rem] leading-[1.05] tracking-tight text-brand-cream font-black uppercase">
+            <span ref={el => titleWordsRef.current[0] = el} className="inline-block opacity-0">
+              Aadi Shakti Mission
+            </span>
           </h1>
-
-          {/* Cultural Aipan Line Accents */}
-          <div ref={borderRef} className="w-full max-w-lg h-[2px] bg-brand-cream/10 relative my-4 origin-left">
-            <div className="absolute -top-1.5 left-1/2 lg:left-0 lg:translate-x-4 -translate-x-1/2 w-4 h-4 bg-brand-cream border border-brand-dark/20 rotate-45 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-brand-red rounded-full animate-pulse" />
-            </div>
-          </div>
-
-          <p className="font-sans text-xs md:text-sm text-brand-grey font-light leading-relaxed max-w-lg xl:max-w-xl my-4">
-            Restoring equilibrium to Himalayan villages. Rooted in the high mountain valleys of Uttarakhand, we back grassroots women cooperatives, establish digital literacy hubs, and restore traditional Pahari craft lineages.
-          </p>
-
-          {/* Join Now Button */}
-          <div onClick={onJoinNow} className="mt-8 inline-flex items-center gap-4 group cursor-pointer border border-brand-dark/10 px-6 py-3 rounded-full hover:bg-brand-cream transition-all duration-300">
-            <span className="font-sans text-[9px] font-bold uppercase tracking-widest text-brand-dark group-hover:text-brand-dark transition-colors">
-              Join now
-            </span>
-            <div className="w-6 h-6 rounded-full flex items-center justify-center text-brand-dark group-hover:text-brand-dark transition-all duration-300">
-              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        {/* Large Visual Card */}
-        <div className="lg:col-span-5 xl:col-span-4 w-full flex justify-center lg:justify-end mt-4 lg:mt-0">
-          <div 
-            ref={imageRef}
-            className="relative aspect-4/5 lg:aspect-square w-full max-w-md lg:max-w-none rounded-[32px] overflow-hidden shadow-2xl border border-brand-dark/5 bg-brand-white flex items-center justify-center transform-gpu opacity-0"
+          <p 
+            ref={el => titleWordsRef.current[1] = el} 
+            className="opacity-0 font-sans text-sm sm:text-base md:text-lg text-brand-cream/80 max-w-xl font-light leading-relaxed tracking-wide text-right"
           >
-            {/* Shading Mask */}
-            <div className="absolute inset-0 bg-brand-cream opacity-[0.08] z-10 pointer-events-none" />
-
-            {/* Uttarakhand Children Smiling Picture */}
-            <img 
-              src="/images/children_smiling.jpeg" 
-              alt="Uttarakhand Children Smiling" 
-              className="w-full h-full object-cover scale-110 pointer-events-none"
-            />
-          </div>
+            Awakening Himalayan potential. One community, one cooperative, one craft at a time.
+          </p>
         </div>
 
+        {/* Action Button - aligned to the right */}
+        <div 
+          ref={el => titleWordsRef.current[2] = el}
+          onClick={onJoinNow} 
+          className="opacity-0 flex items-center gap-4 group cursor-pointer"
+        >
+          <span className="font-sans text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-brand-cream group-hover:text-brand-cream/80 group-hover:underline transition-all duration-300">
+            Join the Movement
+          </span>
+          <div className="w-12 h-12 bg-brand-red text-brand-cream border border-brand-red flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-brand-cream group-hover:text-brand-red rounded-sm">
+            <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </div>
+        </div>
       </div>
     </section>
   )
