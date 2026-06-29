@@ -131,7 +131,7 @@ export default function ProgramSidePanel({ isOpen, onClose, programTitle, onGetI
                 <span className="inline-block px-3 py-1 bg-brand-red/90 text-brand-white text-[10px] font-bold tracking-widest uppercase mb-3 rounded-sm">
                   {program.subtitle}
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl text-brand-white uppercase leading-none mb-2 font-bold">
+                <h2 className="font-display text-3xl sm:text-4xl text-brand-white uppercase leading-none mb-2 font-black">
                   {program.title}
                 </h2>
               </div>

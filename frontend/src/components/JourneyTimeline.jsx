@@ -132,7 +132,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
             <span className="font-sans text-xs md:text-sm font-black uppercase tracking-[0.3em] text-brand-dark/50">
               Focus Areas
             </span>
-            <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-brand-dark uppercase tracking-tight mt-4 leading-none font-bold">
+            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-brand-dark uppercase tracking-tight mt-4 leading-none font-black">
               our programs
             </h2>
             <p className="font-sans text-sm sm:text-base md:text-lg text-brand-dark/70 max-w-xl font-normal leading-relaxed mt-6">
@@ -171,7 +171,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
                         {item.tag}
                       </span>
                       
-                      <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-brand-dark tracking-tight uppercase leading-tight font-bold mb-3">
+                      <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl text-brand-dark tracking-tight uppercase leading-tight font-black mb-3">
                         {item.title}
                       </h3>
 

@@ -111,7 +111,7 @@ const OurValues = ({ isLoaded }) => {
             <span className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-red">
               05 / Our Values
             </span>
-            <h2 className="mt-2 text-3xl font-black uppercase tracking-tight text-brand-dark sm:text-4xl md:text-5xl">
+            <h2 className="mt-2 text-3xl font-display font-black uppercase tracking-tight text-brand-dark sm:text-4xl md:text-5xl">
               The quiet principles behind every action
             </h2>
           </div>
@@ -129,7 +129,7 @@ const OurValues = ({ isLoaded }) => {
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-red/80">
                 Guiding principle
               </p>
-              <h3 className="mt-3 text-2xl font-semibold uppercase tracking-tight text-brand-dark">
+              <h3 className="mt-3 text-2xl font-display font-black uppercase tracking-tight text-brand-dark">
                 {activeValue.title}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-brand-grey/80">
@@ -188,7 +188,7 @@ const OurValues = ({ isLoaded }) => {
                     <div className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-cream/80">
                       Our ethos in motion
                     </div>
-                    <h3 className="mt-2 text-2xl font-semibold uppercase tracking-tight text-brand-cream sm:text-3xl">
+                    <h3 className="mt-2 text-2xl font-display font-black uppercase tracking-tight text-brand-cream sm:text-3xl">
                       {activeValue.title}
                     </h3>
                   </div>
