@@ -314,7 +314,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
         </div>
 
         {/* The Premium Terracotta Notice Board */}
-        <div className="w-full bg-[#8B2617] border-8 md:border-12 border-[#382015] rounded-[32px] pt-8 pb-12 px-4 md:px-8 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-visible flex flex-col items-center justify-start min-h-[550px] md:min-h-[650px]">
+        <div className="pillars-board w-full bg-[#8B2617] border-8 md:border-12 border-[#382015] rounded-[32px] pt-8 pb-12 px-4 md:px-8 shadow-[inset_0_5px_15px_rgba(0,0,0,0.65),0_25px_50px_rgba(0,0,0,0.3)] relative overflow-visible flex flex-col items-center justify-start min-h-[550px] md:min-h-[650px]">
           
           {/* Scattered Polaroid Cards Row (overlapping, scrollable) */}
           <div 

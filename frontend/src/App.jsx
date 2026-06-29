@@ -158,30 +158,193 @@ const App = () => {
       ].filter(Boolean)
 
       const ctx = gsap.context(() => {
-        // 1. (GSAP pinning for static h-screen panels removed to allow natural scrolling for variable height sections)
-
-        // 2. Scale down, blur, and fade out the current panel as the next panel overlaps it
-        panels.forEach((panel, i) => {
-          if (i === panels.length - 1) return // Skip the last panel (Team)
-
-          const nextPanel = panels[i + 1]
-          if (nextPanel) {
-            gsap.to(panel, {
-              scale: 0.88,
-              opacity: 0.25,
-              filter: 'blur(4px)',
-              yPercent: -15, // parallax drift back
+        // Individual custom element transitions as each next section enters the view
+        
+        // 1. Hero Exit -> Polaroid enters
+        const hero = document.getElementById('hero')
+        const polaroid = document.getElementById('polaroid-transition')
+        if (hero && polaroid) {
+          const textCol = hero.querySelector('.lg\\:col-span-7')
+          const imgCol = hero.querySelector('.lg\\:col-span-5')
+          
+          if (textCol) {
+            gsap.to(textCol, {
+              opacity: 0,
+              y: -80,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: nextPanel,
-                start: 'top bottom', // starts when next panel enters
-                end: 'top top',      // ends when next panel covers it
-                scrub: true,
-                invalidateOnRefresh: true
+                trigger: polaroid,
+                start: 'top bottom',
+                end: 'top top',
+                scrub: true
               }
             })
           }
-        })
+          if (imgCol) {
+            gsap.to(imgCol, {
+              opacity: 0,
+              scale: 0.85,
+              rotation: -5,
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: polaroid,
+                start: 'top bottom',
+                end: 'top top',
+                scrub: true
+              }
+            })
+          }
+        }
+
+        // 2. Polaroid Exit -> Philosophy enters
+        const philosophy = document.getElementById('philosophy')
+        if (polaroid && philosophy) {
+          const centralCard = polaroid.querySelector('.rounded-\\[24px\\]') || polaroid.querySelector('.z-10')
+          const bottomIntro = polaroid.querySelector('.border-2') || polaroid.querySelector('.absolute.bottom-6')
+          
+          if (centralCard) {
+            gsap.to(centralCard, {
+              opacity: 0,
+              xPercent: -30,
+              scale: 0.9,
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: philosophy,
+                start: 'top bottom',
+                end: 'top 30%',
+                scrub: true
+              }
+            })
+          }
+          if (bottomIntro) {
+            gsap.to(bottomIntro, {
+              opacity: 0,
+              y: 80,
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: philosophy,
+                start: 'top bottom',
+                end: 'top 30%',
+                scrub: true
+              }
+            })
+          }
+        }
+
+        // 3. Philosophy Exit -> Snapshots enters
+        const snapshots = document.getElementById('philosophy-snapshots')
+        if (philosophy && snapshots) {
+          const stickyText = philosophy.querySelector('.sticky')
+          if (stickyText) {
+            gsap.to(stickyText, {
+              opacity: 0,
+              scale: 1.08,
+              filter: 'blur(10px)',
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: snapshots,
+                start: 'top bottom',
+                end: 'top top',
+                scrub: true
+              }
+            })
+          }
+        }
+
+        // 4. Philosophy Snapshots Exit -> Pillars enters
+        const pillars = document.getElementById('pillars')
+        if (snapshots && pillars) {
+          const sliderImg = snapshots.querySelector('.lg\\:col-span-7')
+          const detailsPanel = snapshots.querySelector('.lg\\:col-span-5')
+          
+          if (sliderImg) {
+            gsap.to(sliderImg, {
+              opacity: 0,
+              xPercent: -15,
+              scale: 0.95,
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: pillars,
+                start: 'top bottom',
+                end: 'top 40%',
+                scrub: true
+              }
+            })
+          }
+          if (detailsPanel) {
+            gsap.to(detailsPanel, {
+              opacity: 0,
+              yPercent: 15,
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: pillars,
+                start: 'top bottom',
+                end: 'top 40%',
+                scrub: true
+              }
+            })
+          }
+        }
+
+        // 5. Pillars Exit -> Journey enters
+        const journey = document.getElementById('journey')
+        if (pillars && journey) {
+          const board = pillars.querySelector('.pillars-board')
+          if (board) {
+            gsap.to(board, {
+              opacity: 0,
+              yPercent: 12,
+              scale: 0.96,
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: journey,
+                start: 'top bottom',
+                end: 'top top',
+                scrub: true
+              }
+            })
+          }
+        }
+
+        // 6. Journey Exit -> Gallery enters
+        const gallery = document.getElementById('gallery')
+        if (journey && gallery) {
+          const timelinePanels = journey.querySelectorAll('.concept-panel')
+          if (timelinePanels.length) {
+            gsap.to(timelinePanels, {
+              opacity: 0,
+              scale: 0.92,
+              filter: 'blur(4px)',
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: gallery,
+                start: 'top bottom',
+                end: 'top top',
+                scrub: true
+              }
+            })
+          }
+        }
+
+        // 7. Gallery Exit -> Team enters
+        const team = document.getElementById('team')
+        if (gallery && team) {
+          const galleryItems = gallery.querySelectorAll('.gallery-item')
+          if (galleryItems.length) {
+            gsap.to(galleryItems, {
+              opacity: 0.1,
+              scale: 0.9,
+              stagger: 0.03,
+              ease: 'power1.inOut',
+              scrollTrigger: {
+                trigger: team,
+                start: 'top bottom',
+                end: 'top 30%',
+                scrub: true
+              }
+            })
+          }
+        }
       })
 
       ScrollTrigger.refresh()
@@ -217,7 +380,7 @@ const App = () => {
       >
         {/* Main Content Sections */}
         {view === 'home' ? (
-          <main className="relative z-10 w-full bg-brand-cream">
+          <main className="relative z-10 w-full bg-brand-cream overflow-x-hidden">
             <Hero isLoaded={isLoaded} onJoinNow={() => navigateTo('become-member', 'Membership')} />
             <PolaroidParallax isLoaded={isLoaded} />
             <Philosophy isLoaded={isLoaded} />
@@ -231,6 +394,7 @@ const App = () => {
             <ActionHub 
               isLoaded={isLoaded} 
               mode="membership"
+              onBack={() => navigateTo('home', 'Home')}
               onProceed={(data) => {
                 navigateTo('membership-payment', 'Membership', () => {
                   ScrollTrigger.getAll().forEach(t => t.kill())
@@ -244,6 +408,13 @@ const App = () => {
             <ActionHub 
               isLoaded={isLoaded} 
               mode="donation"
+              onBack={() => navigateTo('home', 'Home')}
+              onProceed={(data) => {
+                navigateTo('donation-payment', 'Donation', () => {
+                  ScrollTrigger.getAll().forEach(t => t.kill())
+                  setDonationData(data)
+                })
+              }}
             />
           </main>
         ) : view === 'membership-payment' ? (
@@ -253,14 +424,14 @@ const App = () => {
               onBack={() => navigateTo('home', 'Home')} 
             />
           </main>
-        ) : (
+        ) : view === 'donation-payment' ? (
           <main className="relative z-10 w-full overflow-hidden">
             <DonationPayment 
               donationData={donationData} 
               onBack={() => navigateTo('home', 'Home')} 
             />
           </main>
-        )}
+        ) : null}
 
         {/* Footer Section */}
         <Footer 
