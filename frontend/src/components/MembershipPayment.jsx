@@ -218,7 +218,7 @@ const MembershipPayment = ({ membershipData, onBack }) => {
         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-amber-500/4 blur-[160px]" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-10 md:pt-14 pb-24 md:pb-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-28 md:pt-36 pb-24 md:pb-32">
         {/* Back Button */}
         <button
           onClick={onBack}

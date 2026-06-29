@@ -72,7 +72,7 @@ const FloatInput = ({ label, type = 'text', name, value, onChange, error, prefix
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
+const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
   const [memberForm, setMemberForm] = useState({ name: '', phone: '', email: '' })
   const [memberErrors, setMemberErrors] = useState({})
   const [selectedTierPreview, setSelectedTierPreview] = useState('advocate')
@@ -197,6 +197,18 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-10 md:pt-14 pb-20 md:pb-28">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="inline-flex items-center gap-2 group mb-8 text-xs font-bold font-sans text-brand-grey hover:text-brand-red uppercase tracking-widest transition-colors cursor-pointer"
+              data-cursor="pointer"
+            >
+              <svg className="w-4 h-4 stroke-2 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Back to Homepage
+            </button>
+          )}
 
           {/* Hero Header */}
           <motion.div
@@ -429,6 +441,18 @@ const ActionHub = ({ isLoaded, onProceed, mode = 'all' }) => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-10 md:pt-14 pb-20 md:pb-28">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="inline-flex items-center gap-2 group mb-8 text-xs font-bold font-sans text-brand-grey hover:text-brand-red uppercase tracking-widest transition-colors cursor-pointer"
+              data-cursor="pointer"
+            >
+              <svg className="w-4 h-4 stroke-2 transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Back to Homepage
+            </button>
+          )}
 
           {/* Hero Header */}
           <motion.div
