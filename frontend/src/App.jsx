@@ -11,7 +11,8 @@ import StoryNavigator from './components/StoryNavigator'
 // Page Sections
 import Hero from './components/Hero'
 import PolaroidParallax from './components/PolaroidParallax'
-import Philosophy from './components/Philosophy'
+import AboutUs from './components/AboutUs'
+import ActiveSnapshots from './components/ActiveSnapshots'
 import JourneyTimeline from './components/JourneyTimeline'
 import Gallery from './components/Gallery'
 import OurImpact from './components/OurImpact'
@@ -168,10 +169,11 @@ const App = () => {
     const timer = setTimeout(() => {
       const panels = [
         document.getElementById('hero'),
-        document.getElementById('polaroid-transition'),
         document.getElementById('philosophy'),
+        document.getElementById('polaroid-transition'),
         document.getElementById('philosophy-snapshots'),
         document.getElementById('journey'),
+        document.getElementById('our-values'),
         document.getElementById('gallery'),
         document.getElementById('our-impact'),
         document.getElementById('team')
@@ -185,10 +187,10 @@ const App = () => {
         if (!isDesktop) return
         
 
-        // 2. Polaroid Exit -> Philosophy enters
+        // 1. Polaroid Exit -> Snapshots enters
         const polaroid = document.getElementById('polaroid-transition')
-        const philosophy = document.getElementById('philosophy')
-        if (polaroid && philosophy) {
+        const snapshots = document.getElementById('philosophy-snapshots')
+        if (polaroid && snapshots) {
           const centralCard = polaroid.querySelector('.rounded-\\[24px\\]') || polaroid.querySelector('.z-10')
           const bottomIntro = polaroid.querySelector('.border-2') || polaroid.querySelector('.absolute.bottom-6')
           
@@ -198,7 +200,7 @@ const App = () => {
               scale: 0.9,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: philosophy,
+                trigger: snapshots,
                 start: 'top bottom',
                 end: 'top 30%',
                 scrub: true
@@ -211,7 +213,7 @@ const App = () => {
               y: 80,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: philosophy,
+                trigger: snapshots,
                 start: 'top bottom',
                 end: 'top 30%',
                 scrub: true
@@ -220,26 +222,7 @@ const App = () => {
           }
         }
 
-        // 3. Philosophy Exit -> Snapshots enters
-        const snapshots = document.getElementById('philosophy-snapshots')
-        if (philosophy && snapshots) {
-          const stickyText = philosophy.querySelector('.sticky')
-          if (stickyText) {
-            gsap.to(stickyText, {
-              opacity: 0,
-              scale: 1.08,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: snapshots,
-                start: 'top bottom',
-                end: 'top top',
-                scrub: true
-              }
-            })
-          }
-        }
-
-        // 4. Philosophy Snapshots Exit -> Journey enters
+        // 2. Snapshots Exit -> Journey enters
         const journey = document.getElementById('journey')
         if (snapshots && journey) {
           gsap.to(snapshots, {
@@ -255,9 +238,9 @@ const App = () => {
           })
         }
 
-        // 6. Journey Exit -> Gallery enters
-        const gallery = document.getElementById('gallery')
-        if (journey && gallery) {
+        // 3. Journey Exit -> OurValues enters
+        const ourValues = document.getElementById('our-values')
+        if (journey && ourValues) {
           const timelinePanels = journey.querySelectorAll('.program-text-section, .program-img')
           if (timelinePanels.length) {
             gsap.to(timelinePanels, {
@@ -265,13 +248,29 @@ const App = () => {
               scale: 0.92,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: gallery,
+                trigger: ourValues,
                 start: 'top bottom',
                 end: 'top top',
                 scrub: true
               }
             })
           }
+        }
+
+        // 4. OurValues Exit -> Gallery enters
+        const gallery = document.getElementById('gallery')
+        if (ourValues && gallery) {
+          gsap.to(ourValues, {
+            opacity: 0,
+            scale: 0.97,
+            ease: 'power1.inOut',
+            scrollTrigger: {
+              trigger: gallery,
+              start: 'top bottom',
+              end: 'top top',
+              scrub: true
+            }
+          })
         }
       })
 
@@ -311,10 +310,11 @@ const App = () => {
         {view === 'home' ? (
           <main className="relative z-10 w-full bg-brand-cream overflow-clip">
             <Hero isLoaded={isLoaded} onJoinNow={() => openSidePanel('membership')} />
+            <AboutUs isLoaded={isLoaded} />
             <PolaroidParallax isLoaded={isLoaded} />
-            <Philosophy isLoaded={isLoaded} />
-            <OurValues isLoaded={isLoaded} />
+            <ActiveSnapshots isLoaded={isLoaded} />
             <JourneyTimeline isLoaded={isLoaded} onOpenProgram={openProgramPanel} />
+            <OurValues isLoaded={isLoaded} />
             <Gallery />
             <OurImpact isLoaded={isLoaded} />
             <Team isLoaded={isLoaded} />
