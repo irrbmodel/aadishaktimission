@@ -121,13 +121,16 @@ const Hero = ({ isLoaded, onJoinNow }) => {
     >
       {/* Background Video */}
       <video
-        src="/hero.mp4"
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0 blur-[1px] scale-102 pointer-events-none"
-      />
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+      >
+        <source src="/hero.webm" type="video/webm" />
+        <source src="/hero.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
       {/* Dark Contrast Overlay */}
       <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/45 to-black/30 z-10 pointer-events-none" />
