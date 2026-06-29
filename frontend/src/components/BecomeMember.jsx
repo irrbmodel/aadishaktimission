@@ -30,7 +30,7 @@ const BecomeMember = ({ isLoaded, onProceed }) => {
         scrollTrigger: {
           trigger: headerRef.current,
           start: 'top 85%',
-          toggleActions: 'play none none none'
+          toggleActions: 'play none none reverse'
         }
       }
     )
@@ -47,7 +47,7 @@ const BecomeMember = ({ isLoaded, onProceed }) => {
         scrollTrigger: {
           trigger: formRef.current,
           start: 'top 80%',
-          toggleActions: 'play none none none'
+          toggleActions: 'play none none reverse'
         }
       }
     )

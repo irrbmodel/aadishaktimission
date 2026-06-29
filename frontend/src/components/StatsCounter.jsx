@@ -18,7 +18,7 @@ const SingleStat = ({ targetValue, label, suffix = '', prefix = '' }) => {
       scrollTrigger: {
         trigger: elementRef.current,
         start: 'top 85%',
-        toggleActions: 'play none none none'
+        toggleActions: 'play none none reverse'
       },
       onUpdate: () => {
         setValue(Math.floor(target.val))

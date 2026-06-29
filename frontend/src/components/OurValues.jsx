@@ -59,7 +59,7 @@ const OurValues = ({ isLoaded }) => {
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top 85%',
-            once: true,
+            toggleActions: 'play none none reverse'
           },
         }
       )

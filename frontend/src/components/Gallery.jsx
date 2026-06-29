@@ -77,7 +77,7 @@ const Gallery = () => {
           scrollTrigger: {
             trigger: galleryRef.current,
             start: 'top 85%',
-            once: true,
+            toggleActions: 'play none none reverse'
           },
         }
       )

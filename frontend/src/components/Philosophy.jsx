@@ -64,8 +64,8 @@ const Philosophy = ({ isLoaded }) => {
       return (
         <span 
           key={`p1-${idx}`} 
-          className={`reveal-word-p1 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.08, transform: "translateY(12px)" }}
+          className={`reveal-word-p1 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-bold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.08, transform: "translateY(16px)", filter: "blur(4px)" }}
         >
           {word}
         </span>
@@ -82,8 +82,8 @@ const Philosophy = ({ isLoaded }) => {
       return (
         <span 
           key={`p2-${idx}`} 
-          className={`reveal-word-p2 inline-block mr-[0.25em] transition-colors duration-500 will-change-[transform,opacity] ${isRed ? 'text-brand-red font-semibold' : 'text-brand-dark font-light'}`}
-          style={{ opacity: 0.08, transform: "translateY(12px)" }}
+          className={`reveal-word-p2 inline-block mr-[0.25em] will-change-[transform,opacity,filter] ${isRed ? 'text-brand-red font-bold' : 'text-brand-dark font-light'}`}
+          style={{ opacity: 0.08, transform: "translateY(16px)", filter: "blur(4px)" }}
         >
           {word}
         </span>
@@ -106,20 +106,22 @@ const Philosophy = ({ isLoaded }) => {
         }
       })
 
-      // Stagger paragraph 1 words - smoothly fading in and sliding up
+      // Stagger paragraph 1 words - smoothly fading in, sliding up and unblurring
       tl.to(".reveal-word-p1", {
         opacity: 1,
         y: 0,
+        filter: "blur(0px)",
         stagger: 0.015,
-        ease: "power1.out"
+        ease: "power2.out"
       })
 
       // Stagger paragraph 2 words after paragraph 1 finishes
       tl.to(".reveal-word-p2", {
         opacity: 1,
         y: 0,
+        filter: "blur(0px)",
         stagger: 0.025,
-        ease: "power1.out"
+        ease: "power2.out"
       }, "+=0.05")
 
       // Fade in the footer small text at the end
@@ -262,7 +264,7 @@ const Philosophy = ({ isLoaded }) => {
             <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-[#0ea5e9]">
               04 / Active Snapshots
             </span>
-            <span className="font-serif italic text-xs text-brand-grey">
+            <span className="font-serif italic text-xs text-brand-grey font-bold">
               Impact in Uttarakhand
             </span>
           </div>
