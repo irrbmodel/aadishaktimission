@@ -9,210 +9,198 @@ const values = [
   {
     title: 'Excellence',
     short: 'Pursuing the highest standards in learning, research, and service',
-    blurb: 'Pursuing the highest standards in learning, research, and service.',
+    blurb: 'We believe that excellence is not an act, but a habit. We continuously strive to elevate the quality of our educational and outreach programs to ensure lasting impact.',
     image: '/images/girls_studying.jpeg',
     icon: Award,
   },
   {
     title: 'Integrity',
     short: 'Upholding honesty, accountability, and ethical conduct',
-    blurb: 'Upholding honesty, accountability, and ethical conduct.',
+    blurb: 'Every initiative is grounded in total transparency. We build trust with our communities through uncompromising ethical standards and accountable actions.',
     image: '/images/founder_podium.jpeg',
     icon: ShieldCheck,
   },
   {
     title: 'Inclusivity',
     short: 'Respecting diversity and ensuring equal opportunities',
-    blurb: 'Respecting diversity and ensuring equal opportunities for all.',
+    blurb: 'True empowerment reaches the margins. We consciously design our programs to bridge divides of gender, geography, and socio-economic status.',
     image: '/images/women_empowerment_class.jpeg',
     icon: Users,
   },
   {
     title: 'Innovation',
     short: 'Encouraging creativity and problem-solving',
-    blurb: 'Encouraging creativity and problem-solving for societal advancement.',
+    blurb: 'The unique challenges of the Himalayas require unique solutions. We foster creative problem solving to develop scalable and adaptable models of change.',
     image: '/images/villagelearning2.jpeg',
     icon: Lightbulb,
   },
   {
     title: 'Compassion',
     short: 'Promoting empathy, respect, and service to humanity',
-    blurb: 'Promoting empathy, respect, and service to humanity.',
+    blurb: 'Empathy is our compass. We approach every community interaction with deep respect for local wisdom and a genuine desire to uplift and support.',
     image: '/images/compassion.jpeg',
     icon: HeartHandshake,
   },
   {
     title: 'Sustainability',
     short: 'Supporting responsible practices for future generations',
-    blurb: 'Supporting responsible practices for the well-being of present and future generations.',
+    blurb: 'Our interventions are designed to outlive us. We prioritize ecological balance and community-driven ownership to ensure long-term, self-sustaining progress.',
     image: '/images/sus2.jpeg',
     icon: Leaf,
   },
 ]
 
-
 const OurValues = ({ isLoaded }) => {
   const sectionRef = useRef(null)
+  const leftColumnRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
     if (!isLoaded || !sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      const cards = sectionRef.current.querySelectorAll('.value-card')
-      if (cards.length) {
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 24 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.08,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none reverse'
-            },
-          }
-        )
-      }
-
-      const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-      if (isDesktop) {
+      // Create scroll triggers for each text block
+      const blocks = gsap.utils.toArray('.value-text-block')
+      
+      blocks.forEach((block, i) => {
         ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: 'top 50%',
-          end: 'bottom 50%',
-          scrub: 0.35,
-          onUpdate: (self) => {
-            const rawIndex = self.progress * (values.length - 1)
-            const nextIndex = Math.round(rawIndex)
-            setActiveIndex(Math.min(values.length - 1, Math.max(0, nextIndex)))
-          },
+          trigger: block,
+          start: 'top 55%',
+          end: 'bottom 45%',
+          onEnter: () => setActiveIndex(i),
+          onEnterBack: () => setActiveIndex(i),
         })
-      }
+      })
+      
+      // Cleanup scroll triggers automatically in context
     }, sectionRef)
 
     return () => ctx.revert()
   }, [isLoaded])
 
-  const activeValue = values[activeIndex]
-  const ActiveIcon = activeValue.icon
-
   return (
     <section
       id="our-values"
       ref={sectionRef}
-      className="relative w-full overflow-hidden border-b border-brand-dark/5 bg-brand-cream px-6 py-24 md:px-12 lg:py-32"
+      className="relative w-full bg-brand-cream border-b border-brand-dark/5"
     >
-      <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-8 md:px-16">
-        <div className="h-full w-px bg-brand-dark/5" />
-        <div className="h-full w-px bg-brand-dark/5" />
-        <div className="hidden h-full w-px bg-brand-dark/5 md:block" />
-      </div>
-      <div className="absolute bottom-[-10%] right-[-8%] h-80 w-80 rounded-full bg-brand-dark/5 blur-[120px]" />
+      {/* Background Decor */}
+      <div className="absolute top-[10%] left-[-10%] w-[600px] h-[600px] bg-brand-red/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-brand-grey/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-12">
-        <div className="flex flex-col gap-3 border-b border-brand-dark/10 pb-5 md:flex-row md:items-end md:justify-between">
+      {/* Standard Header */}
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 pt-24 md:pt-32 pb-8 relative z-20">
+        <div className="flex flex-col gap-4 border-b border-brand-dark/10 pb-6 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-red">
               05 / Our Values
             </span>
-            <h2 className="mt-2 text-3xl font-display font-black uppercase tracking-tight text-brand-dark sm:text-4xl md:text-5xl">
+            <h2 className="mt-2 text-4xl font-display font-black uppercase tracking-tight text-brand-dark sm:text-5xl md:text-6xl max-w-3xl">
               The quiet principles behind every action
             </h2>
           </div>
-          <p className="max-w-xl text-sm leading-relaxed text-brand-grey/85">
+          <p className="max-w-sm text-sm md:text-base leading-relaxed text-brand-grey/85 font-light pb-1">
             Each program is shaped by a deeply held ethic of care, dignity, and long-term community ownership.
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-5">
-            <div className="value-card min-h-[200px] lg:min-h-[220px] rounded-[28px] border border-brand-dark/10 bg-white/70 p-5 shadow-[0_18px_40px_rgba(0,0,0,0.04)] backdrop-blur-sm">
-              <div className="mb-4 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-brand-red">
-                <ActiveIcon size={16} />
-              </div>
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-red/80">
-                Guiding principle
-              </p>
-              <h3 className="mt-2 text-2xl font-display font-black uppercase tracking-tight text-brand-dark">
-                {activeValue.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-brand-grey/80 min-h-12 sm:min-h-14">
-                {activeValue.blurb}
-              </p>
-            </div>
-
-            <div className="mt-4 space-y-3">
-              {values.map((value, index) => {
-                const Icon = value.icon
-                const isActive = index === activeIndex
-
-                return (
-                  <button
-                    key={value.title}
-                    type="button"
-                    onClick={() => setActiveIndex(index)}
-                    className={`value-card flex w-full items-start gap-4 rounded-[22px] border px-5 py-4 text-left transition-all duration-300 ${
-                      isActive
-                        ? 'border-brand-red/20 bg-brand-dark text-brand-cream shadow-[0_14px_30px_rgba(1,62,55,0.16)]'
-                        : 'border-brand-dark/10 bg-brand-white/70 text-brand-dark hover:border-brand-red/20 hover:bg-brand-white'
-                    }`}
-                  >
-                    <div className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${isActive ? 'bg-brand-cream/15 text-brand-cream' : 'bg-brand-red/10 text-brand-red'}`}>
-                      <Icon size={16} />
+      {/* Main Layout */}
+      <div className="relative w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col-reverse lg:flex-row pb-24 md:pb-32 z-20">
+        
+        {/* Left Column: Scrolling Typography */}
+        <div 
+          ref={leftColumnRef}
+          className="w-full lg:w-1/2 lg:pr-6 xl:pr-10 pt-12 lg:pt-[20vh] pb-[10vh] lg:pb-[30vh] flex flex-col gap-[15vh] lg:gap-[35vh]"
+        >
+          {values.map((val, idx) => {
+            const isActive = activeIndex === idx
+            return (
+              <div key={idx} className="value-text-block group relative">
+                {/* Massive Title */}
+                <h3 
+                  className={`text-4xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-display font-black uppercase tracking-tighter transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    isActive 
+                      ? 'text-brand-dark translate-x-2 md:translate-x-4 scale-100' 
+                      : 'text-transparent [-webkit-text-stroke:2.5px_rgba(1,62,55,0.25)] scale-[0.98]'
+                  }`}
+                >
+                  {val.title}
+                </h3>
+                
+                {/* Expanding Content */}
+                <div 
+                  className={`mt-8 flex flex-col gap-4 max-w-md transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    isActive 
+                      ? 'opacity-100 translate-y-0 translate-x-2 md:translate-x-4' 
+                      : 'opacity-0 translate-y-8 pointer-events-none'
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="mt-0.5 bg-brand-red/10 text-brand-red rounded-full p-2.5 shrink-0 shadow-sm border border-brand-red/20">
+                      <val.icon size={18} strokeWidth={2.5} />
                     </div>
                     <div>
-                      <div className="text-[10px] font-black uppercase tracking-[0.3em] opacity-70">
-                        Value {index + 1}
-                      </div>
-                      <div className="mt-1 text-sm font-semibold uppercase tracking-[0.16em]">
-                        {value.title}
-                      </div>
-                      <div className={`mt-1 text-sm leading-relaxed ${isActive ? 'text-brand-cream/80' : 'text-brand-grey/70'}`}>
-                        {value.short}
-                      </div>
+                      <span className="block text-brand-dark font-black uppercase tracking-[0.2em] text-[11px] mb-1">
+                        Core Tenet 0{idx + 1}
+                      </span>
+                      <span className="block text-brand-dark font-semibold leading-tight text-sm md:text-base">
+                        {val.short}
+                      </span>
                     </div>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="lg:col-span-7">
-            <div className="rounded-4xl border border-brand-dark/10 bg-white/70 p-3 shadow-[0_24px_60px_rgba(0,0,0,0.06)] backdrop-blur-sm">
-              <div className="relative aspect-4/5 overflow-hidden rounded-3xl">
-                {values.map((value, index) => (
-                  <img
-                    key={value.image}
-                    src={value.image}
-                    alt={value.title}
-                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${
-                      index === activeIndex ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  />
-                ))}
-                <div className="absolute inset-0 bg-linear-to-t from-brand-dark/70 via-brand-dark/15 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 z-10 flex items-end justify-between gap-4">
-                  <div>
-                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-cream/80">
-                      Our ethos in motion
-                    </div>
-                    <h3 className="mt-2 text-2xl font-display font-black uppercase tracking-tight text-brand-cream sm:text-3xl">
-                      {activeValue.title}
-                    </h3>
                   </div>
-                  <div className="rounded-full border border-brand-cream/25 bg-brand-cream/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] text-brand-cream backdrop-blur-sm">
-                    {activeIndex + 1}/{values.length}
-                  </div>
+                  <p className="text-brand-grey text-sm md:text-base leading-relaxed font-light pl-13">
+                    {val.blurb}
+                  </p>
                 </div>
               </div>
-            </div>
+            )
+          })}
+        </div>
+
+        {/* Right Column: Sticky Image Gallery */}
+        <div className="w-full lg:w-1/2 lg:pl-2 xl:pl-6 lg:h-screen lg:sticky lg:top-0 flex items-center justify-center pt-8 lg:pt-0 pointer-events-none">
+          {/* Glass Image Container */}
+          <div className="relative w-full aspect-4/5 lg:aspect-square lg:max-h-[75vh] rounded-3xl overflow-hidden bg-brand-dark/5 shadow-2xl border border-brand-dark/10">
+            {values.map((val, idx) => {
+              const isActive = activeIndex === idx
+              return (
+                <div 
+                  key={idx} 
+                  className={`absolute inset-0 transition-opacity duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                >
+                  {/* Subtle Ken Burns Scale Effect */}
+                  <img 
+                    src={val.image} 
+                    alt={val.title}
+                    className={`w-full h-full object-cover transition-transform duration-[20s] ease-out origin-center ${
+                      isActive ? 'scale-110' : 'scale-100'
+                    }`} 
+                  />
+                  
+                  {/* Gradients for text legibility */}
+                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/90 via-brand-dark/20 to-transparent" />
+                  
+                  {/* Premium Glassmorphism Overlay */}
+                  <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                    <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
+                      <div className="flex items-center gap-3 mb-2">
+                         <div className="w-8 h-px bg-brand-cream/50"></div>
+                         <p className="text-brand-cream/90 text-[10px] uppercase tracking-[0.3em] font-bold">Value 0{idx + 1}</p>
+                      </div>
+                      <h4 className="text-brand-cream font-display font-black text-3xl md:text-4xl uppercase tracking-tight">
+                        {val.title}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
+
       </div>
     </section>
   )

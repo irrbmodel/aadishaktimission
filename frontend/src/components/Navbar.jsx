@@ -139,8 +139,8 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
         tl.fromTo(
           imageRef.current,
           { x: 60, opacity: 0 },
-          { x: 0, opacity: 1, duration: 0.7, ease: 'power3.out' },
-          '-=0.5'
+          { x: 0, opacity: 1, duration: 0.4, ease: 'power3.out' },
+          '-=0.7'
         )
       }
 
@@ -222,10 +222,11 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
 
   const menuItems = [
     { label: 'home', id: 'hero' },
+    { label: 'our vision', id: 'vision-mission' },
+    { label: 'our values', id: 'our-values' },
     { label: 'our programs', id: 'journey' },
     { label: 'our impact', id: 'our-impact' },
-    { label: 'meet the team', id: 'team' },
-    { label: 'contact', id: 'footer' }
+    { label: 'meet the team', id: 'team' }
   ]
 
   const isDarkHero = !isScrolled && view === 'home' && !isOpen
