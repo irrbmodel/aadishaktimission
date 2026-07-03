@@ -71,12 +71,12 @@ const VisionMission = ({ isLoaded }) => {
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          stagger: 0.08,
+          duration: 0.45,
+          stagger: 0.04,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: ".mission-grid",
-            start: 'top 85%',
+            start: 'top 90%',
             toggleActions: 'play none none reverse'
           }
         }
