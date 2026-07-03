@@ -138,17 +138,17 @@ const OurValues = ({ isLoaded }) => {
 
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-5">
-            <div className="value-card rounded-[28px] border border-brand-dark/10 bg-white/70 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.04)] backdrop-blur-sm">
-              <div className="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-brand-red/10 text-brand-red">
-                <ActiveIcon size={20} />
+            <div className="value-card min-h-[200px] lg:min-h-[220px] rounded-[28px] border border-brand-dark/10 bg-white/70 p-5 shadow-[0_18px_40px_rgba(0,0,0,0.04)] backdrop-blur-sm">
+              <div className="mb-4 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-red/10 text-brand-red">
+                <ActiveIcon size={16} />
               </div>
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-red/80">
                 Guiding principle
               </p>
-              <h3 className="mt-3 text-2xl font-display font-black uppercase tracking-tight text-brand-dark">
+              <h3 className="mt-2 text-2xl font-display font-black uppercase tracking-tight text-brand-dark">
                 {activeValue.title}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-brand-grey/80">
+              <p className="mt-2 text-sm leading-relaxed text-brand-grey/80 min-h-[3rem] sm:min-h-[3.5rem]">
                 {activeValue.blurb}
               </p>
             </div>
