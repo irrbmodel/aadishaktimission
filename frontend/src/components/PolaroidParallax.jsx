@@ -192,7 +192,9 @@ const PolaroidParallax = ({ isLoaded }) => {
             Our Commitment
           </h2>
           <p className="font-sans text-xs sm:text-sm md:text-[1.25vw] text-brand-white/95 leading-relaxed font-light drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)] max-w-2xl px-4 md:px-0">
-            We do not believe in fleeting shadows or temporary fixes. Our commitment is to sow seeds of quiet resilience in the soil of every community we join. We pledge to listen to the silent needs of the grassroots, weaving education, health, and independence into a legacy that stands long after we are gone nurturing growth that belongs entirely to the people.
+            The Aadi Shakti Mission believes that true progress begins with empowered individuals working together for the common good. By fostering knowledge, values, innovation, and social responsibility, the Mission strives to create a community where every person is inspired to realize their potential and contribute to a more just, compassionate, and sustainable world.
+            <br /><br />
+            Aadi Shakti is the energy within us all the power to learn, lead, serve, and transform society.
           </p>
         </div>
 

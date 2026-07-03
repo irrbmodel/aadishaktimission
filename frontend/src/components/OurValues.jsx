@@ -1,40 +1,55 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Compass, HeartHandshake, Leaf, ShieldCheck } from 'lucide-react'
+import { Award, ShieldCheck, Users, Lightbulb, HeartHandshake, Leaf } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const values = [
   {
+    title: 'Excellence',
+    short: 'Pursuing the highest standards in learning, research, and service',
+    blurb: 'Pursuing the highest standards in learning, research, and service.',
+    image: '/images/girls_studying.jpeg',
+    icon: Award,
+  },
+  {
+    title: 'Integrity',
+    short: 'Upholding honesty, accountability, and ethical conduct',
+    blurb: 'Upholding honesty, accountability, and ethical conduct.',
+    image: '/images/founder_podium.jpeg',
+    icon: ShieldCheck,
+  },
+  {
+    title: 'Inclusivity',
+    short: 'Respecting diversity and ensuring equal opportunities',
+    blurb: 'Respecting diversity and ensuring equal opportunities for all.',
+    image: '/images/women_empowerment_class.jpeg',
+    icon: Users,
+  },
+  {
+    title: 'Innovation',
+    short: 'Encouraging creativity and problem-solving',
+    blurb: 'Encouraging creativity and problem-solving for societal advancement.',
+    image: '/images/villagelearning2.jpeg',
+    icon: Lightbulb,
+  },
+  {
     title: 'Compassion',
-    short: 'Care that reaches people first',
-    blurb: 'We listen deeply, meet communities where they are, and respond with practical dignity before asking for anything in return.',
+    short: 'Promoting empathy, respect, and service to humanity',
+    blurb: 'Promoting empathy, respect, and service to humanity.',
     image: '/images/compassion.jpeg',
     icon: HeartHandshake,
   },
   {
-    title: 'Equity',
-    short: 'Opportunities shaped by local need',
-    blurb: 'Our work centers women, children, and rural households that are often left out of formal support systems and policy conversations.',
-    image: '/images/equality.jpeg',
-    icon: ShieldCheck,
-  },
-  {
-    title: 'Ecology',
-    short: 'Restoration rooted in place',
-    blurb: 'We treat environmental care as a lived practice—through forest stewardship, water awareness, and community-led restoration.',
-    image: '/images/ecology.jpeg',
+    title: 'Sustainability',
+    short: 'Supporting responsible practices for future generations',
+    blurb: 'Supporting responsible practices for the well-being of present and future generations.',
+    image: '/images/sus2.jpeg',
     icon: Leaf,
   },
-  {
-    title: 'Purpose',
-    short: 'Meaningful action, not performative charity',
-    blurb: 'Every initiative is built to create long-term agency, confidence, and self-reliance rather than short-lived relief alone.',
-    image: '/images/maa2.jpeg',
-    icon: Compass,
-  },
 ]
+
 
 const OurValues = ({ isLoaded }) => {
   const sectionRef = useRef(null)
@@ -77,7 +92,8 @@ const OurValues = ({ isLoaded }) => {
     const trigger = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: 'top top',
-      end: 'bottom bottom',
+      end: '+=150%',
+      pin: true,
       scrub: 0.35,
       onUpdate: (self) => {
         const rawIndex = self.progress * (values.length - 1)

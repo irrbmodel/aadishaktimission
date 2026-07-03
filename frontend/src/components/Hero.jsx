@@ -152,16 +152,16 @@ const Hero = ({ isLoaded, onJoinNow }) => {
         className="relative z-20 max-w-4xl ml-auto text-right select-none w-full flex flex-col items-end gap-6 sm:gap-8"
       >
         <div className="flex flex-col items-end gap-4 max-w-3xl">
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[5.5rem] leading-[1.05] tracking-tight text-brand-cream font-black uppercase">
+          <h1 className="font-playfair text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[5.5rem] leading-[1.05] tracking-tight text-brand-cream font-black uppercase">
             <span ref={el => titleWordsRef.current[0] = el} className="inline-block opacity-0">
               Aadi Shakti Mission
             </span>
           </h1>
           <p 
             ref={el => titleWordsRef.current[1] = el} 
-            className="opacity-0 font-sans text-sm sm:text-base md:text-lg text-brand-cream/80 max-w-xl font-light leading-relaxed tracking-wide text-right"
+            className="opacity-0 font-sans text-sm sm:text-base md:text-lg text-brand-cream max-w-xl font-semibold leading-relaxed tracking-wide text-right"
           >
-            Awakening Himalayan potential. One community, one cooperative, one craft at a time.
+            Awakening Potential. Inspiring Leadership. Transforming Society.
           </p>
         </div>
 
