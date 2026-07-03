@@ -54,9 +54,19 @@ const OurValues = ({ isLoaded }) => {
   const sectionRef = useRef(null)
   const leftColumnRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    if (!isLoaded || !sectionRef.current) return
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    if (!isLoaded || isMobile || !sectionRef.current) return
 
     const ctx = gsap.context(() => {
       // Create scroll triggers for each text block
@@ -76,7 +86,83 @@ const OurValues = ({ isLoaded }) => {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [isLoaded])
+  }, [isLoaded, isMobile])
+
+  if (isMobile) {
+    return (
+      <section
+        id="our-values"
+        ref={sectionRef}
+        className="relative w-full bg-brand-cream border-b border-brand-dark/5 py-24 px-6 z-20"
+      >
+        {/* Background Decor */}
+        <div className="absolute top-[10%] left-[-10%] w-[400px] h-[400px] bg-brand-red/5 rounded-full blur-[80px] pointer-events-none" />
+        <div className="absolute bottom-[20%] right-[-10%] w-[300px] h-[300px] bg-brand-grey/5 rounded-full blur-[80px] pointer-events-none" />
+
+        {/* Header */}
+        <div className="w-full max-w-2xl mx-auto flex flex-col gap-4 border-b border-brand-dark/10 pb-6 mb-12">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-[0.35em] text-brand-red">
+              05 / Our Values
+            </span>
+            <h2 className="mt-2 text-3xl font-display font-black uppercase tracking-tight text-brand-dark sm:text-4xl">
+              The quiet principles behind every action
+            </h2>
+          </div>
+          <p className="text-xs sm:text-sm leading-relaxed text-brand-grey/85 font-light">
+            Each program is shaped by a deeply held ethic of care, dignity, and long-term community ownership.
+          </p>
+        </div>
+
+        {/* Card Grid */}
+        <div className="w-full max-w-2xl mx-auto flex flex-col gap-6">
+          {values.map((val, idx) => {
+            const Icon = val.icon
+            return (
+              <div 
+                key={idx} 
+                className="bg-brand-white border border-brand-dark/5 rounded-[24px] overflow-hidden shadow-lg flex flex-col"
+              >
+                {/* Image Cover */}
+                <div className="relative h-48 sm:h-60 w-full overflow-hidden">
+                  <img 
+                    src={val.image} 
+                    alt={val.title}
+                    className="w-full h-full object-cover" 
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-brand-dark/85 via-brand-dark/20 to-transparent" />
+                  
+                  <div className="absolute bottom-4 left-6 flex items-baseline gap-2">
+                    <span className="text-[9px] text-brand-cream/80 uppercase tracking-widest font-black">Value 0{idx + 1}</span>
+                    <h4 className="text-brand-cream font-display font-black text-xl sm:text-2xl uppercase tracking-tight">
+                      {val.title}
+                    </h4>
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="p-6 flex flex-col gap-4">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 bg-brand-red/10 text-brand-red rounded-full p-2 shrink-0 border border-brand-red/20">
+                      <Icon size={16} strokeWidth={2.5} />
+                    </div>
+                    <div>
+                      <span className="block text-brand-dark font-semibold leading-snug text-xs sm:text-sm">
+                        {val.short}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-brand-grey text-xs sm:text-sm leading-relaxed font-light pl-11">
+                    {val.blurb}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section
@@ -188,7 +274,7 @@ const OurValues = ({ isLoaded }) => {
                     <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
                       <div className="flex items-center gap-3 mb-2">
                          <div className="w-8 h-px bg-brand-cream/50"></div>
-                         <p className="text-brand-cream/90 text-[10px] uppercase tracking-[0.3em] font-bold">Value 0{idx + 1}</p>
+                         <p className="text-brand-cream/90 text-[10px] uppercase tracking-[0.35em] font-bold">Value 0{idx + 1}</p>
                       </div>
                       <h4 className="text-brand-cream font-display font-black text-3xl md:text-4xl uppercase tracking-tight">
                         {val.title}

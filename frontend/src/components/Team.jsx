@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -112,37 +113,57 @@ const Team = ({ isLoaded }) => {
                   key={member.name}
                   onMouseEnter={() => setActiveMember(idx)}
                   onClick={() => setActiveMember(idx)}
-                  className="w-full py-6 flex items-center justify-between text-left group cursor-pointer focus:outline-none"
+                  className="w-full py-6 flex items-start justify-between text-left group cursor-pointer focus:outline-none"
                   data-cursor="pointer"
                 >
-                  <div className="flex items-center gap-6 md:gap-8">
+                  <div className="flex items-start gap-6 md:gap-8 flex-1">
                     {/* Index display */}
-                    <span className={`font-display text-xs font-bold tracking-widest ${
-                      activeMember === idx ? 'text-brand-red' : 'text-brand-grey/50 group-hover:text-brand-dark'
-                    } transition-colors duration-300`}>
+                    <span className={`font-display text-xs font-bold tracking-widest mt-1.5 transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                      activeMember === idx ? 'text-brand-red font-extrabold' : 'text-brand-grey/50 group-hover:text-brand-dark'
+                    }`}>
                       0{idx + 1}
                     </span>
                     
-                    <div>
+                    <div className="flex-1">
                       {/* Name */}
-                      <span className={`font-serif text-xl sm:text-2xl md:text-3xl block transition-all duration-300 ${
+                      <span className={`font-serif text-xl sm:text-2xl md:text-3xl block transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                         activeMember === idx 
-                          ? 'text-brand-dark font-medium translate-x-2' 
-                          : 'text-brand-dark/60 group-hover:text-brand-dark group-hover:translate-x-1'
+                          ? 'text-brand-dark font-semibold translate-x-3' 
+                          : 'text-brand-dark/60 group-hover:text-brand-dark group-hover:translate-x-1.5'
                       }`}>
                         {member.name}
                       </span>
                       {/* Role */}
-                      <span className={`font-sans text-[10px] font-bold uppercase tracking-wider block mt-1 transition-colors duration-300 ${
+                      <span className={`font-sans text-[10px] font-bold uppercase tracking-wider block mt-1 transition-colors duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                         activeMember === idx ? 'text-brand-red' : 'text-brand-grey/60 group-hover:text-brand-red/70'
                       }`}>
                         {member.role}
                       </span>
+
+                      {/* Bio & Quote Accordion */}
+                      <AnimatePresence initial={false}>
+                        {activeMember === idx && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                            animate={{ height: 'auto', opacity: 1, marginTop: 16 }}
+                            exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                            transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                            className="overflow-hidden pr-12 flex flex-col gap-3 text-left"
+                          >
+                            <p className="font-sans text-xs text-brand-grey font-light leading-relaxed">
+                              {member.bio}
+                            </p>
+                            <div className="border-l-2 border-brand-red/35 pl-3 py-0.5 italic text-brand-grey/85 text-xs leading-relaxed font-serif">
+                              &ldquo;{member.quote}&rdquo;
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </div>
 
                   {/* Arrow Indicator */}
-                  <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
+                  <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] mt-1.5 ${
                     activeMember === idx 
                       ? 'border-brand-red bg-brand-red text-brand-cream rotate-45 scale-110 shadow-md shadow-brand-red/10' 
                       : 'border-brand-dark/15 text-brand-dark group-hover:border-brand-dark group-hover:bg-brand-cream group-hover:text-brand-dark'
@@ -179,21 +200,41 @@ const Team = ({ isLoaded }) => {
 
           {/* Mobile/Tablet Stacked Founders Display - Visible only on small viewports */}
           <div className="flex flex-col gap-8 lg:hidden mt-8 w-full">
-            {team.map((member) => (
+            {team.map((member, idx) => (
               <div 
                 key={member.name}
-                className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-3 shadow-2xl flex flex-col overflow-hidden"
+                className="relative rounded-[32px] bg-brand-white border border-brand-dark/5 p-5 shadow-2xl flex flex-col overflow-hidden"
               >
                 {/* Top Accent Line */}
                 <div className="absolute top-0 left-0 w-full h-[6px] bg-brand-red z-10" />
                 
                 {/* Portrait Display */}
-                <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40">
+                <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-brand-dark/5 shadow-inner bg-brand-cream/40 mb-6">
                   <img 
                     src={member.image} 
                     alt={member.name} 
                     className="w-full h-full object-cover brightness-95"
                   />
+                </div>
+
+                {/* Details */}
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-widest block mb-1">
+                      0{idx + 1} / {member.role}
+                    </span>
+                    <h3 className="font-serif text-2xl font-bold text-brand-dark uppercase tracking-tight">
+                      {member.name}
+                    </h3>
+                  </div>
+
+                  <p className="font-sans text-xs text-brand-grey/95 leading-relaxed font-light">
+                    {member.bio}
+                  </p>
+
+                  <div className="border-l-2 border-brand-red/35 pl-4 py-1 italic text-brand-grey/90 text-xs leading-relaxed font-serif">
+                    &ldquo;{member.quote}&rdquo;
+                  </div>
                 </div>
               </div>
             ))}

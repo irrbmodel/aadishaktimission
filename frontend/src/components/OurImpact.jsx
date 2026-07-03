@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 const OurImpact = ({ isLoaded }) => {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const slides = [
     {
       image: '/images/girls_studying.jpeg',
@@ -35,8 +46,12 @@ const OurImpact = ({ isLoaded }) => {
       {slides.map((slide, idx) => (
         <div
           key={idx}
-          className="sticky top-0 w-full h-screen overflow-hidden flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]"
-          style={{ zIndex: idx + 10 }}
+          className={`${
+            isMobile 
+              ? 'relative min-h-[75vh] py-16' 
+              : 'sticky top-0 h-screen overflow-hidden'
+          } w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]`}
+          style={isMobile ? {} : { zIndex: idx + 10 }}
         >
           {/* Background Blurred Photo */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">

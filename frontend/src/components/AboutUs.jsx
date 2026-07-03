@@ -65,50 +65,76 @@ const AboutUs = ({ isLoaded }) => {
     const ctx = gsap.context(() => {
       const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-      // Paragraph 1 reveal
-      gsap.to(".reveal-word-p1", {
-        opacity: 1,
-        y: 0,
-        ...(isDesktop ? { filter: "blur(0px)" } : {}),
-        stagger: 0.008,
-        ease: "power1.out",
-        scrollTrigger: {
-          trigger: ".philosophy-p1",
-          start: "top 85%",
-          end: "bottom 55%",
-          scrub: 1.0,
-        }
-      })
+      if (isDesktop) {
+        // Paragraph 1 reveal
+        gsap.to(".reveal-word-p1", {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          stagger: 0.008,
+          ease: "power1.out",
+          scrollTrigger: {
+            trigger: ".philosophy-p1",
+            start: "top 85%",
+            end: "bottom 55%",
+            scrub: 1.0,
+          }
+        })
 
-      // Paragraph 2 reveal
-      gsap.to(".reveal-word-p2", {
-        opacity: 1,
-        y: 0,
-        ...(isDesktop ? { filter: "blur(0px)" } : {}),
-        stagger: 0.008,
-        ease: "power1.out",
-        scrollTrigger: {
-          trigger: ".philosophy-p2",
-          start: "top 85%",
-          end: "bottom 55%",
-          scrub: 1.0,
-        }
-      })
+        // Paragraph 2 reveal
+        gsap.to(".reveal-word-p2", {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          stagger: 0.008,
+          ease: "power1.out",
+          scrollTrigger: {
+            trigger: ".philosophy-p2",
+            start: "top 85%",
+            end: "bottom 55%",
+            scrub: 1.0,
+          }
+        })
 
-      // Paragraph 3 reveal
-      gsap.to(".reveal-word-p3", {
-        opacity: 1,
-        y: 0,
-        ...(isDesktop ? { filter: "blur(0px)" } : {}),
-        stagger: 0.012,
-        ease: "power1.out",
-        scrollTrigger: {
-          trigger: ".philosophy-p3",
-          start: "top 85%",
-          end: "bottom 55%",
-          scrub: 1.0,
-        }
-      })
+        // Paragraph 3 reveal
+        gsap.to(".reveal-word-p3", {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          stagger: 0.012,
+          ease: "power1.out",
+          scrollTrigger: {
+            trigger: ".philosophy-p3",
+            start: "top 85%",
+            end: "bottom 55%",
+            scrub: 1.0,
+          }
+        })
+      } else {
+        // Mobile performance optimization: bypass individual span animations entirely
+        gsap.set([".reveal-word-p1", ".reveal-word-p2", ".reveal-word-p3"], { 
+          opacity: 1, 
+          y: 0,
+          filter: "none"
+        })
+
+        // Instead, animate the whole paragraphs in one smooth transition
+        gsap.fromTo([".philosophy-p1", ".philosophy-p2", ".philosophy-p3"],
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".philosophy-p1",
+              start: "top 85%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        )
+      }
 
       // Footer ornament fade in
       gsap.fromTo(".philosophy-footer-text",

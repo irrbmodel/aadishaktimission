@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -46,6 +46,7 @@ const MountainPeaks = React.forwardRef(({ className, path1Ref, path2Ref }, ref) 
 ))
 
 const PolaroidParallax = ({ isLoaded }) => {
+  const [isMobile, setIsMobile] = useState(false)
   const containerRef = useRef(null)
   const cardRef = useRef(null)
   const mountainsRef = useRef(null)
@@ -55,7 +56,16 @@ const PolaroidParallax = ({ isLoaded }) => {
   const textRef = useRef(null)
 
   useEffect(() => {
-    if (!isLoaded) return
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {
+    if (!isLoaded || isMobile) return
 
     const ctx = gsap.context(() => {
       const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
@@ -149,7 +159,64 @@ const PolaroidParallax = ({ isLoaded }) => {
     }, containerRef)
 
     return () => ctx.revert()
-  }, [isLoaded])
+  }, [isLoaded, isMobile])
+
+  if (isMobile) {
+    return (
+      <div id="polaroid-transition" ref={containerRef} className="relative w-full bg-brand-cream z-10 px-6 py-20 border-b border-brand-dark/5">
+        {/* Section Header */}
+        <div className="w-full max-w-xl mx-auto flex items-center border-b border-brand-dark/10 pb-4 mb-8">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
+            02 / Our Community
+          </span>
+        </div>
+
+        {/* Central Polaroid Image Card */}
+        <div className="w-full max-w-xl mx-auto rounded-[24px] overflow-hidden shadow-xl border border-brand-dark/5 bg-brand-white p-2.5 mb-8">
+          <div className="relative aspect-video rounded-xl overflow-hidden">
+            <img 
+              src="/images/village_women_uttarakhand.png" 
+              alt="Uttarakhand Village Women" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Commitment Text Card */}
+        <div className="w-full max-w-xl mx-auto flex flex-col gap-4 text-center mb-8">
+          <h2 className="font-serif font-black text-3xl text-brand-dark uppercase tracking-tight">
+            Our Commitment
+          </h2>
+          <p className="font-sans text-xs text-brand-grey leading-relaxed font-light">
+            The Aadi Shakti Mission believes that true progress begins with empowered individuals working together for the common good. By fostering knowledge, values, innovation, and social responsibility, the Mission strives to create a community where every person is inspired to realize their potential and contribute to a more just, compassionate, and sustainable world.
+            <br /><br />
+            Aadi Shakti is the energy within us all the power to learn, lead, serve, and transform society.
+          </p>
+        </div>
+
+        {/* Bottom Intro box styled as a nice card on mobile */}
+        <div className="w-full max-w-xl mx-auto border-2 border-double border-brand-dark/15 py-6 px-6 bg-brand-white rounded-2xl relative shadow-md flex flex-col items-center text-center text-brand-dark">
+          {/* Traditional diamond Aipan corner accents */}
+          <div className="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+            <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+          </div>
+          <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+            <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+          </div>
+          <div className="absolute -bottom-1.5 -left-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+            <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+          </div>
+          <div className="absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-brand-cream border border-brand-dark rotate-45 flex items-center justify-center select-none shadow-xs">
+            <div className="w-1.5 h-1.5 bg-brand-red rounded-full" />
+          </div>
+
+          <p className="font-sans text-xs text-brand-dark/90 leading-relaxed font-light">
+            Aadi Shakti Mission is rooted in the high mountain valleys of Uttarakhand. By backing local women cooperatives, setting up digital literacy hubs, and conserving Pahari craft traditions, we build models of absolute self-reliance for village communities.
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-cream z-10">
