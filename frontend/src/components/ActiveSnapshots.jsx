@@ -136,7 +136,7 @@ const ActiveSnapshots = ({ isLoaded }) => {
       <div className="absolute top-0 left-0 w-full pt-12 px-6 md:px-12 z-20 hidden lg:block">
         <div className="w-full max-w-7xl mx-auto flex items-center justify-between border-b border-brand-dark/10 pb-4 select-none">
           <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
-            04 / Active Snapshots
+            03 / Active Snapshots
           </span>
           <span className="font-serif italic text-xs text-brand-grey font-bold">
             Impact in Uttarakhand

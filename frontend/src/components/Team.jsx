@@ -83,7 +83,7 @@ const Team = ({ isLoaded }) => {
         {/* Section Header */}
         <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
           <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
-            06 / Leadership
+            08 / Leadership
           </span>
           <span className="font-serif italic text-xs text-brand-grey">
             Our Founders

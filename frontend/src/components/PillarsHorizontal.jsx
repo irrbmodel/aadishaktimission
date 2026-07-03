@@ -360,7 +360,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
         {/* Section Header text */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start mb-6 md:mb-8">
-          <div className="lg:col-span-8 flex flex-col items-start gap-2">
+          <div className="lg:col-span-8 flex flex-col items-start gap-2 -translate-x-1 md:-translate-x-2">
             <h2 className="font-serif text-4xl md:text-6xl text-brand-dark tracking-tight uppercase leading-none">
               our programs
             </h2>

@@ -16,39 +16,82 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   useEffect(() => {
     if (!isLoaded) return
 
-    const ourImpactEl = document.getElementById('our-impact')
-    const journeyEl = document.getElementById('journey')
+    let ctx
 
-    const ctx = gsap.context(() => {
-      // 1. Scrolled state triggered 50px down from viewport top (works on all pages)
-      ScrollTrigger.create({
-        start: 'top -50px',
-        onToggle: (self) => setIsScrolled(self.isActive)
+    const timer = setTimeout(() => {
+      const ourImpactEl = document.getElementById('our-impact')
+      const journeyEl = document.getElementById('journey')
+
+      ctx = gsap.context(() => {
+        let inJourney = false
+        let inOurImpact = false
+        let globalST
+
+        const updateNavbarVisibility = (self) => {
+          // If inside forbidden sections, always hide
+          if (inJourney || inOurImpact) {
+            setIsNavbarHidden(true)
+            return
+          }
+
+          // If near the top, always show
+          if (self.scroll() < 50) {
+            setIsNavbarHidden(false)
+            return
+          }
+
+          // Otherwise, hide on scroll down (direction === 1) and show on scroll up (direction === -1)
+          if (self.direction === 1) {
+            setIsNavbarHidden(true)
+          } else if (self.direction === -1) {
+            setIsNavbarHidden(false)
+          }
+        }
+
+        // 1. Scroll listener for scroll position & direction
+        globalST = ScrollTrigger.create({
+          start: 'top top',
+          end: 'bottom bottom',
+          onUpdate: (self) => {
+            // Update scrolled state
+            setIsScrolled(self.scroll() > 50)
+            updateNavbarVisibility(self)
+          }
+        })
+
+        // 2. Hide navbar over journey section (works only if element exists)
+        if (journeyEl) {
+          ScrollTrigger.create({
+            trigger: journeyEl,
+            start: 'top 80px',
+            end: 'bottom top',
+            onToggle: (self) => {
+              inJourney = self.isActive
+              if (globalST) updateNavbarVisibility(globalST)
+            },
+            invalidateOnRefresh: true
+          })
+        }
+
+        // 3. Hide navbar over our-impact section (works only if element exists)
+        if (ourImpactEl) {
+          ScrollTrigger.create({
+            trigger: ourImpactEl,
+            start: 'top 80px',
+            end: 'bottom top',
+            onToggle: (self) => {
+              inOurImpact = self.isActive
+              if (globalST) updateNavbarVisibility(globalST)
+            },
+            invalidateOnRefresh: true
+          })
+        }
       })
-
-      // 2. Hide navbar over journey section (works only if element exists)
-      if (journeyEl) {
-        ScrollTrigger.create({
-          trigger: journeyEl,
-          start: 'top 80px',
-          end: 'bottom 80px',
-          onToggle: (self) => setIsNavbarHidden(self.isActive)
-        })
-      }
-
-      // 3. Hide navbar over our-impact section (works only if element exists)
-      if (ourImpactEl) {
-        ScrollTrigger.create({
-          trigger: ourImpactEl,
-          start: 'top 80px',
-          end: 'bottom 80px',
-          onToggle: (self) => setIsNavbarHidden(self.isActive)
-        })
-      }
-    })
+    }, 200)
 
     return () => {
-      ctx.revert()
+      clearTimeout(timer)
+      if (ctx) ctx.revert()
       setIsNavbarHidden(false)
       setIsScrolled(false)
     }
@@ -190,7 +233,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   return (
     <>
       <header 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 px-4 sm:px-6 lg:px-12 flex justify-center ${
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 px-4 sm:px-6 lg:px-12 flex justify-center ${
           isNavbarHidden
             ? 'opacity-0 -translate-y-full pointer-events-none'
             : isLoaded
@@ -199,8 +242,8 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
         } ${isScrolled ? 'pt-4' : 'pt-6 md:pt-8'}`}
       >
         <div className={`w-full max-w-7xl flex items-center justify-between transition-all duration-700 ${
-          isScrolled 
-            ? 'bg-brand-cream/80 backdrop-blur-xl border border-brand-dark/10 shadow-[0_8px_32px_rgba(0,0,0,0.08)] py-3 px-6 rounded-full'
+          (isScrolled || view !== 'home')
+            ? 'bg-brand-cream/95 backdrop-blur-md border border-brand-dark/10 shadow-[0_12px_40px_rgba(1,62,55,0.08)] py-3 px-6 rounded-full'
             : 'bg-transparent py-2 px-2'
         }`}>
           {/* Logo & Brand Name */}

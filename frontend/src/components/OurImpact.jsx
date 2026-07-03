@@ -4,7 +4,7 @@ const OurImpact = ({ isLoaded }) => {
   const slides = [
     {
       image: '/images/girls_studying.jpeg',
-      tag: '08 / Education',
+      tag: '07 / Education',
       num: '10k+',
       label: 'Girls Mentored',
       desc: 'Empowering young girls in remote Himalayan valleys with computer literacy, textbooks, and mentoring.',
@@ -12,7 +12,7 @@ const OurImpact = ({ isLoaded }) => {
     },
     {
       image: '/images/village_women_uttarakhand.png',
-      tag: '08 / Livelihood',
+      tag: '07 / Livelihood',
       num: '15k+',
       label: 'Lives Empowered',
       desc: 'Creating independent women cooperatives and providing vocational training to build community resilience.',
@@ -20,7 +20,7 @@ const OurImpact = ({ isLoaded }) => {
     },
     {
       image: '/images/outreach_walk.jpeg',
-      tag: '08 / Health Access',
+      tag: '07 / Health Access',
       num: '50+',
       label: 'Villages Reached',
       desc: 'Delivering diagnostic camps, maternal nutrition, and primary healthcare to underserved high-altitude hamlets.',

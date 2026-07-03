@@ -224,10 +224,26 @@ const App = () => {
           }
         }
 
-        // 2. Snapshots Exit -> Journey enters
-        const journey = document.getElementById('journey')
-        if (snapshots && journey) {
+        // 2. Snapshots Exit -> VisionMission enters
+        const visionMission = document.getElementById('vision-mission')
+        if (snapshots && visionMission) {
           gsap.to(snapshots, {
+            opacity: 0,
+            scale: 0.97,
+            ease: 'power1.inOut',
+            scrollTrigger: {
+              trigger: visionMission,
+              start: 'top bottom',
+              end: 'top 20%',
+              scrub: true
+            }
+          })
+        }
+
+        // 2.5. VisionMission Exit -> Journey enters
+        const journey = document.getElementById('journey')
+        if (visionMission && journey) {
+          gsap.to(visionMission, {
             opacity: 0,
             scale: 0.97,
             ease: 'power1.inOut',
@@ -315,12 +331,12 @@ const App = () => {
             <AboutUs isLoaded={isLoaded} />
             <PolaroidParallax isLoaded={isLoaded} />
             <ActiveSnapshots isLoaded={isLoaded} />
+            <VisionMission isLoaded={isLoaded} />
             <JourneyTimeline isLoaded={isLoaded} onOpenProgram={openProgramPanel} />
             <OurValues isLoaded={isLoaded} />
             <Gallery />
             <OurImpact isLoaded={isLoaded} />
             <Team isLoaded={isLoaded} />
-            <VisionMission isLoaded={isLoaded} />
           </main>
         ) : view === 'become-member' ? (
           <main className="relative z-10 w-full overflow-clip pt-20">

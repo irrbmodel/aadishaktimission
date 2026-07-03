@@ -110,7 +110,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
     <div 
       id="journey" 
       ref={containerRef}
-      className="relative w-full bg-brand-cream border-b border-brand-dark/5"
+      className="relative z-30 w-full bg-brand-cream border-b border-brand-dark/5"
     >
       <div className="flex flex-col md:flex-row w-full relative">
         {/* Left Side - Sticky Images (Full Screen Bleed) */}
