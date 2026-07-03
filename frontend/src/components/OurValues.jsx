@@ -58,51 +58,44 @@ const OurValues = ({ isLoaded }) => {
   useEffect(() => {
     if (!isLoaded || !sectionRef.current) return
 
-    const cards = sectionRef.current.querySelectorAll('.value-card')
-    if (!cards.length) return
-
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        cards,
-        { opacity: 0, y: 24 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.08,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
+      const cards = sectionRef.current.querySelectorAll('.value-card')
+      if (cards.length) {
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse'
+            },
+          }
+        )
+      }
+
+      const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      if (isDesktop) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'top 50%',
+          end: 'bottom 50%',
+          scrub: 0.35,
+          onUpdate: (self) => {
+            const rawIndex = self.progress * (values.length - 1)
+            const nextIndex = Math.round(rawIndex)
+            setActiveIndex(Math.min(values.length - 1, Math.max(0, nextIndex)))
           },
-        }
-      )
+        })
+      }
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [isLoaded])
-
-  useEffect(() => {
-    if (!isLoaded || !sectionRef.current) return
-
-    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-    if (!isDesktop) return
-
-    const trigger = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top',
-      end: '+=150%',
-      pin: true,
-      scrub: 0.35,
-      onUpdate: (self) => {
-        const rawIndex = self.progress * (values.length - 1)
-        const nextIndex = Math.round(rawIndex)
-        setActiveIndex(Math.min(values.length - 1, Math.max(0, nextIndex)))
-      },
-    })
-
-    return () => trigger.kill()
   }, [isLoaded])
 
   const activeValue = values[activeIndex]
@@ -148,7 +141,7 @@ const OurValues = ({ isLoaded }) => {
               <h3 className="mt-2 text-2xl font-display font-black uppercase tracking-tight text-brand-dark">
                 {activeValue.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-brand-grey/80 min-h-[3rem] sm:min-h-[3.5rem]">
+              <p className="mt-2 text-sm leading-relaxed text-brand-grey/80 min-h-12 sm:min-h-14">
                 {activeValue.blurb}
               </p>
             </div>

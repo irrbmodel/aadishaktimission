@@ -316,22 +316,31 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
 
             {/* Right Column: Editorial Visual (visible only on large screens) */}
             <div className="hidden lg:flex lg:col-span-5 w-full justify-end items-center h-full">
-              <div ref={imageRef} className="relative w-full max-w-sm xl:max-w-md h-[65%] rounded-2xl overflow-hidden shadow-2xl group/menu-img opacity-0">
-                <div className="absolute inset-0 bg-linear-to-t from-brand-dark/70 via-brand-dark/10 to-transparent z-10 pointer-events-none" />
+              <a 
+                href="#vision-mission"
+                onClick={(e) => handleNavClick(e, 'vision-mission')}
+                ref={imageRef} 
+                className="relative w-full max-w-sm xl:max-w-md h-[65%] rounded-2xl overflow-hidden shadow-2xl group/menu-img opacity-0 transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_30px_60px_rgba(139,38,23,0.15)] hover:border-brand-red/30 border border-transparent cursor-pointer block"
+                data-cursor="pointer"
+              >
+                <div className="absolute inset-0 bg-linear-to-t from-brand-dark/85 via-brand-dark/30 to-brand-dark/10 z-10 transition-colors duration-500 group-hover/menu-img:from-brand-dark/95 pointer-events-none" />
                 <img 
                   src="/images/youth_group.jpeg" 
                   alt="Empowering Communities" 
-                  className="w-full h-full object-cover scale-105 group-hover/menu-img:scale-100 transition-transform duration-1000 ease-out pointer-events-none"
+                  className="w-full h-full object-cover scale-100 group-hover/menu-img:scale-105 transition-transform duration-1000 ease-out pointer-events-none"
                 />
-                <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-8 pointer-events-none">
-                  <span className="font-sans text-[9px] font-bold text-brand-red uppercase tracking-widest mb-2">
-                    Our Mission
-                  </span>
-                  <p className="font-serif italic text-base md:text-lg text-brand-dark leading-snug">
+                <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-8 transition-transform duration-500 group-hover/menu-img:-translate-y-2 pointer-events-none">
+                  <div className="relative overflow-hidden mb-2 self-start">
+                    <span className="font-sans text-[9px] font-bold text-brand-red uppercase tracking-widest block">
+                      Our Mission
+                    </span>
+                    <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-red group-hover/menu-img:w-full transition-all duration-500" />
+                  </div>
+                  <p className="font-serif italic text-base md:text-lg text-brand-cream/90 leading-snug">
                     Empowerment from the roots, reaching the highest peaks.
                   </p>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 

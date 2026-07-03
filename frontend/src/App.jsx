@@ -16,6 +16,7 @@ import JourneyTimeline from './components/JourneyTimeline'
 import Gallery from './components/Gallery'
 import OurImpact from './components/OurImpact'
 import Team from './components/Team'
+import VisionMission from './components/VisionMission'
 import MembershipPayment from './components/MembershipPayment'
 import DonationPayment from './components/DonationPayment'
 import Footer from './components/Footer'
@@ -176,7 +177,8 @@ const App = () => {
         document.getElementById('our-values'),
         document.getElementById('gallery'),
         document.getElementById('our-impact'),
-        document.getElementById('team')
+        document.getElementById('team'),
+        document.getElementById('vision-mission')
       ].filter(Boolean)
 
       const ctx = gsap.context(() => {
@@ -318,6 +320,7 @@ const App = () => {
             <Gallery />
             <OurImpact isLoaded={isLoaded} />
             <Team isLoaded={isLoaded} />
+            <VisionMission isLoaded={isLoaded} />
           </main>
         ) : view === 'become-member' ? (
           <main className="relative z-10 w-full overflow-clip pt-20">

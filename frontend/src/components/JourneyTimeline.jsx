@@ -9,54 +9,64 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
 
   const concepts = [
     {
-      title: 'Village Learning Hub',
+      title: 'Education & Capacity Building',
       tag: 'PROGRAM 01',
-      number: '01 / 05',
-      subtitle: 'Primary & Digital Literacy',
-      impact: '500+ Rural Girls',
-      desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.',
+      number: '01 / 06',
+      subtitle: 'Excellence & Learning',
+      impact: 'Academic Excellence',
+      desc: 'Providing opportunities for academic excellence, professional development, digital literacy, and lifelong learning.',
       image: '/images/villagelearning2.jpeg',
       color: 'from-brand-red/5 via-brand-red/1 to-transparent'
     },
     {
-      title: 'Nurturing Our Neighborhoods',
+      title: 'Leadership Development',
       tag: 'PROGRAM 02',
-      number: '02 / 05',
-      subtitle: 'Community Health & Well-being',
-      impact: '1,200+ Beneficiaries',
-      desc: 'Uplifting local communities through regular health checkups, wellness camps, and clean water projects.',
+      number: '02 / 06',
+      subtitle: 'Confident & Ethical',
+      impact: 'Nurturing Leaders',
+      desc: 'Nurturing confident, ethical, and socially responsible leaders capable of addressing local and global challenges.',
       image: '/images/relief_distribution.jpeg',
       color: 'from-blue-600/5 via-blue-600/1 to-transparent'
     },
     {
-      title: 'Empowering Youth',
+      title: 'Research & Innovation',
       tag: 'PROGRAM 03',
-      number: '03 / 05',
-      subtitle: 'Skills & Autonomy',
-      impact: '250+ Youth Trained',
-      desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.',
+      number: '03 / 06',
+      subtitle: 'Technology & Solutions',
+      impact: 'Sustainable Development',
+      desc: 'Encouraging interdisciplinary research, innovation, entrepreneurship, and technology-driven solutions for sustainable development.',
       image: '/images/youth_group.jpeg',
       color: 'from-amber-600/5 via-amber-600/1 to-transparent'
     },
     {
-      title: 'For Mother Earth',
+      title: 'Community Engagement',
       tag: 'PROGRAM 04',
-      number: '04 / 05',
-      subtitle: 'Eco-Conservation & Forestry',
-      impact: '5,000+ Saplings',
-      desc: 'Preserving our ecosystem through native afforestation drives, solar clinic power setups, and green space development.',
+      number: '04 / 06',
+      subtitle: 'Outreach & Inclusion',
+      impact: 'Social Inclusion',
+      desc: 'Promoting volunteerism, outreach programmes, legal literacy, health awareness, environmental conservation, and social inclusion.',
       image: '/images/ecology.jpeg',
       color: 'from-emerald-600/5 via-emerald-600/1 to-transparent'
     },
     {
-      title: 'Heritage & Handloom Revival',
+      title: 'Skill Development & Entrepreneurship',
       tag: 'PROGRAM 05',
-      number: '05 / 05',
-      subtitle: 'Craft & Aipan Conservation',
-      impact: '80+ Women Artisans',
-      desc: 'Sustaining local Himalayan weaving and sacred Aipan folk arts through female cooperatives and market bridges.',
+      number: '05 / 06',
+      subtitle: 'Enhancing Employability',
+      impact: 'Career Readiness',
+      desc: 'Enhancing employability through vocational training, entrepreneurship development, financial literacy, and career readiness.',
       image: '/images/carousel6.jpeg',
-      color: 'from-brand-red/5 via-brand-red/1 to-transparent'
+      color: 'from-purple-600/5 via-purple-600/1 to-transparent'
+    },
+    {
+      title: 'Health, Wellness & Sustainability',
+      tag: 'PROGRAM 06',
+      number: '06 / 06',
+      subtitle: 'Well-being & Stewardship',
+      impact: 'Sustainable Living',
+      desc: 'Supporting physical and mental well-being while promoting environmental stewardship and sustainable living.',
+      image: '/images/villagelearning2.jpeg',
+      color: 'from-sky-600/5 via-sky-600/1 to-transparent'
     }
   ]
 

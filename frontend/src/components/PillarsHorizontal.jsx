@@ -197,98 +197,123 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
   const pillarsData = [
     {
-      id: 'learning-hub',
-      title: 'Village Learning Hub',
-      subtitle: 'Primary & Digital Literacy',
+      id: 'education',
+      title: 'Education & Capacity Building',
+      subtitle: 'Excellence & Learning',
       image: '/images/villagelearning2.jpeg',
-      impact: '500+ Rural Girls',
+      impact: 'Academic Excellence',
       initialRotate: -1.8,
       xOffset: -4,
       yOffset: -6,
-      pinColor: '#dc2626', // Red pin
-      headline: 'VILLAGE LEARNING HUB',
-      desc: 'Establishing community learning spaces, libraries, and digital training labs to secure primary and digital literacy for rural children and girls.',
-      background: 'Many rural villages lack basic educational infrastructure, books, and computers. Our learning hubs bridge this gap by bringing modern resources and dedicated educators directly to local neighborhoods.',
+      pinColor: '#dc2626',
+      headline: 'EDUCATION & CAPACITY',
+      desc: 'Providing opportunities for academic excellence, professional development, digital literacy, and lifelong learning.',
+      background: 'We believe that education is the foundation of individual and societal progress. By focusing on academic excellence, we aim to provide opportunities that foster professional development, digital literacy, and a passion for lifelong learning in all individuals.',
       goals: [
-        'Set up 15 libraries with digital study labs',
-        'Train 20+ village-level youth educators',
-        'Increase digital literacy rates among girls by 60%'
+        'Promote academic excellence at all levels',
+        'Facilitate professional development and skill acquisition',
+        'Ensure widespread digital literacy',
+        'Encourage and support lifelong learning initiatives'
       ]
     },
     {
-      id: 'neighborhoods',
-      title: 'Nurturing Our Neighborhoods',
-      subtitle: 'Community Health & Well-being',
+      id: 'leadership',
+      title: 'Leadership Development',
+      subtitle: 'Confident & Ethical',
       image: '/images/relief_distribution.jpeg',
-      impact: '1,200+ Beneficiaries',
+      impact: 'Nurturing Leaders',
       initialRotate: 1.2,
       xOffset: 4,
       yOffset: -2,
-      pinColor: '#2563eb', // Blue pin
-      headline: 'NURTURING NEIGHBORHOODS',
-      desc: 'Uplifting local communities through regular health checkups, wellness camps, and clean water projects.',
-      background: 'Preventative healthcare is often out of reach for marginalized communities. We provide direct support through neighborhood health camps, sanitary kit drives, and purified water stations.',
+      pinColor: '#2563eb',
+      headline: 'LEADERSHIP DEVELOPMENT',
+      desc: 'Nurturing confident, ethical, and socially responsible leaders capable of addressing local and global challenges.',
+      background: 'The world needs leaders who are not only capable but also ethical and socially responsible. Our leadership programs are designed to nurture confident individuals who are prepared to face both local and global challenges with integrity and vision.',
       goals: [
-        'Host weekly health screenings in remote settlements',
-        'Install 5 community water filtration units',
-        'Conduct menstrual hygiene workshops & kit distributions'
+        'Nurture confident and visionary leaders',
+        'Instill strong ethical values and practices',
+        'Foster social responsibility and civic engagement',
+        'Equip leaders to address complex global challenges'
       ]
     },
     {
-      id: 'youth',
-      title: 'Empowering Youth',
-      subtitle: 'Skills & Autonomy',
+      id: 'research',
+      title: 'Research & Innovation',
+      subtitle: 'Technology & Solutions',
       image: '/images/youth_group.jpeg',
-      impact: '250+ Youth Trained',
+      impact: 'Sustainable Development',
       initialRotate: -0.8,
       xOffset: -5,
       yOffset: 3,
-      pinColor: '#eab308', // Gold pin
-      headline: 'EMPOWERING YOUTH',
-      desc: 'Fostering leadership, micro-capital, and vocational craft training to empower local youth towards long-term self-reliance.',
-      background: 'Youth unemployment in rural communities is high. By providing vocational training, business mentoring, and micro-grants, we help young people establish self-sustaining livelihoods.',
+      pinColor: '#eab308',
+      headline: 'RESEARCH & INNOVATION',
+      desc: 'Encouraging interdisciplinary research, innovation, entrepreneurship, and technology-driven solutions for sustainable development.',
+      background: 'Innovation and research are key to driving sustainable development. By encouraging interdisciplinary approaches, we foster an environment where entrepreneurship and technology-driven solutions can thrive, addressing the most pressing challenges of our time.',
       goals: [
-        'Set up skill training clinics (stitching, craft, IT)',
-        'Award 10 micro-capital seed grants yearly',
-        'Foster community cooperative startup groups'
+        'Encourage interdisciplinary research initiatives',
+        'Foster a culture of innovation and entrepreneurship',
+        'Develop technology-driven solutions for real-world problems',
+        'Promote practices that lead to sustainable development'
       ]
     },
     {
-      id: 'mother-earth',
-      title: 'For Mother Earth',
-      subtitle: 'Eco-Conservation & Forestry',
+      id: 'community',
+      title: 'Community Engagement',
+      subtitle: 'Outreach & Inclusion',
       image: '/images/ecology.jpeg',
-      impact: '5,000+ Saplings',
+      impact: 'Social Inclusion',
       initialRotate: 1.8,
       xOffset: 5,
       yOffset: -4,
-      pinColor: '#16a34a', // Green pin
-      headline: 'FOR MOTHER EARTH',
-      desc: 'Preserving our ecosystem through native afforestation drives, solar clinic power setups, and green space development.',
-      background: 'Deforestation and carbon footprint expansion directly impact rural livelihoods. We lead community-driven forestry initiatives, plantation drives, and solar power upgrades for village schools.',
+      pinColor: '#16a34a',
+      headline: 'COMMUNITY ENGAGEMENT',
+      desc: 'Promoting volunteerism, outreach programmes, legal literacy, health awareness, environmental conservation, and social inclusion.',
+      background: 'A strong community is built on active engagement and inclusion. We are dedicated to promoting volunteerism and outreach programs that raise awareness on legal literacy, health, and environmental conservation, ensuring that every individual feels included and valued.',
       goals: [
-        'Plant 5,000+ native saplings (Neem, Banyan, etc.)',
-        'Transition 4 local community clinics to solar energy',
-        'Conduct rainwater harvesting training sessions'
+        'Promote active volunteerism and community service',
+        'Organize impactful outreach programmes',
+        'Increase legal literacy and health awareness',
+        'Drive environmental conservation and social inclusion'
       ]
     },
     {
-      id: 'handloom-revival',
-      title: 'Heritage & Handloom Revival',
-      subtitle: 'Craft & Aipan Conservation',
+      id: 'skill',
+      title: 'Skill Development & Entrepreneurship',
+      subtitle: 'Enhancing Employability',
       image: '/images/carousel6.jpeg',
-      impact: '80+ Women Artisans',
+      impact: 'Career Readiness',
       initialRotate: -1.4,
       xOffset: 3,
       yOffset: 5,
-      pinColor: '#dc2626', // Red pin
-      headline: 'HERITAGE & HANDLOOM',
-      desc: 'Sustaining local Himalayan weaving and sacred Aipan folk arts through female cooperatives and market bridges.',
-      background: 'Traditional Himalayan craft forms are dying as younger generations migrate. We establish design workshops, supply raw wool, and connect local women to urban design centers to revive Pahari handlooms.',
+      pinColor: '#9333ea',
+      headline: 'SKILL DEVELOPMENT',
+      desc: 'Enhancing employability through vocational training, entrepreneurship development, financial literacy, and career readiness.',
+      background: 'Empowering individuals with the right skills is essential for economic independence. Through vocational training, entrepreneurship development, and financial literacy programs, we enhance employability and ensure our community members are career-ready.',
       goals: [
-        'Sponsor 80+ active weavers with raw materials',
-        'Establish a digital database for traditional patterns',
-        'Setup 3 local handloom aggregation cooperatives'
+        'Provide comprehensive vocational training',
+        'Support entrepreneurship development',
+        'Improve financial literacy across the community',
+        'Enhance overall career readiness and employability'
+      ]
+    },
+    {
+      id: 'health',
+      title: 'Health, Wellness & Sustainability',
+      subtitle: 'Well-being & Stewardship',
+      image: '/images/villagelearning2.jpeg',
+      impact: 'Sustainable Living',
+      initialRotate: 1.5,
+      xOffset: -2,
+      yOffset: 4,
+      pinColor: '#0ea5e9',
+      headline: 'HEALTH & SUSTAINABILITY',
+      desc: 'Supporting physical and mental well-being while promoting environmental stewardship and sustainable living.',
+      background: 'True well-being encompasses both physical and mental health, as well as the health of our environment. We are committed to supporting holistic wellness while simultaneously promoting environmental stewardship and practices that lead to sustainable living.',
+      goals: [
+        'Support physical and mental well-being programs',
+        'Promote environmental stewardship',
+        'Encourage sustainable living practices',
+        'Create a healthier environment for future generations'
       ]
     }
   ]
