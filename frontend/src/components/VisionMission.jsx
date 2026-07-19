@@ -101,7 +101,7 @@ const StoryCard = ({ item, idx, Icon }) => {
 
       {/* Main card surface */}
       <div
-        className="relative rounded-3xl overflow-hidden transition-all duration-500 bg-gradient-to-b from-[#FFFFFF] via-[#FAFBFD] to-[#F2F6FA]"
+        className="relative rounded-3xl overflow-hidden transition-all duration-500 bg-linear-to-b from-brand-white via-[#FAFBFD] to-[#F2F6FA]"
         style={{
           border: '1px solid rgba(14,165,233,0.14)',
           boxShadow: '0 2px 4px rgba(0,0,0,0.02), 0 12px 36px rgba(0,0,0,0.04), inset 0 1px 1px rgba(255,255,255,1)',
@@ -114,7 +114,7 @@ const StoryCard = ({ item, idx, Icon }) => {
         />
 
         {/* Glass reflection sweep overlay on hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none z-30" />
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none z-30" />
 
         {/* Subtle inner paper noise texture */}
         <div

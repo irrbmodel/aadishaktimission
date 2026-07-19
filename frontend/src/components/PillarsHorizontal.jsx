@@ -13,7 +13,7 @@ const isHoverDevice = typeof window !== 'undefined' ? window.matchMedia('(hover:
 const PushPin = ({ color = '#dc2626' }) => (
   <div className="push-pin-item absolute -top-7 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center">
     {/* Ambient shadow cast on the card surface below */}
-    <div className="absolute w-8 h-8 bg-black/45 rounded-full blur-[4px] translate-x-3.5 translate-y-4 scale-y-75" />
+    <div className="absolute w-8 h-8 bg-black/45 rounded-full blur-xs translate-x-3.5 translate-y-4 scale-y-75" />
     
     {/* 3D SVG Pin Head & Metallic Needle */}
     <svg width="40" height="46" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,7 +110,7 @@ const ProgramCard = ({ proj, onClick }) => {
         rotateX: isHoverDevice ? rotateXSpring : 0,
         rotateY: isHoverDevice ? rotateYSpring : 0
       }}
-      className="bg-linear-to-b from-[#FFFFFF] via-[#FAF9F5] to-[#F4F1E8] border border-brand-dark/10 rounded-[26px] p-5 md:p-6 pb-7 flex flex-col justify-start relative cursor-pointer select-none group border-fine transform-gpu overflow-hidden"
+      className="bg-linear-to-b from-brand-white via-[#FAF9F5] to-[#F4F1E8] border border-brand-dark/10 rounded-[26px] p-5 md:p-6 pb-7 flex flex-col justify-start relative cursor-pointer select-none group border-fine transform-gpu overflow-hidden"
       data-cursor="pointer"
     >
       {/* Glass Light Reflection Overlay Sweep on Hover */}
