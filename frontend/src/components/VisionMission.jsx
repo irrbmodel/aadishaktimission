@@ -230,12 +230,13 @@ const StoryCard = ({ item, idx, Icon }) => {
    MAIN COMPONENT
 ───────────────────────────────────────── */
 const VisionMission = ({ isLoaded }) => {
-  const containerRef    = useRef(null)
-  const visionRef       = useRef(null)
-  const missionRef      = useRef(null)
-  const lineTrackRef    = useRef(null)
-  const lineProgressRef = useRef(null)
-  const nodeRefs        = useRef([])
+  const containerRef          = useRef(null)
+  const visionRef             = useRef(null)
+  const missionRef            = useRef(null)
+  const lineTrackRef          = useRef(null)
+  const lineProgressRef       = useRef(null)
+  const mobileLineProgressRef = useRef(null)
+  const nodeRefs              = useRef([])
 
   useEffect(() => {
     if (!isLoaded) return
@@ -261,21 +262,47 @@ const VisionMission = ({ isLoaded }) => {
 
       /* ── Timeline ink line draw (scrub) ── */
       if (lineProgressRef.current && lineTrackRef.current) {
-        gsap.fromTo(lineProgressRef.current,
-          { scaleY: 0 },
-          {
-            scaleY: 1,
-            ease: 'none',
-            transformOrigin: 'top center',
-            scrollTrigger: {
-              trigger: lineTrackRef.current,
-              start: 'top 55%',
-              end: 'bottom 75%',
-              scrub: 1,
-              invalidateOnRefresh: true,
-            }
+        const path = lineProgressRef.current
+        const length = path.getTotalLength ? path.getTotalLength() : 2400
+
+        gsap.set(path, {
+          strokeDasharray: length,
+          strokeDashoffset: length
+        })
+
+        gsap.to(path, {
+          strokeDashoffset: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: lineTrackRef.current,
+            start: 'top 50%',
+            end: 'bottom 70%',
+            scrub: 0.5,
+            invalidateOnRefresh: true,
           }
-        )
+        })
+      }
+
+      if (mobileLineProgressRef.current && lineTrackRef.current) {
+        const mPath = mobileLineProgressRef.current
+        const mLength = mPath.getTotalLength ? mPath.getTotalLength() : 2400
+
+        gsap.set(mPath, {
+          strokeDasharray: mLength,
+          strokeDashoffset: mLength
+        })
+
+        gsap.to(mPath, {
+          strokeDashoffset: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: lineTrackRef.current,
+            start: 'top 50%',
+            end: 'bottom 70%',
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+          }
+        })
       }
 
       /* ── Per-node story reveals ── */
@@ -440,28 +467,67 @@ const VisionMission = ({ isLoaded }) => {
           {/* Timeline track */}
           <div className="relative" ref={lineTrackRef}>
 
-            {/* Center spine (desktop) - Made Thicker (4px) */}
-            <div
-              className="absolute left-1/2 -translate-x-1/2 top-6 bottom-6 hidden lg:block pointer-events-none rounded-full overflow-hidden"
-              style={{ width: '4px', background: 'rgba(0,0,0,0.08)' }}
-            >
-              <div
-                ref={lineProgressRef}
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background: 'linear-gradient(180deg, #0ea5e9, rgba(14,165,233,0.85) 60%, rgba(14,165,233,0.3))',
-                  boxShadow: '0 0 10px rgba(14,165,233,0.5)',
-                  transformOrigin: 'top',
-                  transform: 'scaleY(0)',
-                }}
-              />
+            {/* Curvy Wave Spine (desktop) */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-4 bottom-4 w-32 lg:w-48 hidden lg:block pointer-events-none z-0">
+              <svg 
+                viewBox="0 0 100 800" 
+                preserveAspectRatio="none" 
+                className="w-full h-full overflow-visible"
+              >
+                <defs>
+                  <linearGradient id="vm-curvy-grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#0ea5e9" stopOpacity="1" />
+                    <stop offset="60%" stopColor="#0ea5e9" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.4" />
+                  </linearGradient>
+                  <filter id="vm-glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                {/* Background translucent curvy track */}
+                <path 
+                  d="M 50,0 C 85,30 85,70 50,100 C 15,130 15,170 50,200 C 85,230 85,270 50,300 C 15,330 15,370 50,400 C 85,430 85,470 50,500 C 15,530 15,570 50,600 C 85,630 85,670 50,700 C 15,730 15,770 50,800"
+                  fill="none"
+                  stroke="rgba(0,0,0,0.08)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+
+                {/* Animated progress curvy path */}
+                <path 
+                  ref={lineProgressRef}
+                  d="M 50,0 C 85,30 85,70 50,100 C 15,130 15,170 50,200 C 85,230 85,270 50,300 C 15,330 15,370 50,400 C 85,430 85,470 50,500 C 15,530 15,570 50,600 C 85,630 85,670 50,700 C 15,730 15,770 50,800"
+                  fill="none"
+                  stroke="url(#vm-curvy-grad)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  filter="url(#vm-glow-filter)"
+                />
+              </svg>
             </div>
 
-            {/* Mobile left rail - Made Thicker (3.5px) */}
-            <div
-              className="absolute left-5 top-4 bottom-4 lg:hidden pointer-events-none rounded-full"
-              style={{ width: '3.5px', background: 'rgba(0,0,0,0.08)' }}
-            />
+            {/* Curvy Wave Rail (mobile) */}
+            <div className="absolute left-3 top-4 bottom-4 w-8 lg:hidden pointer-events-none z-0">
+              <svg viewBox="0 0 30 800" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                <path 
+                  d="M 15,0 C 30,50 0,100 15,150 C 30,200 0,250 15,300 C 30,350 0,400 15,450 C 30,500 0,550 15,600 C 30,650 0,700 15,750 C 30,780 15,800 15,800"
+                  fill="none"
+                  stroke="rgba(0,0,0,0.08)"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                />
+                <path 
+                  ref={mobileLineProgressRef}
+                  d="M 15,0 C 30,50 0,100 15,150 C 30,200 0,250 15,300 C 30,350 0,400 15,450 C 30,500 0,550 15,600 C 30,650 0,700 15,750 C 30,780 15,800 15,800"
+                  fill="none"
+                  stroke="#0ea5e9"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
 
             {/* Nodes */}
             <div className="flex flex-col">
