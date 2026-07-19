@@ -60,6 +60,14 @@
   color: var(--color-brand-cream);
 }
 
+/* Hide header navbar completely when gallery modal is open */
+body.gallery-modal-open header,
+html.gallery-modal-open header {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 /* Lenis Smooth Scroll Configuration */
 html.lenis, html.lenis body {
   height: auto;

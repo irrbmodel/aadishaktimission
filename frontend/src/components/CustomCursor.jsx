@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { gsap } from 'gsap'
 
 const CustomCursor = () => {
@@ -184,9 +185,9 @@ const CustomCursor = () => {
 
   const pressedScale = isPressed ? 'scale-85' : ''
 
-  return (
+  return createPortal(
     <div 
-      className={`fixed top-0 left-0 pointer-events-none z-999999 mix-blend-difference transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed top-0 left-0 pointer-events-none z-10000000 mix-blend-difference transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       {/* Outer Ring positioning wrapper */}
       <div 
@@ -211,7 +212,8 @@ const CustomCursor = () => {
           className={`absolute pointer-events-none transition-all duration-200 ease-out drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)] ${dotClasses} ${pressedScale}`}
         />
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
 
