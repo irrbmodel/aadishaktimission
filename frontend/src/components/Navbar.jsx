@@ -7,7 +7,6 @@ gsap.registerPlugin(ScrollTrigger)
 const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isNavbarHidden, setIsNavbarHidden] = useState(false)
   const menuRef = useRef(null)
   const linksRef = useRef([])
   const imageRef = useRef(null)
@@ -19,80 +18,21 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
     let ctx
 
     const timer = setTimeout(() => {
-      const ourImpactEl = document.getElementById('our-impact')
-      const journeyEl = document.getElementById('journey')
-
       ctx = gsap.context(() => {
-        let inJourney = false
-        let inOurImpact = false
-        let globalST
-
-        const updateNavbarVisibility = (self) => {
-          // If inside forbidden sections, always hide
-          if (inJourney || inOurImpact) {
-            setIsNavbarHidden(true)
-            return
-          }
-
-          // If near the top, always show
-          if (self.scroll() < 50) {
-            setIsNavbarHidden(false)
-            return
-          }
-
-          // Otherwise, hide on scroll down (direction === 1) and show on scroll up (direction === -1)
-          if (self.direction === 1) {
-            setIsNavbarHidden(true)
-          } else if (self.direction === -1) {
-            setIsNavbarHidden(false)
-          }
-        }
-
-        // 1. Scroll listener for scroll position & direction
-        globalST = ScrollTrigger.create({
+        // Scroll listener for scroll position to toggle sticky styling
+        ScrollTrigger.create({
           start: 'top top',
           end: 'bottom bottom',
           onUpdate: (self) => {
-            // Update scrolled state
             setIsScrolled(self.scroll() > 50)
-            updateNavbarVisibility(self)
           }
         })
-
-        // 2. Hide navbar over journey section (works only if element exists)
-        if (journeyEl) {
-          ScrollTrigger.create({
-            trigger: journeyEl,
-            start: 'top 80px',
-            end: 'bottom top',
-            onToggle: (self) => {
-              inJourney = self.isActive
-              if (globalST) updateNavbarVisibility(globalST)
-            },
-            invalidateOnRefresh: true
-          })
-        }
-
-        // 3. Hide navbar over our-impact section (works only if element exists)
-        if (ourImpactEl) {
-          ScrollTrigger.create({
-            trigger: ourImpactEl,
-            start: 'top 80px',
-            end: 'bottom top',
-            onToggle: (self) => {
-              inOurImpact = self.isActive
-              if (globalST) updateNavbarVisibility(globalST)
-            },
-            invalidateOnRefresh: true
-          })
-        }
       })
     }, 200)
 
     return () => {
       clearTimeout(timer)
       if (ctx) ctx.revert()
-      setIsNavbarHidden(false)
       setIsScrolled(false)
     }
   }, [isLoaded, view])
@@ -223,7 +163,6 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
   const menuItems = [
     { label: 'home', id: 'hero' },
     { label: 'our vision', id: 'vision-mission' },
-    { label: 'our values', id: 'our-values' },
     { label: 'our programs', id: 'journey' },
     { label: 'our impact', id: 'our-impact' },
     { label: 'meet the team', id: 'team' }
@@ -235,9 +174,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
     <>
       <header 
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 px-4 sm:px-6 lg:px-12 flex justify-center ${
-          isNavbarHidden
-            ? 'opacity-0 -translate-y-full pointer-events-none'
-            : isLoaded
+          isLoaded
             ? 'opacity-100 translate-y-0'
             : 'opacity-0 -translate-y-8 pointer-events-none'
         } ${isScrolled ? 'pt-4' : 'pt-6 md:pt-8'}`}
@@ -251,10 +188,10 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
           <a 
             href="#" 
             onClick={(e) => handleNavClick(e, 'hero')}
-            className="flex items-center gap-3 group focus:outline-none cursor-pointer"
+            className="flex items-center gap-3 md:gap-4 group focus:outline-none cursor-pointer"
             data-cursor="pointer"
           >
-            <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border shadow-sm shrink-0 transition-all duration-500 group-hover:scale-105 ${
+            <div className={`w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border shadow-sm shrink-0 transition-all duration-500 group-hover:scale-105 ${
               isDarkHero ? 'border-brand-cream/30' : 'border-brand-dark/15'
             }`}>
               <img 
@@ -264,12 +201,12 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
               />
             </div>
             <div className="flex items-baseline gap-1.5 md:gap-2">
-              <span className={`font-serif font-black text-xl md:text-2xl tracking-tight transition-colors duration-300 ${
+              <span className={`font-serif font-black text-2xl md:text-3xl tracking-tight transition-colors duration-300 ${
                 isDarkHero ? 'text-brand-cream' : 'text-brand-dark'
               }`}>
                 Aadi Shakti.
               </span>
-              <span className={`hidden sm:inline-block font-display text-[8px] md:text-[9px] font-black tracking-[0.25em] uppercase transition-colors duration-300 ${
+              <span className={`hidden sm:inline-block font-display text-[9px] md:text-[11px] font-black tracking-[0.25em] uppercase transition-colors duration-300 ${
                 isDarkHero ? 'text-brand-cream/80' : 'text-brand-dark'
               }`}>
                 mission
@@ -281,7 +218,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
             {/* CTA Buttons */}
             <button
               onClick={() => onGetInvolvedClick && onGetInvolvedClick('donation')}
-              className="inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 rounded-full border border-transparent bg-brand-red text-brand-cream font-sans text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-brand-cream hover:text-brand-dark hover:border-brand-dark transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+              className="inline-flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 rounded-full border border-transparent bg-brand-red text-brand-cream font-sans text-[10px] sm:text-[11px] md:text-[12px] font-bold uppercase tracking-[0.2em] hover:bg-brand-cream hover:text-brand-dark hover:border-brand-dark transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
               data-cursor="pointer"
             >
               Get Involved
@@ -290,7 +227,7 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
             {/* Premium Menu Trigger */}
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className={`relative w-12 h-12 flex flex-col justify-center items-center group focus:outline-none z-50 cursor-pointer rounded-full transition-colors ${
+              className={`relative w-12 h-12 md:w-14 md:h-14 flex flex-col justify-center items-center group focus:outline-none z-50 cursor-pointer rounded-full transition-colors ${
                 isDarkHero ? 'hover:bg-brand-cream/10' : 'hover:bg-brand-cream/5'
               }`}
               aria-label="Menu"

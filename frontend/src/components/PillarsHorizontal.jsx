@@ -225,7 +225,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
       initialRotate: 1.2,
       xOffset: 4,
       yOffset: -2,
-      pinColor: '#2563eb',
+      pinColor: '#000000',
       headline: 'LEADERSHIP DEVELOPMENT',
       desc: 'Nurturing confident, ethical, and socially responsible leaders capable of addressing local and global challenges.',
       background: 'The world needs leaders who are not only capable but also ethical and socially responsible. Our leadership programs are designed to nurture confident individuals who are prepared to face both local and global challenges with integrity and vision.',
@@ -305,7 +305,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
       initialRotate: 1.5,
       xOffset: -2,
       yOffset: 4,
-      pinColor: '#0ea5e9',
+      pinColor: '#000000',
       headline: 'HEALTH & SUSTAINABILITY',
       desc: 'Supporting physical and mental well-being while promoting environmental stewardship and sustainable living.',
       background: 'True well-being encompasses both physical and mental health, as well as the health of our environment. We are committed to supporting holistic wellness while simultaneously promoting environmental stewardship and practices that lead to sustainable living.',
@@ -350,7 +350,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col justify-center py-6 md:py-12">
         {/* Section Header */}
         <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
-          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-skyblue">
             05 / Our Programs
           </span>
           <span className="font-serif italic text-xs text-brand-grey">
@@ -467,7 +467,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
                 <div className="flex flex-col gap-8">
                   {/* Background Section */}
                   <div>
-                    <h4 className="font-sans text-[10px] font-black text-brand-red/80 uppercase tracking-widest mb-3 select-none">
+                    <h4 className="font-sans text-[10px] font-black text-brand-skyblue uppercase tracking-widest mb-3 select-none">
                       01 / PROJECT CONTEXT
                     </h4>
                     <p className="font-sans text-xs md:text-sm text-brand-dark/80 leading-relaxed font-light">
@@ -480,7 +480,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
                   {/* Goals Section */}
                   <div>
-                    <h4 className="font-sans text-[10px] font-black text-brand-red/80 uppercase tracking-widest mb-3 select-none">
+                    <h4 className="font-sans text-[10px] font-black text-brand-skyblue uppercase tracking-widest mb-3 select-none">
                       02 / TARGET MILESTONES
                     </h4>
                     <ul className="space-y-3">
@@ -498,7 +498,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
 
                   {/* Impact metrics footer */}
                   <div className="flex items-center justify-between w-full select-none pt-2">
-                    <span className="font-sans text-[10px] font-black text-brand-dark/60 uppercase tracking-widest">
+                    <span className="font-sans text-[10px] font-black text-brand-skyblue uppercase tracking-widest">
                       03 / ESTIMATED COMMUNITY IMPACT
                     </span>
                     <span className="text-lg md:text-xl font-bold text-[#fdfbf7] font-display border-b border-brand-cream/20 pb-0.5">

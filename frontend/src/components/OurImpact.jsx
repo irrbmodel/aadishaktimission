@@ -68,7 +68,7 @@ const OurImpact = ({ isLoaded }) => {
           <div className="relative z-10 max-w-6xl mx-auto w-full flex flex-col items-center justify-center text-center text-white gap-4 sm:gap-6 md:gap-10">
             {/* Section Header */}
             <div className="flex flex-col items-center gap-2">
-              <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-[0.35em] text-brand-cream/80">
+              <span className="font-display text-[10px] md:text-xs font-black uppercase tracking-[0.35em] text-brand-skyblue">
                 {slide.tag}
               </span>
               <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-brand-cream uppercase tracking-tight leading-none mt-2">

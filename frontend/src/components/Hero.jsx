@@ -72,6 +72,12 @@ const Hero = ({ isLoaded, onJoinNow }) => {
           }
         })
 
+        // Fade the root hero container to fully transparent by the end of the scroll
+        tl.to(hero, {
+          opacity: 0,
+          ease: 'none'
+        }, 0)
+
         // Query video and overlay
         const video = hero.querySelector('video')
         const overlay = hero.querySelector('.absolute.inset-0.bg-linear-to-t')

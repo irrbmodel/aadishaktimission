@@ -418,7 +418,7 @@ const ActionHub = ({ isLoaded, onProceed, onBack, mode = 'all' }) => {
               {/* Social Proof */}
               <div className="mt-5 flex items-center gap-3 px-2">
                 <div className="flex -space-x-2">
-                  {['#9B0000', '#1a1a1a', '#059669', '#D97706', '#2563EB'].map((color, i) => (
+                  {['#9B0000', '#1a1a1a', '#059669', '#D97706', '#000000'].map((color, i) => (
                     <div key={i} className="w-7 h-7 rounded-full border-2 border-brand-cream flex items-center justify-center text-[7px] text-brand-dark font-bold" style={{ backgroundColor: color }}>
                       {['A', 'S', 'M', 'R', 'K'][i]}
                     </div>

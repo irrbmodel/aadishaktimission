@@ -11,7 +11,6 @@ import PageTransition from './components/PageTransition'
 import Hero from './components/Hero'
 import PolaroidParallax from './components/PolaroidParallax'
 import AboutUs from './components/AboutUs'
-import ActiveSnapshots from './components/ActiveSnapshots'
 import JourneyTimeline from './components/JourneyTimeline'
 import Gallery from './components/Gallery'
 import OurImpact from './components/OurImpact'
@@ -23,7 +22,6 @@ import Footer from './components/Footer'
 import IntroAnimation from './components/IntroAnimation'
 import GetInvolvedSidePanel from './components/GetInvolvedSidePanel'
 import ProgramSidePanel from './components/ProgramSidePanel'
-import OurValues from './components/OurValues'
 import ActionHub from './components/ActionHub'
 
 // Register GSAP ScrollTrigger
@@ -166,19 +164,16 @@ const App = () => {
   useEffect(() => {
     if (!isLoaded || view !== 'home') return
 
-    // Allow slight delay to let elements settle and calculate bounds correctly
-    const timer = setTimeout(() => {
+      const timer = setTimeout(() => {
       const panels = [
         document.getElementById('hero'),
         document.getElementById('philosophy'),
         document.getElementById('polaroid-transition'),
-        document.getElementById('philosophy-snapshots'),
+        document.getElementById('vision-mission'),
         document.getElementById('journey'),
-        document.getElementById('our-values'),
         document.getElementById('gallery'),
         document.getElementById('our-impact'),
-        document.getElementById('team'),
-        document.getElementById('vision-mission')
+        document.getElementById('team')
       ].filter(Boolean)
 
       const ctx = gsap.context(() => {
@@ -189,48 +184,15 @@ const App = () => {
         if (!isDesktop) return
         
 
-        // 1. Polaroid Exit -> Snapshots enters
+        // 1. Polaroid Exit -> VisionMission enters
         const polaroid = document.getElementById('polaroid-transition')
-        const snapshots = document.getElementById('philosophy-snapshots')
-        if (polaroid && snapshots) {
-          const centralCard = polaroid.querySelector('.rounded-\\[24px\\]') || polaroid.querySelector('.z-10')
-          const bottomIntro = polaroid.querySelector('.border-2') || polaroid.querySelector('.absolute.bottom-6')
-          
-          if (centralCard) {
-            gsap.to(centralCard, {
-              opacity: 0,
-              scale: 0.9,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: snapshots,
-                start: 'top bottom',
-                end: 'top 30%',
-                scrub: true
-              }
-            })
-          }
-          if (bottomIntro) {
-            gsap.to(bottomIntro, {
-              opacity: 0,
-              y: 80,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: snapshots,
-                start: 'top bottom',
-                end: 'top 30%',
-                scrub: true
-              }
-            })
-          }
-        }
-
-        // 2. Snapshots Exit -> VisionMission enters
         const visionMission = document.getElementById('vision-mission')
-        if (snapshots && visionMission) {
-          gsap.to(snapshots, {
-            opacity: 0,
-            scale: 0.97,
-            ease: 'power1.inOut',
+        if (polaroid && visionMission) {
+          const card = polaroid.querySelector('.polaroid-card-col')
+          const text = polaroid.querySelector('.polaroid-text-col')
+          const mountains = polaroid.querySelector('.polaroid-mountains')
+
+          const exitTl = gsap.timeline({
             scrollTrigger: {
               trigger: visionMission,
               start: 'top bottom',
@@ -238,9 +200,42 @@ const App = () => {
               scrub: true
             }
           })
+
+          if (card) {
+            exitTl.to(card, {
+              x: -150,
+              rotate: -8,
+              opacity: 0,
+              scale: 0.95,
+              ease: 'power1.inOut'
+            }, 0)
+          }
+
+          if (text) {
+            exitTl.to(text, {
+              x: 150,
+              opacity: 0,
+              scale: 0.95,
+              ease: 'power1.inOut'
+            }, 0)
+          }
+
+          if (mountains) {
+            exitTl.to(mountains, {
+              y: 80,
+              opacity: 0,
+              ease: 'power1.inOut'
+            }, 0)
+          }
+
+          exitTl.to(polaroid, {
+            opacity: 0,
+            scale: 0.98,
+            ease: 'power1.inOut'
+          }, 0)
         }
 
-        // 2.5. VisionMission Exit -> Journey enters
+        // 2. VisionMission Exit -> Journey enters
         const journey = document.getElementById('journey')
         if (visionMission && journey) {
           gsap.to(visionMission, {
@@ -256,9 +251,9 @@ const App = () => {
           })
         }
 
-        // 3. Journey Exit -> OurValues enters
-        const ourValues = document.getElementById('our-values')
-        if (journey && ourValues) {
+        // 3. Journey Exit -> Gallery enters
+        const gallery = document.getElementById('gallery')
+        if (journey && gallery) {
           const timelinePanels = journey.querySelectorAll('.program-text-section, .program-img')
           if (timelinePanels.length) {
             gsap.to(timelinePanels, {
@@ -266,7 +261,7 @@ const App = () => {
               scale: 0.92,
               ease: 'power1.inOut',
               scrollTrigger: {
-                trigger: ourValues,
+                trigger: gallery,
                 start: 'top bottom',
                 end: 'top top',
                 scrub: true
@@ -275,21 +270,6 @@ const App = () => {
           }
         }
 
-        // 4. OurValues Exit -> Gallery enters
-        const gallery = document.getElementById('gallery')
-        if (ourValues && gallery) {
-          gsap.to(ourValues, {
-            opacity: 0,
-            scale: 0.97,
-            ease: 'power1.inOut',
-            scrollTrigger: {
-              trigger: gallery,
-              start: 'top bottom',
-              end: 'top top',
-              scrub: true
-            }
-          })
-        }
       })
 
       ScrollTrigger.refresh()
@@ -330,10 +310,8 @@ const App = () => {
             <Hero isLoaded={isLoaded} onJoinNow={() => openSidePanel('membership')} />
             <AboutUs isLoaded={isLoaded} />
             <PolaroidParallax isLoaded={isLoaded} />
-            <ActiveSnapshots isLoaded={isLoaded} />
             <VisionMission isLoaded={isLoaded} />
             <JourneyTimeline isLoaded={isLoaded} onOpenProgram={openProgramPanel} />
-            <OurValues isLoaded={isLoaded} />
             <Gallery />
             <OurImpact isLoaded={isLoaded} />
             <Team isLoaded={isLoaded} />

@@ -6,6 +6,8 @@ gsap.registerPlugin(ScrollTrigger)
 
 const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
   const containerRef = useRef(null)
+  const leftColRef = useRef(null)
+  const rightColRef = useRef(null)
 
   const concepts = [
     {
@@ -26,7 +28,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
       impact: 'Nurturing Leaders',
       desc: 'Nurturing confident, ethical, and socially responsible leaders capable of addressing local and global challenges.',
       image: '/images/relief_distribution.jpeg',
-      color: 'from-blue-600/5 via-blue-600/1 to-transparent'
+      color: 'from-black/5 via-black/1 to-transparent'
     },
     {
       title: 'Research & Innovation',
@@ -66,7 +68,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
       impact: 'Sustainable Living',
       desc: 'Supporting physical and mental well-being while promoting environmental stewardship and sustainable living.',
       image: '/images/villagelearning2.jpeg',
-      color: 'from-sky-600/5 via-sky-600/1 to-transparent'
+      color: 'from-black/5 via-black/1 to-transparent'
     }
   ]
 
@@ -77,23 +79,34 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
       const mm = gsap.matchMedia()
 
       mm.add("(min-width: 768px)", () => {
+        // Use GSAP Pinning instead of CSS sticky to avoid parent overflow issues
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          pin: leftColRef.current,
+          pinSpacing: false,
+          invalidateOnRefresh: true,
+        });
+
         // Initialize images: first image visible, rest hidden
-        gsap.set('.program-img', { clipPath: 'inset(100% 0% 0% 0%)' })
-        gsap.set('.program-img-0', { clipPath: 'inset(0% 0% 0% 0%)' })
+        gsap.set('.program-img', { opacity: 0, scale: 0.95 })
+        gsap.set('.program-img-0', { opacity: 1, scale: 1 })
 
         const textSections = gsap.utils.toArray('.program-text-section')
         
-        // Scrub curtain raiser transition for images 1-4 mapped to scroll progress of text blocks 1-4
+        // Premium Crossfade Transition for images based on scrolling text blocks
         for (let i = 1; i < textSections.length; i++) {
           gsap.fromTo(`.program-img-${i}`, 
-            { clipPath: 'inset(100% 0% 0% 0%)' },
+            { opacity: 0, scale: 0.95 },
             {
-              clipPath: 'inset(0% 0% 0% 0%)',
-              ease: 'none',
+              opacity: 1,
+              scale: 1,
+              ease: 'power1.inOut',
               scrollTrigger: {
                 trigger: textSections[i],
-                start: 'top 85%',
-                end: 'top 35%',
+                start: 'top 70%',
+                end: 'top 30%',
                 scrub: true,
                 invalidateOnRefresh: true
               }
@@ -110,37 +123,42 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
     <div 
       id="journey" 
       ref={containerRef}
-      className="relative z-30 w-full bg-brand-cream border-b border-brand-dark/5"
+      className="relative w-full bg-brand-cream border-b border-brand-dark/5 z-20"
     >
       <div className="flex flex-col md:flex-row w-full relative">
-        {/* Left Side - Sticky Images (Full Screen Bleed) */}
-        <div className="w-full md:w-1/2 h-[50vh] md:h-screen md:sticky md:top-0 overflow-hidden hidden md:block relative z-10">
+        {/* Left Side - Pinned Images (Full Screen Bleed) */}
+        <div 
+          ref={leftColRef}
+          className="w-full md:w-1/2 h-[50vh] md:h-screen overflow-hidden hidden md:block relative z-10"
+        >
            {concepts.map((item, idx) => (
              <div 
                key={`img-${idx}`}
-               className={`program-img program-img-${idx} absolute inset-0 w-full h-full`}
-               style={{ 
-                 zIndex: idx,
-                 clipPath: idx === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)'
-               }}
+               className={`program-img program-img-${idx} absolute inset-0 w-full h-full flex items-center justify-center p-6 lg:p-10 xl:p-12`}
+               style={{ zIndex: idx }}
              >
-               <img 
-                 src={item.image} 
-                 alt={item.title} 
-                 className="w-full h-full object-cover"
-               />
-               {/* Dark visual vignette/overlay for cinematic contrast */}
-               <div className="absolute inset-0 bg-brand-dark/10 pointer-events-none" />
+               <div className="relative w-full h-full max-h-[85vh] rounded-[24px] lg:rounded-[36px] overflow-hidden border border-brand-dark/5 bg-brand-white shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+                 <img 
+                   src={item.image} 
+                   alt={item.title} 
+                   className="w-full h-full object-cover"
+                 />
+                 {/* Dark visual vignette/overlay for cinematic contrast */}
+                 <div className="absolute inset-0 bg-brand-dark/10 pointer-events-none" />
+               </div>
              </div>
            ))}
         </div>
 
         {/* Right Side - Scrolling Text */}
-        <div className="w-full md:w-1/2 flex flex-col z-20 md:py-12 md:pl-12 lg:pl-16 pr-6 md:pr-16 lg:pr-32">
+        <div 
+          ref={rightColRef}
+          className="w-full md:w-1/2 flex flex-col z-20 md:py-12 md:pl-12 lg:pl-16 pr-6 md:pr-16 lg:pr-32"
+        >
           {/* Header */}
           <div className="pl-6 md:pl-10 pr-6 md:pr-12 pt-24 pb-16 flex flex-col justify-center border-b border-brand-dark/10 mb-16 max-w-2xl w-full">
-            <span className="font-sans text-xs md:text-sm font-black uppercase tracking-[0.3em] text-brand-dark/50">
-              Focus Areas
+            <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-skyblue">
+              04 / Focus Areas
             </span>
             <h2 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-brand-dark uppercase tracking-tight mt-4 leading-none font-black">
               our programs
@@ -169,15 +187,15 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
                   <div className="grid grid-cols-12 gap-4 md:gap-6 max-w-2xl w-full">
                     {/* Left Column: Number / Deco */}
                     <div className="col-span-2 md:col-span-3 flex flex-col items-start pt-1.5 select-none">
-                      <span className="font-serif text-5xl md:text-7xl font-black text-brand-dark/25 tracking-tighter leading-none">
+                      <span className="font-serif text-5xl md:text-7xl font-black text-brand-skyblue/80 tracking-tighter leading-none">
                         {item.number.split(' ')[0]}
                       </span>
-                      <div className="h-[2px] w-12 bg-brand-red/45 mt-4 hidden md:block" />
+                      <div className="h-[2px] w-12 bg-brand-skyblue mt-4 hidden md:block" />
                     </div>
 
                     {/* Right Column: Details */}
                     <div className="col-span-10 md:col-span-9 flex flex-col items-start">
-                      <span className="font-sans text-xs md:text-sm font-black text-brand-red tracking-[0.25em] uppercase border-b-2 border-brand-red/30 pb-1 mb-5">
+                      <span className="font-sans text-xs md:text-sm font-black text-brand-skyblue tracking-[0.25em] uppercase border-b-2 border-brand-skyblue/30 pb-1 mb-5">
                         {item.tag}
                       </span>
                       
@@ -222,4 +240,5 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
 }
 
 export default JourneyTimeline
+
 

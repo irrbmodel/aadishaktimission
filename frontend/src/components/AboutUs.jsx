@@ -20,7 +20,7 @@ const AboutUs = ({ isLoaded }) => {
       return (
         <span 
           key={`${paragraphId}-${idx}`} 
-          className={`reveal-word-${paragraphId} inline-block mr-[0.25em] ${isWordHighlighted ? 'text-brand-yellow font-bold' : 'text-brand-dark font-light'}`}
+          className={`reveal-word-${paragraphId} inline-block mr-[0.25em] ${isWordHighlighted ? 'text-[#dc2626] font-bold' : 'text-brand-dark font-light'}`}
         >
           {word}
         </span>
@@ -160,7 +160,7 @@ const AboutUs = ({ isLoaded }) => {
     <section 
       id="philosophy"
       ref={containerRef}
-      className="relative w-full bg-brand-cream py-20 sm:py-32 md:py-48 px-6 md:px-12 flex flex-col items-center justify-center overflow-hidden border-b border-brand-dark/5"
+      className="relative w-full bg-brand-cream pt-10 sm:pt-16 md:pt-20 pb-20 sm:pb-32 md:pb-48 px-6 md:px-12 flex flex-col items-center justify-center overflow-hidden border-b border-brand-dark/5"
     >
       {/* Subtle grid lines background */}
       <div className="absolute inset-0 pointer-events-none z-0 flex justify-between px-12 md:px-24">
@@ -171,11 +171,11 @@ const AboutUs = ({ isLoaded }) => {
 
       {/* Ornament icon at top center */}
       <div className="flex flex-col items-center gap-2 mb-10 select-none relative z-10">
-        <div className="w-2.5 h-2.5 bg-brand-red rotate-45 border border-brand-light-grey/60 flex items-center justify-center shadow-xs">
+        <div className="w-2.5 h-2.5 bg-brand-skyblue rotate-45 border border-brand-light-grey/60 flex items-center justify-center shadow-xs">
           <div className="w-1.5 h-1.5 bg-brand-cream rounded-full" />
         </div>
-        <div className="w-px h-10 bg-linear-to-b from-brand-red/30 to-transparent" />
-        <span className="mt-6 font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
+        <div className="w-px h-10 bg-linear-to-b from-brand-skyblue/40 to-transparent" />
+        <span className="mt-6 font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-skyblue">
           01 / About Us
         </span>
       </div>

@@ -37,18 +37,27 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
       {Array.from({ length: 5 }).map((_, i) => (
         <motion.div
           key={i}
-          className="absolute top-0 h-full w-[20.2%] bg-brand-dark border-r border-brand-cream/20 flex flex-col justify-end"
+          className="absolute top-0 h-full w-[20.2%] bg-white border-r border-brand-dark/10 flex flex-col justify-end"
           style={{ left: `${i * 20}%` }}
           initial={{ y: '0%' }}
-          animate={phase === 5 ? { y: '100%' } : { y: '0%' }}
+          animate={phase === 5 ? { y: '-100%' } : { y: '0%' }}
           transition={{
             duration: 0.75,
             ease: [0.7, 0, 0.25, 1], // Equivalent to power4.inOut
             delay: phase === 5 ? (i * 0.08) + 0.6 : 0 // Wait for logo to fade before sliding down
           }}
         >
-          {/* Gold accent line */}
-          <div className="w-full h-[4px] bg-linear-to-r from-brand-red via-[#d97706] to-brand-red opacity-80" />
+          {/* Sky-blue, Yellow & Red premium accent line */}
+          <motion.div 
+            className="w-full bg-linear-to-r from-[#000000] via-[#facc15] to-[#dc2626]"
+            initial={{ height: '8px' }}
+            animate={phase === 5 ? { height: '24px' } : { height: '8px' }}
+            transition={{
+              duration: 0.75,
+              ease: [0.7, 0, 0.25, 1],
+              delay: phase === 5 ? (i * 0.08) + 0.6 : 0
+            }}
+          />
         </motion.div>
       ))}
 
@@ -56,7 +65,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
       <AnimatePresence>
         {phase >= 4 && (
           <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
-            <div className="relative flex flex-col items-center justify-center">
+            <div className="relative flex flex-col items-center justify-center translate-y-12">
               
               {/* Brand Title */}
               <motion.h1
@@ -76,7 +85,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
                   duration: 1.2,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                className="font-serif font-black text-6xl md:text-8xl text-brand-cream tracking-wide leading-none text-center select-none transform-gpu"
+                className="font-serif font-black text-6xl md:text-8xl text-brand-dark tracking-wide leading-none text-center select-none transform-gpu"
               >
                 Aadi Shakti
               </motion.h1>
@@ -101,7 +110,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
                   delay: 0.2,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                className="absolute bottom-[calc(100%+2rem)] flex flex-col items-center"
+                className="absolute bottom-[calc(100%+1rem)] flex flex-col items-center"
               >
                 {/* Orbit Ring */}
                 <div className="relative flex items-center justify-center w-36 h-36 md:w-48 md:h-48">
@@ -122,15 +131,15 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
                     />
                     <defs>
                       <linearGradient id="orbit-grad" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#FFF8D6" />
-                        <stop offset="50%" stopColor="#6fb9d9" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="#FFF8D6" />
+                        <stop offset="0%" stopColor="#013e37" />
+                        <stop offset="50%" stopColor="#000000" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#013e37" />
                       </linearGradient>
                     </defs>
                   </motion.svg>
 
                   {/* Logo Image */}
-                  <div className="w-[86%] h-[86%] rounded-full overflow-hidden border-2 border-brand-cream/15 shadow-[0_0_35px_rgba(255,248,214,0.15)] bg-brand-cream flex items-center justify-center">
+                  <div className="w-[86%] h-[86%] rounded-full overflow-hidden border-2 border-brand-dark/15 shadow-[0_0_35px_rgba(1,62,55,0.1)] bg-brand-cream flex items-center justify-center">
                     <img 
                       src="/logo.jpg" 
                       alt="Aadi Shakti Logo" 
@@ -158,12 +167,12 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
                   delay: 0.35,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                className="absolute top-[calc(100%+2rem)] flex flex-col items-center text-center w-80 md:w-[480px]"
+                className="absolute top-[calc(100%+1rem)] flex flex-col items-center text-center w-80 md:w-[480px]"
               >
-                <p className="font-sans text-[12px] md:text-[14px] font-black tracking-[0.4em] text-white uppercase mb-2">
+                <p className="font-sans text-[12px] md:text-[14px] font-black tracking-[0.4em] text-brand-dark uppercase mb-2">
                   mission
                 </p>
-                <blockquote className="font-serif italic text-sm md:text-base text-brand-cream/90 font-bold leading-relaxed">
+                <blockquote className="font-serif italic text-sm md:text-base text-brand-dark/90 font-bold leading-relaxed">
                   &ldquo;Let me be your helping hand.&rdquo;
                 </blockquote>
               </motion.div>

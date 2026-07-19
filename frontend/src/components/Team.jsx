@@ -83,7 +83,7 @@ const Team = ({ isLoaded }) => {
         
         {/* Section Header */}
         <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-6">
-          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-red/80">
+          <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-skyblue">
             08 / Leadership
           </span>
           <span className="font-serif italic text-xs text-brand-grey">
@@ -220,7 +220,7 @@ const Team = ({ isLoaded }) => {
                 {/* Details */}
                 <div className="flex flex-col gap-4">
                   <div>
-                    <span className="font-sans text-[10px] font-bold text-brand-red uppercase tracking-widest block mb-1">
+                    <span className="font-sans text-[10px] font-bold text-brand-skyblue uppercase tracking-widest block mb-1">
                       0{idx + 1} / {member.role}
                     </span>
                     <h3 className="font-serif text-2xl font-bold text-brand-dark uppercase tracking-tight">

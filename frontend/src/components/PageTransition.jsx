@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
   const overlayRef = useRef(null)
   const panelsRef = useRef([])
+  const edgesRef = useRef([])
   const logoRef = useRef(null)
   const timelineRef = useRef(null)
 
@@ -50,17 +51,24 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
 
       timelineRef.current = tl
 
-      // Make sure panels start at -100% y
-      gsap.set(panelsRef.current, { y: '-100%' })
+      // Make sure panels start at 100% y
+      gsap.set(panelsRef.current, { y: '100%' })
+      gsap.set(edgesRef.current, { height: '8px' })
       gsap.set(logoRef.current, { opacity: 0, scale: 0.95, y: 15 })
 
-      // Phase 1: Slide panels down in staggered sequence
+      // Phase 1: Slide panels up in staggered sequence
       tl.to(panelsRef.current, {
         y: '0%',
         duration: 0.75,
         ease: 'power4.inOut',
         stagger: 0.08
       })
+      tl.to(edgesRef.current, {
+        height: '16px',
+        duration: 0.75,
+        ease: 'power4.inOut',
+        stagger: 0.08
+      }, '<')
 
       // Phase 2: Fade in & scale the brand reveal elements
       tl.to(logoRef.current, {
@@ -85,17 +93,26 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
         }
       })
 
-      // Phase 3: Slide panels down and out of the viewport
+      // Phase 3: Slide panels up and out of the viewport
       tl.to(panelsRef.current, {
-        y: '100%',
+        y: '-100%',
         duration: 0.75,
         ease: 'power4.inOut',
         stagger: 0.08
       })
+      tl.to(edgesRef.current, {
+        height: '24px',
+        duration: 0.75,
+        ease: 'power4.inOut',
+        stagger: 0.08
+      }, '<')
 
       // Post-transition cleanup: Reset panel positions silently
       tl.set(panelsRef.current, {
-        y: '-100%'
+        y: '100%'
+      })
+      tl.set(edgesRef.current, {
+        height: '8px'
       })
 
     } else {
@@ -124,15 +141,19 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
         <div
           key={i}
           ref={(el) => (panelsRef.current[i] = el)}
-          className="absolute top-0 h-full w-[20.2%] bg-brand-dark border-r border-brand-cream/20 flex flex-col justify-end"
+          className="absolute top-0 h-full w-[20.2%] bg-white border-r border-brand-dark/10 flex flex-col justify-end"
           style={{
             left: `${i * 20}%`,
-            transform: 'translateY(-100%)',
+            transform: 'translateY(100%)',
             willChange: 'transform'
           }}
         >
-          {/* Gold & Red premium accent metallic line at the bottom of each panel */}
-          <div className="w-full h-[4px] bg-linear-to-r from-brand-red via-[#d97706] to-brand-red opacity-80" />
+          {/* Sky-blue, Yellow & Red premium accent line at the bottom of each panel */}
+          <div
+            ref={(el) => (edgesRef.current[i] = el)}
+            className="w-full bg-linear-to-r from-[#000000] via-[#facc15] to-[#dc2626]"
+            style={{ height: '8px' }}
+          />
         </div>
       ))}
 
@@ -142,10 +163,10 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
         className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 opacity-0 transform-gpu"
       >
         {/* Subtle glowing halo ring behind logo */}
-        <div className="absolute w-48 h-48 rounded-full bg-brand-red/10 blur-xl pointer-events-none animate-pulse" />
+        <div className="absolute w-48 h-48 rounded-full bg-brand-skyblue/10 blur-xl pointer-events-none animate-pulse" />
 
         {/* Circular Logo Outline */}
-        <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-brand-cream/15 mb-6 shadow-2xl flex items-center justify-center bg-brand-cream">
+        <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-brand-dark/15 mb-6 shadow-2xl flex items-center justify-center bg-brand-cream">
           <img
             src="/logo.jpg"
             alt="Aadi Shakti Logo"
@@ -154,12 +175,12 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
         </div>
 
         {/* Brand Name */}
-        <h2 className="font-serif text-5xl md:text-6xl text-brand-cream tracking-[0.06em] font-bold mb-2 shadow-xs">
+        <h2 className="font-serif text-5xl md:text-6xl text-brand-dark tracking-[0.06em] font-bold mb-2 shadow-xs">
           Aadi Shakti
         </h2>
 
         {/* Subtitle */}
-        <span className="font-sans text-[12px] md:text-[14px] font-black tracking-[0.4em] text-white uppercase">
+        <span className="font-sans text-[12px] md:text-[14px] font-black tracking-[0.4em] text-brand-dark uppercase">
           mission
         </span>
       </div>
