@@ -67,7 +67,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
       subtitle: 'Well-being & Stewardship',
       impact: 'Sustainable Living',
       desc: 'Supporting physical and mental well-being while promoting environmental stewardship and sustainable living.',
-      image: '/images/villagelearning2.jpeg',
+      image: '/images/nativecanopy.jpeg',
       color: 'from-black/5 via-black/1 to-transparent'
     }
   ]
@@ -107,7 +107,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
                 trigger: textSections[i],
                 start: 'top 70%',
                 end: 'top 30%',
-                scrub: true,
+                scrub: 0.5,
                 invalidateOnRefresh: true
               }
             }

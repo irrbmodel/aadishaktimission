@@ -346,18 +346,11 @@ const VisionMission = ({ isLoaded }) => {
         }
 
         tl.fromTo(card,
-          { opacity: 0, x: isRight ? -50 : 50, filter: 'blur(5px)' },
-          { opacity: 1, x: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power4.out' },
+          { opacity: 0, x: isRight ? -40 : 40 },
+          { opacity: 1, x: 0, duration: 0.65, ease: 'power3.out' },
           '-=0.3'
         )
       })
-
-      /* ── ResizeObserver ── */
-      if (missionRef.current) {
-        const ro = new ResizeObserver(() => ScrollTrigger.refresh())
-        ro.observe(missionRef.current)
-        return () => ro.disconnect()
-      }
 
     }, containerRef)
 

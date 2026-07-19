@@ -6,6 +6,7 @@ import Lenis from 'lenis'
 // Core Components
 import Navbar from './components/Navbar'
 import PageTransition from './components/PageTransition'
+import CustomCursor from './components/CustomCursor'
 
 // Page Sections
 import Hero from './components/Hero'
@@ -110,43 +111,23 @@ const App = () => {
     gsap.ticker.add(rafUpdate)
     gsap.ticker.lagSmoothing(500, 33)
 
-    // Refresh GSAP on Lenis updates (forces recalcs on layout reflows)
-    const handleRefresh = () => {
-      ScrollTrigger.sort()
-      lenis.resize()
-    }
-    ScrollTrigger.addEventListener('refresh', handleRefresh)
-
-    // 3. Clear/Refresh ScrollTrigger configurations after layout settlement
+    // Clear/Refresh ScrollTrigger configurations after layout settlement
     const handleLoad = () => {
-      ScrollTrigger.sort()
       ScrollTrigger.refresh()
     }
     window.addEventListener('load', handleLoad)
 
-    const t1 = setTimeout(() => {
-      ScrollTrigger.sort()
+    const timer = setTimeout(() => {
       ScrollTrigger.refresh()
-    }, 200)
-    const t2 = setTimeout(() => {
-      ScrollTrigger.sort()
-      ScrollTrigger.refresh()
-    }, 1000)
-    const t3 = setTimeout(() => {
-      ScrollTrigger.sort()
-      ScrollTrigger.refresh()
-    }, 2500)
+    }, 500)
 
     // Cleanup on unmount
     return () => {
       lenis.destroy()
       window.lenis = null
       gsap.ticker.remove(rafUpdate)
-      ScrollTrigger.removeEventListener('refresh', handleRefresh)
       window.removeEventListener('load', handleLoad)
-      clearTimeout(t1)
-      clearTimeout(t2)
-      clearTimeout(t3)
+      clearTimeout(timer)
     }
   }, [])
 
@@ -161,125 +142,11 @@ const App = () => {
     }
   }, [isLoaded])
 
-  useEffect(() => {
-    if (!isLoaded || view !== 'home') return
-
-      const timer = setTimeout(() => {
-      const panels = [
-        document.getElementById('hero'),
-        document.getElementById('philosophy'),
-        document.getElementById('polaroid-transition'),
-        document.getElementById('vision-mission'),
-        document.getElementById('journey'),
-        document.getElementById('gallery'),
-        document.getElementById('our-impact'),
-        document.getElementById('team')
-      ].filter(Boolean)
-
-      const ctx = gsap.context(() => {
-        // Individual custom element transitions as each next section enters the view
-        
-        // Skip exit scroll animations on mobile/touch screens to avoid lagging
-        const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-        if (!isDesktop) return
-        
-
-        // 1. Polaroid Exit -> VisionMission enters
-        const polaroid = document.getElementById('polaroid-transition')
-        const visionMission = document.getElementById('vision-mission')
-        if (polaroid && visionMission) {
-          const card = polaroid.querySelector('.polaroid-card-col')
-          const text = polaroid.querySelector('.polaroid-text-col')
-          const mountains = polaroid.querySelector('.polaroid-mountains')
-
-          const exitTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: visionMission,
-              start: 'top bottom',
-              end: 'top 20%',
-              scrub: true
-            }
-          })
-
-          if (card) {
-            exitTl.to(card, {
-              x: -150,
-              rotate: -8,
-              opacity: 0,
-              scale: 0.95,
-              ease: 'power1.inOut'
-            }, 0)
-          }
-
-          if (text) {
-            exitTl.to(text, {
-              x: 150,
-              opacity: 0,
-              scale: 0.95,
-              ease: 'power1.inOut'
-            }, 0)
-          }
-
-          if (mountains) {
-            exitTl.to(mountains, {
-              y: 80,
-              opacity: 0,
-              ease: 'power1.inOut'
-            }, 0)
-          }
-
-          exitTl.to(polaroid, {
-            opacity: 0,
-            scale: 0.98,
-            ease: 'power1.inOut'
-          }, 0)
-        }
-
-        // 2. VisionMission Exit -> Journey enters
-        const journey = document.getElementById('journey')
-        if (visionMission && journey) {
-          gsap.to(visionMission, {
-            opacity: 0,
-            scale: 0.97,
-            ease: 'power1.inOut',
-            scrollTrigger: {
-              trigger: journey,
-              start: 'top bottom',
-              end: 'top 20%',
-              scrub: true
-            }
-          })
-        }
-
-        // 3. Journey Exit -> Gallery enters
-        const gallery = document.getElementById('gallery')
-        if (journey && gallery) {
-          const timelinePanels = journey.querySelectorAll('.program-text-section, .program-img')
-          if (timelinePanels.length) {
-            gsap.to(timelinePanels, {
-              opacity: 0,
-              scale: 0.92,
-              ease: 'power1.inOut',
-              scrollTrigger: {
-                trigger: gallery,
-                start: 'top bottom',
-                end: 'top top',
-                scrub: true
-              }
-            })
-          }
-        }
-
-      })
-
-      ScrollTrigger.refresh()
-    }, 300)
-
-    return () => clearTimeout(timer)
-  }, [isLoaded, view])
-
   return (
     <div className="relative min-h-screen bg-brand-cream selection:bg-brand-red selection:text-brand-cream">
+      {/* Custom Pointer Cursor for Desktop */}
+      <CustomCursor />
+
       {/* Dynamic Background Glowing Blobs (Global mesh accent) */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-30 overflow-hidden">
         <div className="glowing-blob w-150 h-150 bg-brand-red/10 top-[-20%] left-[-10%]" />
@@ -324,7 +191,6 @@ const App = () => {
               onBack={() => navigateTo('home', 'Home')}
               onProceed={(data) => {
                 navigateTo('membership-payment', 'Membership', () => {
-                  ScrollTrigger.getAll().forEach(t => t.kill())
                   setMembershipData(data)
                 })
               }}
@@ -338,7 +204,6 @@ const App = () => {
               onBack={() => navigateTo('home', 'Home')}
               onProceed={(data) => {
                 navigateTo('donation-payment', 'Donation', () => {
-                  ScrollTrigger.getAll().forEach(t => t.kill())
                   setDonationData(data)
                 })
               }}
@@ -379,9 +244,6 @@ const App = () => {
       <PageTransition 
         isActive={isTransitioning}
         onMidpoint={() => {
-          if (targetView !== 'home') {
-            ScrollTrigger.getAll().forEach(t => t.kill())
-          }
           setView(targetView)
           if (navigationCallback) navigationCallback()
           window.scrollTo(0, 0)
@@ -390,9 +252,8 @@ const App = () => {
           
           // Re-sort/re-calculate scroll triggers for the newly rendered view
           setTimeout(() => {
-            ScrollTrigger.sort()
             ScrollTrigger.refresh()
-          }, 50)
+          }, 100)
         }}
         onComplete={() => {
           setIsTransitioning(false)
@@ -421,8 +282,6 @@ const App = () => {
         />
       )}
 
-
-
       {/* Unified Get Involved Side Panel */}
       <GetInvolvedSidePanel
         isOpen={isSidePanelOpen}
@@ -432,7 +291,6 @@ const App = () => {
           setIsSidePanelOpen(false)
           setTimeout(() => {
             navigateTo('donation-payment', 'Donation', () => {
-              ScrollTrigger.getAll().forEach(t => t.kill())
               setDonationData(data)
             })
           }, 100)
@@ -441,7 +299,6 @@ const App = () => {
           setIsSidePanelOpen(false)
           setTimeout(() => {
             navigateTo('membership-payment', 'Membership', () => {
-              ScrollTrigger.getAll().forEach(t => t.kill())
               setMembershipData(data)
             })
           }, 100)

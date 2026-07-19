@@ -81,7 +81,7 @@ const programData = {
   'Health, Wellness & Sustainability': {
     title: 'Health, Wellness & Sustainability',
     subtitle: 'Well-being & Stewardship',
-    image: '/images/villagelearning2.jpeg',
+    image: '/images/nativecanopy.jpeg',
     impact: 'Sustainable Living',
     headline: 'HEALTH & SUSTAINABILITY',
     desc: 'Supporting physical and mental well-being while promoting environmental stewardship and sustainable living.',
@@ -99,12 +99,15 @@ export default function ProgramSidePanel({ isOpen, onClose, programTitle, onGetI
   // Lock body scroll when panel is open
   useEffect(() => {
     if (isOpen) {
+      window.lenis?.stop()
       document.documentElement.classList.add('lenis-stopped')
     } else {
       document.documentElement.classList.remove('lenis-stopped')
+      window.lenis?.start()
     }
     return () => {
       document.documentElement.classList.remove('lenis-stopped')
+      window.lenis?.start()
     }
   }, [isOpen])
 

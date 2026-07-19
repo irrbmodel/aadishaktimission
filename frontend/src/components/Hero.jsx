@@ -41,16 +41,16 @@ const Hero = ({ isLoaded, onJoinNow }) => {
 
       // 3. Sticky Stack Pin & Shrink/Fade Out on scroll (Desktop only)
       const hero = containerRef.current
-      const polaroid = document.getElementById('polaroid-transition')
+      const philosophy = document.getElementById('philosophy')
       const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
       
-      if (isDesktop && hero && polaroid) {
-        // Pin the hero section until polaroid hits the top of the viewport
+      if (isDesktop && hero && philosophy) {
+        // Pin the hero section until philosophy section scrolls over it
         ScrollTrigger.create({
           trigger: hero,
           start: "top top",
-          endTrigger: polaroid,
-          end: "top top",
+          endTrigger: philosophy,
+          end: "bottom top",
           pin: true,
           pinSpacing: false,
           onRefresh: (self) => {
@@ -65,9 +65,9 @@ const Hero = ({ isLoaded, onJoinNow }) => {
           scrollTrigger: {
             trigger: hero,
             start: "top top",
-            endTrigger: polaroid,
-            end: "top top",
-            scrub: true,
+            endTrigger: philosophy,
+            end: "bottom top",
+            scrub: 0.5,
             invalidateOnRefresh: true
           }
         })

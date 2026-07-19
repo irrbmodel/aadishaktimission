@@ -40,6 +40,7 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
           // Re-enable scrolling when completely done
           document.documentElement.classList.remove('lenis-stopped')
           document.body.style.overflow = ''
+          window.lenis?.start()
           
           if (overlayRef.current) {
             overlayRef.current.style.pointerEvents = 'none'
@@ -119,6 +120,7 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
       // Ensure scrolling is unlocked if inactive
       document.documentElement.classList.remove('lenis-stopped')
       document.body.style.overflow = ''
+      window.lenis?.start()
       if (overlayRef.current) {
         overlayRef.current.style.pointerEvents = 'none'
       }
@@ -128,6 +130,7 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
       // Cleanup: always ensure scroll is unlocked on component unmount
       document.documentElement.classList.remove('lenis-stopped')
       document.body.style.overflow = ''
+      window.lenis?.start()
     }
   }, [isActive])
 

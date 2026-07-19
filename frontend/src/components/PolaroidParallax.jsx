@@ -67,7 +67,6 @@ const PolaroidParallax = ({ isLoaded }) => {
   const mountainsRef = useRef(null)
   const mountainPath1Ref = useRef(null)
   const mountainPath2Ref = useRef(null)
-  const exitBgRef = useRef(null)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -85,7 +84,7 @@ const PolaroidParallax = ({ isLoaded }) => {
       const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
       if (isDesktop) {
-        // Master Pinned Scroll Timeline (Entrance -> Hold & Trace -> Dramatic Exit)
+        // Master Pinned Scroll Timeline (Entrance -> Hold & Trace -> Clean Exit)
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
@@ -93,7 +92,7 @@ const PolaroidParallax = ({ isLoaded }) => {
             end: () => `+=${window.innerHeight * 1.5}`, // Extended duration for complete 3-stage story
             pin: true,
             pinSpacing: true,
-            scrub: 1,
+            scrub: 0.5,
             invalidateOnRefresh: true
           }
         })
@@ -130,48 +129,37 @@ const PolaroidParallax = ({ isLoaded }) => {
         }
         masterTl.to(photoCardRef.current, { y: -15, rotateZ: 0, duration: 0.35, ease: 'none' }, 0.3)
 
-        // ─── STAGE 3: DRAMATIC 3D SPLIT EXIT ANIMATION (65% to 100%) ───
+        // ─── STAGE 3: CLEAN SMOOTH EXIT ANIMATION (65% to 100%) ───
         // 1. Header glides up and out
         masterTl.to(headerRef.current, {
-          y: -90,
+          y: -80,
           opacity: 0,
-          scale: 0.95,
+          scale: 0.96,
           ease: 'power2.in',
           duration: 0.3
         }, 0.65)
 
-        // 2. Photo Showcase Card glides out to the Left in 3D rotation
+        // 2. Photo Showcase Card glides out smoothly to the Left
         masterTl.to(photoCardRef.current, {
-          xPercent: -70,
-          rotateY: -20,
-          rotateZ: -8,
-          scale: 0.82,
+          xPercent: -60,
+          rotateY: -15,
+          scale: 0.85,
           opacity: 0,
-          filter: "blur(4px)",
           ease: 'power2.in',
           duration: 0.35
         }, 0.65)
 
-        // 3. Right Commitment Cards glide out to the Right in 3D stagger
+        // 3. Right Commitment Cards glide out smoothly to the Right
         masterTl.to(cardsColRef.current, {
-          xPercent: 70,
-          rotateY: 20,
-          rotateZ: 6,
-          scale: 0.82,
+          xPercent: 60,
+          rotateY: 15,
+          scale: 0.85,
           opacity: 0,
-          filter: "blur(4px)",
           ease: 'power2.in',
           duration: 0.35
         }, 0.65)
 
-        // 4. Background smooth curtain transition into next section theme
-        masterTl.to(exitBgRef.current, {
-          opacity: 1,
-          ease: 'power1.inOut',
-          duration: 0.35
-        }, 0.65)
-
-        // 5. Mountains fade away
+        // 4. Mountains fade away softly
         masterTl.to(mountainsRef.current, {
           opacity: 0,
           duration: 0.25
@@ -280,13 +268,6 @@ const PolaroidParallax = ({ isLoaded }) => {
   return (
     <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-cream z-10 flex flex-col justify-between overflow-hidden border-b border-brand-dark/10 py-10 lg:py-14">
       
-      {/* Dynamic Exit Transition Dark Backdrop Overlay */}
-      <div 
-        ref={exitBgRef} 
-        className="absolute inset-0 z-30 pointer-events-none opacity-0 transition-opacity duration-300" 
-        style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(6,9,15,0.75) 50%, rgba(6,9,15,0.98) 100%)' }}
-      />
-
       {/* Background ambient light effects */}
       <div className="absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-[#013e37]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/5 w-[450px] h-[450px] bg-[#dc2626]/5 rounded-full blur-3xl pointer-events-none" />

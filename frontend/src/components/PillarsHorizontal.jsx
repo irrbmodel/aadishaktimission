@@ -300,7 +300,7 @@ const PillarsHorizontal = ({ isLoaded }) => {
       id: 'health',
       title: 'Health, Wellness & Sustainability',
       subtitle: 'Well-being & Stewardship',
-      image: '/images/villagelearning2.jpeg',
+      image: '/images/nativecanopy.jpeg',
       impact: 'Sustainable Living',
       initialRotate: 1.5,
       xOffset: -2,

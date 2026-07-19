@@ -58,7 +58,7 @@ const AboutUs = ({ isLoaded }) => {
     return renderParagraph(text, highlightedWords, "p3")
   }
 
-  // Scroll reveal for the centered Philosophy text layout (Mist Reveal Effect)
+  // Scroll reveal for the centered Philosophy text layout
   useEffect(() => {
     if (!isLoaded) return
 
@@ -70,14 +70,13 @@ const AboutUs = ({ isLoaded }) => {
         gsap.to(".reveal-word-p1", {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
-          stagger: 0.008,
-          ease: "power1.out",
+          stagger: 0.006,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: ".philosophy-p1",
             start: "top 85%",
             end: "bottom 55%",
-            scrub: 1.0,
+            scrub: 0.5,
           }
         })
 
@@ -85,14 +84,13 @@ const AboutUs = ({ isLoaded }) => {
         gsap.to(".reveal-word-p2", {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
-          stagger: 0.008,
-          ease: "power1.out",
+          stagger: 0.006,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: ".philosophy-p2",
             start: "top 85%",
             end: "bottom 55%",
-            scrub: 1.0,
+            scrub: 0.5,
           }
         })
 
@@ -100,22 +98,20 @@ const AboutUs = ({ isLoaded }) => {
         gsap.to(".reveal-word-p3", {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
-          stagger: 0.012,
-          ease: "power1.out",
+          stagger: 0.008,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: ".philosophy-p3",
             start: "top 85%",
             end: "bottom 55%",
-            scrub: 1.0,
+            scrub: 0.5,
           }
         })
       } else {
         // Mobile performance optimization: bypass individual span animations entirely
         gsap.set([".reveal-word-p1", ".reveal-word-p2", ".reveal-word-p3"], { 
           opacity: 1, 
-          y: 0,
-          filter: "none"
+          y: 0
         })
 
         // Instead, animate the whole paragraphs in one smooth transition
@@ -147,7 +143,7 @@ const AboutUs = ({ isLoaded }) => {
             trigger: ".philosophy-footer-text",
             start: "top 95%",
             end: "bottom 85%",
-            scrub: 1.0,
+            scrub: 0.5,
           }
         }
       )
@@ -155,6 +151,7 @@ const AboutUs = ({ isLoaded }) => {
 
     return () => ctx.revert()
   }, [isLoaded])
+
 
   return (
     <section 

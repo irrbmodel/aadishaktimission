@@ -135,17 +135,10 @@ h1, h2, h3, h4, h5, h6 {
 .reveal-word-p1,
 .reveal-word-p2,
 .reveal-word-p3 {
-  opacity: 0.08;
-  transform: translateY(16px);
+  opacity: 0.12;
+  transform: translateY(12px);
   will-change: transform, opacity;
-}
-@media (hover: hover) and (pointer: fine) {
-  .reveal-word-p1,
-  .reveal-word-p2,
-  .reveal-word-p3 {
-    filter: blur(4px);
-    will-change: transform, opacity, filter;
-  }
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* Subtle glowing light meshes */

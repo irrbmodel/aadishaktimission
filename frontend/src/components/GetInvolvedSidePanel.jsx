@@ -72,12 +72,15 @@ const GetInvolvedSidePanel = ({ isOpen, onClose, defaultMode = 'donation', onPro
   // Scroll lock when side panel is open
   useEffect(() => {
     if (isOpen) {
+      window.lenis?.stop()
       document.documentElement.classList.add('lenis-stopped')
     } else {
       document.documentElement.classList.remove('lenis-stopped')
+      window.lenis?.start()
     }
     return () => {
       document.documentElement.classList.remove('lenis-stopped')
+      window.lenis?.start()
     }
   }, [isOpen])
 
