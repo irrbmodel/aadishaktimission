@@ -84,131 +84,144 @@ const StoryCard = ({ item, idx, Icon }) => {
   return (
     <div className="vm-card group relative w-full max-w-[420px] xl:max-w-[460px]">
 
-      {/* Layered shadow system — creates depth without dark bg */}
+      {/* Layered ambient shadow system */}
       <div
-        className="absolute inset-0 rounded-2xl transition-all duration-500"
+        className="absolute inset-0 rounded-3xl transition-all duration-500"
         style={{
-          boxShadow: '0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03), 0 10px 30px rgba(14,165,233,0.05)',
         }}
       />
-      {/* Hover: deeper layered shadow */}
+      {/* Hover: rich glowing ambient shadow */}
       <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"
+        className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"
         style={{
-          boxShadow: `0 8px 24px rgba(0,0,0,0.06), 0 24px 48px rgba(0,0,0,0.05), 0 2px 6px rgba(14,165,233,0.08), inset 0 1px 0 rgba(255,255,255,0.9)`,
+          boxShadow: `0 16px 40px rgba(0,0,0,0.08), 0 30px 70px rgba(14,165,233,0.18), inset 0 1px 0 rgba(255,255,255,1)`,
         }}
       />
 
       {/* Main card surface */}
       <div
-        className="relative rounded-2xl overflow-hidden transition-all duration-500"
+        className="relative rounded-3xl overflow-hidden transition-all duration-500 bg-gradient-to-b from-[#FFFFFF] via-[#FAFBFD] to-[#F2F6FA]"
         style={{
-          background: '#ffffff',
-          border: '1px solid rgba(0,0,0,0.07)',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1)',
+          border: '1px solid rgba(14,165,233,0.14)',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.02), 0 12px 36px rgba(0,0,0,0.04), inset 0 1px 1px rgba(255,255,255,1)',
         }}
       >
-        {/* Top accent gradient stripe */}
+        {/* Top luminous accent gradient stripe */}
         <div
-          className="absolute top-0 left-0 right-0 h-[3px]"
-          style={{ background: `linear-gradient(90deg, transparent 0%, ${accent}cc 30%, ${accent} 50%, ${accent}cc 70%, transparent 100%)` }}
+          className="absolute top-0 left-0 right-0 h-[3.5px] z-20"
+          style={{ background: `linear-gradient(90deg, transparent 0%, ${accent}aa 25%, ${accent} 50%, ${accent}aa 75%, transparent 100%)` }}
         />
 
-        {/* Subtle inner paper texture */}
+        {/* Glass reflection sweep overlay on hover */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none z-30" />
+
+        {/* Subtle inner paper noise texture */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-[0.018]"
+          className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
         />
 
-        {/* Hover tint wash (very soft blue at top) */}
+        {/* Hover background sky glow wash */}
         <div
-          className="absolute top-0 left-0 right-0 h-24 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          style={{ background: `linear-gradient(180deg, ${accent}06, transparent)` }}
+          className="absolute top-0 left-0 right-0 h-32 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{ background: `linear-gradient(180deg, ${accent}10, transparent)` }}
         />
 
         <div className="p-7 sm:p-8 relative z-10">
 
           {/* Header row */}
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-2.5">
-              {/* Chapter roman badge */}
+          <div className="flex items-center justify-between mb-5 gap-3">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              {/* Chapter badge */}
               <span
-                className="font-display font-black text-[10px] uppercase tracking-[0.22em] px-3 py-1.5 rounded-full"
+                className="font-display font-black text-[10px] uppercase tracking-[0.18em] px-4.5 py-2 rounded-full backdrop-blur-md transition-all duration-300 group-hover:scale-105 inline-flex items-center justify-center min-w-[44px] text-center"
                 style={{
                   color: accent,
-                  background: `${accent}12`,
-                  border: `1px solid ${accent}30`,
-                  boxShadow: `0 2px 8px ${accent}18`,
+                  background: `${accent}16`,
+                  border: `1.5px solid ${accent}40`,
+                  boxShadow: `0 3px 12px ${accent}22`,
                 }}
               >
                 {item.chapter}
               </span>
-              <span className="font-display text-[9px] font-bold uppercase tracking-[0.28em] text-brand-dark/30">
+
+              {/* Pillar tag badge */}
+              <span 
+                className="font-display text-[10px] font-extrabold uppercase tracking-[0.2em] px-4.5 py-2.5 rounded-full transition-all duration-300 inline-flex items-center justify-center backdrop-blur-md"
+                style={{
+                  color: accent,
+                  background: `${accent}10`,
+                  border: `1px solid ${accent}28`,
+                }}
+              >
                 {item.tag}
               </span>
             </div>
 
-            {/* Icon badge */}
+            {/* Icon badge - 3D Floating Glass Tile */}
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-400 group-hover:scale-110 group-hover:rotate-3"
+              className="w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 shadow-sm group-hover:shadow-[0_6px_20px_rgba(14,165,233,0.3)] shrink-0"
               style={{
-                background: `linear-gradient(135deg, ${accent}18, ${accent}0a)`,
-                border: `1px solid ${accent}22`,
-                boxShadow: `0 2px 8px ${accent}14`,
+                background: `linear-gradient(135deg, ${accent}22, ${accent}0d)`,
+                border: `1.5px solid ${accent}30`,
+                backdropFilter: 'blur(8px)',
               }}
             >
-              <Icon size={16} style={{ color: accent, strokeWidth: 2.2 }} />
+              <Icon size={18} style={{ color: accent, strokeWidth: 2.2 }} />
             </div>
           </div>
 
           {/* Title */}
-          <h3 className="font-serif text-[1.45rem] sm:text-[1.6rem] text-brand-dark font-light tracking-tight mb-2.5 leading-[1.2] transition-colors duration-300 group-hover:text-brand-red">
+          <h3 className="font-serif text-[1.5rem] sm:text-[1.7rem] text-brand-dark font-normal tracking-tight mb-2.5 leading-[1.2] transition-colors duration-300 group-hover:text-brand-red">
             {item.title}
           </h3>
 
-          {/* Thin rule */}
+          {/* Expanding luminous divider bar */}
           <div
-            className="w-8 h-px mb-5 transition-all duration-500 group-hover:w-14"
+            className="h-[2px] rounded-full mb-5 transition-all duration-500 group-hover:w-24 w-10"
             style={{ background: `linear-gradient(90deg, ${accent}, ${accent}30)` }}
           />
 
           {/* Narrative body */}
-          <p className="font-sans text-[13px] text-brand-dark/55 leading-[1.85] font-light mb-5">
+          <p className="font-sans text-[13px] text-brand-dark/65 leading-[1.85] font-light mb-5">
             {item.narrative}
           </p>
 
-          {/* Blockquote mission text */}
+          {/* Blockquote mission text with gradient bar */}
           <div
-            className="relative pl-4 py-1"
-            style={{ borderLeft: `2px solid ${accent}45` }}
+            className="relative px-5 py-4.5 rounded-xl bg-sky-500/10 border-l-4 shadow-xs"
+            style={{ borderColor: accent }}
           >
-            <p className="font-serif text-[13.5px] text-brand-dark/70 leading-[1.7] italic">
+            <p className="font-serif text-[13.5px] sm:text-[14px] text-brand-dark/90 leading-[1.75] italic">
               {item.text}
             </p>
           </div>
 
           {/* Card footer */}
-          <div className="mt-6 pt-5 border-t border-brand-dark/5 flex items-center justify-between">
-            {/* Progress dots */}
+          <div className="mt-6 pt-5 border-t border-brand-dark/10 flex items-center justify-between">
+            {/* Progress dots bar */}
             <div className="flex gap-1.5 items-center">
-              {[20, 12, 6].map((w, i) => (
+              {[24, 14, 7].map((w, i) => (
                 <div
                   key={i}
-                  className="h-[2px] rounded-full transition-all duration-500"
+                  className="h-[3px] rounded-full transition-all duration-500"
                   style={{
                     width: `${w}px`,
-                    background: i === 0 ? accent : `${accent}${i === 1 ? '50' : '28'}`,
+                    background: i === 0 ? accent : `${accent}${i === 1 ? '60' : '30'}`,
                   }}
                 />
               ))}
             </div>
-            {/* Ghost number */}
+
+            {/* Ghost Chapter Index */}
             <span
-              className="font-display font-black leading-none select-none transition-opacity duration-300 group-hover:opacity-100"
+              className="font-display font-black leading-none select-none transition-all duration-300 group-hover:scale-105"
               style={{
-                fontSize: '2.8rem',
-                color: `${accent}18`,
+                fontSize: '2.6rem',
+                color: `${accent}22`,
                 letterSpacing: '-0.02em',
+                textShadow: `0 0 15px ${accent}15`,
               }}
             >
               {String(idx + 1).padStart(2, '0')}
@@ -216,10 +229,10 @@ const StoryCard = ({ item, idx, Icon }) => {
           </div>
         </div>
 
-        {/* Bottom glow edge (visible on hover) */}
+        {/* Bottom luminous glow edge */}
         <div
-          className="absolute bottom-0 left-8 right-8 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{ background: `linear-gradient(90deg, transparent, ${accent}40, transparent)` }}
+          className="absolute bottom-0 left-6 right-6 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background: `linear-gradient(90deg, transparent, ${accent}60, transparent)` }}
         />
       </div>
     </div>
@@ -252,12 +265,12 @@ const VisionMission = ({ isLoaded }) => {
         const quote    = visionEl.querySelector('.vm-quote')
 
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: visionEl, start: 'top 75%', toggleActions: 'play none none reverse' }
+          scrollTrigger: { trigger: visionEl, start: 'top 90%', toggleActions: 'play none none reverse' }
         })
-        tl.fromTo(badge,    { opacity: 0, y: 14, scale: 0.9 }, { opacity: 1, y: 0, scale: 1,  duration: 0.5,  ease: 'back.out(1.7)' })
-          .fromTo(words,    { opacity: 0, y: 40 },              { opacity: 1, y: 0,            duration: 0.65, ease: 'power3.out', stagger: 0.12 }, '-=0.25')
-          .fromTo(dividers, { scaleX: 0 },                      { scaleX: 1,                   duration: 0.5,  ease: 'power2.out', stagger: 0.08 }, '-=0.35')
-          .fromTo(quote,    { opacity: 0, y: 22 },              { opacity: 1, y: 0,            duration: 0.65, ease: 'power2.out' }, '-=0.3')
+        tl.fromTo(badge,    { opacity: 0, y: 12, scale: 0.95 }, { opacity: 1, y: 0, scale: 1,  duration: 0.4,  ease: 'back.out(1.5)' })
+          .fromTo(words,    { opacity: 0, y: 25 },              { opacity: 1, y: 0,            duration: 0.45, ease: 'power3.out', stagger: 0.07 }, '-=0.25')
+          .fromTo(dividers, { scaleX: 0 },                      { scaleX: 1,                   duration: 0.35, ease: 'power2.out', stagger: 0.05 }, '-=0.3')
+          .fromTo(quote,    { opacity: 0, y: 16 },              { opacity: 1, y: 0,            duration: 0.45, ease: 'power2.out' }, '-=0.25')
       }
 
       /* ── Timeline ink line draw (scrub) ── */
@@ -275,9 +288,9 @@ const VisionMission = ({ isLoaded }) => {
           ease: 'none',
           scrollTrigger: {
             trigger: lineTrackRef.current,
-            start: 'top 50%',
-            end: 'bottom 70%',
-            scrub: 0.5,
+            start: 'top 85%',
+            end: 'bottom 80%',
+            scrub: 0.2,
             invalidateOnRefresh: true,
           }
         })
@@ -297,15 +310,15 @@ const VisionMission = ({ isLoaded }) => {
           ease: 'none',
           scrollTrigger: {
             trigger: lineTrackRef.current,
-            start: 'top 50%',
-            end: 'bottom 70%',
-            scrub: 0.5,
+            start: 'top 85%',
+            end: 'bottom 80%',
+            scrub: 0.2,
             invalidateOnRefresh: true,
           }
         })
       }
 
-      /* ── Per-node story reveals ── */
+      /* ── Per-node story reveals (Ultra-responsive fast triggers) ── */
       nodeRefs.current.forEach((node, idx) => {
         if (!node) return
         const isRight = idx % 2 === 0
@@ -318,7 +331,7 @@ const VisionMission = ({ isLoaded }) => {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: node,
-            start: 'top 82%',
+            start: 'top 95%',
             toggleActions: 'play none none reverse',
             invalidateOnRefresh: true,
           }
@@ -326,29 +339,29 @@ const VisionMission = ({ isLoaded }) => {
 
         tl.fromTo(dot,
           { scale: 0, opacity: 0 },
-          { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(2.2)' }
+          { scale: 1, opacity: 1, duration: 0.25, ease: 'back.out(2)' }
         )
 
         if (connector) {
           tl.fromTo(connector,
             { scaleX: 0 },
-            { scaleX: 1, duration: 0.4, ease: 'expo.out' },
-            '-=0.25'
+            { scaleX: 1, duration: 0.2, ease: 'power2.out' },
+            '-=0.15'
           )
         }
 
         if (chapterEl) {
           tl.fromTo(chapterEl,
-            { opacity: 0, x: isRight ? 12 : -12 },
-            { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' },
-            '-=0.2'
+            { opacity: 0, x: isRight ? 8 : -8 },
+            { opacity: 1, x: 0, duration: 0.25, ease: 'power2.out' },
+            '-=0.15'
           )
         }
 
         tl.fromTo(card,
-          { opacity: 0, x: isRight ? -40 : 40 },
-          { opacity: 1, x: 0, duration: 0.65, ease: 'power3.out' },
-          '-=0.3'
+          { opacity: 0, x: isRight ? -20 : 20 },
+          { opacity: 1, x: 0, duration: 0.35, ease: 'power3.out' },
+          '-=0.2'
         )
       })
 
@@ -361,7 +374,7 @@ const VisionMission = ({ isLoaded }) => {
     <section
       id="vision-mission"
       ref={containerRef}
-      className="relative z-20 w-full bg-brand-cream overflow-hidden py-28 md:py-36"
+      className="relative z-20 w-full bg-brand-cream overflow-hidden pt-16 pb-24 md:pt-24 md:pb-36"
     >
 
       {/* Decorative blobs */}
@@ -380,7 +393,7 @@ const VisionMission = ({ isLoaded }) => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10">
 
         {/* Section label */}
-        <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-20 md:mb-28">
+        <div className="flex items-center justify-between border-b border-brand-dark/10 pb-4 mb-10 md:mb-14">
           <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-skyblue">
             03 / Vision &amp; Mission
           </span>
@@ -388,7 +401,7 @@ const VisionMission = ({ isLoaded }) => {
         </div>
 
         {/* ══ VISION ══ */}
-        <div ref={visionRef} className="relative mb-28 md:mb-44">
+        <div ref={visionRef} className="relative mb-20 md:mb-32">
           <span
             className="absolute -top-6 left-0 font-display font-black uppercase leading-none text-brand-dark/4 select-none pointer-events-none tracking-tighter"
             style={{ fontSize: 'clamp(3rem,8vw,7rem)' }}

@@ -9,40 +9,50 @@ gsap.registerPlugin(ScrollTrigger)
 // Check if device supports hover interactions to optimize mobile scrolling
 const isHoverDevice = typeof window !== 'undefined' ? window.matchMedia('(hover: hover) and (pointer: fine)').matches : false
 
-// Render 3D Push-Pin with drop shadow (Declared outside component scope to maintain stable element identity)
+// Render 3D Push-Pin with drop shadow & metallic specular highlights
 const PushPin = ({ color = '#dc2626' }) => (
   <div className="push-pin-item absolute -top-7 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center">
-    {/* Real drop shadow offset below the pin */}
-    <div className="absolute w-7 h-7 bg-brand-cream/45 rounded-full blur-[3px] translate-x-3.5 translate-y-4" />
-    {/* 3D SVG Pin Head & Needle */}
-    <svg width="38" height="44" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Ambient shadow cast on the card surface below */}
+    <div className="absolute w-8 h-8 bg-black/45 rounded-full blur-[4px] translate-x-3.5 translate-y-4 scale-y-75" />
+    
+    {/* 3D SVG Pin Head & Metallic Needle */}
+    <svg width="40" height="46" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id={`pin-head-${color.replace('#', '')}`} cx="30%" cy="30%" r="70%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.5" />
-          <stop offset="25%" stopColor={color} />
-          <stop offset="100%" stopColor="#1a0000" />
+        <radialGradient id={`pin-head-${color.replace('#', '')}`} cx="35%" cy="30%" r="65%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+          <stop offset="20%" stopColor={color} />
+          <stop offset="75%" stopColor={color} />
+          <stop offset="100%" stopColor="#0f0202" />
         </radialGradient>
         <linearGradient id="pin-needle-grad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#999999" />
-          <stop offset="50%" stopColor="#e5e5e5" />
-          <stop offset="100%" stopColor="#666666" />
+          <stop offset="0%" stopColor="#888888" />
+          <stop offset="40%" stopColor="#ffffff" />
+          <stop offset="100%" stopColor="#444444" />
         </linearGradient>
+        <filter id="pin-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="#000" floodOpacity="0.4" />
+        </filter>
       </defs>
-      {/* Plastic push head shape */}
+      
+      {/* Plastic push head with 3D bevel specular highlights */}
       <path 
         d="M 6,2 L 18,2 L 16,10 L 20,13 L 20,16 L 4,16 L 4,13 L 8,10 Z" 
         fill={`url(#pin-head-${color.replace('#', '')})`} 
-        stroke="rgba(0,0,0,0.15)"
-        strokeWidth="0.5"
+        stroke="rgba(255,255,255,0.4)"
+        strokeWidth="0.6"
+        filter="url(#pin-glow)"
       />
+      {/* Brass/Chrome accent cap line */}
+      <line x1="6" y1="2" x2="18" y2="2" stroke="rgba(255,255,255,0.7)" strokeWidth="1.2" strokeLinecap="round" />
+      <line x1="4" y1="16" x2="20" y2="16" stroke="rgba(0,0,0,0.3)" strokeWidth="0.8" />
+      
       {/* Metal needle pinning the card */}
       <rect x="11.2" y="16" width="1.6" height="10" fill="url(#pin-needle-grad)" />
     </svg>
   </div>
 )
 
-
-// Interactive Program Polaroid Card Component with 3D Mouse Tilt Dynamics (Optimized via Framer Motion Values)
+// Interactive Program Polaroid Card Component with 3D Mouse Tilt Dynamics
 const ProgramCard = ({ proj, onClick }) => {
   const cardRef = useRef(null)
 
@@ -81,12 +91,12 @@ const ProgramCard = ({ proj, onClick }) => {
         rotate: proj.initialRotate,
         x: proj.xOffset,
         y: proj.yOffset,
-        boxShadow: "0 10px 24px rgba(0,0,0,0.22)"
+        boxShadow: "0 15px 35px rgba(0,0,0,0.25), 0 5px 15px rgba(0,0,0,0.12)"
       }}
       whileHover={isHoverDevice ? {
         rotate: 0,
-        scale: 1.03,
-        boxShadow: "0 28px 56px rgba(0,0,0,0.45)",
+        scale: 1.04,
+        boxShadow: "0 32px 64px rgba(0,0,0,0.48), 0 0 25px rgba(212,175,55,0.15)",
         zIndex: 10
       } : {}}
       transition={{
@@ -100,42 +110,81 @@ const ProgramCard = ({ proj, onClick }) => {
         rotateX: isHoverDevice ? rotateXSpring : 0,
         rotateY: isHoverDevice ? rotateYSpring : 0
       }}
-      className="bg-brand-white border border-brand-dark/5 rounded-[24px] p-6 pb-8 flex flex-col justify-start relative cursor-pointer select-none group border-fine transform-gpu"
+      className="bg-linear-to-b from-[#FFFFFF] via-[#FAF9F5] to-[#F4F1E8] border border-brand-dark/10 rounded-[26px] p-5 md:p-6 pb-7 flex flex-col justify-start relative cursor-pointer select-none group border-fine transform-gpu overflow-hidden"
       data-cursor="pointer"
     >
+      {/* Glass Light Reflection Overlay Sweep on Hover */}
+      <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none z-30" />
+
+      {/* Subtle Fine Paper Texture Grain */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.035] rounded-[26px] z-0"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
+      />
+
       {/* Push Pin */}
       <PushPin color={proj.pinColor} />
       
-      {/* Needle hole */}
-      <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-brand-cream/60 shadow-[inset_0_1px_1px_rgba(0,0,0,0.7)] z-20" />
+      {/* Needle hole on paper surface */}
+      <div className="absolute top-3.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#382015]/80 shadow-[inset_0_1px_2px_rgba(0,0,0,0.9)] z-20" />
 
-      {/* Title block */}
-      <div className="flex justify-center mt-3 mb-4" style={{ transform: 'translateZ(20px)' }}>
+      {/* Title block / Luxury Embossed Ribbon */}
+      <div className="flex justify-center mt-3.5 mb-4 z-10" style={{ transform: 'translateZ(24px)' }}>
         <div 
-          className="bg-brand-cream text-brand-white font-display font-black uppercase tracking-wider px-4 py-2.5 text-sm shadow-md inline-block -rotate-1 select-none"
-          style={{ transform: 'skewX(-4deg)' }}
+          className="bg-linear-to-r from-[#8B2617] via-[#9E2B1A] to-[#6E1C10] text-[#FFF8EB] font-display font-black uppercase tracking-widest px-4 py-2 text-[11px] md:text-xs shadow-[0_4px_14px_rgba(139,38,23,0.4)] inline-block -rotate-1 select-none border border-[#D4AF37]/35 rounded-md"
+          style={{ transform: 'skewX(-3deg)' }}
         >
           {proj.headline}
         </div>
       </div>
 
-      {/* Photo Frame */}
-      <div className="relative aspect-4/3 w-full bg-brand-white border border-brand-dark/5 p-1.5 shadow-xs overflow-hidden rounded-lg" style={{ transform: 'translateZ(10px)' }}>
+      {/* Photo Frame with Floating Impact Tag */}
+      <div 
+        className="relative aspect-4/3 w-full bg-white border border-brand-dark/10 p-1.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06),0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden rounded-xl z-10" 
+        style={{ transform: 'translateZ(14px)' }}
+      >
+        {/* Floating Impact Tag */}
+        <div className="absolute top-3 left-3 bg-black/65 backdrop-blur-md text-amber-200 font-mono text-[9px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-amber-400/30 shadow-md flex items-center gap-2 z-20">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shrink-0" />
+          <span>{proj.impact}</span>
+        </div>
+
         <img 
           src={proj.image} 
           alt={proj.title} 
-          className="w-full h-full object-cover scale-105 md:scale-100 md:group-hover:scale-[1.02] transition-transform duration-700 pointer-events-none"
+          className="w-full h-full object-cover scale-100 md:group-hover:scale-[1.04] transition-transform duration-700 ease-out pointer-events-none rounded-lg"
         />
+        <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
       </div>
 
-      {/* Caption */}
-      <div className="mt-5 text-center px-2 flex flex-col gap-2" style={{ transform: 'translateZ(15px)' }}>
-        <span className="font-sans text-[10px] font-black tracking-widest text-brand-red uppercase">
-          {proj.subtitle}
-        </span>
-        <p className="font-serif italic text-xs md:text-sm text-brand-grey font-light leading-relaxed max-w-[340px] mx-auto">
+      {/* Caption & Description */}
+      <div className="mt-5 text-center px-1 flex flex-col gap-2 z-10" style={{ transform: 'translateZ(18px)' }}>
+        <div className="flex items-center justify-center gap-2">
+          <span className="h-0.5 w-4 bg-[#8B2617]/30 rounded-full" />
+          <span className="font-sans text-[10px] font-black tracking-[0.2em] text-[#8B2617] uppercase">
+            {proj.subtitle}
+          </span>
+          <span className="h-0.5 w-4 bg-[#8B2617]/30 rounded-full" />
+        </div>
+        
+        <p className="font-serif italic text-xs md:text-sm text-brand-dark/85 font-light leading-relaxed max-w-[340px] mx-auto line-clamp-3">
           &ldquo;{proj.desc}&rdquo;
         </p>
+      </div>
+
+      {/* Card Action Hint Footer */}
+      <div 
+        className="mt-5 pt-3.5 border-t border-brand-dark/10 flex items-center justify-between z-10"
+        style={{ transform: 'translateZ(12px)' }}
+      >
+        <span className="font-sans text-[9px] font-bold tracking-[0.25em] text-brand-dark/40 uppercase group-hover:text-[#8B2617] transition-colors duration-300">
+          EXPLORE PORTFOLIO
+        </span>
+        <div className="w-6 h-6 rounded-full bg-brand-cream/80 border border-brand-dark/15 flex items-center justify-center text-brand-dark/60 group-hover:bg-[#8B2617] group-hover:text-white group-hover:border-[#8B2617] transition-all duration-300 group-hover:translate-x-0.5 shadow-xs">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
       </div>
     </motion.div>
   )
@@ -152,16 +201,16 @@ const PillarsHorizontal = ({ isLoaded }) => {
       const cards = containerRef.current.querySelectorAll('.program-card-item')
       
       // Initial hidden, rotated, and translated state for cards
-      gsap.set(cards, { opacity: 0, y: 70, scale: 0.9, rotate: -2 })
+      gsap.set(cards, { opacity: 0, y: 35, scale: 0.94, rotate: -2 })
 
       // Target pins inside cards - start slightly above so they don't clip in the scroll container
       const pins = containerRef.current.querySelectorAll('.push-pin-item')
-      gsap.set(pins, { y: -30, opacity: 0, scale: 1.3 })
+      gsap.set(pins, { y: -20, opacity: 0, scale: 1.2 })
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 75%',
+          start: 'top 92%',
           toggleActions: 'play none none reverse'
         }
       })
@@ -175,8 +224,8 @@ const PillarsHorizontal = ({ isLoaded }) => {
           // Keep the original rotation angle of the card
           return parseFloat(target.dataset.rotate || 0)
         },
-        duration: 0.8,
-        stagger: 0.15,
+        duration: 0.4,
+        stagger: 0.07,
         ease: 'power3.out'
       })
 
@@ -185,10 +234,10 @@ const PillarsHorizontal = ({ isLoaded }) => {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.75,
-        stagger: 0.15,
+        duration: 0.45,
+        stagger: 0.07,
         ease: 'bounce.out'
-      }, '-=0.55')
+      }, '-=0.35')
 
     }, containerRef)
 

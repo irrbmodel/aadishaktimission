@@ -245,3 +245,13 @@ h1, h2, h3, h4, h5, h6 {
   will-change: transform, opacity;
   transform-origin: center top;
 }
+
+/* Custom Cursor Global Hide Rule for Desktop Fine-Pointer Devices */
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active *,
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
+}

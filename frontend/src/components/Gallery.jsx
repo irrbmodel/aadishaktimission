@@ -146,6 +146,7 @@ const Gallery = () => {
           {filteredItems.map((item) => (
             <div 
               key={item.id}
+              data-cursor="view"
               className={`gallery-card relative overflow-hidden rounded-[28px] group shadow-[0_18px_60px_rgba(0,0,0,0.06)] border border-brand-dark/5 hover:shadow-[0_24px_70px_rgba(0,0,0,0.1)] transition-all duration-500 ${item.span}`}
             >
               {/* Background Dim Shadow overlay */}
