@@ -24,7 +24,8 @@ const Navbar = ({ isLoaded, view, setView, onGetInvolvedClick }) => {
           start: 'top top',
           end: 'bottom bottom',
           onUpdate: (self) => {
-            setIsScrolled(self.scroll() > 50)
+            const scrolled = self.scroll() > 50
+            setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev))
           }
         })
       })

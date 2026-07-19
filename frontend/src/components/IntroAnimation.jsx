@@ -49,7 +49,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
         >
           {/* Sky-blue, Yellow & Red premium accent line */}
           <motion.div 
-            className="w-full bg-linear-to-r from-[#000000] via-[#facc15] to-[#dc2626]"
+            className="w-full bg-linear-to-r from-brand-skyblue via-[#facc15] to-[#dc2626]"
             initial={{ height: '8px' }}
             animate={phase === 5 ? { height: '24px' } : { height: '8px' }}
             transition={{
@@ -132,7 +132,7 @@ const IntroAnimation = ({ onStartTransition, onComplete }) => {
                     <defs>
                       <linearGradient id="orbit-grad" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stopColor="#013e37" />
-                        <stop offset="50%" stopColor="#000000" stopOpacity="0.4" />
+                        <stop offset="50%" stopColor="#0ea5e9" stopOpacity="0.4" />
                         <stop offset="100%" stopColor="#013e37" />
                       </linearGradient>
                     </defs>

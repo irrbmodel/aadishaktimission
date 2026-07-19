@@ -153,10 +153,10 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
         {/* Right Side - Scrolling Text */}
         <div 
           ref={rightColRef}
-          className="w-full md:w-1/2 flex flex-col z-20 md:py-12 md:pl-12 lg:pl-16 pr-6 md:pr-16 lg:pr-32"
+          className="w-full md:w-1/2 flex flex-col z-20 md:py-12 md:pl-2 lg:pl-4 pr-6 md:pr-12 lg:pr-20"
         >
           {/* Header */}
-          <div className="pl-6 md:pl-10 pr-6 md:pr-12 pt-24 pb-16 flex flex-col justify-center border-b border-brand-dark/10 mb-16 max-w-2xl w-full">
+          <div className="pl-2 md:pl-4 pr-6 md:pr-12 pt-24 pb-16 flex flex-col justify-center border-b border-brand-dark/10 mb-16 max-w-2xl w-full">
             <span className="font-display text-[10px] font-black uppercase tracking-[0.35em] text-brand-skyblue">
               04 / Focus Areas
             </span>
@@ -173,7 +173,7 @@ const JourneyTimeline = ({ isLoaded, onOpenProgram }) => {
             {concepts.map((item, idx) => (
                <div 
                  key={item.title}
-                 className="program-text-section pl-6 md:pl-10 pr-6 md:pr-12 flex flex-col justify-center relative w-full min-h-[60vh] md:min-h-[80vh]"
+                 className="program-text-section pl-2 md:pl-4 pr-6 md:pr-12 flex flex-col justify-center relative w-full min-h-[60vh] md:min-h-[80vh]"
                >
                   {/* Mobile Image inline */}
                   <div className="w-full aspect-square rounded-[24px] overflow-hidden shadow-lg border border-brand-dark/5 mb-8 md:hidden relative">

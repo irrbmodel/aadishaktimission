@@ -86,15 +86,16 @@ const App = () => {
   }
 
   useEffect(() => {
-    // 1. Initialize Lenis Smooth Scroll with premium physics settings
+    // 1. Initialize Lenis Smooth Scroll with high-performance responsive settings
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // premium exponential easing
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
       gestureDirection: 'vertical',
       smooth: true,
       mouseMultiplier: 1.0,
       smoothTouch: false,
+      touchMultiplier: 1.5,
       infinite: false,
     })
 
@@ -104,12 +105,12 @@ const App = () => {
     // 2. Sync Lenis scroll updates with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update)
 
-    // Use GSAP ticker to run Lenis updates for perfect frame synchronization
+    // Use GSAP ticker for perfect frame synchronization without frame dropping
     const rafUpdate = (time) => {
       lenis.raf(time * 1000)
     }
     gsap.ticker.add(rafUpdate)
-    gsap.ticker.lagSmoothing(500, 33)
+    gsap.ticker.lagSmoothing(1000, 16)
 
     // Clear/Refresh ScrollTrigger configurations after layout settlement
     const handleLoad = () => {

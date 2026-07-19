@@ -107,6 +107,7 @@ const ProgramCard = ({ proj, onClick }) => {
       style={{ 
         transformStyle: 'preserve-3d', 
         perspective: '1000px',
+        willChange: 'transform',
         rotateX: isHoverDevice ? rotateXSpring : 0,
         rotateY: isHoverDevice ? rotateYSpring : 0
       }}
@@ -116,10 +117,9 @@ const ProgramCard = ({ proj, onClick }) => {
       {/* Glass Light Reflection Overlay Sweep on Hover */}
       <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none z-30" />
 
-      {/* Subtle Fine Paper Texture Grain */}
+      {/* Subtle Fine Card Texture Overlay */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.035] rounded-[26px] z-0"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
+        className="absolute inset-0 pointer-events-none opacity-[0.04] bg-linear-to-b from-black/5 to-transparent rounded-[26px] z-0"
       />
 
       {/* Push Pin */}

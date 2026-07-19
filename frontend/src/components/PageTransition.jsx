@@ -154,7 +154,7 @@ const PageTransition = ({ isActive, onMidpoint, onComplete }) => {
           {/* Sky-blue, Yellow & Red premium accent line at the bottom of each panel */}
           <div
             ref={(el) => (edgesRef.current[i] = el)}
-            className="w-full bg-linear-to-r from-[#000000] via-[#facc15] to-[#dc2626]"
+            className="w-full bg-linear-to-r from-brand-skyblue via-[#facc15] to-[#dc2626]"
             style={{ height: '8px' }}
           />
         </div>

@@ -92,7 +92,7 @@ const PolaroidParallax = ({ isLoaded }) => {
             end: () => `+=${window.innerHeight * 1.2}`,
             pin: true,
             pinSpacing: true,
-            scrub: 0.2, // Fast, responsive scrubbing without input lag
+            scrub: 0.15, // Fast, responsive scrubbing without input lag
             invalidateOnRefresh: true
           }
         })

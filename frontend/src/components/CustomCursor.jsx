@@ -5,6 +5,7 @@ const CustomCursor = () => {
   const cursorRingRef = useRef(null)
   const cursorDotRef = useRef(null)
   const isVisibleRef = useRef(false)
+  const cursorStateRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
   const [cursorState, setCursorState] = useState(null) // 'pointer' | 'view' | 'play' | 'prev' | 'next' | 'drag' | 'text' | null
   const [isPressed, setIsPressed] = useState(false)
@@ -36,16 +37,23 @@ const CustomCursor = () => {
 
     let hasInitializedPos = false
 
+    const setNextState = (newState) => {
+      if (cursorStateRef.current !== newState) {
+        cursorStateRef.current = newState
+        setCursorState(newState)
+      }
+    }
+
     const updateCursorStateFromElement = (target) => {
       if (!target) {
-        setCursorState(null)
+        setNextState(null)
         return
       }
 
       // 1. Explicit data-cursor attribute
       const dataCursorEl = target.closest('[data-cursor]')
       if (dataCursorEl) {
-        setCursorState(dataCursorEl.getAttribute('data-cursor'))
+        setNextState(dataCursorEl.getAttribute('data-cursor'))
         return
       }
 
@@ -54,7 +62,7 @@ const CustomCursor = () => {
         'input[type="text"], input[type="email"], input[type="search"], input[type="tel"], input[type="number"], input[type="password"], textarea, [contenteditable="true"]'
       )
       if (textEl) {
-        setCursorState('text')
+        setNextState('text')
         return
       }
 
@@ -64,14 +72,14 @@ const CustomCursor = () => {
       )
       if (interactiveEl) {
         if (interactiveEl.hasAttribute('disabled') || interactiveEl.classList.contains('pointer-events-none')) {
-          setCursorState(null)
+          setNextState(null)
           return
         }
-        setCursorState('pointer')
+        setNextState('pointer')
         return
       }
 
-      setCursorState(null)
+      setNextState(null)
     }
 
     const onMouseMove = (e) => {

@@ -82,7 +82,7 @@ const StoryCard = ({ item, idx, Icon }) => {
   const accent = '#0ea5e9'
 
   return (
-    <div className="vm-card group relative w-full max-w-[420px] xl:max-w-[460px]">
+    <div className="vm-card group relative w-full max-w-[420px] xl:max-w-[460px] transform-gpu">
 
       {/* Layered ambient shadow system */}
       <div
@@ -116,10 +116,9 @@ const StoryCard = ({ item, idx, Icon }) => {
         {/* Glass reflection sweep overlay on hover */}
         <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none z-30" />
 
-        {/* Subtle inner paper noise texture */}
+        {/* Subtle inner card texture overlay */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-[0.025]"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }}
+          className="absolute inset-0 pointer-events-none opacity-[0.03] bg-linear-to-b from-black/5 to-transparent"
         />
 
         {/* Hover background sky glow wash */}

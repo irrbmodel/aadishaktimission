@@ -53,15 +53,14 @@ const OurImpact = ({ isLoaded }) => {
           } w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-12 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]`}
           style={isMobile ? {} : { zIndex: idx + 10 }}
         >
-          {/* Background Blurred Photo */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          {/* Background Photo with Hardware Acceleration */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden transform-gpu">
             <img 
               src={slide.image} 
               alt={slide.label} 
-              className="w-full h-full object-cover"
-              style={{ filter: 'blur(4px) brightness(0.4)', transform: 'scale(1.05)' }}
+              className="w-full h-full object-cover brightness-[0.35] scale-105 transform-gpu will-change-transform"
             />
-            <div className="absolute inset-0 bg-linear-to-b from-brand-dark/60 via-brand-dark/40 to-brand-dark/80 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-linear-to-b from-brand-dark/70 via-black/50 to-brand-dark/90 pointer-events-none" />
           </div>
 
           {/* Content panel */}
