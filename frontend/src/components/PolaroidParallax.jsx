@@ -11,10 +11,10 @@ const MountainPeaks = React.forwardRef(({ className, path1Ref, path2Ref }, ref) 
     className={`absolute inset-0 z-0 pointer-events-none flex items-end justify-center overflow-hidden opacity-0 ${className}`}
   >
     {/* Soft ambient gradient light */}
-    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-80 bg-gradient-to-t from-[#013e37]/15 via-[#dc2626]/5 to-transparent blur-3xl pointer-events-none" />
+    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 h-80 bg-linear-to-t from-brand-dark/15 via-[#dc2626]/5 to-transparent blur-3xl pointer-events-none" />
     
     <svg 
-      className="w-full h-full text-[#013e37]/25 max-w-7xl mx-auto" 
+      className="w-full h-full text-brand-dark/25 max-w-7xl mx-auto" 
       viewBox="0 0 1200 400" 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ const MountainPeaks = React.forwardRef(({ className, path1Ref, path2Ref }, ref) 
 // Sacred Geometry Aipan Corner Ornament
 const AipanCorner = ({ className = "" }) => (
   <div className={`absolute w-5 h-5 flex items-center justify-center select-none ${className}`}>
-    <div className="w-4 h-4 bg-[#FAF9F6] border border-[#013e37]/30 rotate-45 flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110">
+    <div className="w-4 h-4 bg-brand-cream border border-brand-dark/30 rotate-45 flex items-center justify-center shadow-xs transition-transform duration-300 group-hover:rotate-90 group-hover:scale-110">
       <div className="w-1.5 h-1.5 bg-[#dc2626] rounded-full shadow-[0_0_5px_rgba(220,38,38,0.6)]" />
     </div>
   </div>
@@ -190,9 +190,9 @@ const PolaroidParallax = ({ isLoaded }) => {
       <div id="polaroid-transition" ref={containerRef} className="relative w-full bg-brand-cream z-10 px-5 py-16 border-b border-brand-dark/10 overflow-hidden">
         {/* Mobile Section Header */}
         <div ref={headerRef} className="w-full max-w-xl mx-auto flex flex-col gap-3 mb-8 text-center items-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#013e37]/5 border border-[#013e37]/15">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-dark/5 border border-brand-dark/15">
             <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626] animate-pulse" />
-            <span className="font-display text-[10px] font-bold uppercase tracking-[0.3em] text-[#013e37]">
+            <span className="font-display text-[10px] font-bold uppercase tracking-[0.3em] text-brand-dark">
               02 / OUR COMMUNITY & PHILOSOPHY
             </span>
           </div>
@@ -206,13 +206,13 @@ const PolaroidParallax = ({ isLoaded }) => {
 
         {/* Central Gallery Showcase Card */}
         <div className="w-full max-w-xl mx-auto rounded-[24px] overflow-hidden shadow-2xl border border-brand-dark/10 bg-white p-3 mb-6">
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-brand-dark/5">
+          <div className="relative aspect-4/3 rounded-2xl overflow-hidden border border-brand-dark/5">
             <img 
               src="/images/village_women_uttarakhand.png" 
               alt="Uttarakhand Village Women" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-sans px-3 py-2 rounded-xl bg-black/50 backdrop-blur-md border border-white/15">
               <span className="font-medium flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
@@ -229,8 +229,8 @@ const PolaroidParallax = ({ isLoaded }) => {
           {/* Pillar 1 */}
           <div className="p-5 rounded-2xl bg-white border border-brand-dark/10 shadow-md flex flex-col gap-2 relative">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#013e37]/10 text-[#013e37] font-mono text-xs font-bold flex items-center justify-center">01</span>
-              <h3 className="font-serif font-bold text-base text-[#013e37]">Community Empowerment</h3>
+              <span className="w-6 h-6 rounded-full bg-brand-dark/10 text-brand-dark font-mono text-xs font-bold flex items-center justify-center">01</span>
+              <h3 className="font-serif font-bold text-base text-brand-dark">Community Empowerment</h3>
             </div>
             <p className="font-sans text-xs text-brand-dark/80 leading-relaxed font-light">
               We believe true progress begins with empowered individuals working together for the common good — fostering knowledge, values, and social responsibility.
@@ -241,7 +241,7 @@ const PolaroidParallax = ({ isLoaded }) => {
           <div className="p-5 rounded-2xl bg-white border border-brand-dark/10 shadow-md flex flex-col gap-2 relative">
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-[#dc2626]/10 text-[#dc2626] font-mono text-xs font-bold flex items-center justify-center">02</span>
-              <h3 className="font-serif font-bold text-base text-[#013e37]">Pahari Heritage & Craft Hubs</h3>
+              <h3 className="font-serif font-bold text-base text-brand-dark">Pahari Heritage & Craft Hubs</h3>
             </div>
             <p className="font-sans text-xs text-brand-dark/80 leading-relaxed font-light">
               Backing local women-led cooperatives, setting up digital literacy hubs, and conserving Pahari craft traditions to build absolute self-reliance.
@@ -249,7 +249,7 @@ const PolaroidParallax = ({ isLoaded }) => {
           </div>
 
           {/* Pillar 3 */}
-          <div className="p-5 rounded-2xl bg-[#013e37] text-white rounded-2xl shadow-xl flex flex-col gap-2 relative overflow-hidden group">
+          <div className="p-5 rounded-2xl bg-brand-dark text-white shadow-xl flex flex-col gap-2 relative overflow-hidden group">
             <AipanCorner className="-top-2 -right-2 opacity-80" />
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-white/15 text-white font-mono text-xs font-bold flex items-center justify-center">03</span>
@@ -269,7 +269,7 @@ const PolaroidParallax = ({ isLoaded }) => {
     <div id="polaroid-transition" ref={containerRef} className="relative w-full h-screen bg-brand-cream z-10 flex flex-col justify-between overflow-hidden border-b border-brand-dark/10 py-10 lg:py-14">
       
       {/* Background ambient light effects */}
-      <div className="absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-[#013e37]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/5 w-[500px] h-[500px] bg-brand-dark/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/5 w-[450px] h-[450px] bg-[#dc2626]/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Himalayan Mountain peak outline SVG */}
@@ -282,9 +282,9 @@ const PolaroidParallax = ({ isLoaded }) => {
 
       {/* ── TOP SECTION HEADER ── */}
       <div ref={headerRef} className="w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 relative z-20 flex flex-col items-center text-center gap-2">
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#013e37]/5 border border-[#013e37]/15 shadow-xs">
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-brand-dark/5 border border-brand-dark/15 shadow-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626] animate-pulse" />
-          <span className="font-display text-[11px] font-bold uppercase tracking-[0.35em] text-[#013e37]">
+          <span className="font-display text-[11px] font-bold uppercase tracking-[0.35em] text-brand-dark">
             02 / OUR COMMUNITY & PHILOSOPHY
           </span>
         </div>
@@ -310,20 +310,20 @@ const PolaroidParallax = ({ isLoaded }) => {
             
             {/* Top Eyelet Accent */}
             <div className="absolute top-3.5 left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
-              <div className="w-3 h-3 rounded-full border border-[#013e37]/40 bg-[#FAF9F6] shadow-inner flex items-center justify-center">
-                <div className="w-1 h-1 rounded-full bg-[#013e37]/50" />
+              <div className="w-3 h-3 rounded-full border border-brand-dark/40 bg-brand-cream shadow-inner flex items-center justify-center">
+                <div className="w-1 h-1 rounded-full bg-brand-dark/50" />
               </div>
             </div>
             
             {/* Image Container */}
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-brand-dark/10 shadow-inner">
+            <div className="relative aspect-4/3 rounded-2xl overflow-hidden border border-brand-dark/10 shadow-inner">
               <img 
                 src="/images/village_women_uttarakhand.png" 
                 alt="Uttarakhand Village Women" 
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
               
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-90" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent opacity-90" />
 
               {/* Location Badge */}
               <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white text-[10px] font-sans font-medium flex items-center gap-1.5">
@@ -344,7 +344,7 @@ const PolaroidParallax = ({ isLoaded }) => {
             {/* Stats strip below photo */}
             <div className="mt-4 px-2 grid grid-cols-3 gap-2 text-center border-t border-brand-dark/10 pt-3">
               <div>
-                <p className="font-serif font-black text-lg text-[#013e37]">100%</p>
+                <p className="font-serif font-black text-lg text-brand-dark">100%</p>
                 <p className="font-sans text-[10px] text-brand-dark/65 uppercase tracking-wider font-semibold">Community Led</p>
               </div>
               <div className="border-x border-brand-dark/10 px-1">
@@ -368,11 +368,11 @@ const PolaroidParallax = ({ isLoaded }) => {
           {/* Card 1: Community Empowerment */}
           <div className="p-5 sm:p-6 rounded-2xl bg-white/80 backdrop-blur-md border border-brand-dark/10 shadow-lg relative group transition-all duration-300 hover:bg-white hover:shadow-xl hover:-translate-y-1">
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#013e37]/10 text-[#013e37] flex items-center justify-center shrink-0 font-serif font-black text-base border border-[#013e37]/20 shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-brand-dark/10 text-brand-dark flex items-center justify-center shrink-0 font-serif font-black text-base border border-brand-dark/20 shadow-xs">
                 01
               </div>
               <div className="flex flex-col gap-1">
-                <h3 className="font-serif font-bold text-base sm:text-lg text-[#013e37] tracking-tight">
+                <h3 className="font-serif font-bold text-base sm:text-lg text-brand-dark tracking-tight">
                   Empowering Potential & Leadership
                 </h3>
                 <p className="font-sans text-xs sm:text-sm text-brand-dark/80 leading-relaxed font-light">
@@ -389,7 +389,7 @@ const PolaroidParallax = ({ isLoaded }) => {
                 02
               </div>
               <div className="flex flex-col gap-1">
-                <h3 className="font-serif font-bold text-base sm:text-lg text-[#013e37] tracking-tight">
+                <h3 className="font-serif font-bold text-base sm:text-lg text-brand-dark tracking-tight">
                   Self-Reliance & Pahari Heritage
                 </h3>
                 <p className="font-sans text-xs sm:text-sm text-brand-dark/80 leading-relaxed font-light">
@@ -400,7 +400,7 @@ const PolaroidParallax = ({ isLoaded }) => {
           </div>
 
           {/* Card 3: Sacred Energy (Aadi Shakti Motto) */}
-          <div className="p-5 sm:p-6 rounded-2xl bg-[#013e37] text-white shadow-xl relative overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-[#013e37]/40">
+          <div className="p-5 sm:p-6 rounded-2xl bg-brand-dark text-white shadow-xl relative overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-brand-dark/40">
             {/* Aipan Corner Accents */}
             <AipanCorner className="-top-2 -right-2" />
             <AipanCorner className="-bottom-2 -left-2" />
@@ -430,7 +430,7 @@ const PolaroidParallax = ({ isLoaded }) => {
       {/* Scroll cue hint */}
       <div className="relative z-20 flex flex-col items-center gap-1 opacity-50 text-brand-dark mb-2">
         <span className="font-display text-[9px] uppercase tracking-[0.25em]">Scroll to explore mission</span>
-        <div className="w-px h-5 bg-gradient-to-b from-brand-dark to-transparent" />
+        <div className="w-px h-5 bg-linear-to-b from-brand-dark to-transparent" />
       </div>
 
     </div>

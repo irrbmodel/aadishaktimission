@@ -188,7 +188,7 @@ const StoryCard = ({ item, idx, Icon }) => {
           </div>
 
           {/* Card footer */}
-          <div className="mt-6 pt-5 border-t border-brand-dark/[0.05] flex items-center justify-between">
+          <div className="mt-6 pt-5 border-t border-brand-dark/5 flex items-center justify-between">
             {/* Progress dots */}
             <div className="flex gap-1.5 items-center">
               {[20, 12, 6].map((w, i) => (
@@ -390,7 +390,7 @@ const VisionMission = ({ isLoaded }) => {
         {/* ══ VISION ══ */}
         <div ref={visionRef} className="relative mb-28 md:mb-44">
           <span
-            className="absolute -top-6 left-0 font-display font-black uppercase leading-none text-brand-dark/[0.04] select-none pointer-events-none tracking-tighter"
+            className="absolute -top-6 left-0 font-display font-black uppercase leading-none text-brand-dark/4 select-none pointer-events-none tracking-tighter"
             style={{ fontSize: 'clamp(3rem,8vw,7rem)' }}
             aria-hidden="true"
           >VISION</span>
@@ -415,7 +415,7 @@ const VisionMission = ({ isLoaded }) => {
 
             <div className="vm-quote relative">
               <div className="relative bg-white/80 backdrop-blur-sm border border-brand-dark/8 rounded-3xl p-8 md:p-10 shadow-[0_20px_60px_rgba(1,62,55,0.06)]">
-                <div className="absolute top-0 left-8 right-8 h-[4px] bg-gradient-to-r from-brand-red/60 via-brand-red to-brand-red/60 rounded-full" />
+                <div className="absolute top-0 left-8 right-8 h-[4px] bg-linear-to-r from-brand-red/60 via-brand-red to-brand-red/60 rounded-full" />
                 <span className="absolute -top-5 -left-2 font-serif font-black text-8xl text-brand-red/15 leading-none select-none" aria-hidden="true">"</span>
                 <p className="font-serif text-xl md:text-2xl text-brand-dark leading-[1.6] font-light relative z-10 mt-2">
                   To build an inclusive, empowered, and sustainable society by unlocking the inherent potential of every individual and fostering leadership, innovation, and social responsibility.
@@ -439,7 +439,7 @@ const VisionMission = ({ isLoaded }) => {
 
           {/* Mission header */}
           <div className="text-center mb-16 md:mb-24">
-            <span className="inline-flex items-center gap-2 bg-brand-dark/[0.04] border border-brand-dark/[0.07] text-brand-dark font-display text-[10px] font-black uppercase tracking-[0.3em] px-4 py-2 rounded-full mb-5">
+            <span className="inline-flex items-center gap-2 bg-brand-dark/4 border border-brand-dark/[0.07] text-brand-dark font-display text-[10px] font-black uppercase tracking-[0.3em] px-4 py-2 rounded-full mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-brand-skyblue" />
               Our Mission
             </span>
@@ -453,7 +453,7 @@ const VisionMission = ({ isLoaded }) => {
             {/* Scroll cue */}
             <div className="mt-8 flex flex-col items-center gap-2 opacity-35">
               <span className="font-display text-[9px] uppercase tracking-[0.3em] text-brand-dark">Scroll to read</span>
-              <div className="w-[2px] h-9 bg-gradient-to-b from-brand-dark to-transparent rounded-full" />
+              <div className="w-[2px] h-9 bg-linear-to-b from-brand-dark to-transparent rounded-full" />
             </div>
           </div>
 
@@ -543,7 +543,7 @@ const VisionMission = ({ isLoaded }) => {
                         ? <StoryCard item={item} idx={idx} Icon={Icon} />
                         : (
                           <div className="vm-chapter-label flex flex-col items-end gap-1 opacity-0">
-                            <span className="font-display font-black leading-none text-brand-dark/[0.06] select-none" style={{ fontSize: 'clamp(3rem,5vw,5rem)' }}>
+                            <span className="font-display font-black leading-none text-brand-dark/6 select-none" style={{ fontSize: 'clamp(3rem,5vw,5rem)' }}>
                               {item.chapter}
                             </span>
                             <span className="font-display text-[9px] font-bold uppercase tracking-[0.3em] text-brand-dark/25">
@@ -572,7 +572,7 @@ const VisionMission = ({ isLoaded }) => {
 
                     {/* Connector - Made Thicker (3px) */}
                     <div
-                      className="vm-connector hidden lg:block absolute z-[5] rounded-full"
+                      className="vm-connector hidden lg:block absolute z-5 rounded-full"
                       style={{
                         height: '3px',
                         width: '60px',
@@ -591,7 +591,7 @@ const VisionMission = ({ isLoaded }) => {
                         ? <StoryCard item={item} idx={idx} Icon={Icon} />
                         : (
                           <div className="vm-chapter-label flex flex-col items-start gap-1 opacity-0">
-                            <span className="font-display font-black leading-none text-brand-dark/[0.06] select-none" style={{ fontSize: 'clamp(3rem,5vw,5rem)' }}>
+                            <span className="font-display font-black leading-none text-brand-dark/6 select-none" style={{ fontSize: 'clamp(3rem,5vw,5rem)' }}>
                               {item.chapter}
                             </span>
                             <span className="font-display text-[9px] font-bold uppercase tracking-[0.3em] text-brand-dark/25">
